@@ -1,10 +1,11 @@
 {
-  "name": "@drawnix-template/source",
+  "name": "@drawnix/source",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "start": "nx serve web",
-    "build": "nx build react-board"
+    "build": "nx run-many -t=build",
+    "test": "nx run-many -t=test"
   },
   "private": true,
   "dependencies": {
