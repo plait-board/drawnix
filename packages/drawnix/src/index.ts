@@ -1,1 +1,1 @@
-export * from './drawnix-board';
+export * from './board';

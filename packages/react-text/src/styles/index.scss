@@ -1,0 +1,25 @@
+.plait-text-container {
+    font-size: 14px;
+    min-height: 20px;
+    line-height: 20px;
+    display: block;
+    white-space: pre-wrap;
+    white-space: break-spaces;
+    word-break: break-all;
+    font-family: PingFangSC-Regular, 'PingFang SC';
+}
+
+.slate-editable-container {
+    outline: none;
+    padding: 0;
+    cursor: default;
+    & [data-slate-node='element'] {
+        user-select: none;
+    }
+    &[contenteditable="true"] {
+        cursor: text;
+        & [data-slate-node='element'] {
+            user-select: text;
+        }
+    }
+}

@@ -1,1 +1,2 @@
-export * from './react-board';
+export * from './board';
+export * from './plugins/board';

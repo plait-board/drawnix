@@ -1,1 +1,1 @@
-export * from './react-text';
+export * from './text';

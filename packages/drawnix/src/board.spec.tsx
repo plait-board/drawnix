@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import ReactText from './react-text';
+import DrawnixBoard from './board';
 
-describe('ReactText', () => {
+describe('Drawnix', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<ReactText />);
+    const { baseElement } = render(<DrawnixBoard />);
     expect(baseElement).toBeTruthy();
   });
 });

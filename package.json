@@ -8,8 +8,19 @@
   },
   "private": true,
   "dependencies": {
+    "@plait/common": "^0.62.0-next.0",
+    "@plait/core": "^0.62.0-next.0",
+    "@plait/draw": "^0.62.0-next.0",
+    "@plait/layouts": "^0.62.0-next.0",
+    "@plait/mind": "^0.62.0-next.0",
+    "@plait/text-plugins": "^0.62.0-next.0",
+    "ahooks": "^3.8.0",
+    "classnames": "^2.5.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "slate": "^0.101.5",
+    "slate-history": "^0.100.0",
+    "slate-react": "^0.105.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
