@@ -7,6 +7,8 @@ import { withMind } from '@plait/mind';
 import { withMindExtend } from './plugins/with-mind-extend';
 import { withCommonPlugin } from './plugins/with-common';
 
+import './styles/index.scss';
+
 export type DrawnixBoardProps = {
   value: PlaitElement[];
 } & React.HTMLAttributes<HTMLDivElement>;

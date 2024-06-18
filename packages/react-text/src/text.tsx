@@ -4,6 +4,8 @@ import type { TextProps } from '@plait/common';
 import { useMemo, useCallback } from 'react';
 import { withHistory } from 'slate-history';
 
+import './styles/index.scss';
+
 export type TextComponentProps = TextProps;
 
 export const Text: React.FC<TextComponentProps> = (

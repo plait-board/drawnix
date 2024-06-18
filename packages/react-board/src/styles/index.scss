@@ -1,0 +1,99 @@
+@use './mixins.scss' as mixins;
+
+.plait-board-container {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    foreignObject {
+        outline: none;
+    }
+    // safari can not set this style, it will prevent text being from selected in edit mode
+    // resolve the issue text being selected when user drag and move on board in firefox
+    &.firefox {
+        user-select: none;
+    }
+
+    .viewport-container {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+
+    &.disabled-scroll {
+        .viewport-container {
+            overflow: hidden;
+        }
+    }
+
+    svg {
+        transform: matrix(1, 0, 0, 1, 0, 0);
+    }
+
+    // https://stackoverflow.com/questions/51313873/svg-foreignobject-not-working-properly-on-safari
+    .plait-text-container {
+        // chrome show position is not correct, safari not working when don't assigned position property
+        // can not assign absolute, because safari can not show correctly position
+        position: initial;
+    }
+
+    .text {
+        foreignObject {
+            outline: none;
+        }
+        .slate-editable-container {
+            outline: none;
+        }
+    }
+
+    .plait-toolbar {
+        position: absolute;
+        display: flex;
+        height: 30px;
+        z-index: 100;
+    }
+
+    &.element-moving {
+        .element-active-host {
+            & > g:not(.active-with-moving) {
+                display: none;
+            }
+        }
+    }
+
+    &.element-rotating {
+        .element-active-host {
+            g.resize-handle,
+            g[class^='line-auto-complete-'] {
+                display: none;
+            }
+        }
+    }
+
+    &.pointer-selection {
+        cursor: default;
+    }
+
+    &.ns-resize {
+        cursor: ns-resize;
+    }
+    &.ew-resize {
+        cursor: ew-resize;
+    }
+    &.nwse-resize {
+        cursor: nwse-resize;
+    }
+    &.nesw-resize {
+        cursor: nesw-resize;
+    }
+    &.crosshair {
+        cursor: crosshair;
+    }
+
+    foreignObject[class^='foreign-object-'] {
+        user-select: none;
+    }
+
+    @include mixins.board-background-color();
+}

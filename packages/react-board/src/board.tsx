@@ -31,7 +31,7 @@ import {
   PlaitBoard,
   type PlaitPlugin,
   type PlaitBoardOptions,
-  type PlaitChildrenContext
+  type PlaitChildrenContext,
 } from '@plait/core';
 import type { BoardChangeData } from './plugins/board';
 import { useRef, useEffect, useState, useMemo } from 'react';
@@ -41,6 +41,8 @@ import useBoardPluginEvent from './hooks/use-plugin-event';
 import useBoardEvent from './hooks/use-board-event';
 import { withReact } from './plugins/with-react';
 import { withImage, withText } from '@plait/common';
+
+import './styles/index.scss';
 
 export type BoardProps = {
   value: PlaitElement[];
@@ -72,7 +74,7 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
 
   useEffect(() => {
     const roughSVG = rough.svg(hostRef.current!, {
-      options: { roughness: 0, strokeWidth: 1 }
+      options: { roughness: 0, strokeWidth: 1 },
     });
     BOARD_TO_ROUGH_SVG.set(board, roughSVG);
     BOARD_TO_HOST.set(board, hostRef.current!);
@@ -83,7 +85,7 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
       upperHost: elementUpperHostRef.current!,
       activeHost: elementActiveHostRef.current!,
       container: boardContainerRef.current!,
-      viewportContainer: viewportContainerRef.current!
+      viewportContainer: viewportContainerRef.current!,
     });
     const listRender = initializeListRender(board);
     BOARD_TO_ON_CHANGE.set(board, () => {
@@ -96,7 +98,7 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
         operations: board.operations,
         viewport: board.viewport,
         selection: board.selection,
-        theme: board.theme
+        theme: board.theme,
       };
       props.onChange && props.onChange(data);
     });
@@ -162,7 +164,7 @@ const initializeChildrenContext = (board: PlaitBoard): PlaitChildrenContext => {
   return {
     board: board,
     parent: board,
-    parentG: PlaitBoard.getElementHost(board)
+    parentG: PlaitBoard.getElementHost(board),
   };
 };
 
@@ -210,7 +212,7 @@ const getBoardClassName = (board: PlaitBoard) => {
       focused: PlaitBoard.isFocus(board),
       readonly: PlaitBoard.isReadonly(board),
       'disabled-scroll':
-        board.options?.disabledScrollOnNonFocus && !PlaitBoard.isFocus(board)
+        board.options?.disabledScrollOnNonFocus && !PlaitBoard.isFocus(board),
     }
   );
 };

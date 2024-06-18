@@ -1,0 +1,18 @@
+@mixin board-background-color {
+    &.theme-colorful .board-host-svg,
+    &.theme-default .board-host-svg {
+        background-color: #ffffff;
+    }
+    &.theme-soft .board-host-svg {
+        background-color: #f5f5f5;
+    }
+    &.theme-retro .board-host-svg {
+        background-color: #f9f8ed;
+    }
+    &.theme-dark .board-host-svg {
+        background-color: #141414;
+    }
+    &.theme-starry .board-host-svg {
+        background-color: #0d2537;
+    }
+}
