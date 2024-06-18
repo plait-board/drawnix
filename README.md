@@ -8,5 +8,4 @@ All in on open-source whiteboard app with mind, flowchart, and freehand.
 npm install
 
 npm run start
-
 ```
