@@ -11,51 +11,27 @@ import {
   IS_CHROME,
   IS_FIREFOX,
   IS_SAFARI,
-  ListRender,
   PlaitBoardContext,
-  PlaitElement,
-  Viewport,
-  createBoard,
   initializeViewBox,
   initializeViewportContainer,
   initializeViewportOffset,
-  withBoard,
-  withHandPointer,
-  withHistory,
-  withHotkey,
-  withMoving,
-  withOptions,
-  withRelatedFragment,
-  withSelection,
-  withViewport,
   PlaitBoard,
-  type PlaitPlugin,
-  type PlaitBoardOptions,
-  type PlaitChildrenContext,
 } from '@plait/core';
-import type { BoardChangeData } from './plugins/board';
-import { useRef, useEffect, useState, useMemo } from 'react';
+import { useRef, useEffect } from 'react';
 import React from 'react';
 import classNames from 'classnames';
 import useBoardPluginEvent from './hooks/use-plugin-event';
 import useBoardEvent from './hooks/use-board-event';
-import { withReact } from './plugins/with-react';
-import { withImage, withText } from '@plait/common';
 
 import './styles/index.scss';
+import { useBoard, useListRender } from './hooks/use-board';
 
-export type BoardProps = {
-  value: PlaitElement[];
-  options: PlaitBoardOptions;
-  plugins: PlaitPlugin[];
-  viewport?: Viewport;
-  onChange?: (data: BoardChangeData) => void;
+export type PlaitBoardProps = {
   style?: React.CSSProperties;
   afterInitialize?: (board: PlaitBoard) => void;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>;
 
-export const Board: React.FC<BoardProps> = (props: BoardProps) => {
-  let initialized = false;
+export const Board: React.FC<PlaitBoardProps> = ({ style, className }) => {
   const hostRef = useRef<SVGSVGElement>(null);
   const elementLowerHostRef = useRef<SVGGElement>(null);
   const elementHostRef = useRef<SVGGElement>(null);
@@ -64,13 +40,8 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
   const viewportContainerRef = useRef<HTMLDivElement>(null);
   const boardContainerRef = useRef<HTMLDivElement>(null);
 
-  const board = useMemo(() => {
-    return initializeBoard(props.value, props.options, props.plugins);
-  }, []);
-
-  const [boardClassName, setBoardClassName] = useState<string>(
-    getBoardClassName(board)
-  );
+  const board = useBoard();
+  const listRender = useListRender();
 
   useEffect(() => {
     const roughSVG = rough.svg(hostRef.current!, {
@@ -87,33 +58,20 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
       container: boardContainerRef.current!,
       viewportContainer: viewportContainerRef.current!,
     });
-    const listRender = initializeListRender(board);
-    BOARD_TO_ON_CHANGE.set(board, () => {
-      listRender.update(board.children, initializeChildrenContext(board));
-    });
-    BOARD_TO_AFTER_CHANGE.set(board, () => {
-      setBoardClassName(getBoardClassName(board));
-      const data: BoardChangeData = {
-        children: board.children,
-        operations: board.operations,
-        viewport: board.viewport,
-        selection: board.selection,
-        theme: board.theme,
-      };
-      props.onChange && props.onChange(data);
-    });
     const context = new PlaitBoardContext();
     BOARD_TO_CONTEXT.set(board, context);
+
+    if (!listRender.initialized) {
+      listRender.initialize(board.children, {
+        board: board,
+        parent: board,
+        parentG: PlaitBoard.getElementHost(board),
+      });
+    }
 
     initializeViewportContainer(board);
     initializeViewBox(board);
     initializeViewportOffset(board);
-
-    if (props.afterInitialize && !initialized) {
-      props.afterInitialize(board);
-    }
-
-    initialized = true;
 
     return () => {
       BOARD_TO_CONTEXT.delete(board);
@@ -123,7 +81,6 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
       IS_BOARD_ALIVE.delete(board);
       BOARD_TO_HOST.delete(board);
       BOARD_TO_ROUGH_SVG.delete(board);
-      listRender.destroy();
     };
   }, []);
 
@@ -131,7 +88,11 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
   useBoardEvent(board, hostRef);
 
   return (
-    <div className={boardClassName} ref={boardContainerRef}>
+    <div
+      className={getBoardClassName(board) + ' ' + className}
+      ref={boardContainerRef}
+      style={style}
+    >
       <div
         className="viewport-container"
         ref={viewportContainerRef}
@@ -152,54 +113,6 @@ export const Board: React.FC<BoardProps> = (props: BoardProps) => {
       </div>
     </div>
   );
-};
-
-const initializeListRender = (board: PlaitBoard) => {
-  const listRender = new ListRender(board);
-  listRender.initialize(board.children, initializeChildrenContext(board));
-  return listRender;
-};
-
-const initializeChildrenContext = (board: PlaitBoard): PlaitChildrenContext => {
-  return {
-    board: board,
-    parent: board,
-    parentG: PlaitBoard.getElementHost(board),
-  };
-};
-
-const initializeBoard = (value: any, options: any, plugins: any) => {
-  let board = withRelatedFragment(
-    withHotkey(
-      withHandPointer(
-        withHistory(
-          withSelection(
-            withMoving(
-              withBoard(
-                withViewport(
-                  withOptions(
-                    withReact(withImage(withText(createBoard(value, options))))
-                  )
-                )
-              )
-            )
-          )
-        )
-      )
-    )
-  );
-  plugins.forEach((plugin: any) => {
-    board = plugin(board);
-  });
-
-  // if (this.plaitViewport) {
-  //   this.board.viewport = this.plaitViewport;
-  // }
-
-  // if (this.plaitTheme) {
-  //   this.board.theme = this.plaitTheme;
-  // }
-  return board;
 };
 
 const getBoardClassName = (board: PlaitBoard) => {
