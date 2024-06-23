@@ -89,7 +89,20 @@ export const Board: React.FC<PlaitBoardProps> = ({ style, className }) => {
 
   return (
     <div
-      className={getBoardClassName(board) + ' ' + className}
+      className={classNames(
+        className,
+        HOST_CLASS_NAME,
+        `${getBrowserClassName()}`,
+        `pointer-${board.pointer}`,
+        `theme-${board.theme?.themeColorMode}`,
+        {
+          focused: PlaitBoard.isFocus(board),
+          readonly: PlaitBoard.isReadonly(board),
+          'disabled-scroll':
+            board.options?.disabledScrollOnNonFocus &&
+            !PlaitBoard.isFocus(board),
+        }
+      )}
       ref={boardContainerRef}
       style={style}
     >
@@ -112,21 +125,6 @@ export const Board: React.FC<PlaitBoardProps> = ({ style, className }) => {
         </svg>
       </div>
     </div>
-  );
-};
-
-const getBoardClassName = (board: PlaitBoard) => {
-  return classNames(
-    HOST_CLASS_NAME,
-    `${getBrowserClassName()}`,
-    `pointer-${board.pointer}`,
-    `theme-${board.theme?.themeColorMode}`,
-    {
-      focused: PlaitBoard.isFocus(board),
-      readonly: PlaitBoard.isReadonly(board),
-      'disabled-scroll':
-        board.options?.disabledScrollOnNonFocus && !PlaitBoard.isFocus(board),
-    }
   );
 };
 
