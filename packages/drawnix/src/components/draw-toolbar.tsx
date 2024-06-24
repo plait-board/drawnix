@@ -8,14 +8,13 @@ import {
   SelectionIcon,
   ShapeIcon,
   TextIcon,
-} from './Icons';
-import { KEYS } from '../keys';
+} from './icons';
 import { useBoard } from '@plait/react-board';
 import { BoardTransforms, PlaitBoard, PlaitPointerType } from '@plait/core';
 import { MindPointerType } from '@plait/mind';
 import { DrawnixPointerType } from '../drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
-import { BasicShapes, DrawPointerType } from '@plait/draw';
+import { BasicShapes } from '@plait/draw';
 
 type AppToolButtonProps = {
   title?: string;
@@ -46,11 +45,11 @@ export const BUTTONS: AppToolButtonProps[] = [
   },
 ];
 
-export type AppToolbarProps = {
+export type DrawToolbarProps = {
   setPointer: (pointer: DrawnixPointerType) => void;
 };
 
-export const AppToolbar: React.FC<AppToolbarProps> = ({ setPointer }) => {
+export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
   const board = useBoard();
 
   const onChange = (pointer: DrawnixPointerType) => {

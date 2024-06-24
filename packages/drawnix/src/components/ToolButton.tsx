@@ -3,7 +3,6 @@ import "./ToolIcon.scss";
 import type { CSSProperties } from "react";
 import React, { useEffect, useRef, useState } from "react";
 import { AbortError } from "../errors";
-import Spinner from "./Spinner";
 import { isPromiseLike } from "../utils";
 import classNames from "classnames";
 import { PointerType } from "../types";
@@ -28,7 +27,6 @@ type ToolButtonBaseProps = {
   disabled?: boolean;
   className?: string;
   style?: CSSProperties;
-  isLoading?: boolean;
 };
 
 type ToolButtonProps =
@@ -126,7 +124,7 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
         type={type}
         onClick={onClick}
         ref={innerRef}
-        disabled={isLoading || props.isLoading || !!props.disabled}
+        disabled={isLoading || !!props.disabled}
       >
         {(props.icon || props.label) && (
           <div
@@ -140,12 +138,11 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
                 {props.keyBindingLabel}
               </span>
             )}
-            {props.isLoading && <Spinner />}
           </div>
         )}
         {props.showAriaLabel && (
           <div className="ToolIcon__label">
-            {props["aria-label"]} {isLoading && <Spinner />}
+            {props["aria-label"]}
           </div>
         )}
         {props.children}

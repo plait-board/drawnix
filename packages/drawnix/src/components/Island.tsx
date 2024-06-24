@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import './Island.scss';
+import './island.scss';
 
 import React from 'react';
 
