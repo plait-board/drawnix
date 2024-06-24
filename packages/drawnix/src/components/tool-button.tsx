@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { AbortError } from "../errors";
 import { isPromiseLike } from "../utils";
 import classNames from "classnames";
-import { PointerType } from "../types";
+import { EventPointerType } from "../types";
 
 export type ToolButtonSize = "small" | "medium";
 
@@ -48,9 +48,9 @@ type ToolButtonProps =
   | (ToolButtonBaseProps & {
       type: "radio";
       checked: boolean;
-      onChange?(data: { pointerType: PointerType | null }): void;
-      onPointerDown?(data: { pointerType: PointerType }): void;
-      onPointerUp?(data: { pointerType: PointerType }): void;
+      onChange?(data: { pointerType: EventPointerType | null }): void;
+      onPointerDown?(data: { pointerType: EventPointerType }): void;
+      onPointerUp?(data: { pointerType: EventPointerType }): void;
     });
 
 export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
@@ -91,7 +91,7 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
     };
   }, []);
 
-  const lastPointerTypeRef = useRef<PointerType | null>(null);
+  const lastPointerTypeRef = useRef<EventPointerType | null>(null);
 
   if (
     props.type === "button" ||

@@ -1,1 +1,1 @@
-export type PointerType = "mouse" | "pen" | "touch";
+export type EventPointerType = "mouse" | "pen" | "touch";

@@ -1,4 +1,4 @@
-import type { MaybePromise, ResolutionType } from "./utility-types";
+import type { ResolutionType } from "./utility-types";
 
 export const isPromiseLike = (
   value: any,
