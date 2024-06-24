@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import { Island } from './Island';
-import Stack from './Stack';
-import { ToolButton } from './ToolButton';
+import { Island } from './island';
+import Stack from './stack';
+import { ToolButton } from './tool-button';
 import {
   HandIcon,
   MindIcon,

@@ -1,4 +1,4 @@
-import "./Stack.scss";
+import "./stack.scss";
 
 import React, { forwardRef } from "react";
 import clsx from "classnames";
