@@ -1,8 +1,8 @@
 import { mockData } from './mock-data';
-import { DrawnixBoard } from '@drawnix/core';
+import { Drawnix } from '@drawnix/core';
 
 export function App() {
-  return <DrawnixBoard value={mockData}></DrawnixBoard>;
+  return <Drawnix value={mockData}></Drawnix>;
 }
 
 export default App;
