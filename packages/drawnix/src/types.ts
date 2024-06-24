@@ -1,0 +1,1 @@
+export type EventPointerType = "mouse" | "pen" | "touch";

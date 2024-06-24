@@ -28,8 +28,8 @@ import { useBoard, useListRender } from './hooks/use-board';
 
 export type PlaitBoardProps = {
   style?: React.CSSProperties;
-  afterInitialize?: (board: PlaitBoard) => void;
-} & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>;
+  className?: string;
+};
 
 export const Board: React.FC<PlaitBoardProps> = ({ style, className }) => {
   const hostRef = useRef<SVGSVGElement>(null);
@@ -93,7 +93,6 @@ export const Board: React.FC<PlaitBoardProps> = ({ style, className }) => {
         className,
         HOST_CLASS_NAME,
         `${getBrowserClassName()}`,
-        `pointer-${board.pointer}`,
         `theme-${board.theme?.themeColorMode}`,
         {
           focused: PlaitBoard.isFocus(board),

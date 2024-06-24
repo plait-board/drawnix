@@ -1,6 +1,22 @@
 @import './../../../../node_modules/@plait/draw/styles/styles.scss';
 @import './../../../../node_modules/@plait/mind/styles/styles.scss';
+@import './theme.scss';
 
 .drawnix {
     height: 100%;
+    .App-menu_top {
+        cursor: default;
+        position: absolute;
+        top: 36px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .App-menu_top > *:first-child {
+      justify-self: flex-start;
+    }
+  
+    .App-menu_top > *:last-child {
+      justify-self: flex-end;
+    }
 }
