@@ -8,6 +8,7 @@ import {
   SelectionIcon,
   ShapeIcon,
   TextIcon,
+  StraightArrowLineIcon
 } from './icons';
 import { useBoard } from '@plait/react-board';
 import { BoardTransforms, PlaitBoard, PlaitPointerType } from '@plait/core';
@@ -33,22 +34,31 @@ export const BUTTONS: AppToolButtonProps[] = [
   {
     icon: HandIcon,
     pointer: PlaitPointerType.hand,
+    title: 'Hand'
   },
   {
     icon: SelectionIcon,
     pointer: PlaitPointerType.selection,
+    title: 'Selection'
   },
   {
     icon: MindIcon,
     pointer: MindPointerType.mind,
-  },
-  {
-    icon: ShapeIcon,
+    title: 'Mind'
   },
   {
     icon: TextIcon,
     pointer: BasicShapes.text,
+    title: 'Text'
   },
+  {
+    icon: ShapeIcon,
+    title: 'Shape'
+  },
+  {
+    icon: StraightArrowLineIcon,
+    title: 'Arrow Line'
+  }
 ];
 
 export type DrawToolbarProps = {
@@ -83,8 +93,8 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
               type="radio"
               icon={button.icon}
               checked={PlaitBoard.isPointer(board, button.pointer)}
-              title={`${button.title} — H`}
-              aria-label={`${button.title} — H`}
+              title={`${button.title}`}
+              aria-label={`${button.title}`}
               onChange={() => {
                 if (button.pointer && isBasicPointer(button.pointer)) {
                   onChange(button.pointer);
