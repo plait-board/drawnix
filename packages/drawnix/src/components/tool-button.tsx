@@ -1,3 +1,4 @@
+// Credits to excalidraw
 import "./tool-icon.scss";
 
 import type { CSSProperties } from "react";

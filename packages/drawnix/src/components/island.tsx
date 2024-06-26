@@ -1,3 +1,4 @@
+// Credits to excalidraw
 import classNames from 'classnames';
 import './island.scss';
 
