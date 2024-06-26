@@ -1,0 +1,72 @@
+@import "open-color/open-color.scss";
+
+@mixin isMobile() {
+  @at-root .drawnix--mobile#{&} {
+    @content;
+  }
+}
+
+@mixin toolbarButtonColorStates {
+  &.fillable {
+    .tool-icon_type_radio,
+    .tool-icon_type_checkbox {
+      &:checked + .tool-icon__icon {
+        --icon-fill-color: var(--color-on-primary-container);
+
+        svg {
+          fill: var(--icon-fill-color);
+        }
+      }
+    }
+  }
+
+  .tool-icon_type_radio,
+  .tool-icon_type_checkbox {
+    &:checked + .tool-icon__icon {
+      background: var(--color-surface-primary-container);
+      --keybinding-color: var(--color-on-primary-container);
+
+      svg {
+        color: var(--color-on-primary-container);
+      }
+    }
+  }
+
+  .tool-icon__keybinding {
+    bottom: 4px;
+    right: 4px;
+  }
+
+  .tool-icon__icon {
+    &:hover {
+      background-color: var(--button-hover-bg);
+      color: var(--color-primary);
+    }
+
+    &:active {
+      background-color: var(--button-hover-bg);
+      border: 1px solid var(--button-active-border);
+
+      svg {
+        color: var(--color-on-primary-container);
+      }
+    }
+
+    &[aria-disabled="true"] {
+      background: initial;
+      border: none;
+
+      svg {
+        color: var(--color-disabled);
+      }
+    }
+  }
+}
+
+$theme-filter: "invert(93%) hue-rotate(180deg)";
+$right-sidebar-width: "302px";
+
+:export {
+  themeFilter: unquote($theme-filter);
+  rightSidebarWidth: unquote($right-sidebar-width);
+}

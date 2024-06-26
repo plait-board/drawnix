@@ -1,6 +1,14 @@
 @import './../../../../node_modules/@plait/draw/styles/styles.scss';
 @import './../../../../node_modules/@plait/mind/styles/styles.scss';
+@import './theme.scss';
 
 .drawnix {
     height: 100%;
+    .draw-toolbar {
+        cursor: default;
+        position: absolute;
+        top: 36px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }

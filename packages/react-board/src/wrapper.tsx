@@ -20,6 +20,7 @@ import {
   ThemeColorMode,
   BOARD_TO_AFTER_CHANGE,
   PlaitOperation,
+  PlaitTheme,
 } from '@plait/core';
 import { BoardChangeData } from './plugins/board';
 import { useCallback, useEffect, useState } from 'react';
@@ -28,12 +29,13 @@ import { withImage, withText } from '@plait/common';
 import { BoardContext, BoardContextValue } from './hooks/use-board';
 import React from 'react';
 
-export type PlaitProps = {
+export type WrapperProps = {
   value: PlaitElement[];
   children: React.ReactNode;
   options: PlaitBoardOptions;
   plugins: PlaitPlugin[];
   viewport?: Viewport;
+  theme?: PlaitTheme;
   onChange?: (data: BoardChangeData) => void;
   onSelectionChange?: (selection: Selection | null) => void;
   onValueChange?: (value: PlaitElement[]) => void;
@@ -41,12 +43,13 @@ export type PlaitProps = {
   onThemeChange?: (value: ThemeColorMode) => void;
 };
 
-export const PlaitWrapper: React.FC<PlaitProps> = ({
+export const Wrapper: React.FC<WrapperProps> = ({
   value,
   children,
   options,
   plugins,
   viewport,
+  theme,
   onChange,
   onSelectionChange,
   onValueChange,
@@ -54,9 +57,13 @@ export const PlaitWrapper: React.FC<PlaitProps> = ({
   onThemeChange,
 }) => {
   const [context, setContext] = useState<BoardContextValue>(() => {
-    const board = initializeBoard(value, options, plugins);
+    const board = initializeBoard(value, options, plugins, viewport, theme);
     const listRender = initializeListRender(board);
-    return { v: 0, board, listRender };
+    return {
+      v: 0,
+      board,
+      listRender,
+    };
   });
 
   const { board, listRender } = context;
@@ -73,7 +80,9 @@ export const PlaitWrapper: React.FC<PlaitProps> = ({
       onChange(data);
     }
 
-    if (board.operations.some((o) => PlaitOperation.isSetViewportOperation(o))) {
+    if (
+      board.operations.some((o) => PlaitOperation.isSetViewportOperation(o))
+    ) {
       onViewportChange?.(board.viewport);
     }
 
@@ -108,7 +117,13 @@ export const PlaitWrapper: React.FC<PlaitProps> = ({
   );
 };
 
-const initializeBoard = (value: any, options: any, plugins: any) => {
+const initializeBoard = (
+  value: PlaitElement[],
+  options: PlaitBoardOptions,
+  plugins: PlaitPlugin[],
+  viewport?: Viewport,
+  theme?: PlaitTheme
+) => {
   let board = withRelatedFragment(
     withHotkey(
       withHandPointer(
@@ -132,13 +147,13 @@ const initializeBoard = (value: any, options: any, plugins: any) => {
     board = plugin(board);
   });
 
-  // if (this.plaitViewport) {
-  //   this.board.viewport = this.plaitViewport;
-  // }
+  if (viewport) {
+    board.viewport = viewport;
+  }
 
-  // if (this.plaitTheme) {
-  //   this.board.theme = this.plaitTheme;
-  // }
+  if (theme) {
+    board.theme = theme;
+  }
   return board;
 };
 
