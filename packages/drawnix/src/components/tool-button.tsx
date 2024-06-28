@@ -58,7 +58,7 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
   const { id: drawnixId } = { id: 'drawnix' };
   const innerRef = React.useRef(null);
   React.useImperativeHandle(ref, () => innerRef.current);
-  const sizeCn = `tool-icon_size_${props.size}`;
+  const sizeCn = `tool-icon_size_${props.size || 'medium'}`;
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -114,7 +114,6 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
           {
             "tool-icon": !props.hidden,
             "tool-icon--selected": props.selected,
-            "tool-icon--plain": props.type === "icon",
           },
         )}
         style={props.style}
