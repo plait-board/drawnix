@@ -1,20 +1,20 @@
 // Credits to excalidraw
-import "./tool-icon.scss";
+import './tool-icon.scss';
 
-import type { CSSProperties } from "react";
-import React, { useEffect, useRef, useState } from "react";
-import { AbortError } from "../errors";
-import { isPromiseLike } from "../utils";
-import classNames from "classnames";
-import { EventPointerType } from "../types";
+import type { CSSProperties } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { AbortError } from '../errors';
+import { isPromiseLike } from '../utils';
+import classNames from 'classnames';
+import { EventPointerType } from '../types';
 
-export type ToolButtonSize = "small" | "medium";
+export type ToolButtonSize = 'small' | 'medium';
 
 type ToolButtonBaseProps = {
   icon?: React.ReactNode;
-  "aria-label": string;
-  "aria-keyshortcuts"?: string;
-  "data-testid"?: string;
+  'aria-label': string;
+  'aria-keyshortcuts'?: string;
+  'data-testid'?: string;
   label?: string;
   title?: string;
   name?: string;
@@ -28,30 +28,30 @@ type ToolButtonBaseProps = {
   disabled?: boolean;
   className?: string;
   style?: CSSProperties;
+  onPointerDown?(data: { pointerType: EventPointerType }): void;
+  onPointerUp?(data: { pointerType: EventPointerType }): void;
 };
 
 type ToolButtonProps =
   | (ToolButtonBaseProps & {
-      type: "button";
+      type: 'button';
       children?: React.ReactNode;
       onClick?(event: React.MouseEvent): void;
     })
   | (ToolButtonBaseProps & {
-      type: "submit";
+      type: 'submit';
       children?: React.ReactNode;
       onClick?(event: React.MouseEvent): void;
     })
   | (ToolButtonBaseProps & {
-      type: "icon";
+      type: 'icon';
       children?: React.ReactNode;
       onClick?(): void;
     })
   | (ToolButtonBaseProps & {
-      type: "radio";
+      type: 'radio';
       checked: boolean;
       onChange?(data: { pointerType: EventPointerType | null }): void;
-      onPointerDown?(data: { pointerType: EventPointerType }): void;
-      onPointerUp?(data: { pointerType: EventPointerType }): void;
     });
 
 export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
@@ -65,7 +65,7 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
   const isMountedRef = useRef(true);
 
   const onClick = async (event: React.MouseEvent) => {
-    const ret = "onClick" in props && props.onClick?.(event);
+    const ret = 'onClick' in props && props.onClick?.(event);
 
     if (isPromiseLike(ret)) {
       try {
@@ -95,34 +95,40 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
   const lastPointerTypeRef = useRef<EventPointerType | null>(null);
 
   if (
-    props.type === "button" ||
-    props.type === "icon" ||
-    props.type === "submit"
+    props.type === 'button' ||
+    props.type === 'icon' ||
+    props.type === 'submit'
   ) {
-    const type = (props.type === "icon" ? "button" : props.type) as
-      | "button"
-      | "submit";
+    const type = (props.type === 'icon' ? 'button' : props.type) as
+      | 'button'
+      | 'submit';
     return (
       <button
         className={classNames(
-          "tool-icon_type_button",
+          'tool-icon_type_button',
           sizeCn,
           props.className,
           props.visible && !props.hidden
-            ? "tool-icon_type_button--show"
-            : "tool-icon_type_button--hide",
+            ? 'tool-icon_type_button--show'
+            : 'tool-icon_type_button--hide',
           {
-            "tool-icon": !props.hidden,
-            "tool-icon--selected": props.selected,
-          },
+            'tool-icon': !props.hidden,
+            'tool-icon--selected': props.selected,
+          }
         )}
         style={props.style}
-        data-testid={props["data-testid"]}
+        data-testid={props['data-testid']}
         hidden={props.hidden}
         title={props.title}
-        aria-label={props["aria-label"]}
+        aria-label={props['aria-label']}
         type={type}
         onClick={onClick}
+        onPointerDown={(event) => {
+          props.onPointerDown?.({ pointerType: event.pointerType || null });
+        }}
+        onPointerUp={(event) => {
+          props.onPointerUp?.({ pointerType: event.pointerType || null });
+        }}
         ref={innerRef}
         disabled={isLoading || !!props.disabled}
       >
@@ -141,9 +147,7 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
           </div>
         )}
         {props.showAriaLabel && (
-          <div className="tool-icon__label">
-            {props["aria-label"]}
-          </div>
+          <div className="tool-icon__label">{props['aria-label']}</div>
         )}
         {props.children}
       </button>
@@ -152,7 +156,7 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
 
   return (
     <label
-      className={classNames("tool-icon", props.className)}
+      className={classNames('tool-icon', props.className)}
       title={props.title}
       onPointerDown={(event) => {
         lastPointerTypeRef.current = event.pointerType || null;
@@ -169,9 +173,9 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
         className={`tool-icon_type_radio ${sizeCn}`}
         type="radio"
         name={props.name}
-        aria-label={props["aria-label"]}
-        aria-keyshortcuts={props["aria-keyshortcuts"]}
-        data-testid={props["data-testid"]}
+        aria-label={props['aria-label']}
+        aria-keyshortcuts={props['aria-keyshortcuts']}
+        data-testid={props['data-testid']}
         id={`${drawnixId}-${props.id}`}
         onChange={() => {
           props.onChange?.({ pointerType: lastPointerTypeRef.current });
@@ -189,4 +193,4 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
   );
 });
 
-ToolButton.displayName = "ToolButton";
+ToolButton.displayName = 'ToolButton';
