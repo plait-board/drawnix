@@ -18,13 +18,20 @@ import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { BasicShapes } from '@plait/draw';
 import * as Popover from '@radix-ui/react-popover';
 import { useSetState } from 'ahooks';
-import { ShapePickerPopupContent } from './shape-picker';
+import { ShapePopupContent } from './shape-popup';
+import { ArrowPopupContent } from './arrow-popup';
+
+export enum PopupKey {
+  'shape' = 'shape',
+  'arrow' = 'arrow',
+}
 
 type AppToolButtonProps = {
   title?: string;
   name?: string;
   icon: React.ReactNode;
   pointer?: DrawnixPointerType;
+  popupKey?: PopupKey;
 };
 
 const isBasicPointer = (pointer: string) => {
@@ -54,16 +61,28 @@ export const BUTTONS: AppToolButtonProps[] = [
     pointer: BasicShapes.text,
     title: 'Text',
   },
-  // {
-  //   name: 'shape',
-  //   icon: ShapeIcon,
-  //   title: 'Shape',
-  // },
   {
     icon: StraightArrowLineIcon,
     title: 'Arrow Line',
+    popupKey: PopupKey.arrow,
+  },
+  {
+    icon: ShapeIcon,
+    title: 'Shape',
+    popupKey: PopupKey.shape,
   },
 ];
+
+export const renderPopupContent = (key: PopupKey) => {
+  switch (key) {
+    case PopupKey.shape:
+      return <ShapePopupContent></ShapePopupContent>;
+    case PopupKey.arrow:
+      return <ArrowPopupContent></ArrowPopupContent>;
+    default:
+      break;
+  }
+};
 
 export type DrawToolbarProps = {
   setPointer: (pointer: DrawnixPointerType) => void;
@@ -72,9 +91,9 @@ export type DrawToolbarProps = {
 export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
   const board = useBoard();
 
-  const [state, setState] = useSetState<{ isShapePicker: boolean }>({
-    isShapePicker: false,
-  });
+  const [state, setState] = useSetState<{
+    popupKey: PopupKey | undefined;
+  }>({ popupKey: undefined });
 
   const onChange = (pointer: DrawnixPointerType) => {
     BoardTransforms.updatePointerType(board, pointer);
@@ -92,13 +111,44 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
   };
 
   const isChecked = (button: AppToolButtonProps) => {
-    return PlaitBoard.isPointer(board, button.pointer) && !state.isShapePicker;
+    return (
+      PlaitBoard.isPointer(board, button.pointer) &&
+      state.popupKey === undefined
+    );
   };
 
   return (
     <Island padding={1} className={classNames('draw-toolbar')}>
       <Stack.Row gap={1}>
         {BUTTONS.map((button, index) => {
+          if (button.popupKey) {
+            return (
+              <Popover.Root
+                key={index}
+                onOpenChange={(open) => {
+                  if (open) {
+                    setState({ popupKey: button.popupKey });
+                  } else {
+                    setState({ popupKey: undefined });
+                  }
+                }}
+              >
+                <Popover.Trigger asChild>
+                  <ToolButton
+                    className={classNames('Shape', { fillable: false })}
+                    type="icon"
+                    visible={true}
+                    selected={state.popupKey === button.popupKey}
+                    icon={button.icon}
+                    title={`Shape`}
+                    aria-label={`Shape`}
+                  />
+                </Popover.Trigger>
+                {renderPopupContent(button.popupKey)}
+              </Popover.Root>
+            );
+          }
+
           const buttonComp = (
             <ToolButton
               key={index}
@@ -127,24 +177,6 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
           );
           return buttonComp;
         })}
-        <Popover.Root
-          onOpenChange={(open) => {
-            setState({ isShapePicker: open });
-          }}
-        >
-          <Popover.Trigger asChild>
-            <ToolButton
-              className={classNames('Shape', { fillable: false })}
-              type="icon"
-              visible={true}
-              selected={state.isShapePicker}
-              icon={ShapeIcon}
-              title={`Shape`}
-              aria-label={`Shape`}
-            />
-          </Popover.Trigger>
-          <ShapePickerPopupContent></ShapePickerPopupContent>
-        </Popover.Root>
       </Stack.Row>
     </Island>
   );

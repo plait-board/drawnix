@@ -3,12 +3,6 @@ import { Island } from './island';
 import Stack from './stack';
 import { ToolButton } from './tool-button';
 import {
-  HandIcon,
-  MindIcon,
-  SelectionIcon,
-  ShapeIcon,
-  TextIcon,
-  StraightArrowLineIcon,
   RectangleIcon,
   EllipseIcon,
   TriangleIcon,
@@ -19,8 +13,6 @@ import {
 import { useBoard } from '@plait/react-board';
 import { BoardTransforms, PlaitBoard } from '@plait/core';
 import * as Popover from '@radix-ui/react-popover';
-
-import './shape-picker.scss';
 import React from 'react';
 import { DrawnixPointerType } from '../drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
@@ -75,16 +67,13 @@ const SHAPES: ShapeProps[] = [
 
 const ROW_SHAPES = splitRows(SHAPES, 5);
 
-export type ShapePickerProps = {};
-
-export const ShapePickerPopupContent: React.FC<ShapePickerProps> = () => {
+export const ShapePopupContent: React.FC = () => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
 
   const onPointerDown = (pointer: DrawnixPointerType) => {
     setCreationMode(board, BoardCreationMode.dnd);
     BoardTransforms.updatePointerType(board, pointer);
-    // setPointer(pointer);
   };
 
   const onPointerUp = () => {
@@ -96,14 +85,14 @@ export const ShapePickerPopupContent: React.FC<ShapePickerProps> = () => {
       <Popover.Content sideOffset={12}>
         <Island padding={1}>
           <Stack.Col gap={1}>
-            {ROW_SHAPES.map((shapes, rowIndex) => {
+            {ROW_SHAPES.map((rowShapes, rowIndex) => {
               return (
                 <Stack.Row gap={1} key={rowIndex}>
-                  {shapes.map((shape, index) => {
+                  {rowShapes.map((shape, index) => {
                     return (
                       <ToolButton
                         key={index}
-                        className={classNames('Shape', { fillable: false })}
+                        className={classNames({ fillable: false })}
                         type="icon"
                         size={'small'}
                         visible={true}
