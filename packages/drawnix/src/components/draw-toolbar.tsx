@@ -15,11 +15,12 @@ import { BoardTransforms, PlaitBoard, PlaitPointerType } from '@plait/core';
 import { MindPointerType } from '@plait/mind';
 import { DrawnixPointerType } from '../drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
-import { BasicShapes } from '@plait/draw';
+import { ArrowLineShape, BasicShapes } from '@plait/draw';
 import * as Popover from '@radix-ui/react-popover';
 import { useSetState } from 'ahooks';
 import { ShapePopupContent } from './shape-popup';
 import { ArrowPopupContent } from './arrow-popup';
+import { useState } from 'react';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -65,20 +66,30 @@ export const BUTTONS: AppToolButtonProps[] = [
     icon: StraightArrowLineIcon,
     title: 'Arrow Line',
     popupKey: PopupKey.arrow,
+    pointer: ArrowLineShape.straight,
   },
-  {
-    icon: ShapeIcon,
-    title: 'Shape',
-    popupKey: PopupKey.shape,
-  },
+  // {
+  //   icon: ShapeIcon,
+  //   title: 'Shape',
+  //   popupKey: PopupKey.shape,
+  // },
 ];
 
-export const renderPopupContent = (key: PopupKey) => {
+export const renderPopupContent = (
+  key: PopupKey,
+  setOpen: (open: boolean) => void
+) => {
   switch (key) {
     case PopupKey.shape:
       return <ShapePopupContent></ShapePopupContent>;
     case PopupKey.arrow:
-      return <ArrowPopupContent></ArrowPopupContent>;
+      return (
+        <ArrowPopupContent
+          onPointerUp={() => {
+            setOpen(false);
+          }}
+        ></ArrowPopupContent>
+      );
     default:
       break;
   }
@@ -90,6 +101,8 @@ export type DrawToolbarProps = {
 
 export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
   const board = useBoard();
+
+  const [open, setOpen] = useState(false);
 
   const [state, setState] = useSetState<{
     popupKey: PopupKey | undefined;
@@ -125,7 +138,9 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
             return (
               <Popover.Root
                 key={index}
+                open={open}
                 onOpenChange={(open) => {
+                  setOpen(open);
                   if (open) {
                     setState({ popupKey: button.popupKey });
                   } else {
@@ -142,9 +157,26 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
                     icon={button.icon}
                     title={`Shape`}
                     aria-label={`Shape`}
+                    onPointerDown={() => {
+                      if (button.popupKey === PopupKey.arrow) {
+                        BoardTransforms.updatePointerType(
+                          board,
+                          ArrowLineShape.straight
+                        );
+                        setPointer(ArrowLineShape.straight);
+                        setCreationMode(board, BoardCreationMode.drawing);
+                      } else {
+                        BoardTransforms.updatePointerType(
+                          board,
+                          BasicShapes.rectangle
+                        );
+                        setPointer(BasicShapes.rectangle);
+                        setCreationMode(board, BoardCreationMode.drawing);
+                      }
+                    }}
                   />
                 </Popover.Trigger>
-                {renderPopupContent(button.popupKey)}
+                {renderPopupContent(button.popupKey, setOpen)}
               </Popover.Root>
             );
           }

@@ -34,7 +34,11 @@ const ARROWS: ArrowProps[] = [
   },
 ];
 
-export const ArrowPopupContent: React.FC = () => {
+export type ArrowPopupProps = {
+  onPointerUp: () => void;
+}
+
+export const ArrowPopupContent: React.FC<ArrowPopupProps> = ({ onPointerUp }) => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
 
@@ -42,8 +46,6 @@ export const ArrowPopupContent: React.FC = () => {
     setCreationMode(board, BoardCreationMode.drawing);
     BoardTransforms.updatePointerType(board, pointer);
   };
-
-  const onPointerUp = () => {};
 
   return (
     <Popover.Portal container={container}>
