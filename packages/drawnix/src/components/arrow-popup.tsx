@@ -8,29 +8,29 @@ import { BoardTransforms, PlaitBoard } from '@plait/core';
 import * as Popover from '@radix-ui/react-popover';
 import React from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
-import { LineShape } from '@plait/draw';
+import { ArrowLineShape } from '@plait/draw';
 
 export interface ArrowProps {
   icon: React.ReactNode;
   title: string;
-  pointer: LineShape;
+  pointer: ArrowLineShape;
 }
 
 const ARROWS: ArrowProps[] = [
   {
     icon: StraightArrowIcon,
     title: 'Straight Arrow Line',
-    pointer: LineShape.straight,
+    pointer: ArrowLineShape.straight,
   },
   {
     icon: ElbowArrowIcon,
     title: 'Elbow Arrow Line',
-    pointer: LineShape.elbow,
+    pointer: ArrowLineShape.elbow,
   },
   {
     icon: CurveArrowIcon,
     title: 'Curve Arrow Line',
-    pointer: LineShape.curve,
+    pointer: ArrowLineShape.curve,
   },
 ];
 
@@ -38,7 +38,7 @@ export const ArrowPopupContent: React.FC = () => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
 
-  const onPointerDown = (pointer: LineShape) => {
+  const onPointerDown = (pointer: ArrowLineShape) => {
     setCreationMode(board, BoardCreationMode.drawing);
     BoardTransforms.updatePointerType(board, pointer);
   };
