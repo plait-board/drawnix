@@ -94,6 +94,7 @@ export const Board: React.FC<PlaitBoardProps> = ({ style, className }) => {
         HOST_CLASS_NAME,
         `${getBrowserClassName()}`,
         `theme-${board.theme?.themeColorMode}`,
+        `pointer-${board.pointer}`,// need to consider how to maintenance the pointer state in future
         {
           focused: PlaitBoard.isFocus(board),
           readonly: PlaitBoard.isReadonly(board),

@@ -60,7 +60,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({ value, onChange }) => {
           console.log(data);
         }}
       >
-        <Board className={`pointer-${appState.pointer}`}></Board>
+        <Board></Board>
         <DrawToolbar
           setPointer={(pointer: DrawnixPointerType) => {
             setAppState({ pointer });

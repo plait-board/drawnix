@@ -80,6 +80,15 @@ export type DrawToolbarProps = {
   setPointer: (pointer: DrawnixPointerType) => void;
 };
 
+// TODO provider by plait/draw
+export const isArrowLinePointer = (board: PlaitBoard) => {
+  return Object.keys(ArrowLineShape).includes(board.pointer);
+};
+
+export const isShapePointer = (board: PlaitBoard) => {
+  return Object.keys(BasicShapes).includes(board.pointer);
+};
+
 export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
   const board = useBoard();
 
@@ -126,7 +135,11 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
                     className={classNames('Shape', { fillable: false })}
                     type="icon"
                     visible={true}
-                    selected={shapeOpen || isChecked(button)}
+                    selected={
+                      shapeOpen ||
+                      (isShapePointer(board) &&
+                        !PlaitBoard.isPointer(board, BasicShapes.text))
+                    }
                     icon={button.icon}
                     title={`Shape`}
                     aria-label={`Shape`}
@@ -149,7 +162,6 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
               </Popover.Root>
             );
           }
-
           if (button.popupKey === PopupKey.arrow) {
             return (
               <Popover.Root
@@ -164,7 +176,7 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
                     className={classNames('Shape', { fillable: false })}
                     type="icon"
                     visible={true}
-                    selected={arrowOpen || isChecked(button)}
+                    selected={arrowOpen || isArrowLinePointer(board)}
                     icon={button.icon}
                     title={`Shape`}
                     aria-label={`Shape`}
@@ -189,7 +201,6 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
               </Popover.Root>
             );
           }
-
           return (
             <ToolButton
               key={index}
