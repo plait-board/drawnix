@@ -15,7 +15,7 @@ import { BoardTransforms, PlaitBoard, PlaitPointerType } from '@plait/core';
 import { MindPointerType } from '@plait/mind';
 import { DrawnixPointerType } from '../drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
-import { ArrowLineShape, BasicShapes } from '@plait/draw';
+import { ArrowLineShape, BasicShapes, DrawPointerType } from '@plait/draw';
 import * as Popover from '@radix-ui/react-popover';
 import { useSetState } from 'ahooks';
 import { ShapePopupContent } from './shape-popup';
@@ -68,32 +68,13 @@ export const BUTTONS: AppToolButtonProps[] = [
     popupKey: PopupKey.arrow,
     pointer: ArrowLineShape.straight,
   },
-  // {
-  //   icon: ShapeIcon,
-  //   title: 'Shape',
-  //   popupKey: PopupKey.shape,
-  // },
+  {
+    icon: ShapeIcon,
+    title: 'Shape',
+    popupKey: PopupKey.shape,
+    pointer: BasicShapes.rectangle,
+  },
 ];
-
-export const renderPopupContent = (
-  key: PopupKey,
-  setOpen: (open: boolean) => void
-) => {
-  switch (key) {
-    case PopupKey.shape:
-      return <ShapePopupContent></ShapePopupContent>;
-    case PopupKey.arrow:
-      return (
-        <ArrowPopupContent
-          onPointerUp={() => {
-            setOpen(false);
-          }}
-        ></ArrowPopupContent>
-      );
-    default:
-      break;
-  }
-};
 
 export type DrawToolbarProps = {
   setPointer: (pointer: DrawnixPointerType) => void;
@@ -102,11 +83,9 @@ export type DrawToolbarProps = {
 export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
   const board = useBoard();
 
-  const [open, setOpen] = useState(false);
+  const [arrowOpen, setArrowOpen] = useState(false);
 
-  const [state, setState] = useSetState<{
-    popupKey: PopupKey | undefined;
-  }>({ popupKey: undefined });
+  const [shapeOpen, setShapeOpen] = useState(false);
 
   const onChange = (pointer: DrawnixPointerType) => {
     BoardTransforms.updatePointerType(board, pointer);
@@ -125,8 +104,7 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
 
   const isChecked = (button: AppToolButtonProps) => {
     return (
-      PlaitBoard.isPointer(board, button.pointer) &&
-      state.popupKey === undefined
+      PlaitBoard.isPointer(board, button.pointer) && !arrowOpen && !shapeOpen
     );
   };
 
@@ -134,18 +112,13 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
     <Island padding={1} className={classNames('draw-toolbar')}>
       <Stack.Row gap={1}>
         {BUTTONS.map((button, index) => {
-          if (button.popupKey) {
+          if (button.popupKey === PopupKey.shape) {
             return (
               <Popover.Root
                 key={index}
-                open={open}
+                open={shapeOpen}
                 onOpenChange={(open) => {
-                  setOpen(open);
-                  if (open) {
-                    setState({ popupKey: button.popupKey });
-                  } else {
-                    setState({ popupKey: undefined });
-                  }
+                  setShapeOpen(open);
                 }}
               >
                 <Popover.Trigger asChild>
@@ -153,35 +126,71 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
                     className={classNames('Shape', { fillable: false })}
                     type="icon"
                     visible={true}
-                    selected={state.popupKey === button.popupKey}
+                    selected={shapeOpen || isChecked(button)}
                     icon={button.icon}
                     title={`Shape`}
                     aria-label={`Shape`}
                     onPointerDown={() => {
-                      if (button.popupKey === PopupKey.arrow) {
-                        BoardTransforms.updatePointerType(
-                          board,
-                          ArrowLineShape.straight
-                        );
-                        setPointer(ArrowLineShape.straight);
-                        setCreationMode(board, BoardCreationMode.drawing);
-                      } else {
-                        BoardTransforms.updatePointerType(
-                          board,
-                          BasicShapes.rectangle
-                        );
-                        setPointer(BasicShapes.rectangle);
-                        setCreationMode(board, BoardCreationMode.drawing);
-                      }
+                      BoardTransforms.updatePointerType(
+                        board,
+                        BasicShapes.rectangle
+                      );
+                      setPointer(BasicShapes.rectangle);
+                      setCreationMode(board, BoardCreationMode.drawing);
                     }}
                   />
                 </Popover.Trigger>
-                {renderPopupContent(button.popupKey, setOpen)}
+                <ShapePopupContent
+                  onPointerUp={(pointer: DrawPointerType) => {
+                    setShapeOpen(false);
+                    setPointer(pointer);
+                  }}
+                ></ShapePopupContent>
               </Popover.Root>
             );
           }
 
-          const buttonComp = (
+          if (button.popupKey === PopupKey.arrow) {
+            return (
+              <Popover.Root
+                key={index}
+                open={arrowOpen}
+                onOpenChange={(open) => {
+                  setArrowOpen(open);
+                }}
+              >
+                <Popover.Trigger asChild>
+                  <ToolButton
+                    className={classNames('Shape', { fillable: false })}
+                    type="icon"
+                    visible={true}
+                    selected={arrowOpen || isChecked(button)}
+                    icon={button.icon}
+                    title={`Shape`}
+                    aria-label={`Shape`}
+                    onPointerDown={() => {
+                      BoardTransforms.updatePointerType(
+                        board,
+                        ArrowLineShape.straight
+                      );
+                      setPointer(ArrowLineShape.straight);
+                      setCreationMode(board, BoardCreationMode.drawing);
+                    }}
+                  />
+                </Popover.Trigger>
+                {
+                  <ArrowPopupContent
+                    onPointerUp={(pointer: DrawPointerType) => {
+                      setArrowOpen(false);
+                      setPointer(pointer);
+                    }}
+                  ></ArrowPopupContent>
+                }
+              </Popover.Root>
+            );
+          }
+
+          return (
             <ToolButton
               key={index}
               className={classNames('Shape', { fillable: false })}
@@ -207,7 +216,6 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
               }}
             />
           );
-          return buttonComp;
         })}
       </Stack.Row>
     </Island>

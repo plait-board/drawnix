@@ -67,19 +67,15 @@ const SHAPES: ShapeProps[] = [
 
 const ROW_SHAPES = splitRows(SHAPES, 5);
 
-export const ShapePopupContent: React.FC = () => {
+export type ShapePopupProps = {
+  onPointerUp: (pointer: DrawPointerType) => void;
+};
+
+export const ShapePopupContent: React.FC<ShapePopupProps> = ({
+  onPointerUp,
+}) => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
-
-  const onPointerDown = (pointer: DrawnixPointerType) => {
-    setCreationMode(board, BoardCreationMode.dnd);
-    BoardTransforms.updatePointerType(board, pointer);
-  };
-
-  const onPointerUp = () => {
-    setCreationMode(board, BoardCreationMode.drawing);
-  };
-
   return (
     <Popover.Portal container={container}>
       <Popover.Content sideOffset={12}>
@@ -100,10 +96,15 @@ export const ShapePopupContent: React.FC = () => {
                         title={shape.title}
                         aria-label={shape.title}
                         onPointerDown={() => {
-                          onPointerDown(shape.pointer);
+                          setCreationMode(board, BoardCreationMode.dnd);
+                          BoardTransforms.updatePointerType(
+                            board,
+                            shape.pointer
+                          );
                         }}
                         onPointerUp={() => {
-                          onPointerUp();
+                          setCreationMode(board, BoardCreationMode.drawing);
+                          onPointerUp(shape.pointer);
                         }}
                       />
                     );

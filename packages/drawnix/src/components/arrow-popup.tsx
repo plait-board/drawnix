@@ -8,7 +8,7 @@ import { BoardTransforms, PlaitBoard } from '@plait/core';
 import * as Popover from '@radix-ui/react-popover';
 import React from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
-import { ArrowLineShape } from '@plait/draw';
+import { ArrowLineShape, DrawPointerType } from '@plait/draw';
 
 export interface ArrowProps {
   icon: React.ReactNode;
@@ -35,17 +35,14 @@ const ARROWS: ArrowProps[] = [
 ];
 
 export type ArrowPopupProps = {
-  onPointerUp: () => void;
-}
+  onPointerUp: (pointer: DrawPointerType) => void;
+};
 
-export const ArrowPopupContent: React.FC<ArrowPopupProps> = ({ onPointerUp }) => {
+export const ArrowPopupContent: React.FC<ArrowPopupProps> = ({
+  onPointerUp,
+}) => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
-
-  const onPointerDown = (pointer: ArrowLineShape) => {
-    setCreationMode(board, BoardCreationMode.drawing);
-    BoardTransforms.updatePointerType(board, pointer);
-  };
 
   return (
     <Popover.Portal container={container}>
@@ -64,10 +61,11 @@ export const ArrowPopupContent: React.FC<ArrowPopupProps> = ({ onPointerUp }) =>
                   title={arrow.title}
                   aria-label={arrow.title}
                   onPointerDown={() => {
-                    onPointerDown(arrow.pointer);
+                    setCreationMode(board, BoardCreationMode.drawing);
+                    BoardTransforms.updatePointerType(board, arrow.pointer);
                   }}
                   onPointerUp={() => {
-                    onPointerUp();
+                    onPointerUp(arrow.pointer);
                   }}
                 />
               );
