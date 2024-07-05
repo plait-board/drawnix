@@ -58,6 +58,54 @@
     }
   }
 
+  .tool-icon_type_button {
+    padding: 0;
+    border: none;
+    margin: 0;
+    font-size: inherit;
+    background-color: initial;
+
+    &:focus-visible {
+      box-shadow: 0 0 0 2px var(--color-primary);
+      outline: none;
+    }
+
+    &.tool-icon--selected {
+      background: var(--color-surface-primary-container);
+      svg {
+        color: var(--color-on-primary-container);
+      }
+    }
+
+    &:active {
+      background-color: var(--button-gray-3);
+    }
+
+    &:disabled {
+      cursor: default;
+
+      &:active,
+      &:focus-visible,
+      &:hover {
+        background-color: initial;
+        border: none;
+        box-shadow: none;
+      }
+
+      svg {
+        color: var(--color-disabled);
+      }
+    }
+
+    &--show {
+      visibility: visible;
+    }
+
+    &--hide {
+      display: none !important;
+    }
+  }
+
   .tool-icon__label {
     display: flex;
     align-items: center;
@@ -71,6 +119,10 @@
     width: 2rem;
     height: 2rem;
     font-size: 0.8em;
+    svg {
+      width: var(--default-icon-size);
+      height: var(--default-icon-size);
+    }
   }
 
   .tool-icon__keybinding {
