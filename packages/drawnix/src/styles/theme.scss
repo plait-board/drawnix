@@ -2,6 +2,7 @@
 @import "./variables.module.scss";
 
 .drawnix {
+  --focus-highlight-color: #{$oc-blue-2};
   --icon-fill-color: var(--color-on-surface);
   --island-bg-color: #ffffff;
   --island-border-color: #eeeeee;

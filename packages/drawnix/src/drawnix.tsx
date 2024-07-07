@@ -14,7 +14,7 @@ import { DrawPointerType, withDraw } from '@plait/draw';
 import { MindPointerType, withMind } from '@plait/mind';
 import { withMindExtend } from './plugins/with-mind-extend';
 import { withCommonPlugin } from './plugins/with-common';
-import { DrawToolbar } from './components/draw-toolbar';
+import { DrawToolbar } from './components/toolbar/draw-toolbar';
 
 import './styles/index.scss';
 
@@ -47,6 +47,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({ value, onChange }) => {
   const options: PlaitBoardOptions = {};
 
   const [appState, setAppState] = useState<DrawnixState>(() => {
+    // TODO: need to consider how to maintenance the pointer state in future
     return { pointer: PlaitPointerType.hand };
   });
 
@@ -60,7 +61,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({ value, onChange }) => {
           console.log(data);
         }}
       >
-        <Board className={`pointer-${appState.pointer}`}></Board>
+        <Board></Board>
         <DrawToolbar
           setPointer={(pointer: DrawnixPointerType) => {
             setAppState({ pointer });
