@@ -134,3 +134,45 @@ export const CurveArrowIcon = createIcon(
     </g>
   </svg>
 );
+
+export const MenuIcon = createIcon(
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <g strokeWidth="1.5" fill="none" stroke="currentColor">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+      <line x1="4" y1="6" x2="20" y2="6"></line>
+      <line x1="4" y1="12" x2="20" y2="12"></line>
+      <line x1="4" y1="18" x2="20" y2="18"></line>
+    </g>
+  </svg>
+);
+
+export const GithubIcon = createIcon(
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M7.5 15.833c-3.583 1.167-3.583-2.083-5-2.5m10 4.167v-2.917c0-.833.083-1.166-.417-1.666 2.334-.25 4.584-1.167 4.584-5a3.833 3.833 0 0 0-1.084-2.667 3.5 3.5 0 0 0-.083-2.667s-.917-.25-2.917 1.084a10.25 10.25 0 0 0-5.166 0C5.417 2.333 4.5 2.583 4.5 2.583a3.5 3.5 0 0 0-.083 2.667 3.833 3.833 0 0 0-1.084 2.667c0 3.833 2.25 4.75 4.584 5-.5.5-.5 1-.417 1.666V17.5"
+      strokeWidth="1.25"
+    ></path>
+  </svg>
+);
+
+export const ExportImageIcon = createIcon(
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <g
+      strokeWidth="1.25"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+      <path d="M15 8h.01"></path>
+      <path d="M12 20h-5a3 3 0 0 1 -3 -3v-10a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v5"></path>
+      <path d="M4 15l4 -4c.928 -.893 2.072 -.893 3 0l4 4"></path>
+      <path d="M14 14l1 -1c.617 -.593 1.328 -.793 2.009 -.598"></path>
+      <path d="M19 16v6"></path>
+      <path d="M22 19l-3 3l-3 -3"></path>
+    </g>
+  </svg>
+);
