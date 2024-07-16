@@ -23,10 +23,10 @@ export const SaveAsImage = () => {
       icon={ExportImageIcon}
       data-testid="image-export-button"
       onSelect={() => {}}
-      shortcut={`Command + Shift + E`}
+      shortcut={`Cmd+Shift+E`}
       aria-label={''}
     >
-      {'Export as image'}
+      {'导出图片...'}
     </DropdownMenuItem>
   );
 };

@@ -152,6 +152,7 @@ export const GithubIcon = createIcon(
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
+      fill="none"
       d="M7.5 15.833c-3.583 1.167-3.583-2.083-5-2.5m10 4.167v-2.917c0-.833.083-1.166-.417-1.666 2.334-.25 4.584-1.167 4.584-5a3.833 3.833 0 0 0-1.084-2.667 3.5 3.5 0 0 0-.083-2.667s-.917-.25-2.917 1.084a10.25 10.25 0 0 0-5.166 0C5.417 2.333 4.5 2.583 4.5 2.583a3.5 3.5 0 0 0-.083 2.667 3.833 3.833 0 0 0-1.084 2.667c0 3.833 2.25 4.75 4.584 5-.5.5-.5 1-.417 1.666V17.5"
       strokeWidth="1.25"
     ></path>
@@ -165,8 +166,9 @@ export const ExportImageIcon = createIcon(
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
+      fill="none"
     >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+      <path stroke="none" d="M0 0h24v24H0z"></path>
       <path d="M15 8h.01"></path>
       <path d="M12 20h-5a3 3 0 0 1 -3 -3v-10a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v5"></path>
       <path d="M4 15l4 -4c.928 -.893 2.072 -.893 3 0l4 4"></path>

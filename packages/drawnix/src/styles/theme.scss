@@ -58,7 +58,6 @@
   --border-radius-sm: 0.25rem;
   --border-radius-md: 0.375rem;
   --border-radius-lg: 0.5rem;
-
   --color-surface-high: hsl(220, 100%, 97%);
   --color-surface-mid: hsl(220 25% 96%);
   --color-surface-low: hsl(220 25% 94%);
@@ -70,5 +69,6 @@
   --color-brand-active: #6698ff;
   --color-border-outline: #767680;
   --color-border-outline-variant: #c5c5d0;
-  --color-surface-primary-container: rgba(102, 152, 255, .1);
+
+  --default-border-color: var(--color-surface-high);
 }
