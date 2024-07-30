@@ -136,9 +136,17 @@ export const CurveArrowIcon = createIcon(
 );
 
 export const MenuIcon = createIcon(
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <g strokeWidth="1.5" fill="none" stroke="currentColor">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <g strokeWidth="1.5">
+      <path stroke="none" d="M0 0h24v24H0z"></path>
       <line x1="4" y1="6" x2="20" y2="6"></line>
       <line x1="4" y1="12" x2="20" y2="12"></line>
       <line x1="4" y1="18" x2="20" y2="18"></line>

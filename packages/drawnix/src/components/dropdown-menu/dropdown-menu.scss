@@ -145,7 +145,7 @@
     }
 
     &:hover {
-      --background: var(--color-surface-high);
+      --background: var(--color-surface-primary-container);
       background-color: var(--background);
       text-decoration: none;
     }
@@ -166,5 +166,9 @@
       width: var(--default-button-size);
       height: var(--default-button-size);
     }
+  }
+
+  .main-menu-trigger {
+    @include filledButtonOnCanvas;
   }
 }

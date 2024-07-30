@@ -22,7 +22,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelect, children }) => {
   const container = PlaitBoard.getBoardContainer(board);
 
   return (
-    <Island padding={0} className={classNames('main-menu')}>
+    <div className={classNames('main-menu')}>
       <DropdownMenu open={mainMenuOpen}>
         <DropdownMenu.Trigger
           onToggle={() => {
@@ -46,6 +46,6 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelect, children }) => {
           <Socials />
         </DropdownMenu.Content>
       </DropdownMenu>
-    </Island>
+    </div>
   );
 };
