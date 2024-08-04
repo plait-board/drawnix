@@ -61,8 +61,6 @@ const MenuContent = ({
         style={style}
         data-testid="dropdown-menu"
       >
-        {/* the zIndex ensures this menu has higher stacking order,
-    see https://github.com/excalidraw/excalidraw/pull/1445 */}
         {
           <Island
             className="dropdown-menu-container"

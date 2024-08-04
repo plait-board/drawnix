@@ -29,7 +29,7 @@ export const SaveAsImage = () => {
       shortcut={`Cmd+Shift+E`}
       aria-label={''}
     >
-      {'导出图片...'}
+      {'导出图片'}
     </DropdownMenuItem>
   );
 };
