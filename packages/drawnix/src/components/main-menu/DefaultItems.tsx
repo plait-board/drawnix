@@ -3,26 +3,29 @@ import DropdownMenuItem from '../dropdown-menu/DropdownMenuItem';
 import DropdownMenuItemLink from '../dropdown-menu/DropdownMenuItemLink';
 
 import './DefaultItems.scss';
-
-// export const SaveToActiveFile = () => {
-//   return (
-//     <DropdownMenuItem
-//       shortcut={''}
-//       data-testid="save-button"
-//       onSelect={() => {}}
-//       icon={GithubIcon}
-//       aria-label={`${''}`}
-//     >{`${''}`}</DropdownMenuItem>
-//   );
-// };
-// SaveToActiveFile.displayName = 'SaveToActiveFile';
+import { useBoard } from '@plait/react-board';
+import { getSelectedElements } from '@plait/core';
+import { base64ToBlob, boardToImage, download } from '../../utils';
 
 export const SaveAsImage = () => {
+  const board = useBoard();
+
   return (
     <DropdownMenuItem
       icon={ExportImageIcon}
       data-testid="image-export-button"
-      onSelect={() => {}}
+      onSelect={() => {
+        const selectedElements = getSelectedElements(board);
+        boardToImage(board, {
+          elements: selectedElements.length > 0 ? selectedElements : undefined,
+        }).then((image) => {
+          if (image) {
+            const pngImage = base64ToBlob(image);
+            const imageName = `drawnix-${new Date().getTime()}.png`;
+            download(pngImage, imageName);
+          }
+        });
+      }}
       shortcut={`Cmd+Shift+E`}
       aria-label={''}
     >
@@ -31,22 +34,6 @@ export const SaveAsImage = () => {
   );
 };
 SaveAsImage.displayName = 'SaveAsImage';
-
-// export const Export = () => {
-//   return (
-//     <DropdownMenuItem
-//       icon={ExportIcon}
-//       onSelect={() => {
-
-//       }}
-//       data-testid="json-export-button"
-//       aria-label={t('buttons.export')}
-//     >
-//       {t('buttons.export')}
-//     </DropdownMenuItem>
-//   );
-// };
-// Export.displayName = 'Export';
 
 export const Socials = () => {
   return (
@@ -58,13 +45,6 @@ export const Socials = () => {
       >
         GitHub
       </DropdownMenuItemLink>
-      {/* <DropdownMenuItemLink
-        icon={TelegramIcon}
-        href="https://t.me/plaitboard"
-        aria-label="Telegram"
-      >
-        {'Telegram'}
-      </DropdownMenuItemLink> */}
     </>
   );
 };
