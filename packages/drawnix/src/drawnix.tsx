@@ -17,6 +17,7 @@ import { withCommonPlugin } from './plugins/with-common';
 import { DrawToolbar } from './components/toolbar/draw-toolbar';
 
 import './styles/index.scss';
+import { MainMenu } from './components/main-menu/main-menu';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -62,6 +63,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({ value, onChange }) => {
         }}
       >
         <Board></Board>
+        <MainMenu></MainMenu>
         <DrawToolbar
           setPointer={(pointer: DrawnixPointerType) => {
             setAppState({ pointer });

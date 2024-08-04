@@ -132,7 +132,6 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
               >
                 <Popover.Trigger asChild>
                   <ToolButton
-                    className={classNames('Shape', { fillable: false })}
                     type="icon"
                     visible={true}
                     selected={
@@ -177,7 +176,6 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
               >
                 <Popover.Trigger asChild>
                   <ToolButton
-                    className={classNames('Shape', { fillable: false })}
                     type="icon"
                     visible={true}
                     selected={arrowOpen || isArrowLinePointer(board)}
@@ -210,7 +208,6 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
           return (
             <ToolButton
               key={index}
-              className={classNames('Shape', { fillable: false })}
               type="radio"
               icon={button.icon}
               checked={isChecked(button)}

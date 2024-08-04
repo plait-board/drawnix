@@ -11,4 +11,24 @@
         left: 50%;
         transform: translateX(-50%);
     }
+    .main-menu {
+        position: absolute;
+        top: 40px;
+        left: 36px;
+    }
+
+    .drawnix-link, a {
+        font-weight: 500;
+        text-decoration: none;
+        color: var(--link-color);
+        user-select: none;
+        cursor: pointer;
+
+        &:hover {
+        text-decoration: underline;
+        }
+        &:active {
+        text-decoration: none;
+        }
+  }
 }
