@@ -82,19 +82,3 @@ export const KEYS = {
 } as const;
 
 export type Key = keyof typeof KEYS;
-
-export const isArrowKey = (key: string) =>
-  key === KEYS.ARROW_LEFT ||
-  key === KEYS.ARROW_RIGHT ||
-  key === KEYS.ARROW_DOWN ||
-  key === KEYS.ARROW_UP;
-
-export const shouldResizeFromCenter = (event: MouseEvent | KeyboardEvent) =>
-  event.altKey;
-
-export const shouldMaintainAspectRatio = (event: MouseEvent | KeyboardEvent) =>
-  event.shiftKey;
-
-export const shouldRotateWithDiscreteAngle = (
-  event: MouseEvent | KeyboardEvent | React.PointerEvent<HTMLCanvasElement>
-) => event.shiftKey;

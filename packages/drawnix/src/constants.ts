@@ -25,8 +25,6 @@ export enum EVENT {
     HASHCHANGE = "hashchange",
     VISIBILITY_CHANGE = "visibilitychange",
     SCROLL = "scroll",
-    // custom events
-    EXCALIDRAW_LINK = "excalidraw-link",
     MENU_ITEM_SELECT = "menu.itemSelect",
     MESSAGE = "message",
     FULLSCREENCHANGE = "fullscreenchange",
