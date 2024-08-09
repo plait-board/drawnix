@@ -36,6 +36,10 @@ export const withReact = (board: PlaitBoard & PlaitTextBoard) => {
         }, 0);
       },
       update: (updatedProps: Partial<TextProps>) => {
+        const hasUpdated = updatedProps && newProps && !Object.keys(updatedProps).every((key) => updatedProps[key as keyof TextProps] === newProps[key as keyof TextProps]);
+        if (!hasUpdated) {
+          return;
+        }
         const readonly = ReactEditor.isReadOnly(currentEditor);
         newProps = { ...newProps, ...updatedProps };
         root.render(<Text {...newProps}></Text>);
