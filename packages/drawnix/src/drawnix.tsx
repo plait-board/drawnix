@@ -59,7 +59,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({ value, onChange }) => {
         options={options}
         plugins={plugins}
         onChange={(data: BoardChangeData) => {
-          console.log(data);
+          console.log(JSON.stringify(data));
         }}
       >
         <Board></Board>

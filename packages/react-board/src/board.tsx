@@ -85,7 +85,7 @@ export const Board: React.FC<PlaitBoardProps> = ({ style, className }) => {
   }, []);
 
   useBoardPluginEvent(board, hostRef);
-  useBoardEvent(board, hostRef);
+  useBoardEvent(board, viewportContainerRef);
 
   return (
     <div

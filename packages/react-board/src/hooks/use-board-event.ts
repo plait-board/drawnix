@@ -8,14 +8,14 @@ import {
   isPreventTouchMove,
   setIsFromViewportChange,
   updateViewportByScrolling,
-  updateViewportOffset
+  updateViewportOffset,
 } from '@plait/core';
 import { useEffect } from 'react';
 import { useEventListener } from 'ahooks';
 
 const useBoardEvent = (
   board: PlaitBoard,
-  hostRef: React.RefObject<SVGSVGElement>
+  viewportContainerRef: React.RefObject<HTMLDivElement>
 ) => {
   useEventListener(
     'scroll',
@@ -27,7 +27,7 @@ const useBoardEvent = (
         updateViewportByScrolling(board, scrollLeft, scrollTop);
       }
     },
-    { target: PlaitBoard.getViewportContainer(board) }
+    { target: viewportContainerRef }
   );
 
   useEventListener(
@@ -37,7 +37,7 @@ const useBoardEvent = (
         event.preventDefault();
       }
     },
-    { target: PlaitBoard.getViewportContainer(board), passive: false }
+    { target: viewportContainerRef, passive: false }
   );
 
   useEventListener(
@@ -66,7 +66,7 @@ const useBoardEvent = (
         BoardTransforms.updateZoom(board, newZoom, false);
       }
     },
-    { target: PlaitBoard.getViewportContainer(board), passive: false }
+    { target: viewportContainerRef, passive: false }
   );
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const useBoardEvent = (
     });
     resizeObserver.observe(PlaitBoard.getBoardContainer(board));
     return () => {
-      resizeObserver && resizeObserver.disconnect();
+      resizeObserver && (resizeObserver as ResizeObserver).disconnect();
     };
   }, []);
 };
