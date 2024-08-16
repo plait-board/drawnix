@@ -2,7 +2,7 @@ import { ExportImageIcon, GithubIcon } from '../icons';
 import DropdownMenuItem from '../dropdown-menu/DropdownMenuItem';
 import DropdownMenuItemLink from '../dropdown-menu/DropdownMenuItemLink';
 
-import './DefaultItems.scss';
+import './default-items.scss';
 import { useBoard } from '@plait/react-board';
 import { getSelectedElements } from '@plait/core';
 import { base64ToBlob, boardToImage, download } from '../../utils';

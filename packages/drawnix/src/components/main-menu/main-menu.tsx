@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { Island } from '../island';
 import { useBoard } from '@plait/react-board';
 import { PlaitBoard } from '@plait/core';
 import DropdownMenu from '../dropdown-menu/DropdownMenu';
 import { MenuIcon } from '../icons';
 import { composeEventHandlers } from '../../utils';
-import { SaveAsImage, Socials } from './DefaultItems';
+import { SaveAsImage, Socials } from './default-items';
 
 type MainMenuProps = {
   children?: React.ReactNode;
