@@ -11,7 +11,12 @@ import {
   StraightArrowLineIcon,
 } from '../icons';
 import { useBoard } from '@plait/react-board';
-import { BoardTransforms, PlaitBoard, PlaitPointerType } from '@plait/core';
+import {
+  ATTACHED_ELEMENT_CLASS_NAME,
+  BoardTransforms,
+  PlaitBoard,
+  PlaitPointerType,
+} from '@plait/core';
 import { MindPointerType } from '@plait/mind';
 import { DrawnixPointerType } from '../../drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
@@ -118,7 +123,10 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
   };
 
   return (
-    <Island padding={1} className={classNames('draw-toolbar')}>
+    <Island
+      padding={1}
+      className={classNames('draw-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
+    >
       <Stack.Row gap={1}>
         {BUTTONS.map((button, index) => {
           if (button.popupKey === PopupKey.shape) {

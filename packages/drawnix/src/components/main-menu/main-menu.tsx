@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { useBoard } from '@plait/react-board';
-import { PlaitBoard } from '@plait/core';
+import { ATTACHED_ELEMENT_CLASS_NAME } from '@plait/core';
 import DropdownMenu from '../dropdown-menu/DropdownMenu';
 import { MenuIcon } from '../icons';
 import { composeEventHandlers } from '../../utils';
@@ -16,12 +15,9 @@ type MainMenuProps = {
 };
 
 export const MainMenu: React.FC<MainMenuProps> = ({ onSelect, children }) => {
-  const board = useBoard();
   const [mainMenuOpen, setMainMenuOpen] = useState(false);
-  const container = PlaitBoard.getBoardContainer(board);
-
   return (
-    <div className={classNames('main-menu')}>
+    <div className={classNames('main-menu', ATTACHED_ELEMENT_CLASS_NAME)}>
       <DropdownMenu open={mainMenuOpen}>
         <DropdownMenu.Trigger
           onToggle={() => {

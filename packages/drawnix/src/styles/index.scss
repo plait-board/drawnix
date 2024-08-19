@@ -16,6 +16,39 @@
         top: 40px;
         left: 36px;
     }
+    .zoom-toolbar {
+        cursor: default;
+        position: absolute;
+        top: 36px;
+        right: 36px;
+        
+        .zoom-out-button {
+            border-top-right-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+        .zoom-out-button,.zoom-in-button, .zoom-reset-button {
+            background-color: var(--color-surface-low);
+            .tool-icon__icon:hover, .tool-icon__icon:active {
+                color: var(--icon-fill-color);
+                svg {
+                    color: var(--icon-fill-color);
+                }
+            }
+        }
+        .zoom-reset-button {
+            width: 56px;;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-on-surface);
+            cursor: pointer;
+        }
+        .zoom-in-button{
+            color: var(--color-on-surface);
+            border-top-left-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+        }
+    }
 
     .drawnix-link, a {
         font-weight: 500;
