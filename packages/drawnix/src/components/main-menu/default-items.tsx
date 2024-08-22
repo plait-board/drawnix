@@ -1,4 +1,4 @@
-import { ExportImageIcon, GithubIcon } from '../icons';
+import { ExportImageIcon, GithubIcon, SaveFileIcon } from '../icons';
 import DropdownMenuItem from '../dropdown-menu/DropdownMenuItem';
 import DropdownMenuItemLink from '../dropdown-menu/DropdownMenuItemLink';
 
@@ -6,10 +6,25 @@ import './default-items.scss';
 import { useBoard } from '@plait/react-board';
 import { getSelectedElements } from '@plait/core';
 import { base64ToBlob, boardToImage, download } from '../../utils';
+import { saveAsJSON } from '../../data/json';
+
+export const SaveToFile = () => {
+  const board = useBoard();
+  return (
+    <DropdownMenuItem
+      data-testid="save-button"
+      onSelect={() => {
+        saveAsJSON(board);
+      }}
+      icon={SaveFileIcon}
+      aria-label={`${`保存文件`}`}
+    >{`保存文件`}</DropdownMenuItem>
+  );
+};
+SaveToFile.displayName = 'SaveToFile';
 
 export const SaveAsImage = () => {
   const board = useBoard();
-
   return (
     <DropdownMenuItem
       icon={ExportImageIcon}
