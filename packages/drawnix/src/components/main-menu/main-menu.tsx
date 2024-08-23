@@ -4,7 +4,7 @@ import { ATTACHED_ELEMENT_CLASS_NAME } from '@plait/core';
 import DropdownMenu from '../dropdown-menu/DropdownMenu';
 import { MenuIcon } from '../icons';
 import { composeEventHandlers } from '../../utils';
-import { SaveAsImage, SaveToFile, Socials } from './default-items';
+import { OpenFile, SaveAsImage, SaveToFile, Socials } from './default-items';
 
 type MainMenuProps = {
   children?: React.ReactNode;
@@ -36,6 +36,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelect, children }) => {
             setMainMenuOpen(false);
           })}
         >
+          <OpenFile></OpenFile>
           <SaveToFile></SaveToFile>
           <SaveAsImage></SaveAsImage>
           <DropdownMenu.Separator />
