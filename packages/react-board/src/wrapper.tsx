@@ -154,6 +154,7 @@ const initializeBoard = (
   if (theme) {
     board.theme = theme;
   }
+
   return board;
 };
 

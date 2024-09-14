@@ -16,6 +16,7 @@ import {
   initializeViewportContainer,
   initializeViewportOffset,
   PlaitBoard,
+  KEY_TO_ELEMENT_MAP,
 } from '@plait/core';
 import { useRef, useEffect } from 'react';
 import React from 'react';
@@ -60,6 +61,7 @@ export const Board: React.FC<PlaitBoardProps> = ({ style, className }) => {
     });
     const context = new PlaitBoardContext();
     BOARD_TO_CONTEXT.set(board, context);
+    KEY_TO_ELEMENT_MAP.set(board, new Map());
 
     if (!listRender.initialized) {
       listRender.initialize(board.children, {
@@ -81,6 +83,7 @@ export const Board: React.FC<PlaitBoardProps> = ({ style, className }) => {
       IS_BOARD_ALIVE.delete(board);
       BOARD_TO_HOST.delete(board);
       BOARD_TO_ROUGH_SVG.delete(board);
+      KEY_TO_ELEMENT_MAP.delete(board);
     };
   }, []);
 
