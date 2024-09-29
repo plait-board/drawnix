@@ -70,3 +70,11 @@ export function download(blob: Blob | MediaSource, filename: string) {
   window.URL.revokeObjectURL(url);
   a.remove();
 }
+
+export const splitRows = <T>(shapes: T[], cols: number) => {
+  let result = [];
+  for (let i = 0; i < shapes.length; i += cols) {
+    result.push(shapes.slice(i, i + cols));
+  }
+  return result;
+};

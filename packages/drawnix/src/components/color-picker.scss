@@ -1,0 +1,38 @@
+@import "open-color/open-color.scss";
+
+.color-select-item {
+  width: var(--default-button-size);
+  height: var(--default-button-size);
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--color-gray-30);
+  cursor: pointer;
+  padding: 0;
+  &.active {
+    border-color: var(--color-primary);
+    &.transparent {
+      .selected-icon {
+        background-color: $oc-white;
+      }
+    }
+  }
+  .selected-icon {
+    stroke: currentColor;
+    outline: none;
+    position: absolute;
+    width: var(--default-icon-size);
+    height: var(--default-icon-size);
+
+  }
+  &.transparent {
+    border: none;
+    .transparent-icon {
+      display: block;
+      width: var(-default-button-size);
+      height: var(-default-button-size);
+      color: rgba($oc-black, 0.4);
+    }
+  }
+}

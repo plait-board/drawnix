@@ -9,6 +9,7 @@
   },
   "private": true,
   "dependencies": {
+    "@floating-ui/react": "^0.26.24",
     "@plait/common": "^0.66.1",
     "@plait/core": "^0.66.1",
     "@plait/draw": "^0.66.1",

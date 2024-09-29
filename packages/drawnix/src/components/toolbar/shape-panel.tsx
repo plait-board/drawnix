@@ -15,20 +15,13 @@ import React from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { BasicShapes, DrawPointerType } from '@plait/draw';
 import { useBoard } from '@plait/react-board';
+import { splitRows } from '../../utils';
 
 export interface ShapeProps {
   icon: React.ReactNode;
   title: string;
   pointer: DrawPointerType;
 }
-
-const splitRows = (shapes: ShapeProps[], cols: number) => {
-  let result = [];
-  for (let i = 0; i < shapes.length; i += cols) {
-    result.push(shapes.slice(i, i + cols));
-  }
-  return result;
-};
 
 const SHAPES: ShapeProps[] = [
   {

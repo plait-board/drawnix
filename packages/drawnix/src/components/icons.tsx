@@ -230,3 +230,64 @@ export const OpenFileIcon = createIcon(
     </g>
   </svg>
 );
+
+export const BackgroundColorIcon = createIcon(
+  <svg viewBox="0 0 24 24" className="background-color-icon">
+    <g
+      xmlns="http://www.w3.org/2000/svg"
+      transform="translate(1 1)"
+      fillRule="evenodd"
+      fill="#000"
+    >
+      <circle fillOpacity=".04" r="11" cy="11" cx="11"></circle>
+      <path
+        d="M17 20.221V17h3.221A11.06 11.06 0 0 1 17 20.221zm-12 0A11.06 11.06 0 0 1 1.779 17H5v3.221zM20.221 5H17V1.779A11.06 11.06 0 0 1 20.221 5zM9 .181V1H6.411A10.919 10.919 0 0 1 9 .181zM15.589 1H13V.181c.907.167 1.775.445 2.589.819zM13 21.819V21h2.589c-.814.374-1.682.652-2.589.819zm-4 0A10.919 10.919 0 0 1 6.411 21H9v.819zm-8-6.23A10.919 10.919 0 0 1 .181 13H1v2.589zm0-9.178V9H.181C.348 8.093.626 7.225 1 6.411zM21.819 9H21V6.411c.374.814.652 1.682.819 2.589zM21 15.589V13h.819A10.919 10.919 0 0 1 21 15.589zM5 1.779V5H1.779A11.06 11.06 0 0 1 5 1.779zM5 13h4v4H5v-4zm8 0h4v4h-4v-4zM5 5h4v4H5V5zm8 0h4v4h-4V5zm0 12v4H9v-4h4zm8-8v4h-4V9h4zm-8 0v4H9V9h4zM5 9v4H1V9h4zm8-8v4H9V1h4z"
+        fillOpacity=".12"
+      ></path>
+    </g>
+  </svg>
+);
+
+export const TransparentIcon = createIcon(
+  <svg viewBox="0 0 32 32" className="transparent-icon">
+    <g
+      xmlns="http://www.w3.org/2000/svg"
+      fillRule="nonzero"
+      fill="currentColor"
+    >
+      <path d="M2 16c0 7.733 6.267 14 14 14s14-6.267 14-14S23.733 2 16 2 2 8.267 2 16zm-1 0C1 7.716 7.714 1 16 1c8.284 0 15 6.714 15 15 0 8.284-6.714 15-15 15-8.284 0-15-6.714-15-15z"></path>
+      <path d="M6.354 26.354l-.708-.708 20-20 .708.708z"></path>
+    </g>
+  </svg>
+);
+
+export const Check = createIcon(
+  <svg
+    className="selected-icon"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="20 6 9 17 4 12"></polyline>
+  </svg>
+);
+
+export const StrokeIcon = createIcon(
+  <svg viewBox="0 0 24 24" className="stroke-icon">
+    <g xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" fill="#000">
+      <path
+        d="M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm0-4c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1z"
+        fillRule="nonzero"
+        fillOpacity=".04"
+      ></path>
+      <path
+        d="M12 5V1c1.491 0 2.914.297 4.21.835L14.68 5.53A6.979 6.979 0 0 0 12 5zm4.95 2.048l2.828-2.828a11.016 11.016 0 0 1 2.388 3.568l-3.697 1.53a7.01 7.01 0 0 0-1.519-2.27zM19 12h4c0 1.491-.297 2.914-.835 4.21l-3.696-1.53c.342-.826.531-1.73.531-2.68zm-2.05 4.95l2.828 2.828a11.016 11.016 0 0 1-3.567 2.387l-1.532-3.696a7.01 7.01 0 0 0 2.27-1.52zM12 19v4c-1.491 0-2.914-.297-4.21-.835l1.53-3.696c.826.342 1.73.531 2.68.531zm-4.95-2.05l-2.828 2.828a11.016 11.016 0 0 1-2.387-3.567l3.696-1.532a7.01 7.01 0 0 0 1.52 2.27zM5 12H1c0-1.491.297-2.914.835-4.21L5.53 9.32A6.979 6.979 0 0 0 5 12zm2.05-4.95L4.222 4.222a11.016 11.016 0 0 1 3.567-2.387L9.321 5.53a7.01 7.01 0 0 0-2.27 1.52z"
+        fillOpacity=".12"
+      ></path>
+    </g>
+  </svg>
+);

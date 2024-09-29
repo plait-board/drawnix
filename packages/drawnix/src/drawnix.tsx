@@ -19,6 +19,7 @@ import { DrawToolbar } from './components/toolbar/draw-toolbar';
 import './styles/index.scss';
 import { MainMenu } from './components/main-menu/main-menu';
 import { ZoomToolbar } from './components/toolbar/zoom-toolbar';
+import { ActiveToolbar } from './components/toolbar/active-toolbar';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -60,7 +61,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({ value, onChange }) => {
         options={options}
         plugins={plugins}
         onChange={(data: BoardChangeData) => {
-          console.log(JSON.stringify(data));
+          // console.log(JSON.stringify(data));
         }}
       >
         <Board></Board>
@@ -71,6 +72,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({ value, onChange }) => {
           }}
         ></DrawToolbar>
         <ZoomToolbar></ZoomToolbar>
+        <ActiveToolbar></ActiveToolbar>
       </Wrapper>
     </div>
   );

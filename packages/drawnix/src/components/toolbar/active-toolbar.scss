@@ -1,0 +1,23 @@
+.property-button {
+    height: var(--lg-button-size);
+    width: var(--lg-button-size);
+    .color-label {
+        cursor: pointer;
+    }
+    .fill-label {
+        display: inline-block;
+        width: var(--xlg-icon-size);
+        height: var(--xlg-icon-size);
+        border-radius: 50%;
+        &.color-white {
+            border: 1px solid var(--color-gray-30);
+        }
+    }
+    .stroke-label {
+        border-radius: 50%;
+        width: calc(var(--xlg-icon-size) - var(--border-radius-lg));
+        height: calc(var(--xlg-icon-size) - var(--border-radius-lg));
+        border-width: var(--border-radius-sm);
+        border-style: solid;
+    }
+}
