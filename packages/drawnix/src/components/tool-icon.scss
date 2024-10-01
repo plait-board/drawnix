@@ -56,11 +56,6 @@
       width: var(--lg-icon-size);
       height: var(--lg-icon-size);
       outline: none;
-      &.background-color-icon, &.stroke-icon {
-        stroke: none;
-        width: var(--xlg-icon-size);
-        height: var(--xlg-icon-size);
-      }
     }
   }
 

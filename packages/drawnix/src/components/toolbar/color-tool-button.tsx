@@ -13,18 +13,23 @@ import {
   useRole,
 } from '@floating-ui/react';
 
-export type ActiveFillToolButtonProps = {
+export type ActiveColorToolButtonProps = {
   currentColor: string | undefined;
-  container: HTMLElement | undefined | null;
   transparentIcon: ReactNode;
   title: string;
   children?: React.ReactNode;
   onSelect: (selectedColor: string) => void;
 };
 
-export const ActiveColorToolButton: React.FC<ActiveFillToolButtonProps> = ({
+export type ActiveFontColorToolButtonProps = {
+  currentColor: string | undefined;
+  fontColorIcon: ReactNode;
+  title: string;
+  onSelect: (selectedColor: string) => void;
+};
+
+export const ActiveColorToolButton: React.FC<ActiveColorToolButtonProps> = ({
   currentColor,
-  container,
   transparentIcon,
   title,
   children,
@@ -47,24 +52,66 @@ export const ActiveColorToolButton: React.FC<ActiveFillToolButtonProps> = ({
 
   return (
     <>
-      <div ref={refs.setReference}>
-        <ToolButton
-          className={classNames(`property-button`)}
-          visible={true}
-          icon={
-            currentColor && currentColor !== 'transparent'
-              ? undefined
-              : transparentIcon
-          }
-          type="button"
-          title={title}
-          aria-label={title}
-          {...getReferenceProps()}
-        >
-          {currentColor && currentColor !== 'transparent' && children}
-        </ToolButton>
-      </div>
+      <ToolButton
+        className={classNames(`property-button`)}
+        visible={true}
+        icon={
+          currentColor && currentColor !== 'transparent'
+            ? undefined
+            : transparentIcon
+        }
+        type="button"
+        title={title}
+        aria-label={title}
+        ref={refs.setReference}
+        {...getReferenceProps()}
+      >
+        {currentColor && currentColor !== 'transparent' && children}
+      </ToolButton>
+      {isOpen && (
+        <ColorPicker
+          ref={refs.setFloating}
+          style={floatingStyles}
+          onSelect={(selectedColor) => {
+            onSelect(selectedColor);
+          }}
+          currentColor={currentColor}
+        ></ColorPicker>
+      )}
+    </>
+  );
+};
 
+export const ActiveFontColorToolButton: React.FC<
+  ActiveFontColorToolButtonProps
+> = ({ currentColor, fontColorIcon, title, onSelect }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { refs, floatingStyles, context } = useFloating({
+    placement: 'left',
+    open: isOpen,
+    onOpenChange: setIsOpen,
+    whileElementsMounted: autoUpdate,
+    middleware: [offset(8), flip()],
+  });
+
+  const click = useClick(context);
+  const dismiss = useDismiss(context);
+  const role = useRole(context);
+
+  const { getReferenceProps } = useInteractions([click, dismiss, role]);
+
+  return (
+    <>
+      <ToolButton
+        className={classNames(`property-button`)}
+        visible={true}
+        icon={fontColorIcon}
+        type="button"
+        title={title}
+        aria-label={title}
+        ref={refs.setReference}
+        {...getReferenceProps()}
+      ></ToolButton>
       {isOpen && (
         <ColorPicker
           ref={refs.setFloating}

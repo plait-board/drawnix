@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const createIcon = (svg: React.ReactNode) => {
   return svg;
 };
@@ -238,6 +240,7 @@ export const BackgroundColorIcon = createIcon(
       transform="translate(1 1)"
       fillRule="evenodd"
       fill="#000"
+      stroke="none"
     >
       <circle fillOpacity=".04" r="11" cy="11" cx="11"></circle>
       <path
@@ -254,6 +257,7 @@ export const TransparentIcon = createIcon(
       xmlns="http://www.w3.org/2000/svg"
       fillRule="nonzero"
       fill="currentColor"
+      stroke="none"
     >
       <path d="M2 16c0 7.733 6.267 14 14 14s14-6.267 14-14S23.733 2 16 2 2 8.267 2 16zm-1 0C1 7.716 7.714 1 16 1c8.284 0 15 6.714 15 15 0 8.284-6.714 15-15 15-8.284 0-15-6.714-15-15z"></path>
       <path d="M6.354 26.354l-.708-.708 20-20 .708.708z"></path>
@@ -278,7 +282,12 @@ export const Check = createIcon(
 
 export const StrokeIcon = createIcon(
   <svg viewBox="0 0 24 24" className="stroke-icon">
-    <g xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" fill="#000">
+    <g
+      xmlns="http://www.w3.org/2000/svg"
+      stroke="none"
+      fillRule="evenodd"
+      fill="#000"
+    >
       <path
         d="M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm0-4c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1z"
         fillRule="nonzero"
@@ -291,3 +300,33 @@ export const StrokeIcon = createIcon(
     </g>
   </svg>
 );
+
+export const FontColorIcon: React.FC<{ currentColor?: string }> = ({
+  currentColor,
+}) => {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      xmlns="http://www.w3.org/2000/svg"
+      className="font-color-icon"
+    >
+      <g
+        id="font-color"
+        strokeWidth="1"
+        fillRule="evenodd"
+        stroke="none"
+        fill="currentColor"
+      >
+        <path
+          id="secondary-color"
+          d="M1.999 15.011h11.998V13.81H1.999z"
+          fill={currentColor || '#333333'}
+        ></path>
+        <path
+          d="M6.034 7.59h4.104L8.086 2.297 6.034 7.59zm-.465 1.2l-1.437 3.707H2.845L7.301 1h1.287l-.001.004h.286l4.454 11.492h-1.288L10.603 8.79H5.569z"
+          id="A"
+        ></path>
+      </g>
+    </svg>
+  );
+};
