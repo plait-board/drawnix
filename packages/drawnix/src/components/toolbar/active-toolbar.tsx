@@ -3,6 +3,8 @@ import { BackgroundColorIcon, FontColorIcon, StrokeIcon } from '../icons';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
   getSelectedElements,
+  isDragging,
+  isMovingElements,
   isSelectionMoving,
   Path,
   PlaitBoard,
@@ -11,7 +13,7 @@ import {
   SELECTION_RECTANGLE_CLASS_NAME,
   Transforms,
 } from '@plait/core';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useBoard } from '@plait/react-board';
 import { flip, offset, useFloating } from '@floating-ui/react';
 import { Island } from '../island';
@@ -43,14 +45,14 @@ export type DrawActiveProps = {};
 export const ActiveToolbar: React.FC<DrawActiveProps> = ({}) => {
   const board = useBoard();
   const selectedElements = getSelectedElements(board);
-  const isOpen = selectedElements.length > 0 && !isSelectionMoving(board);
-
-  const { viewport, selection } = board;
+  const [movingOrDragging, setMovingOrDragging] = useState(false);
+  const movingOrDraggingRef = useRef(movingOrDragging);
+  const open = selectedElements.length > 0 && !isSelectionMoving(board);
+  const { viewport, selection, children } = board;
   const { refs, floatingStyles } = useFloating({
     placement: 'top',
     middleware: [offset(32), flip()],
   });
-
   let state: {
     fill: string | undefined;
     strokeColor?: string;
@@ -61,8 +63,7 @@ export const ActiveToolbar: React.FC<DrawActiveProps> = ({}) => {
   } = {
     fill: 'red',
   };
-
-  if (isOpen) {
+  if (open && !movingOrDragging) {
     const hasFill = selectedElements.some((value) =>
       hasFillProperty(board, value)
     );
@@ -71,9 +72,8 @@ export const ActiveToolbar: React.FC<DrawActiveProps> = ({}) => {
     );
     state = { ...getElementState(board), hasFill, hasFontColor: hasText };
   }
-
   useEffect(() => {
-    if (isOpen) {
+    if (open) {
       let selectionG = PlaitBoard.getBoardContainer(board).querySelector(
         `.${SELECTION_RECTANGLE_BOUNDING_CLASS_NAME}`
       );
@@ -82,104 +82,148 @@ export const ActiveToolbar: React.FC<DrawActiveProps> = ({}) => {
           `.${SELECTION_RECTANGLE_CLASS_NAME}`
         );
       }
-      refs.setPositionReference(selectionG);
+      if (selectionG) {
+        const rect = selectionG?.getBoundingClientRect();
+        refs.setPositionReference({
+          getBoundingClientRect() {
+            return {
+              width: rect.width,
+              height: rect.height,
+              x: rect.x,
+              y: rect.y,
+              top: rect.top,
+              left: rect.left,
+              right: rect.right,
+              bottom: rect.bottom,
+            };
+          },
+        });
+      }
     }
-  }, [viewport, selection]);
+  }, [viewport, selection, children, movingOrDragging]);
+
+  useEffect(() => {
+    movingOrDraggingRef.current = movingOrDragging;
+  }, [movingOrDragging]);
+
+  useEffect(() => {
+    const { pointerUp, pointerMove } = board;
+
+    board.pointerMove = (event: PointerEvent) => {
+      if (
+        (isMovingElements(board) || isDragging(board)) &&
+        !movingOrDraggingRef.current
+      ) {
+        setMovingOrDragging(true);
+      }
+      pointerMove(event);
+    };
+
+    board.pointerUp = (event: PointerEvent) => {
+      if (
+        movingOrDraggingRef.current &&
+        (isMovingElements(board) || isDragging(board))
+      ) {
+        setMovingOrDragging(false);
+      }
+      pointerUp(event);
+    };
+
+    return () => {
+      board.pointerUp = pointerUp;
+      board.pointerMove = pointerMove;
+    };
+  }, [board]);
 
   return (
     <>
-      {isOpen && (
-        <div ref={refs.setFloating} style={floatingStyles}>
-          <Island
-            padding={1}
-            className={classNames(
-              'active-toolbar',
-              ATTACHED_ELEMENT_CLASS_NAME
-            )}
-          >
-            <Stack.Row gap={1}>
-              {state.hasFontColor && (
-                <ActiveFontColorToolButton
-                  key={0}
-                  currentColor={state.fontColor}
-                  title={`Font Color`}
-                  fontColorIcon={
-                    <FontColorIcon currentColor={state.marks?.color} />
-                  }
-                  onSelect={(selectedColor: string) => {
-                    TextTransforms.setTextColor(
-                      board,
-                      selectedColor,
-                      undefined,
-                      getSelectedTableCellsEditor(board)
-                    );
-                  }}
-                ></ActiveFontColorToolButton>
-              )}
-              <ActiveColorToolButton
-                key={1}
-                currentColor={state.strokeColor}
-                title={`Stroke`}
-                transparentIcon={StrokeIcon}
+      {open && !movingOrDragging && (
+        <Island
+          padding={1}
+          className={classNames('active-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
+          ref={refs.setFloating}
+          style={floatingStyles}
+        >
+          <Stack.Row gap={1}>
+            {state.hasFontColor && (
+              <ActiveFontColorToolButton
+                key={0}
+                currentColor={state.fontColor}
+                title={`Font Color`}
+                fontColorIcon={
+                  <FontColorIcon currentColor={state.marks?.color} />
+                }
                 onSelect={(selectedColor: string) => {
-                  console.log(`selectedColor: ${selectedColor}`);
-                  PropertyTransforms.setStrokeColor(board, selectedColor, {
+                  TextTransforms.setTextColor(
+                    board,
+                    selectedColor,
+                    undefined,
+                    getSelectedTableCellsEditor(board)
+                  );
+                }}
+              ></ActiveFontColorToolButton>
+            )}
+            <ActiveColorToolButton
+              key={1}
+              currentColor={state.strokeColor}
+              title={`Stroke`}
+              transparentIcon={StrokeIcon}
+              onSelect={(selectedColor: string) => {
+                console.log(`selectedColor: ${selectedColor}`);
+                PropertyTransforms.setStrokeColor(board, selectedColor, {
+                  getMemorizeKey,
+                });
+              }}
+            >
+              <label
+                className={classNames('stroke-label', 'color-label', {
+                  'color-white': state.fill === '#FFFFFF',
+                })}
+                style={{ borderColor: state.strokeColor }}
+              ></label>
+            </ActiveColorToolButton>
+            {state.hasFill && (
+              <ActiveColorToolButton
+                key={2}
+                currentColor={state.fill}
+                title={`Fill Color`}
+                transparentIcon={BackgroundColorIcon}
+                onSelect={(selectedColor: string) => {
+                  PropertyTransforms.setFillColor(board, selectedColor, {
                     getMemorizeKey,
+                    callback: (element: PlaitElement, path: Path) => {
+                      const tableElement =
+                        PlaitDrawElement.isElementByTable(element);
+                      if (tableElement) {
+                        DrawTransforms.setTableFill(
+                          board,
+                          element,
+                          selectedColor,
+                          path
+                        );
+                      } else {
+                        if (isDrawElementClosed(element as PlaitDrawElement)) {
+                          Transforms.setNode(
+                            board,
+                            { fill: selectedColor },
+                            path
+                          );
+                        }
+                      }
+                    },
                   });
                 }}
               >
                 <label
-                  className={classNames('stroke-label', 'color-label', {
+                  className={classNames('fill-label', 'color-label', {
                     'color-white': state.fill === '#FFFFFF',
                   })}
-                  style={{ borderColor: state.strokeColor }}
+                  style={{ backgroundColor: state.fill }}
                 ></label>
               </ActiveColorToolButton>
-              {state.hasFill && (
-                <ActiveColorToolButton
-                  key={2}
-                  currentColor={state.fill}
-                  title={`Fill Color`}
-                  transparentIcon={BackgroundColorIcon}
-                  onSelect={(selectedColor: string) => {
-                    PropertyTransforms.setFillColor(board, selectedColor, {
-                      getMemorizeKey,
-                      callback: (element: PlaitElement, path: Path) => {
-                        const tableElement =
-                          PlaitDrawElement.isElementByTable(element);
-                        if (tableElement) {
-                          DrawTransforms.setTableFill(
-                            board,
-                            element,
-                            selectedColor,
-                            path
-                          );
-                        } else {
-                          if (
-                            isDrawElementClosed(element as PlaitDrawElement)
-                          ) {
-                            Transforms.setNode(
-                              board,
-                              { fill: selectedColor },
-                              path
-                            );
-                          }
-                        }
-                      },
-                    });
-                  }}
-                >
-                  <label
-                    className={classNames('fill-label', 'color-label', {
-                      'color-white': state.fill === '#FFFFFF',
-                    })}
-                    style={{ backgroundColor: state.fill }}
-                  ></label>
-                </ActiveColorToolButton>
-              )}
-            </Stack.Row>
-          </Island>
-        </div>
+            )}
+          </Stack.Row>
+        </Island>
       )}
     </>
   );
