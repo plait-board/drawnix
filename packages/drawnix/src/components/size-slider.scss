@@ -1,0 +1,31 @@
+@import "open-color/open-color.scss";
+
+.slider-container {
+    padding: 10px 0px;
+    .slider-track {
+        position: relative;
+        height: 4px;
+        background-color: var(--color-gray-20);
+        border-radius: 2px;
+        cursor: pointer;
+        margin: 0 8px;
+    }
+    .slider-range {
+        position: absolute;
+        height: 100%;
+        background-color: var(--color-primary);
+        border-radius: 3px;
+    }
+    .slider-thumb {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background-color: $oc-white;
+        border: 2px solid var(--color-primary);
+        border-radius: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        cursor: grab;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1),
+    }
+}

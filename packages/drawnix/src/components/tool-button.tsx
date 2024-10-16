@@ -149,7 +149,9 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
         {props.showAriaLabel && (
           <div className="tool-icon__label">{props['aria-label']}</div>
         )}
-        {props.children}
+        {props.children && (
+          <div className="tool-icon__icon">{props.children}</div>
+        )}
       </button>
     );
   }

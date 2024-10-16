@@ -301,6 +301,40 @@ export const StrokeIcon = createIcon(
   </svg>
 );
 
+export const StrokeStyleNormalIcon = createIcon(
+  <svg viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(0 14)" fillRule="evenodd" fill="none">
+      <path d="M-18-19h60v40h-60z"></path>
+      <path d="M0 0h24v2H0z" fill="currentColor"></path>
+    </g>
+  </svg>
+);
+
+export const StrokeStyleDashedIcon = createIcon(
+  <svg viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(0 14)" fillRule="evenodd" fill="none">
+      <g fill="currentColor">
+        <path d="M0 0h6v2H0zM9 0h6v2H9zM18 0h6v2h-6z"></path>
+      </g>
+    </g>
+  </svg>
+);
+
+export const StrokeStyleDotedIcon = createIcon(
+  <svg viewBox="0 0 24 32" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(0 14)" fillRule="evenodd" fill="none">
+      <g fill="currentColor">
+        <rect rx="1" height="2" width="2"></rect>
+        <rect rx="1" x="4" height="2" width="2"></rect>
+        <rect rx="1" x="8" height="2" width="2"></rect>
+        <rect rx="1" x="12" height="2" width="2"></rect>
+        <rect rx="1" x="16" height="2" width="2"></rect>
+        <rect rx="1" x="20" height="2" width="2"></rect>
+      </g>
+    </g>
+  </svg>
+);
+
 export const FontColorIcon: React.FC<{ currentColor?: string }> = ({
   currentColor,
 }) => {

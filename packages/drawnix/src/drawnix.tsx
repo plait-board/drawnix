@@ -19,7 +19,7 @@ import { DrawToolbar } from './components/toolbar/draw-toolbar';
 import './styles/index.scss';
 import { MainMenu } from './components/main-menu/main-menu';
 import { ZoomToolbar } from './components/toolbar/zoom-toolbar';
-import { ActiveToolbar } from './components/toolbar/active-toolbar';
+import { PopupToolbar } from './components/popup-toolbar/popup-toolbar';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -72,7 +72,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({ value, onChange }) => {
           }}
         ></DrawToolbar>
         <ZoomToolbar></ZoomToolbar>
-        <ActiveToolbar></ActiveToolbar>
+        <PopupToolbar></PopupToolbar>
       </Wrapper>
     </div>
   );

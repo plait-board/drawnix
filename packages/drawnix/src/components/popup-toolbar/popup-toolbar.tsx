@@ -19,7 +19,7 @@ import { flip, offset, useFloating } from '@floating-ui/react';
 import { Island } from '../island';
 import classNames from 'classnames';
 import { getStrokeByMindElement, MindElement } from '@plait/mind';
-import './active-toolbar.scss';
+import './popup-toolbar.scss';
 import {
   DrawTransforms,
   getMemorizeKey,
@@ -29,20 +29,19 @@ import {
   isDrawElementsIncludeText,
   PlaitDrawElement,
 } from '@plait/draw';
-import {
-  ActiveColorToolButton,
-  ActiveFontColorToolButton,
-} from './color-tool-button';
 import { CustomText, PropertyTransforms } from '@plait/common';
 import {
   getTextMarksByElement,
   PlaitMarkEditor,
   TextTransforms,
 } from '@plait/text-plugins';
+import { PopupFontColorButton } from './font-color-button';
+import { PopupStrokeButton } from './stroke-button';
+import { PopupFillButton } from './fill-button';
 
-export type DrawActiveProps = {};
+export type PopupToolbarProps = {};
 
-export const ActiveToolbar: React.FC<DrawActiveProps> = ({}) => {
+export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
   const board = useBoard();
   const selectedElements = getSelectedElements(board);
   const [movingOrDragging, setMovingOrDragging] = useState(false);
@@ -140,13 +139,13 @@ export const ActiveToolbar: React.FC<DrawActiveProps> = ({}) => {
       {open && !movingOrDragging && (
         <Island
           padding={1}
-          className={classNames('active-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
+          className={classNames('popup-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
           ref={refs.setFloating}
           style={floatingStyles}
         >
           <Stack.Row gap={1}>
             {state.hasFontColor && (
-              <ActiveFontColorToolButton
+              <PopupFontColorButton
                 key={0}
                 currentColor={state.fontColor}
                 title={`Font Color`}
@@ -161,14 +160,15 @@ export const ActiveToolbar: React.FC<DrawActiveProps> = ({}) => {
                     getSelectedTableCellsEditor(board)
                   );
                 }}
-              ></ActiveFontColorToolButton>
+              ></PopupFontColorButton>
             )}
-            <ActiveColorToolButton
+            <PopupStrokeButton
               key={1}
               currentColor={state.strokeColor}
+              // currentOpacity={state}
               title={`Stroke`}
               transparentIcon={StrokeIcon}
-              onSelect={(selectedColor: string) => {
+              onColorSelect={(selectedColor: string) => {
                 console.log(`selectedColor: ${selectedColor}`);
                 PropertyTransforms.setStrokeColor(board, selectedColor, {
                   getMemorizeKey,
@@ -181,14 +181,14 @@ export const ActiveToolbar: React.FC<DrawActiveProps> = ({}) => {
                 })}
                 style={{ borderColor: state.strokeColor }}
               ></label>
-            </ActiveColorToolButton>
+            </PopupStrokeButton>
             {state.hasFill && (
-              <ActiveColorToolButton
+              <PopupFillButton
                 key={2}
                 currentColor={state.fill}
                 title={`Fill Color`}
                 transparentIcon={BackgroundColorIcon}
-                onSelect={(selectedColor: string) => {
+                onColorSelect={(selectedColor: string) => {
                   PropertyTransforms.setFillColor(board, selectedColor, {
                     getMemorizeKey,
                     callback: (element: PlaitElement, path: Path) => {
@@ -220,7 +220,7 @@ export const ActiveToolbar: React.FC<DrawActiveProps> = ({}) => {
                   })}
                   style={{ backgroundColor: state.fill }}
                 ></label>
-              </ActiveColorToolButton>
+              </PopupFillButton>
             )}
           </Stack.Row>
         </Island>
