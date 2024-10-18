@@ -38,38 +38,40 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
   );
   return (
     <>
-      {/* <SizeSlider
-        step={4}
-        defaultValue={100}
-        onChange={(value) => {}}
-      ></SizeSlider> */}
-      <Stack.Col gap={2}>
-        {ROWS_CLASSIC_COLORS.map((colors, index) => (
-          <Stack.Row key={index} gap={2}>
-            {colors.map((color) => {
-              return (
-                <button
-                  key={color.value}
-                  className={`color-select-item ${
-                    selectedColor === color.value ? 'active' : ''
-                  } ${color.value === 'transparent' ? 'transparent' : ''}`}
-                  style={{
-                    backgroundColor: color.value,
-                    color: color.value === '#000000' ? '#FFFFFF' : '#000000',
-                  }}
-                  onClick={() => {
-                    setSelectedColor(color.value);
-                    onSelect(color.value);
-                  }}
-                  title={color.name}
-                >
-                  {color.value === 'transparent' && TransparentIcon}
-                  {selectedColor === color.value && Check}
-                </button>
-              );
-            })}
-          </Stack.Row>
-        ))}
+      <Stack.Col gap={3}>
+        <SizeSlider
+          step={5}
+          defaultValue={100}
+          onChange={(value) => {}}
+        ></SizeSlider>
+        <Stack.Col gap={2}>
+          {ROWS_CLASSIC_COLORS.map((colors, index) => (
+            <Stack.Row key={index} gap={2}>
+              {colors.map((color) => {
+                return (
+                  <button
+                    key={color.value}
+                    className={`color-select-item ${
+                      selectedColor === color.value ? 'active' : ''
+                    } ${color.value === 'transparent' ? 'transparent' : ''}`}
+                    style={{
+                      backgroundColor: color.value,
+                      color: color.value === '#000000' ? '#FFFFFF' : '#000000',
+                    }}
+                    onClick={() => {
+                      setSelectedColor(color.value);
+                      onSelect(color.value);
+                    }}
+                    title={color.name}
+                  >
+                    {color.value === 'transparent' && TransparentIcon}
+                    {selectedColor === color.value && Check}
+                  </button>
+                );
+              })}
+            </Stack.Row>
+          ))}
+        </Stack.Col>
       </Stack.Col>
     </>
   );
