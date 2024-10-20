@@ -147,7 +147,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
             {state.hasFontColor && (
               <PopupFontColorButton
                 key={0}
-                currentColor={state.fontColor}
+                currentColor={state.marks?.color}
                 title={`Font Color`}
                 fontColorIcon={
                   <FontColorIcon currentColor={state.marks?.color} />

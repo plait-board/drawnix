@@ -2,12 +2,17 @@ import { useState } from 'react';
 import { Check, TransparentIcon } from './icons';
 import Stack from '../components/stack';
 import './color-picker.scss';
-import { splitRows } from '../utils';
+import { splitRows } from '../utils/common';
+import {
+  applyOpacityToHex,
+  hexAlphaToOpacity,
+  removeHexAlpha,
+} from '../utils/transparency';
 import React from 'react';
 import { SizeSlider } from './size-slider';
 
 const CLASSIC_COLORS = [
-  { name: 'Transparent', value: 'transparent' },
+  { name: 'Transparent', value: 'TRANSPARENT' },
   { name: 'Black', value: '#000000' },
   { name: 'White', value: '#FFFFFF' },
   { name: 'Gray', value: '#808080' },
@@ -34,15 +39,22 @@ export type ColorPickerProps = {
 export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
   const { onSelect, currentColor } = props;
   const [selectedColor, setSelectedColor] = useState(
-    currentColor || ROWS_CLASSIC_COLORS[0][0].value
+    removeHexAlpha(currentColor || ROWS_CLASSIC_COLORS[0][0].value)
+  );
+  const [opacity, setOpacity] = useState(
+    hexAlphaToOpacity(currentColor || ROWS_CLASSIC_COLORS[0][0].value)
   );
   return (
     <>
       <Stack.Col gap={3}>
         <SizeSlider
           step={5}
-          defaultValue={100}
-          onChange={(value) => {}}
+          defaultValue={opacity}
+          onChange={(value) => {
+            setOpacity(value);
+            onSelect(applyOpacityToHex(selectedColor, value));
+          }}
+          disabled={selectedColor === CLASSIC_COLORS[0]['value']}
         ></SizeSlider>
         <Stack.Col gap={2}>
           {ROWS_CLASSIC_COLORS.map((colors, index) => (
@@ -53,18 +65,22 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
                     key={color.value}
                     className={`color-select-item ${
                       selectedColor === color.value ? 'active' : ''
-                    } ${color.value === 'transparent' ? 'transparent' : ''}`}
+                    } ${color.value === 'TRANSPARENT' ? 'transparent' : ''}`}
                     style={{
                       backgroundColor: color.value,
                       color: color.value === '#000000' ? '#FFFFFF' : '#000000',
                     }}
                     onClick={() => {
                       setSelectedColor(color.value);
-                      onSelect(color.value);
+                      if (opacity !== 100) {
+                        onSelect(applyOpacityToHex(color.value, opacity));
+                      } else {
+                        onSelect(color.value);
+                      }
                     }}
                     title={color.name}
                   >
-                    {color.value === 'transparent' && TransparentIcon}
+                    {color.value === 'TRANSPARENT' && TransparentIcon}
                     {selectedColor === color.value && Check}
                   </button>
                 );

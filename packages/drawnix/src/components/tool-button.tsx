@@ -4,7 +4,7 @@ import './tool-icon.scss';
 import type { CSSProperties } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { AbortError } from '../errors';
-import { isPromiseLike } from '../utils';
+import { isPromiseLike } from '../utils/common';
 import classNames from 'classnames';
 import { EventPointerType } from '../types';
 
