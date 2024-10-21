@@ -21,7 +21,7 @@ import {
   updateViewportOffset,
   Viewport,
 } from '@plait/core';
-import { base64ToBlob, boardToImage, download } from '../../utils';
+import { base64ToBlob, boardToImage, download } from '../../utils/common';
 import { loadFromJSON, saveAsJSON } from '../../data/json';
 
 export const SaveToFile = () => {

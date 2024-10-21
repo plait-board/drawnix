@@ -2,6 +2,9 @@
 
 .slider-container {
     padding: 10px 0px;
+    &.disabled {
+        opacity: 50%;
+    }
     .slider-track {
         position: relative;
         height: 4px;

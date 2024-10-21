@@ -14,10 +14,11 @@ import {
 import { ATTACHED_ELEMENT_CLASS_NAME } from '@plait/core';
 import { Island } from '../island';
 import { ColorPicker } from '../color-picker';
+import { isTransparent, removeHexAlpha } from '../../utils/color';
+import { BackgroundColorIcon } from '../icons';
 
 export type PopupFillButtonProps = {
   currentColor: string | undefined;
-  transparentIcon: ReactNode;
   title: string;
   children?: React.ReactNode;
   onColorSelect: (selectedColor: string) => void;
@@ -25,7 +26,6 @@ export type PopupFillButtonProps = {
 
 export const PopupFillButton: React.FC<PopupFillButtonProps> = ({
   currentColor,
-  transparentIcon,
   title,
   children,
   onColorSelect,
@@ -45,23 +45,24 @@ export const PopupFillButton: React.FC<PopupFillButtonProps> = ({
 
   const { getReferenceProps } = useInteractions([click, dismiss, role]);
 
+  const hexColor = currentColor && removeHexAlpha(currentColor);
+
+  let icon =
+    !hexColor || isTransparent(hexColor) ? BackgroundColorIcon : undefined;
+
   return (
     <>
       <ToolButton
         className={classNames(`property-button`)}
         visible={true}
-        icon={
-          currentColor && currentColor !== 'transparent'
-            ? undefined
-            : transparentIcon
-        }
+        icon={icon}
         type="button"
         title={title}
         aria-label={title}
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        {currentColor && currentColor !== 'transparent' && children}
+        {!icon && children}
       </ToolButton>
       {isOpen && (
         <Island
