@@ -14,10 +14,11 @@ import {
 import { ATTACHED_ELEMENT_CLASS_NAME } from '@plait/core';
 import { Island } from '../island';
 import { ColorPicker } from '../color-picker';
+import { isTransparent, isWhite, removeHexAlpha } from '../../utils/color';
+import { StrokeIcon, StrokeWhiteIcon } from '../icons';
 
 export type PopupStrokeButtonProps = {
   currentColor: string | undefined;
-  transparentIcon: ReactNode;
   title: string;
   children?: React.ReactNode;
   onColorSelect: (selectedColor: string) => void;
@@ -25,7 +26,6 @@ export type PopupStrokeButtonProps = {
 
 export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
   currentColor,
-  transparentIcon,
   title,
   children,
   onColorSelect,
@@ -45,23 +45,27 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
 
   const { getReferenceProps } = useInteractions([click, dismiss, role]);
 
+  const hexColor = currentColor && removeHexAlpha(currentColor);
+
+  let icon = isTransparent(hexColor)
+    ? StrokeIcon
+    : isWhite(hexColor)
+    ? StrokeWhiteIcon
+    : undefined;
+
   return (
     <>
       <ToolButton
         className={classNames(`property-button`)}
         visible={true}
-        icon={
-          currentColor && currentColor !== 'transparent'
-            ? undefined
-            : transparentIcon
-        }
+        icon={icon}
         type="button"
         title={title}
         aria-label={title}
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        {currentColor && currentColor !== 'transparent' && children}
+        {!icon && children}
       </ToolButton>
       {isOpen && (
         <Island

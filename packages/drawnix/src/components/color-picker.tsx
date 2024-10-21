@@ -6,28 +6,13 @@ import { splitRows } from '../utils/common';
 import {
   applyOpacityToHex,
   hexAlphaToOpacity,
+  isDefaultStroke,
+  isTransparent,
   removeHexAlpha,
-} from '../utils/transparency';
+} from '../utils/color';
 import React from 'react';
 import { SizeSlider } from './size-slider';
-
-const CLASSIC_COLORS = [
-  { name: 'Transparent', value: 'TRANSPARENT' },
-  { name: 'Black', value: '#000000' },
-  { name: 'White', value: '#FFFFFF' },
-  { name: 'Gray', value: '#808080' },
-  { name: 'Deep Blue', value: '#1E90FF' },
-  { name: 'Red', value: '#FF4500' },
-  { name: 'Green', value: '#2ECC71' },
-  { name: 'Yellow', value: '#FFD700' },
-  { name: 'Purple', value: '#8A2BE2' },
-  { name: 'Orange', value: '#FFA500' },
-  { name: 'Pastel Pink', value: '#FFB3BA' },
-  { name: 'Cyan', value: '#00CED1' },
-  { name: 'Brown', value: '#8B4513' },
-  { name: 'Forest Green', value: '#228B22' },
-  { name: 'Light Gray', value: '#D3D3D3' },
-];
+import { CLASSIC_COLORS, DEFAULT_COLOR, WHITE } from '../constants/color';
 
 const ROWS_CLASSIC_COLORS = splitRows(CLASSIC_COLORS, 4);
 
@@ -65,10 +50,12 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
                     key={color.value}
                     className={`color-select-item ${
                       selectedColor === color.value ? 'active' : ''
-                    } ${color.value === 'TRANSPARENT' ? 'transparent' : ''}`}
+                    } ${isTransparent(color.value) ? 'transparent' : ''}`}
                     style={{
                       backgroundColor: color.value,
-                      color: color.value === '#000000' ? '#FFFFFF' : '#000000',
+                      color: isDefaultStroke(color.value)
+                        ? WHITE
+                        : DEFAULT_COLOR,
                     }}
                     onClick={() => {
                       setSelectedColor(color.value);
@@ -80,7 +67,7 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
                     }}
                     title={color.name}
                   >
-                    {color.value === 'TRANSPARENT' && TransparentIcon}
+                    {isTransparent(color.value) && TransparentIcon}
                     {selectedColor === color.value && Check}
                   </button>
                 );

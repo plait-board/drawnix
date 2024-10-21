@@ -1,3 +1,5 @@
+import { DEFAULT_COLOR, TRANSPARENT, WHITE } from '../constants/color';
+
 // 将 0-100 的透明度转换为 0-255 的整数
 function transparencyToAlpha255(transparency: number) {
   return Math.round(((100 - transparency) / 100) * 255);
@@ -49,4 +51,16 @@ export function removeHexAlpha(hexColor: string) {
   } else {
     return hexColor;
   }
+}
+
+export function isTransparent(color?: string) {
+  return color === TRANSPARENT;
+}
+
+export function isWhite(color?: string) {
+  return color === WHITE;
+}
+
+export function isDefaultStroke(color?: string) {
+  return !color || color === DEFAULT_COLOR;
 }

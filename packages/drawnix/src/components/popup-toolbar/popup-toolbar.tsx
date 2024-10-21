@@ -1,5 +1,5 @@
 import Stack from '../stack';
-import { BackgroundColorIcon, FontColorIcon, StrokeIcon } from '../icons';
+import { FontColorIcon } from '../icons';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
   getSelectedElements,
@@ -38,6 +38,7 @@ import {
 import { PopupFontColorButton } from './font-color-button';
 import { PopupStrokeButton } from './stroke-button';
 import { PopupFillButton } from './fill-button';
+import { isWhite } from '../../utils/color';
 
 export type PopupToolbarProps = {};
 
@@ -165,9 +166,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
             <PopupStrokeButton
               key={1}
               currentColor={state.strokeColor}
-              // currentOpacity={state}
               title={`Stroke`}
-              transparentIcon={StrokeIcon}
               onColorSelect={(selectedColor: string) => {
                 console.log(`selectedColor: ${selectedColor}`);
                 PropertyTransforms.setStrokeColor(board, selectedColor, {
@@ -176,9 +175,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
               }}
             >
               <label
-                className={classNames('stroke-label', 'color-label', {
-                  'color-white': state.fill === '#FFFFFF',
-                })}
+                className={classNames('stroke-label', 'color-label')}
                 style={{ borderColor: state.strokeColor }}
               ></label>
             </PopupStrokeButton>
@@ -187,7 +184,6 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
                 key={2}
                 currentColor={state.fill}
                 title={`Fill Color`}
-                transparentIcon={BackgroundColorIcon}
                 onColorSelect={(selectedColor: string) => {
                   PropertyTransforms.setFillColor(board, selectedColor, {
                     getMemorizeKey,
@@ -216,7 +212,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
               >
                 <label
                   className={classNames('fill-label', 'color-label', {
-                    'color-white': state.fill === '#FFFFFF',
+                    'color-white': isWhite(state.fill),
                   })}
                   style={{ backgroundColor: state.fill }}
                 ></label>
