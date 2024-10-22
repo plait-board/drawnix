@@ -1,6 +1,6 @@
-export const TRANSPARENT = 'TRANSPARENT';
+import { DEFAULT_COLOR } from "@plait/core";
 
-export const DEFAULT_COLOR = '#333333';
+export const TRANSPARENT = 'TRANSPARENT';
 
 export const WHITE = '#FFFFFF';
 

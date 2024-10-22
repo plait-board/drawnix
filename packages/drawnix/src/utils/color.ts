@@ -1,4 +1,5 @@
-import { DEFAULT_COLOR, TRANSPARENT, WHITE } from '../constants/color';
+import { DEFAULT_COLOR } from '@plait/core';
+import { TRANSPARENT, WHITE } from '../constants/color';
 
 // 将 0-100 的透明度转换为 0-255 的整数
 function transparencyToAlpha255(transparency: number) {

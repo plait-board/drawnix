@@ -38,7 +38,7 @@ import {
 import { PopupFontColorButton } from './font-color-button';
 import { PopupStrokeButton } from './stroke-button';
 import { PopupFillButton } from './fill-button';
-import { isWhite } from '../../utils/color';
+import { isWhite, removeHexAlpha } from '../../utils/color';
 
 export type PopupToolbarProps = {};
 
@@ -212,7 +212,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
               >
                 <label
                   className={classNames('fill-label', 'color-label', {
-                    'color-white': isWhite(state.fill),
+                    'color-white': state.fill && isWhite(removeHexAlpha(state.fill)),
                   })}
                   style={{ backgroundColor: state.fill }}
                 ></label>
