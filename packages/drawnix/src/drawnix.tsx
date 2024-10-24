@@ -4,6 +4,7 @@ import {
   PlaitElement,
   PlaitPlugin,
   PlaitPointerType,
+  PlaitTheme,
   Selection,
   ThemeColorMode,
   Viewport,
@@ -23,7 +24,9 @@ import { PopupToolbar } from './components/popup-toolbar/popup-toolbar';
 
 export type DrawnixProps = {
   value: PlaitElement[];
-  onChange?: (value: PlaitElement[]) => void;
+  viewport?: Viewport;
+  theme?: PlaitTheme;
+  onChange?: (value: BoardChangeData) => void;
   onSelectionChange?: (selection: Selection) => void;
   onValueChange?: (value: PlaitElement[]) => void;
   onViewportChange?: (value: Viewport) => void;
@@ -39,7 +42,12 @@ export type DrawnixState = {
   pointer: DrawnixPointerType;
 };
 
-export const Drawnix: React.FC<DrawnixProps> = ({ value, onChange }) => {
+export const Drawnix: React.FC<DrawnixProps> = ({
+  value,
+  viewport,
+  theme,
+  onChange,
+}) => {
   const plugins: PlaitPlugin[] = [
     withDraw,
     withGroup,
@@ -48,7 +56,6 @@ export const Drawnix: React.FC<DrawnixProps> = ({ value, onChange }) => {
     withCommonPlugin,
   ];
   const options: PlaitBoardOptions = {};
-
   const [appState, setAppState] = useState<DrawnixState>(() => {
     // TODO: need to consider how to maintenance the pointer state in future
     return { pointer: PlaitPointerType.hand };
@@ -58,10 +65,12 @@ export const Drawnix: React.FC<DrawnixProps> = ({ value, onChange }) => {
     <div className="drawnix">
       <Wrapper
         value={value}
+        viewport={viewport}
+        theme={theme}
         options={options}
         plugins={plugins}
         onChange={(data: BoardChangeData) => {
-          // console.log(JSON.stringify(data));
+          onChange && onChange(data);
         }}
       >
         <Board></Board>
