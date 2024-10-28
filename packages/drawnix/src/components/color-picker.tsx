@@ -12,7 +12,7 @@ import {
 } from '../utils/color';
 import React from 'react';
 import { SizeSlider } from './size-slider';
-import { CLASSIC_COLORS, WHITE } from '../constants/color';
+import { CLASSIC_COLORS, TRANSPARENT, WHITE } from '../constants/color';
 import { DEFAULT_COLOR } from '@plait/core';
 
 const ROWS_CLASSIC_COLORS = splitRows(CLASSIC_COLORS, 4);
@@ -60,6 +60,10 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
                     }}
                     onClick={() => {
                       setSelectedColor(color.value);
+                      if (color.value === TRANSPARENT) {
+                        onSelect(color.value);
+                        return;
+                      }
                       if (opacity !== 100) {
                         onSelect(applyOpacityToHex(color.value, opacity));
                       } else {

@@ -39,6 +39,7 @@ import { PopupFontColorButton } from './font-color-button';
 import { PopupStrokeButton } from './stroke-button';
 import { PopupFillButton } from './fill-button';
 import { isWhite, removeHexAlpha } from '../../utils/color';
+import { TRANSPARENT } from '../../constants/color';
 
 export type PopupToolbarProps = {};
 
@@ -156,7 +157,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
                 onSelect={(selectedColor: string) => {
                   TextTransforms.setTextColor(
                     board,
-                    selectedColor,
+                    getColorPropertyValue(selectedColor),
                     undefined,
                     getSelectedTableCellsEditor(board)
                   );
@@ -168,10 +169,25 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
               currentColor={state.strokeColor}
               title={`Stroke`}
               onColorSelect={(selectedColor: string) => {
-                console.log(`selectedColor: ${selectedColor}`);
-                PropertyTransforms.setStrokeColor(board, selectedColor, {
-                  getMemorizeKey,
-                });
+                PropertyTransforms.setStrokeColor(
+                  board,
+                  getColorPropertyValue(selectedColor),
+                  {
+                    getMemorizeKey,
+                  }
+                );
+                const selectedElements = getSelectedElements(board);
+
+                if (selectedElements.length) {
+                  selectedElements.forEach((element) => {
+                    const path = PlaitBoard.findPath(board, element);
+                    Transforms.setNode(
+                      board,
+                      { branchColor: getColorPropertyValue(selectedColor) },
+                      path
+                    );
+                  });
+                }
               }}
             >
               <label
@@ -194,14 +210,14 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
                         DrawTransforms.setTableFill(
                           board,
                           element,
-                          selectedColor,
+                          getColorPropertyValue(selectedColor),
                           path
                         );
                       } else {
                         if (isDrawElementClosed(element as PlaitDrawElement)) {
                           Transforms.setNode(
                             board,
-                            { fill: selectedColor },
+                            { fill: getColorPropertyValue(selectedColor) },
                             path
                           );
                         }
@@ -212,7 +228,8 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
               >
                 <label
                   className={classNames('fill-label', 'color-label', {
-                    'color-white': state.fill && isWhite(removeHexAlpha(state.fill)),
+                    'color-white':
+                      state.fill && isWhite(removeHexAlpha(state.fill)),
                   })}
                   style={{ backgroundColor: state.fill }}
                 ></label>
@@ -287,4 +304,12 @@ export const hasTextProperty = (board: PlaitBoard, element: PlaitElement) => {
     return isDrawElementsIncludeText([element]);
   }
   return false;
+};
+
+export const getColorPropertyValue = (color: string) => {
+  if (color === TRANSPARENT) {
+    return null;
+  } else {
+    return color;
+  }
 };
