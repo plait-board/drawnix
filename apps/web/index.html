@@ -1,10 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
-    <title>Drawnix</title>
+    <!-- 基本 SEO Meta 标签 (中文) -->
+    <title>Drawnix - 开源白板工具 | 思维导图 | 流程图</title>
+    <meta name="description" content="Drawnix 是一款强大的开源白板工具（https://github.com/plait-board/drawnix），集成思维导图、流程图等功能。基于 Plait 框架开发，支持插件扩展，提供自动保存、无限画布等特性。Draw Beyond, Rise Above.">
+    <meta name="keywords" content="Drawnix,白板工具,思维导图,流程图,开源白板,在线绘图,协作工具,Plait 框架">
+    <!-- 基本 SEO Meta 标签 (英文) -->
+    <meta name="description" lang="en" content="Drawnix is a powerful open-source whiteboard tool featuring mind mapping and flowchart capabilities. Built on the Plait framework, it offers plugin extensibility, auto-save, infinite canvas, and more. Draw Beyond, Rise Above.">
+    <meta name="keywords" lang="en" content="Drawnix,whiteboard tool,mind mapping,flowchart,open source whiteboard,online drawing,collaboration tool,Plait framework">
+    <!-- Open Graph Meta 标签 (中文) -->
+    <meta property="og:title" content="Drawnix - 开源白板工具 | 思维导图 | 流程图">
+    <meta property="og:description" content="一体化开源白板工具，支持思维导图、流程图，基于 Plait 框架开发">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://drawnix.com">
+    <meta property="og:site_name" content="Drawnix">
+    <!-- Open Graph Meta 标签 (英文) -->
+    <meta property="og:title" lang="en" content="Drawnix - Open Source Whiteboard | Mind Mapping | Flowchart">
+    <meta property="og:description" lang="en" content="An integrated open-source whiteboard tool supporting mind mapping and flowcharts, built on the Plait framework">
+    <!-- Twitter Card Meta 标签 (英文) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Drawnix - Open Source Whiteboard | Mind Mapping | Flowchart">
+    <meta name="twitter:description" content="An integrated open-source whiteboard tool supporting mind mapping and flowcharts, built on the Plait framework">
+    <!-- 其他重要 Meta 标签 -->
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Drawnix Team">
+    <link rel="canonical" href="https://drawnix.com">
+    <!-- 语言替代链接 -->
+    <link rel="alternate" hreflang="zh-CN" href="https://drawnix.com">
+    <!-- <link rel="alternate" hreflang="en" href="https://drawnix.com/en"> -->
+    <link rel="alternate" hreflang="x-default" href="https://drawnix.com">
+    <!-- 结构化数据 (JSON-LD) - 中英双语 -->
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "Drawnix",
+          "description": {
+            "@language": "zh-CN",
+            "@value": "开源白板工具，包含思维导图、流程图等功能。基于 Plait 框架开发，支持插件扩展机制。"
+          },
+          "alternateName": {
+            "@language": "en",
+            "@value": "Open Source Whiteboard Tool with Mind Mapping and Flowchart capabilities"
+          },
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            {
+              "@language": "zh-CN",
+              "@value": ["思维导图", "流程图", "插件机制", "自动保存", "无限画布", "多种格式导出"]
+            },
+            {
+              "@language": "en",
+              "@value": ["Mind Mapping", "Flowchart", "Plugin System", "Auto Save", "Infinite Canvas", "Multiple Export Formats"]
+            }
+          ],
+          "softwareVersion": "1.0",
+          "license": "https://github.com/plait-board/drawnix/blob/master/LICENSE"
+        }
+    </script>
     <base href="/" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/src/styles.scss" />
