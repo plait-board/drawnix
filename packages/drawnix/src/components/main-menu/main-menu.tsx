@@ -5,6 +5,7 @@ import DropdownMenu from '../dropdown-menu/DropdownMenu';
 import { MenuIcon } from '../icons';
 import { composeEventHandlers } from '../../utils/common';
 import { OpenFile, SaveAsImage, SaveToFile, Socials } from './default-items';
+import { Island } from '../island';
 
 type MainMenuProps = {
   children?: React.ReactNode;
@@ -17,14 +18,14 @@ type MainMenuProps = {
 export const MainMenu: React.FC<MainMenuProps> = ({ onSelect, children }) => {
   const [mainMenuOpen, setMainMenuOpen] = useState(false);
   return (
-    <div className={classNames('main-menu', ATTACHED_ELEMENT_CLASS_NAME)}>
+    <Island className={classNames('main-menu', ATTACHED_ELEMENT_CLASS_NAME)}>
       <DropdownMenu open={mainMenuOpen}>
         <DropdownMenu.Trigger
           onToggle={() => {
             setMainMenuOpen(!mainMenuOpen);
           }}
           data-testid="main-menu-trigger"
-          className="main-menu-trigger"
+          className={classNames("main-menu-trigger", { 'active': mainMenuOpen })}
         >
           {MenuIcon}
         </DropdownMenu.Trigger>
@@ -43,6 +44,6 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onSelect, children }) => {
           <Socials />
         </DropdownMenu.Content>
       </DropdownMenu>
-    </div>
+    </Island>
   );
 };

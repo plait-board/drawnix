@@ -5,7 +5,8 @@
     position: absolute;
     top: 100%;
     margin-top: 0.25rem;
-
+  }
+  .dropdown-menu, .menu {
     &--mobile {
       left: 0;
       width: 100%;
@@ -132,25 +133,11 @@
     width: var(--lg-button-size);
     height: var(--lg-button-size);
 
-    --background: var(--color-surface-mid);
-
-    background-color: var(--background);
-
     @at-root .drawnix.theme--dark#{&} {
       --background: var(--color-surface-high);
       &:hover {
         --background: #363541;
       }
-    }
-
-    &:hover {
-      --background: var(--color-surface-primary-container);
-      background-color: var(--background);
-      text-decoration: none;
-    }
-
-    &:active {
-      border-color: var(--color-primary);
     }
 
     svg {
@@ -165,9 +152,5 @@
       width: var(--default-button-size);
       height: var(--default-button-size);
     }
-  }
-
-  .main-menu-trigger {
-    @include filledButtonOnCanvas;
   }
 }

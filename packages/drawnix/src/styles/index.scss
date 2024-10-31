@@ -16,6 +16,7 @@
         position: absolute;
         top: 40px;
         left: 36px;
+        border-radius: var(--border-radius-lg);
     }
     .zoom-toolbar {
         cursor: default;
@@ -27,22 +28,19 @@
             border-top-right-radius: 0 !important;
             border-bottom-right-radius: 0 !important;
         }
-        .zoom-out-button,.zoom-in-button, .zoom-reset-button {
-            background-color: var(--color-surface-low);
-            .tool-icon__icon:hover, .tool-icon__icon:active {
-                color: var(--icon-fill-color);
-                svg {
-                    color: var(--icon-fill-color);
-                }
-            }
-        }
-        .zoom-reset-button {
+        .zoom-menu-trigger {
             width: 56px;;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--color-on-surface);
+            border-radius: var(--border-radius-sm);;
             cursor: pointer;
+
+            &:hover, &.active {
+                --background: var(--color-surface-primary-container);
+                background-color: var(--background);
+            }
         }
         .zoom-in-button{
             color: var(--color-on-surface);
