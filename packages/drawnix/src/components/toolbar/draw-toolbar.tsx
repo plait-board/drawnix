@@ -21,10 +21,10 @@ import { MindPointerType } from '@plait/mind';
 import { DrawnixPointerType } from '../../drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { ArrowLineShape, BasicShapes, DrawPointerType } from '@plait/draw';
-import * as Popover from '@radix-ui/react-popover';
 import { ShapePanel } from './shape-panel';
 import { ArrowPanel } from './arrow-panel';
 import { useState } from 'react';
+import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -131,14 +131,15 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
         {BUTTONS.map((button, index) => {
           if (button.popupKey === PopupKey.shape) {
             return (
-              <Popover.Root
+              <Popover
                 key={index}
                 open={shapeOpen}
+                sideOffset={12}
                 onOpenChange={(open) => {
                   setShapeOpen(open);
                 }}
               >
-                <Popover.Trigger asChild>
+                <PopoverTrigger asChild>
                   <ToolButton
                     type="icon"
                     visible={true}
@@ -151,6 +152,7 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
                     title={`Shape`}
                     aria-label={`Shape`}
                     onPointerDown={() => {
+                      setShapeOpen(!shapeOpen);
                       BoardTransforms.updatePointerType(
                         board,
                         BasicShapes.rectangle
@@ -159,38 +161,38 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
                       setCreationMode(board, BoardCreationMode.drawing);
                     }}
                   />
-                </Popover.Trigger>
-                <Popover.Portal container={container}>
-                  <Popover.Content sideOffset={12}>
-                    <ShapePanel
-                      onPointerUp={(pointer: DrawPointerType) => {
-                        setShapeOpen(false);
-                        setPointer(pointer);
-                      }}
-                    ></ShapePanel>
-                  </Popover.Content>
-                </Popover.Portal>
-              </Popover.Root>
+                </PopoverTrigger>
+                <PopoverContent container={container}>
+                  <ShapePanel
+                    onPointerUp={(pointer: DrawPointerType) => {
+                      setShapeOpen(false);
+                      setPointer(pointer);
+                    }}
+                  ></ShapePanel>
+                </PopoverContent>
+              </Popover>
             );
           }
           if (button.popupKey === PopupKey.arrow) {
             return (
-              <Popover.Root
+              <Popover
                 key={index}
                 open={arrowOpen}
+                sideOffset={12}
                 onOpenChange={(open) => {
                   setArrowOpen(open);
                 }}
               >
-                <Popover.Trigger asChild>
+                <PopoverTrigger asChild>
                   <ToolButton
                     type="icon"
                     visible={true}
                     selected={arrowOpen || isArrowLinePointer(board)}
                     icon={button.icon}
-                    title={`Shape`}
-                    aria-label={`Shape`}
+                    title={`Arrow`}
+                    aria-label={`Arrow`}
                     onPointerDown={() => {
+                      setArrowOpen(!shapeOpen);
                       BoardTransforms.updatePointerType(
                         board,
                         ArrowLineShape.straight
@@ -199,18 +201,16 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
                       setCreationMode(board, BoardCreationMode.drawing);
                     }}
                   />
-                </Popover.Trigger>
-                <Popover.Portal container={container}>
-                  <Popover.Content sideOffset={12}>
-                    <ArrowPanel
-                      onPointerUp={(pointer: DrawPointerType) => {
-                        setArrowOpen(false);
-                        setPointer(pointer);
-                      }}
-                    ></ArrowPanel>
-                  </Popover.Content>
-                </Popover.Portal>
-              </Popover.Root>
+                </PopoverTrigger>
+                <PopoverContent container={container}>
+                  <ArrowPanel
+                    onPointerUp={(pointer: DrawPointerType) => {
+                      setArrowOpen(false);
+                      setPointer(pointer);
+                    }}
+                  ></ArrowPanel>
+                </PopoverContent>
+              </Popover>
             );
           }
           return (

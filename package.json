@@ -16,7 +16,6 @@
     "@plait/layouts": "^0.68.0",
     "@plait/mind": "^0.68.0",
     "@plait/text-plugins": "^0.68.0",
-    "@radix-ui/react-popover": "^1.0.3",
     "ahooks": "^3.8.0",
     "browser-fs-access": "^0.35.0",
     "classnames": "^2.5.1",
