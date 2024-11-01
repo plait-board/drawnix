@@ -13,7 +13,7 @@ type Props<T> = {
   name: string;
 };
 
-const DropdownMenuItemContentRadio = <T,>({
+const MenuItemContentRadio = <T,>({
   value,
   shortcut,
   onChange,
@@ -23,8 +23,8 @@ const DropdownMenuItemContentRadio = <T,>({
 }: Props<T>) => {
   return (
     <>
-      <div className="dropdown-menu-item-base dropdown-menu-item-bare">
-        <label className="dropdown-menu-item__text" htmlFor={name}>
+      <div className="menu-item-base menu-item-bare">
+        <label className="menu-item__text" htmlFor={name}>
           {children}
         </label>
         <RadioGroup
@@ -35,7 +35,7 @@ const DropdownMenuItemContentRadio = <T,>({
         />
       </div>
       {shortcut && (
-        <div className="dropdown-menu-item__shortcut dropdown-menu-item__shortcut--orphaned">
+        <div className="menu-item__shortcut menu-item__shortcut--orphaned">
           {shortcut}
         </div>
       )}
@@ -43,6 +43,6 @@ const DropdownMenuItemContentRadio = <T,>({
   );
 };
 
-DropdownMenuItemContentRadio.displayName = 'DropdownMenuItemContentRadio';
+MenuItemContentRadio.displayName = 'MenuItemContentRadio';
 
-export default DropdownMenuItemContentRadio;
+export default MenuItemContentRadio;

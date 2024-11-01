@@ -3,38 +3,33 @@ import {
   GithubIcon,
   OpenFileIcon,
   SaveFileIcon,
-} from '../icons';
-import DropdownMenuItem from '../dropdown-menu/DropdownMenuItem';
-import DropdownMenuItemLink from '../dropdown-menu/DropdownMenuItemLink';
-
-import './default-items.scss';
+} from '../../icons';
 import { useBoard, useListRender } from '@plait/react-board';
 import {
   BoardTransforms,
   getSelectedElements,
-  initializeViewBox,
-  initializeViewportContainer,
   PlaitBoard,
   PlaitElement,
   PlaitTheme,
   ThemeColorMode,
-  updateViewportOffset,
   Viewport,
 } from '@plait/core';
-import { base64ToBlob, boardToImage, download } from '../../utils/common';
-import { loadFromJSON, saveAsJSON } from '../../data/json';
+import { base64ToBlob, boardToImage, download } from '../../../utils/common';
+import { loadFromJSON, saveAsJSON } from '../../../data/json';
+import MenuItem from '../../menu/menu-item';
+import MenuItemLink from '../../menu/menu-item-link';
 
 export const SaveToFile = () => {
   const board = useBoard();
   return (
-    <DropdownMenuItem
+    <MenuItem
       data-testid="save-button"
       onSelect={() => {
         saveAsJSON(board);
       }}
       icon={SaveFileIcon}
       aria-label={`${`保存文件`}`}
-    >{`保存文件`}</DropdownMenuItem>
+    >{`保存文件`}</MenuItem>
   );
 };
 SaveToFile.displayName = 'SaveToFile';
@@ -58,7 +53,7 @@ export const OpenFile = () => {
     BoardTransforms.fitViewport(board);
   };
   return (
-    <DropdownMenuItem
+    <MenuItem
       data-testid="open-button"
       onSelect={() => {
         loadFromJSON(board).then((data) => {
@@ -67,7 +62,7 @@ export const OpenFile = () => {
       }}
       icon={OpenFileIcon}
       aria-label={`${`打开`}`}
-    >{`打开`}</DropdownMenuItem>
+    >{`打开`}</MenuItem>
   );
 };
 OpenFile.displayName = 'OpenFile';
@@ -75,7 +70,7 @@ OpenFile.displayName = 'OpenFile';
 export const SaveAsImage = () => {
   const board = useBoard();
   return (
-    <DropdownMenuItem
+    <MenuItem
       icon={ExportImageIcon}
       data-testid="image-export-button"
       onSelect={() => {
@@ -94,7 +89,7 @@ export const SaveAsImage = () => {
       aria-label={''}
     >
       {'导出图片'}
-    </DropdownMenuItem>
+    </MenuItem>
   );
 };
 SaveAsImage.displayName = 'SaveAsImage';
@@ -102,13 +97,13 @@ SaveAsImage.displayName = 'SaveAsImage';
 export const Socials = () => {
   return (
     <>
-      <DropdownMenuItemLink
+      <MenuItemLink
         icon={GithubIcon}
         href="https://github.com/plait-board/drawnix"
         aria-label="GitHub"
       >
         GitHub
-      </DropdownMenuItemLink>
+      </MenuItemLink>
     </>
   );
 };

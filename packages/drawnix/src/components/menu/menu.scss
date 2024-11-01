@@ -1,18 +1,13 @@
 @import "../../styles/variables.module.scss";
 
 .drawnix {
-  .dropdown-menu {
-    position: absolute;
-    top: 100%;
-    margin-top: 0.25rem;
-  }
-  .dropdown-menu, .menu {
+  .menu {
     &--mobile {
       left: 0;
       width: 100%;
       row-gap: 0.75rem;
 
-      .dropdown-menu-container {
+      .menu-container {
         padding: 8px 8px;
         box-sizing: border-box;
         box-shadow: var(--shadow-island);
@@ -26,14 +21,14 @@
       }
     }
 
-    .dropdown-menu-container {
+    .menu-container {
       background-color: var(--island-bg-color);
       max-height: calc(100vh - 150px);
       overflow-y: auto;
       --gap: 2;
     }
 
-    .dropdown-menu-item-base {
+    .menu-item-base {
       display: flex;
       padding: 0 0.625rem;
       column-gap: 0.625rem;
@@ -45,7 +40,7 @@
       font-family: inherit;
     }
 
-    .dropdown-menu-item {
+    .menu-item {
       background-color: transparent;
       border: 1px solid transparent;
       align-items: center;
@@ -100,7 +95,7 @@
       }
     }
 
-    .dropdown-menu-item-bare {
+    .menu-item-bare {
       align-items: center;
       height: 2rem;
       justify-content: space-between;
@@ -116,11 +111,11 @@
       }
     }
 
-    .dropdown-menu-item-custom {
+    .menu-item-custom {
       margin-top: 0.5rem;
     }
 
-    .dropdown-menu-group-title {
+    .menu-group-title {
       font-size: 14px;
       text-align: left;
       margin: 10px 0;
@@ -128,7 +123,7 @@
     }
   }
 
-  .dropdown-menu-button {
+  .menu-button {
     @include outlineButtonStyles;
     width: var(--lg-button-size);
     height: var(--lg-button-size);

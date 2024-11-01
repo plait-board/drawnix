@@ -11,10 +11,10 @@ const MenuItemContent = ({
 }) => {
   return (
     <>
-      {icon && <div className="dropdown-menu-item__icon">{icon}</div>}
-      <div className="dropdown-menu-item__text">{children}</div>
+      {icon && <div className="menu-item__icon">{icon}</div>}
+      <div className="menu-item__text">{children}</div>
       {shortcut && (
-        <div className="dropdown-menu-item__shortcut">{shortcut}</div>
+        <div className="menu-item__shortcut">{shortcut}</div>
       )}
     </>
   );

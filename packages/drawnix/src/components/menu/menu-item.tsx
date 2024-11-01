@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-  getDropdownMenuItemClassName,
-  useHandleDropdownMenuItemClick,
+  getMenuItemClassName,
+  useHandleMenuItemClick,
 } from './common';
-import MenuItemContent from './DropdownMenuItemContent';
+import MenuItemContent from './menu-item-content';
 
-const DropdownMenuItem = ({
+const MenuItem = ({
   icon,
   onSelect,
   children,
@@ -21,14 +21,14 @@ const DropdownMenuItem = ({
   selected?: boolean;
   className?: string;
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onSelect'>) => {
-  const handleClick = useHandleDropdownMenuItemClick(rest.onClick, onSelect);
+  const handleClick = useHandleMenuItemClick(rest.onClick, onSelect);
 
   return (
     <button
       {...rest}
       onClick={handleClick}
       type="button"
-      className={getDropdownMenuItemClassName(className, selected)}
+      className={getMenuItemClassName(className, selected)}
       title={rest.title ?? rest['aria-label']}
     >
       <MenuItemContent icon={icon} shortcut={shortcut}>
@@ -37,7 +37,7 @@ const DropdownMenuItem = ({
     </button>
   );
 };
-DropdownMenuItem.displayName = 'DropdownMenuItem';
+MenuItem.displayName = 'MenuItem';
 
 export const DropDownMenuItemBadge = ({
   children,
@@ -61,8 +61,8 @@ export const DropDownMenuItemBadge = ({
     </div>
   );
 };
-DropDownMenuItemBadge.displayName = 'DropdownMenuItemBadge';
+DropDownMenuItemBadge.displayName = 'MenuItemBadge';
 
-DropdownMenuItem.Badge = DropDownMenuItemBadge;
+MenuItem.Badge = DropDownMenuItemBadge;
 
-export default DropdownMenuItem;
+export default MenuItem;

@@ -10,8 +10,9 @@ import {
 } from '@plait/core';
 import { Island } from '../island';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
-import DropdownMenuItem from '../dropdown-menu/DropdownMenuItem';
 import { useState } from 'react';
+import Menu from '../menu/menu';
+import MenuItem from '../menu/menu-item';
 
 export const ZoomToolbar: React.FC<{}> = () => {
   const board = useBoard();
@@ -22,7 +23,7 @@ export const ZoomToolbar: React.FC<{}> = () => {
       padding={1}
       className={classNames('zoom-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
     >
-      <Stack.Row>
+      <Stack.Row gap={1}>
         <ToolButton
           key={0}
           type="button"
@@ -60,30 +61,28 @@ export const ZoomToolbar: React.FC<{}> = () => {
             </div>
           </PopoverTrigger>
           <PopoverContent container={container}>
-            <Island
-              className="menu dropdown-menu-container custom-zoom-menu"
-              padding={2}
-              style={{ zIndex: 2, with: '160px' }}
+            <Menu
+              onSelect={() => {
+                setZoomMenuOpen(false);
+              }}
             >
-              <DropdownMenuItem
+              <MenuItem
                 data-testid="open-button"
                 onSelect={() => {
                   BoardTransforms.fitViewport(board);
-                  setZoomMenuOpen(false);
                 }}
                 aria-label={`${`自适应缩放`}`}
                 shortcut={`Cmd+Shift+=`}
-              >{`自适应缩放`}</DropdownMenuItem>
-              <DropdownMenuItem
+              >{`自适应缩放`}</MenuItem>
+              <MenuItem
                 data-testid="open-button"
                 onSelect={() => {
                   BoardTransforms.updateZoom(board, 1);
-                  setZoomMenuOpen(false);
                 }}
                 aria-label={`${`缩放至 100%`}`}
                 shortcut={`Cmd+0`}
-              >{`缩放至 100%`}</DropdownMenuItem>
-            </Island>
+              >{`缩放至 100%`}</MenuItem>
+            </Menu>
           </PopoverContent>
         </Popover>
         <ToolButton

@@ -9,4 +9,4 @@ const MenuSeparator = () => (
 );
 
 export default MenuSeparator;
-MenuSeparator.displayName = 'DropdownMenuSeparator';
+MenuSeparator.displayName = 'MenuSeparator';

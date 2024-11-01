@@ -18,9 +18,10 @@ import { withCommonPlugin } from './plugins/with-common';
 import { CreationToolbar } from './components/toolbar/creation-toolbar';
 
 import './styles/index.scss';
-import { MainMenu } from './components/main-menu/main-menu';
+import { MainMenu } from './components/app-menu/main-menu';
 import { ZoomToolbar } from './components/toolbar/zoom-toolbar';
 import { PopupToolbar } from './components/toolbar/popup-toolbar/popup-toolbar';
+import { AppToolbar } from './components/toolbar/app-toolbar/app-toolbar';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -74,7 +75,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
         }}
       >
         <Board></Board>
-        <MainMenu></MainMenu>
+        <AppToolbar></AppToolbar>
         <CreationToolbar
           setPointer={(pointer: DrawnixPointerType) => {
             setAppState({ pointer });

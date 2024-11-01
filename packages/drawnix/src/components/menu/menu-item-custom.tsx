@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DropdownMenuItemCustom = ({
+const MenuItemCustom = ({
   children,
   className = '',
   selected,
@@ -13,8 +13,8 @@ const DropdownMenuItemCustom = ({
   return (
     <div
       {...rest}
-      className={`dropdown-menu-item-base dropdown-menu-item-custom ${className} ${
-        selected ? `dropdown-menu-item--selected` : ``
+      className={`menu-item-base menu-item-custom ${className} ${
+        selected ? `menu-item--selected` : ``
       }`.trim()}
     >
       {children}
@@ -22,4 +22,4 @@ const DropdownMenuItemCustom = ({
   );
 };
 
-export default DropdownMenuItemCustom;
+export default MenuItemCustom;

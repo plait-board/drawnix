@@ -12,12 +12,6 @@
         left: 50%;
         transform: translateX(-50%);
     }
-    .main-menu {
-        position: absolute;
-        top: 40px;
-        left: 36px;
-        border-radius: var(--border-radius-lg);
-    }
     .zoom-toolbar {
         cursor: default;
         position: absolute;
@@ -47,6 +41,11 @@
             border-top-left-radius: 0 !important;
             border-bottom-left-radius: 0 !important;
         }
+    }
+    .app-toolbar {
+        position: absolute;
+        top: 40px;
+        left: 36px;
     }
 
     .drawnix-link, a {

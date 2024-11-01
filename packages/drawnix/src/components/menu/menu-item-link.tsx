@@ -1,11 +1,8 @@
-import MenuItemContent from './DropdownMenuItemContent';
 import React from 'react';
-import {
-  getDropdownMenuItemClassName,
-  useHandleDropdownMenuItemClick,
-} from './common';
+import { getMenuItemClassName, useHandleMenuItemClick } from './common';
+import MenuItemContent from './menu-item-content';
 
-const DropdownMenuItemLink = ({
+const MenuItemLink = ({
   icon,
   shortcut,
   href,
@@ -23,7 +20,7 @@ const DropdownMenuItemLink = ({
   selected?: boolean;
   onSelect?: (event: Event) => void;
 } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
-  const handleClick = useHandleDropdownMenuItemClick(rest.onClick, onSelect);
+  const handleClick = useHandleMenuItemClick(rest.onClick, onSelect);
 
   return (
     <a
@@ -31,7 +28,7 @@ const DropdownMenuItemLink = ({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className={getDropdownMenuItemClassName(className, selected)}
+      className={getMenuItemClassName(className, selected)}
       title={rest.title ?? rest['aria-label']}
       onClick={handleClick}
     >
@@ -42,5 +39,5 @@ const DropdownMenuItemLink = ({
   );
 };
 
-export default DropdownMenuItemLink;
-DropdownMenuItemLink.displayName = 'DropdownMenuItemLink';
+export default MenuItemLink;
+MenuItemLink.displayName = 'MenuItemLink';
