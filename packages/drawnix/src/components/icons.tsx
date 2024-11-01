@@ -389,3 +389,29 @@ export const FontColorIcon: React.FC<{ currentColor?: string }> = ({
     </svg>
   );
 };
+
+export const UndoIcon = createIcon(
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="none" fill="currentColor">
+      <g id="undo-cion" transform="translate(1 1)">
+        <path
+          d="M3.84 5.825a.6.6 0 0 1 .063.774l-.064.075a.6.6 0 0 1-.774.063l-.074-.063L.176 3.859a.6.6 0 0 1-.064-.775l.064-.074L3.01.176a.6.6 0 0 1 .912.774l-.063.074-1.795 1.794h6.851a5.1 5.1 0 0 1 .216 10.196l-.216.004h-4a.6.6 0 0 1-.097-1.192l.097-.008h4a3.9 3.9 0 0 0 .201-7.795l-.2-.005H2.033l1.805 1.807z"
+          id="undo-icon-path"
+        ></path>
+      </g>
+    </g>
+  </svg>
+);
+
+export const RedoIcon = createIcon(
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="none" fill="currentColor">
+      <g id="redo-cion" transform="matrix(-1 0 0 1 15.015 1)">
+        <path
+          d="M3.84 5.825a.6.6 0 0 1 .063.774l-.064.075a.6.6 0 0 1-.774.063l-.074-.063L.176 3.859a.6.6 0 0 1-.064-.775l.064-.074L3.01.176a.6.6 0 0 1 .912.774l-.063.074-1.795 1.794h6.851a5.1 5.1 0 0 1 .216 10.196l-.216.004h-4a.6.6 0 0 1-.097-1.192l.097-.008h4a3.9 3.9 0 0 0 .201-7.795l-.2-.005H2.033l1.805 1.807z"
+          id="redo-icon-path"
+        ></path>
+      </g>
+    </g>
+  </svg>
+);

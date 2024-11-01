@@ -1,7 +1,7 @@
 import { useBoard } from '@plait/react-board';
 import Stack from '../../stack';
 import { ToolButton } from '../../tool-button';
-import { MenuIcon } from '../../icons';
+import { MenuIcon, RedoIcon, UndoIcon } from '../../icons';
 import classNames from 'classnames';
 import { ATTACHED_ELEMENT_CLASS_NAME, PlaitBoard } from '@plait/core';
 import { Island } from '../../island';
@@ -15,13 +15,16 @@ export const AppToolbar: React.FC<{}> = () => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
   const [appMenuOpen, setAppMenuOpen] = useState(false);
+  const isUndoDisabled = board.history.undos.length <= 0;
+  const isRedoDisabled = board.history.redos.length <= 0;
   return (
     <Island
       padding={1}
       className={classNames('app-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
     >
-      <Stack.Row>
+      <Stack.Row gap={1}>
         <Popover
+          key={0}
           sideOffset={12}
           open={appMenuOpen}
           onOpenChange={(open) => {
@@ -56,6 +59,30 @@ export const AppToolbar: React.FC<{}> = () => {
             </Menu>
           </PopoverContent>
         </Popover>
+        <ToolButton
+          key={1}
+          type="icon"
+          icon={UndoIcon}
+          visible={true}
+          title={`Undo`}
+          aria-label={`Undo`}
+          onPointerUp={() => {
+            board.undo();
+          }}
+          disabled={isUndoDisabled}
+        />
+        <ToolButton
+          key={2}
+          type="icon"
+          icon={RedoIcon}
+          visible={true}
+          title={`Redo`}
+          aria-label={`Redo`}
+          onPointerUp={() => {
+            board.redo();
+          }}
+          disabled={isRedoDisabled}
+        />
       </Stack.Row>
     </Island>
   );
