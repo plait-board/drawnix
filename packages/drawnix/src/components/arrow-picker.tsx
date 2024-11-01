@@ -1,8 +1,8 @@
 import classNames from 'classnames';
-import { Island } from '../island';
-import Stack from '../stack';
-import { ToolButton } from '../tool-button';
-import { StraightArrowIcon, ElbowArrowIcon, CurveArrowIcon } from '../icons';
+import { Island } from './island';
+import Stack from './stack';
+import { ToolButton } from './tool-button';
+import { StraightArrowIcon, ElbowArrowIcon, CurveArrowIcon } from './icons';
 import { useBoard } from '@plait/react-board';
 import { BoardTransforms } from '@plait/core';
 import React from 'react';
@@ -33,11 +33,11 @@ const ARROWS: ArrowProps[] = [
   },
 ];
 
-export type ArrowPanelProps = {
+export type ArrowPickerProps = {
   onPointerUp: (pointer: DrawPointerType) => void;
 };
 
-export const ArrowPanel: React.FC<ArrowPanelProps> = ({ onPointerUp }) => {
+export const ArrowPicker: React.FC<ArrowPickerProps> = ({ onPointerUp }) => {
   const board = useBoard();
   return (
     <Island padding={1}>

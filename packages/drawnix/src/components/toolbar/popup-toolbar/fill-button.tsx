@@ -1,5 +1,5 @@
-import React, { ReactNode, useState } from 'react';
-import { ToolButton } from '../tool-button';
+import React, { useState } from 'react';
+import { ToolButton } from '../../tool-button';
 import classNames from 'classnames';
 import {
   autoUpdate,
@@ -12,10 +12,10 @@ import {
   useRole,
 } from '@floating-ui/react';
 import { ATTACHED_ELEMENT_CLASS_NAME } from '@plait/core';
-import { Island } from '../island';
-import { ColorPicker } from '../color-picker';
-import { isTransparent, removeHexAlpha } from '../../utils/color';
-import { BackgroundColorIcon } from '../icons';
+import { Island } from '../../island';
+import { ColorPicker } from '../../color-picker';
+import { isTransparent, removeHexAlpha } from '../../../utils/color';
+import { BackgroundColorIcon } from '../../icons';
 
 export type PopupFillButtonProps = {
   currentColor: string | undefined;

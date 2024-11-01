@@ -1,5 +1,5 @@
-import React, { ReactNode, useState } from 'react';
-import { ToolButton } from '../tool-button';
+import React, { useState } from 'react';
+import { ToolButton } from '../../tool-button';
 import classNames from 'classnames';
 import {
   autoUpdate,
@@ -12,10 +12,10 @@ import {
   useRole,
 } from '@floating-ui/react';
 import { ATTACHED_ELEMENT_CLASS_NAME } from '@plait/core';
-import { Island } from '../island';
-import { ColorPicker } from '../color-picker';
-import { isTransparent, isWhite, removeHexAlpha } from '../../utils/color';
-import { StrokeIcon, StrokeWhiteIcon } from '../icons';
+import { Island } from '../../island';
+import { ColorPicker } from '../../color-picker';
+import { isTransparent, isWhite, removeHexAlpha } from '../../../utils/color';
+import { StrokeIcon, StrokeWhiteIcon } from '../../icons';
 
 export type PopupStrokeButtonProps = {
   currentColor: string | undefined;

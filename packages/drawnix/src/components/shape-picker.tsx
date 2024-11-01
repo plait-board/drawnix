@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import { Island } from '../island';
-import Stack from '../stack';
-import { ToolButton } from '../tool-button';
+import { Island } from './island';
+import Stack from './stack';
+import { ToolButton } from './tool-button';
 import {
   RectangleIcon,
   EllipseIcon,
@@ -9,13 +9,13 @@ import {
   DiamondIcon,
   ParallelogramIcon,
   RoundRectangleIcon,
-} from '../icons';
+} from './icons';
 import { BoardTransforms } from '@plait/core';
 import React from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { BasicShapes, DrawPointerType } from '@plait/draw';
 import { useBoard } from '@plait/react-board';
-import { splitRows } from '../../utils/common';
+import { splitRows } from '../utils/common';
 
 export interface ShapeProps {
   icon: React.ReactNode;
@@ -58,11 +58,11 @@ const SHAPES: ShapeProps[] = [
 
 const ROW_SHAPES = splitRows(SHAPES, 5);
 
-export type ShapePanelProps = {
+export type ShapePickerProps = {
   onPointerUp: (pointer: DrawPointerType) => void;
 };
 
-export const ShapePanel: React.FC<ShapePanelProps> = ({
+export const ShapePicker: React.FC<ShapePickerProps> = ({
   onPointerUp,
 }) => {
   const board = useBoard();

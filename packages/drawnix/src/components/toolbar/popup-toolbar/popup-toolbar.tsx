@@ -1,5 +1,5 @@
-import Stack from '../stack';
-import { FontColorIcon } from '../icons';
+import Stack from '../../stack';
+import { FontColorIcon } from '../../icons';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
   getSelectedElements,
@@ -16,7 +16,7 @@ import {
 import React, { useEffect, useRef, useState } from 'react';
 import { useBoard } from '@plait/react-board';
 import { flip, offset, useFloating } from '@floating-ui/react';
-import { Island } from '../island';
+import { Island } from '../../island';
 import classNames from 'classnames';
 import { getStrokeByMindElement, MindElement } from '@plait/mind';
 import './popup-toolbar.scss';
@@ -38,8 +38,8 @@ import {
 import { PopupFontColorButton } from './font-color-button';
 import { PopupStrokeButton } from './stroke-button';
 import { PopupFillButton } from './fill-button';
-import { isWhite, removeHexAlpha } from '../../utils/color';
-import { TRANSPARENT } from '../../constants/color';
+import { isWhite, removeHexAlpha } from '../../../utils/color';
+import { TRANSPARENT } from '../../../constants/color';
 
 export type PopupToolbarProps = {};
 

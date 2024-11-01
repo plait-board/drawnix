@@ -21,8 +21,8 @@ import { MindPointerType } from '@plait/mind';
 import { DrawnixPointerType } from '../../drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { ArrowLineShape, BasicShapes, DrawPointerType } from '@plait/draw';
-import { ShapePanel } from './shape-panel';
-import { ArrowPanel } from './arrow-panel';
+import { ShapePicker } from '../shape-picker';
+import { ArrowPicker } from '../arrow-picker';
 import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
 
@@ -80,7 +80,7 @@ export const BUTTONS: AppToolButtonProps[] = [
   },
 ];
 
-export type DrawToolbarProps = {
+export type CreationToolbarProps = {
   setPointer: (pointer: DrawnixPointerType) => void;
 };
 
@@ -93,7 +93,7 @@ export const isShapePointer = (board: PlaitBoard) => {
   return Object.keys(BasicShapes).includes(board.pointer);
 };
 
-export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
+export const CreationToolbar: React.FC<CreationToolbarProps> = ({ setPointer }) => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
 
@@ -163,12 +163,12 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
                   />
                 </PopoverTrigger>
                 <PopoverContent container={container}>
-                  <ShapePanel
+                  <ShapePicker
                     onPointerUp={(pointer: DrawPointerType) => {
                       setShapeOpen(false);
                       setPointer(pointer);
                     }}
-                  ></ShapePanel>
+                  ></ShapePicker>
                 </PopoverContent>
               </Popover>
             );
@@ -203,12 +203,12 @@ export const DrawToolbar: React.FC<DrawToolbarProps> = ({ setPointer }) => {
                   />
                 </PopoverTrigger>
                 <PopoverContent container={container}>
-                  <ArrowPanel
+                  <ArrowPicker
                     onPointerUp={(pointer: DrawPointerType) => {
                       setArrowOpen(false);
                       setPointer(pointer);
                     }}
-                  ></ArrowPanel>
+                  ></ArrowPicker>
                 </PopoverContent>
               </Popover>
             );

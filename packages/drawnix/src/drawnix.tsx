@@ -15,12 +15,12 @@ import { DrawPointerType, withDraw } from '@plait/draw';
 import { MindPointerType, withMind } from '@plait/mind';
 import { withMindExtend } from './plugins/with-mind-extend';
 import { withCommonPlugin } from './plugins/with-common';
-import { DrawToolbar } from './components/toolbar/draw-toolbar';
+import { CreationToolbar } from './components/toolbar/creation-toolbar';
 
 import './styles/index.scss';
 import { MainMenu } from './components/main-menu/main-menu';
 import { ZoomToolbar } from './components/toolbar/zoom-toolbar';
-import { PopupToolbar } from './components/popup-toolbar/popup-toolbar';
+import { PopupToolbar } from './components/toolbar/popup-toolbar/popup-toolbar';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -75,11 +75,11 @@ export const Drawnix: React.FC<DrawnixProps> = ({
       >
         <Board></Board>
         <MainMenu></MainMenu>
-        <DrawToolbar
+        <CreationToolbar
           setPointer={(pointer: DrawnixPointerType) => {
             setAppState({ pointer });
           }}
-        ></DrawToolbar>
+        ></CreationToolbar>
         <ZoomToolbar></ZoomToolbar>
         <PopupToolbar></PopupToolbar>
       </Wrapper>
