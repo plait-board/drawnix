@@ -19,6 +19,7 @@
     "ahooks": "^3.8.0",
     "browser-fs-access": "^0.35.0",
     "classnames": "^2.5.1",
+    "mobile-detect": "^1.4.5",
     "open-color": "^1.9.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",

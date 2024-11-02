@@ -13,15 +13,16 @@ import React, { useState } from 'react';
 import { withGroup } from '@plait/common';
 import { DrawPointerType, withDraw } from '@plait/draw';
 import { MindPointerType, withMind } from '@plait/mind';
+import MobileDetect from 'mobile-detect';
 import { withMindExtend } from './plugins/with-mind-extend';
 import { withCommonPlugin } from './plugins/with-common';
 import { CreationToolbar } from './components/toolbar/creation-toolbar';
-
-import './styles/index.scss';
-import { MainMenu } from './components/app-menu/main-menu';
 import { ZoomToolbar } from './components/toolbar/zoom-toolbar';
 import { PopupToolbar } from './components/toolbar/popup-toolbar/popup-toolbar';
 import { AppToolbar } from './components/toolbar/app-toolbar/app-toolbar';
+import classNames from 'classnames';
+import './styles/index.scss';
+
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -41,6 +42,7 @@ export type DrawnixPointerType =
 
 export type DrawnixState = {
   pointer: DrawnixPointerType;
+  isMobile: boolean;
 };
 
 export const Drawnix: React.FC<DrawnixProps> = ({
@@ -59,11 +61,16 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   const options: PlaitBoardOptions = {};
   const [appState, setAppState] = useState<DrawnixState>(() => {
     // TODO: need to consider how to maintenance the pointer state in future
-    return { pointer: PlaitPointerType.hand };
+    const md = new MobileDetect(window.navigator.userAgent);
+    return { pointer: PlaitPointerType.hand, isMobile: md.mobile() !== null };
   });
 
   return (
-    <div className="drawnix">
+    <div
+      className={classNames('drawnix', {
+        'drawnix--mobile': appState.isMobile,
+      })}
+    >
       <Wrapper
         value={value}
         viewport={viewport}
@@ -78,7 +85,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
         <AppToolbar></AppToolbar>
         <CreationToolbar
           setPointer={(pointer: DrawnixPointerType) => {
-            setAppState({ pointer });
+            setAppState({ ...appState, pointer });
           }}
         ></CreationToolbar>
         <ZoomToolbar></ZoomToolbar>

@@ -11,13 +11,18 @@
         top: 36px;
         left: 50%;
         transform: translateX(-50%);
+        @include isMobile {
+            top: 20px;
+        }
     }
     .zoom-toolbar {
         cursor: default;
         position: absolute;
         top: 36px;
         right: 36px;
-        
+        @include isMobile {
+            display: none;
+        }
         .zoom-out-button {
             border-top-right-radius: 0 !important;
             border-bottom-right-radius: 0 !important;
@@ -46,8 +51,21 @@
         position: absolute;
         top: 40px;
         left: 36px;
+        @include isMobile {
+            bottom: 20px;
+            top: auto;
+            width: 86%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .stack {
+            @include isMobile {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
     }
-
     .drawnix-link, a {
         font-weight: 500;
         text-decoration: none;
