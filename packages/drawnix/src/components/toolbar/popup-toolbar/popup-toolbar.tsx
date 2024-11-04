@@ -148,6 +148,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
           <Stack.Row gap={1}>
             {state.hasFontColor && (
               <PopupFontColorButton
+                board={board}
                 key={0}
                 currentColor={state.marks?.color}
                 title={`Font Color`}
@@ -165,6 +166,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
               ></PopupFontColorButton>
             )}
             <PopupStrokeButton
+              board={board}
               key={1}
               currentColor={state.strokeColor}
               title={`Stroke`}
@@ -197,6 +199,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
             </PopupStrokeButton>
             {state.hasFill && (
               <PopupFillButton
+                board={board}
                 key={2}
                 currentColor={state.fill}
                 title={`Fill Color`}

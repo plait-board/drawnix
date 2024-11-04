@@ -1,23 +1,15 @@
 import React, { useState } from 'react';
 import { ToolButton } from '../../tool-button';
 import classNames from 'classnames';
-import {
-  autoUpdate,
-  flip,
-  offset,
-  useClick,
-  useDismiss,
-  useFloating,
-  useInteractions,
-  useRole,
-} from '@floating-ui/react';
-import { ATTACHED_ELEMENT_CLASS_NAME } from '@plait/core';
+import { ATTACHED_ELEMENT_CLASS_NAME, PlaitBoard } from '@plait/core';
 import { Island } from '../../island';
 import { ColorPicker } from '../../color-picker';
 import { isTransparent, removeHexAlpha } from '../../../utils/color';
 import { BackgroundColorIcon } from '../../icons';
+import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 
 export type PopupFillButtonProps = {
+  board: PlaitBoard;
   currentColor: string | undefined;
   title: string;
   children?: React.ReactNode;
@@ -25,49 +17,44 @@ export type PopupFillButtonProps = {
 };
 
 export const PopupFillButton: React.FC<PopupFillButtonProps> = ({
+  board,
   currentColor,
   title,
   children,
   onColorSelect,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { refs, floatingStyles, context } = useFloating({
-    placement: 'left',
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    whileElementsMounted: autoUpdate,
-    middleware: [offset(8), flip()],
-  });
-
-  const click = useClick(context);
-  const dismiss = useDismiss(context);
-  const role = useRole(context);
-
-  const { getReferenceProps } = useInteractions([click, dismiss, role]);
-
+  const [isFillPropertyOpen, setIsFillPropertyOpen] = useState(false);
   const hexColor = currentColor && removeHexAlpha(currentColor);
+  const container = PlaitBoard.getBoardContainer(board);
 
   let icon =
     !hexColor || isTransparent(hexColor) ? BackgroundColorIcon : undefined;
 
   return (
-    <>
-      <ToolButton
-        className={classNames(`property-button`)}
-        visible={true}
-        icon={icon}
-        type="button"
-        title={title}
-        aria-label={title}
-        ref={refs.setReference}
-        {...getReferenceProps()}
-      >
-        {!icon && children}
-      </ToolButton>
-      {isOpen && (
+    <Popover
+      sideOffset={12}
+      open={isFillPropertyOpen}
+      onOpenChange={(open) => {
+        setIsFillPropertyOpen(open);
+      }}
+    >
+      <PopoverTrigger asChild>
+        <ToolButton
+          className={classNames(`property-button`)}
+          visible={true}
+          icon={icon}
+          type="button"
+          title={title}
+          aria-label={title}
+          onPointerUp={() => {
+            setIsFillPropertyOpen(!isFillPropertyOpen);
+          }}
+        >
+          {!icon && children}
+        </ToolButton>
+      </PopoverTrigger>
+      <PopoverContent container={container}>
         <Island
-          ref={refs.setFloating}
-          style={floatingStyles}
           padding={4}
           className={classNames(`${ATTACHED_ELEMENT_CLASS_NAME}`)}
         >
@@ -78,7 +65,7 @@ export const PopupFillButton: React.FC<PopupFillButtonProps> = ({
             currentColor={currentColor}
           ></ColorPicker>
         </Island>
-      )}
-    </>
+      </PopoverContent>
+    </Popover>
   );
 };

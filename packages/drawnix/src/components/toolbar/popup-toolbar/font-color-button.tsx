@@ -2,20 +2,12 @@ import React, { ReactNode, useState } from 'react';
 import { ColorPicker } from '../../color-picker';
 import { ToolButton } from '../../tool-button';
 import classNames from 'classnames';
-import {
-  autoUpdate,
-  flip,
-  offset,
-  useClick,
-  useDismiss,
-  useFloating,
-  useInteractions,
-  useRole,
-} from '@floating-ui/react';
 import { Island } from '../../island';
-import { ATTACHED_ELEMENT_CLASS_NAME } from '@plait/core';
+import { ATTACHED_ELEMENT_CLASS_NAME, PlaitBoard } from '@plait/core';
+import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 
 export type PopupFontColorButtonProps = {
+  board: PlaitBoard;
   currentColor: string | undefined;
   fontColorIcon: ReactNode;
   title: string;
@@ -23,53 +15,52 @@ export type PopupFontColorButtonProps = {
 };
 
 export const PopupFontColorButton: React.FC<PopupFontColorButtonProps> = ({
+  board,
   currentColor,
   fontColorIcon,
   title,
   onSelect,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { refs, floatingStyles, context } = useFloating({
-    placement: 'left',
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    whileElementsMounted: autoUpdate,
-    middleware: [offset(8), flip()],
-  });
-
-  const click = useClick(context);
-  const dismiss = useDismiss(context);
-  const role = useRole(context);
-
-  const { getReferenceProps } = useInteractions([click, dismiss, role]);
+  const [isFontColorPropertyOpen, setIsFontColorPropertyOpen] = useState(false);
+  const container = PlaitBoard.getBoardContainer(board);
 
   return (
     <>
-      <ToolButton
-        className={classNames(`property-button`)}
-        visible={true}
-        icon={fontColorIcon}
-        type="button"
-        title={title}
-        aria-label={title}
-        ref={refs.setReference}
-        {...getReferenceProps()}
-      ></ToolButton>
-      {isOpen && (
-        <Island
-          ref={refs.setFloating}
-          style={floatingStyles}
-          padding={4}
-          className={classNames(`${ATTACHED_ELEMENT_CLASS_NAME}`)}
-        >
-          <ColorPicker
-            onSelect={(selectedColor) => {
-              onSelect(selectedColor);
+      <Popover
+        sideOffset={12}
+        open={isFontColorPropertyOpen}
+        onOpenChange={(open) => {
+          setIsFontColorPropertyOpen(open);
+        }}
+      >
+        <PopoverTrigger asChild>
+          <ToolButton
+            className={classNames(`property-button`)}
+            selected={isFontColorPropertyOpen}
+            visible={true}
+            icon={fontColorIcon}
+            type="button"
+            title={title}
+            aria-label={title}
+            onPointerUp={() => {
+              setIsFontColorPropertyOpen(!isFontColorPropertyOpen);
             }}
-            currentColor={currentColor}
-          ></ColorPicker>
-        </Island>
-      )}
+          ></ToolButton>
+        </PopoverTrigger>
+        <PopoverContent container={container}>
+          <Island
+            padding={4}
+            className={classNames(`${ATTACHED_ELEMENT_CLASS_NAME}`)}
+          >
+            <ColorPicker
+              onSelect={(selectedColor) => {
+                onSelect(selectedColor);
+              }}
+              currentColor={currentColor}
+            ></ColorPicker>
+          </Island>
+        </PopoverContent>
+      </Popover>
     </>
   );
 };
