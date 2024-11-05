@@ -31,11 +31,9 @@ const useBoardEvent = (
   );
 
   useEventListener(
-    'touchmove',
+    'touchstart',
     (event) => {
-      if (isPreventTouchMove(board)) {
-        event.preventDefault();
-      }
+      event.preventDefault();
     },
     { target: viewportContainerRef, passive: false }
   );
