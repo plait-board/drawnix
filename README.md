@@ -8,10 +8,10 @@
 <div align="center">
   <figure>
     <a href="https://drawnix.com" target="_blank" rel="noopener">
-      <img src="https://drawnix.com/product_showcase/case-1.png" alt="Product showcase" />
+      <img src="https://github.com/plait-board/drawnix/blob/develop/apps/web/public/product_showcase/case-1.png" alt="Product showcase" />
     </a>
     <a href="https://drawnix.com" target="_blank" rel="noopener">
-      <img src="https://drawnix.com/product_showcase/case-2.png" alt="Product showcase" />
+      <img src="https://github.com/plait-board/drawnix/blob/develop/apps/web/public/product_showcase/case-2.png" alt="Product showcase" />
     </a>
     <figcaption>
       <p align="center">
