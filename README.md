@@ -1,21 +1,18 @@
 <div align="center">
   <h2>
-    开源白板工具（SAAS），一体化白板，包含思维导图、流程图等。。
+    开源白板工具（SAAS），一体化白板，包含思维导图、流程图等
   <br />
   </h2>
 </div>
 
 <div align="center">
   <figure>
-    <a href="https://drawnix.com" target="_blank" rel="noopener">
-      <img src="https://github.com/plait-board/drawnix/blob/develop/apps/web/public/product_showcase/case-1.png" alt="Product showcase" />
-    </a>
-    <a href="https://drawnix.com" target="_blank" rel="noopener">
-      <img src="https://github.com/plait-board/drawnix/blob/develop/apps/web/public/product_showcase/case-2.png" alt="Product showcase" />
+    <a target="_blank" rel="noopener">
+      <img src="https://github.com/plait-board/drawnix/blob/develop/apps/web/public/product_showcase/case-2.png" alt="Product showcase" width="80%" />
     </a>
     <figcaption>
       <p align="center">
-        All in one 白板，思维导图、流程图、自由画等等.
+        All in one 白板，思维导图、流程图、自由画等
       </p>
     </figcaption>
   </figure>
