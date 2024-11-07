@@ -5,13 +5,23 @@ import { ATTACHED_ELEMENT_CLASS_NAME, PlaitBoard } from '@plait/core';
 import { Island } from '../../island';
 import { ColorPicker } from '../../color-picker';
 import { isTransparent, isWhite, removeHexAlpha } from '../../../utils/color';
-import { StrokeIcon, StrokeWhiteIcon } from '../../icons';
+import {
+  StrokeIcon,
+  StrokeStyleDashedIcon,
+  StrokeStyleDotedIcon,
+  StrokeStyleNormalIcon,
+  StrokeWhiteIcon,
+} from '../../icons';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
+import Stack from '../../stack';
+import { PropertyTransforms } from '@plait/common';
+import { getMemorizeKey, StrokeStyle } from '@plait/draw';
 
 export type PopupStrokeButtonProps = {
   board: PlaitBoard;
   currentColor: string | undefined;
   title: string;
+  hasStrokeStyle: boolean;
   children?: React.ReactNode;
   onColorSelect: (selectedColor: string) => void;
 };
@@ -20,6 +30,7 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
   board,
   currentColor,
   title,
+  hasStrokeStyle,
   children,
   onColorSelect,
 }) => {
@@ -32,6 +43,10 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
     : isWhite(hexColor)
     ? StrokeWhiteIcon
     : undefined;
+
+  const setStrokeStyle = (style: StrokeStyle) => {
+    PropertyTransforms.setStrokeStyle(board, style, { getMemorizeKey });
+  };
 
   return (
     <>
@@ -61,14 +76,54 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
         <PopoverContent container={container}>
           <Island
             padding={4}
-            className={classNames(`${ATTACHED_ELEMENT_CLASS_NAME}`)}
+            className={classNames(
+              `${ATTACHED_ELEMENT_CLASS_NAME}`,
+              'stroke-setting',
+              { 'has-stroke-style': hasStrokeStyle }
+            )}
           >
-            <ColorPicker
-              onSelect={(selectedColor) => {
-                onColorSelect(selectedColor);
-              }}
-              currentColor={currentColor}
-            ></ColorPicker>
+            <Stack.Col>
+              {hasStrokeStyle && (
+                <Stack.Row className={classNames('stroke-style-picker')}>
+                  <ToolButton
+                    visible={true}
+                    icon={StrokeStyleNormalIcon}
+                    type="button"
+                    title={title}
+                    aria-label={title}
+                    onPointerUp={() => {
+                      setStrokeStyle(StrokeStyle.solid);
+                    }}
+                  ></ToolButton>
+                  <ToolButton
+                    visible={true}
+                    icon={StrokeStyleDashedIcon}
+                    type="button"
+                    title={title}
+                    aria-label={title}
+                    onPointerUp={() => {
+                      setStrokeStyle(StrokeStyle.dashed);
+                    }}
+                  ></ToolButton>
+                  <ToolButton
+                    visible={true}
+                    icon={StrokeStyleDotedIcon}
+                    type="button"
+                    title={title}
+                    aria-label={title}
+                    onPointerUp={() => {
+                      setStrokeStyle(StrokeStyle.dotted);
+                    }}
+                  ></ToolButton>
+                </Stack.Row>
+              )}
+              <ColorPicker
+                onSelect={(selectedColor) => {
+                  onColorSelect(selectedColor);
+                }}
+                currentColor={currentColor}
+              ></ColorPicker>
+            </Stack.Col>
           </Island>
         </PopoverContent>
       </Popover>

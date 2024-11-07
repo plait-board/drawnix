@@ -49,7 +49,6 @@ export const SizeSlider: React.FC<SliderProps> = ({
         const newValue =
           Math.round((percentage * (max - min)) / step) * step + min;
         setValue(newValue);
-        console.log(`newValue: ${newValue}`);
         onChange && onChange(newValue);
       }
     },

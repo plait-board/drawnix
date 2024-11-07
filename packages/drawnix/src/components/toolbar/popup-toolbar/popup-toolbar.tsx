@@ -61,6 +61,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
     fontColor?: string;
     hasFontColor?: boolean;
     hasStroke?: boolean;
+    hasStrokeStyle?: boolean;
     marks?: Omit<CustomText, 'text'>;
   } = {
     fill: 'red',
@@ -72,12 +73,18 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
     const hasText = selectedElements.some((value) =>
       hasTextProperty(board, value)
     );
-    const hasStroke = !PlaitBoard.hasBeenTextEditing(board);
+    const hasStroke =
+      selectedElements.some((value) => hasStrokeProperty(board, value)) &&
+      !PlaitBoard.hasBeenTextEditing(board);
+    const hasStrokeStyle =
+      selectedElements.some((value) => hasStrokeStyleProperty(board, value)) &&
+      !PlaitBoard.hasBeenTextEditing(board);
     state = {
       ...getElementState(board),
       hasFill,
       hasFontColor: hasText,
       hasStroke,
+      hasStrokeStyle,
     };
   }
   useEffect(() => {
@@ -178,6 +185,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
                 key={1}
                 currentColor={state.strokeColor}
                 title={`Stroke`}
+                hasStrokeStyle={state.hasStrokeStyle || false}
                 onColorSelect={(selectedColor: string) => {
                   PropertyTransforms.setStrokeColor(
                     board,
@@ -306,6 +314,33 @@ export const hasFillProperty = (board: PlaitBoard, element: PlaitElement) => {
     );
   }
   return false;
+};
+
+export const hasStrokeProperty = (board: PlaitBoard, element: PlaitElement) => {
+  if (MindElement.isMindElement(board, element)) {
+    return true;
+  }
+  if (PlaitDrawElement.isDrawElement(element)) {
+    return (
+      (PlaitDrawElement.isShapeElement(element) &&
+        !PlaitDrawElement.isImage(element) &&
+        !PlaitDrawElement.isText(element)) ||
+      PlaitDrawElement.isArrowLine(element) ||
+      PlaitDrawElement.isVectorLine(element) ||
+      PlaitDrawElement.isTable(element)
+    );
+  }
+  return false;
+};
+
+export const hasStrokeStyleProperty = (
+  board: PlaitBoard,
+  element: PlaitElement
+) => {
+  return (
+    hasStrokeProperty(board, element) &&
+    !MindElement.isMindElement(board, element)
+  );
 };
 
 export const hasTextProperty = (board: PlaitBoard, element: PlaitElement) => {

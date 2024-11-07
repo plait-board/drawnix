@@ -29,3 +29,13 @@
         }
     }
 }
+
+.stroke-setting {
+    &.has-stroke-style {
+        padding-top: 8px !important;
+    }
+    .stroke-style-picker {
+        justify-content: space-between;
+        padding: 0 8px;
+    }
+}
