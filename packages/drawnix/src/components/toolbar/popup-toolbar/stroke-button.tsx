@@ -41,6 +41,7 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
         onOpenChange={(open) => {
           setIsStrokePropertyOpen(open);
         }}
+        placement={'top'}
       >
         <PopoverTrigger asChild>
           <ToolButton

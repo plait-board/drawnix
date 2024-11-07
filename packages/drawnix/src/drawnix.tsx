@@ -23,7 +23,6 @@ import { AppToolbar } from './components/toolbar/app-toolbar/app-toolbar';
 import classNames from 'classnames';
 import './styles/index.scss';
 
-
 export type DrawnixProps = {
   value: PlaitElement[];
   viewport?: Viewport;
@@ -81,15 +80,16 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           onChange && onChange(data);
         }}
       >
-        <Board></Board>
-        <AppToolbar></AppToolbar>
-        <CreationToolbar
-          setPointer={(pointer: DrawnixPointerType) => {
-            setAppState({ ...appState, pointer });
-          }}
-        ></CreationToolbar>
-        <ZoomToolbar></ZoomToolbar>
-        <PopupToolbar></PopupToolbar>
+        <Board>
+          <AppToolbar></AppToolbar>
+          <CreationToolbar
+            setPointer={(pointer: DrawnixPointerType) => {
+              setAppState({ ...appState, pointer });
+            }}
+          ></CreationToolbar>
+          <ZoomToolbar></ZoomToolbar>
+          <PopupToolbar></PopupToolbar>
+        </Board>
       </Wrapper>
     </div>
   );

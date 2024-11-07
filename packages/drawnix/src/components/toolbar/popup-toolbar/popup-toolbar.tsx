@@ -51,7 +51,7 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
   const open = selectedElements.length > 0 && !isSelectionMoving(board);
   const { viewport, selection, children } = board;
   const { refs, floatingStyles } = useFloating({
-    placement: 'top',
+    placement: 'right-start',
     middleware: [offset(32), flip()],
   });
   let state: {
@@ -60,18 +60,25 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
     hasFill?: boolean;
     fontColor?: string;
     hasFontColor?: boolean;
+    hasStroke?: boolean;
     marks?: Omit<CustomText, 'text'>;
   } = {
     fill: 'red',
   };
   if (open && !movingOrDragging) {
-    const hasFill = selectedElements.some((value) =>
-      hasFillProperty(board, value)
-    );
+    const hasFill =
+      selectedElements.some((value) => hasFillProperty(board, value)) &&
+      !PlaitBoard.hasBeenTextEditing(board);
     const hasText = selectedElements.some((value) =>
       hasTextProperty(board, value)
     );
-    state = { ...getElementState(board), hasFill, hasFontColor: hasText };
+    const hasStroke = !PlaitBoard.hasBeenTextEditing(board);
+    state = {
+      ...getElementState(board),
+      hasFill,
+      hasFontColor: hasText,
+      hasStroke,
+    };
   }
   useEffect(() => {
     if (open) {
@@ -165,38 +172,40 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = ({}) => {
                 }}
               ></PopupFontColorButton>
             )}
-            <PopupStrokeButton
-              board={board}
-              key={1}
-              currentColor={state.strokeColor}
-              title={`Stroke`}
-              onColorSelect={(selectedColor: string) => {
-                PropertyTransforms.setStrokeColor(
-                  board,
-                  getColorPropertyValue(selectedColor),
-                  {
-                    getMemorizeKey,
-                  }
-                );
-                const selectedElements = getSelectedElements(board);
+            {state.hasStroke && (
+              <PopupStrokeButton
+                board={board}
+                key={1}
+                currentColor={state.strokeColor}
+                title={`Stroke`}
+                onColorSelect={(selectedColor: string) => {
+                  PropertyTransforms.setStrokeColor(
+                    board,
+                    getColorPropertyValue(selectedColor),
+                    {
+                      getMemorizeKey,
+                    }
+                  );
+                  const selectedElements = getSelectedElements(board);
 
-                if (selectedElements.length) {
-                  selectedElements.forEach((element) => {
-                    const path = PlaitBoard.findPath(board, element);
-                    Transforms.setNode(
-                      board,
-                      { branchColor: getColorPropertyValue(selectedColor) },
-                      path
-                    );
-                  });
-                }
-              }}
-            >
-              <label
-                className={classNames('stroke-label', 'color-label')}
-                style={{ borderColor: state.strokeColor }}
-              ></label>
-            </PopupStrokeButton>
+                  if (selectedElements.length) {
+                    selectedElements.forEach((element) => {
+                      const path = PlaitBoard.findPath(board, element);
+                      Transforms.setNode(
+                        board,
+                        { branchColor: getColorPropertyValue(selectedColor) },
+                        path
+                      );
+                    });
+                  }
+                }}
+              >
+                <label
+                  className={classNames('stroke-label', 'color-label')}
+                  style={{ borderColor: state.strokeColor }}
+                ></label>
+              </PopupStrokeButton>
+            )}
             {state.hasFill && (
               <PopupFillButton
                 board={board}

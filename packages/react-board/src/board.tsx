@@ -30,9 +30,14 @@ import { useBoard, useListRender } from './hooks/use-board';
 export type PlaitBoardProps = {
   style?: React.CSSProperties;
   className?: string;
+  children?: React.ReactNode;
 };
 
-export const Board: React.FC<PlaitBoardProps> = ({ style, className }) => {
+export const Board: React.FC<PlaitBoardProps> = ({
+  style,
+  className,
+  children,
+}) => {
   const hostRef = useRef<SVGSVGElement>(null);
   const elementLowerHostRef = useRef<SVGGElement>(null);
   const elementHostRef = useRef<SVGGElement>(null);
@@ -126,6 +131,7 @@ export const Board: React.FC<PlaitBoardProps> = ({ style, className }) => {
           <g className="element-upper-host" ref={elementUpperHostRef}></g>
           <g className="element-active-host" ref={elementActiveHostRef}></g>
         </svg>
+        {children}
       </div>
     </div>
   );

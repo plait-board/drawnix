@@ -32,6 +32,7 @@ export const PopupFontColorButton: React.FC<PopupFontColorButtonProps> = ({
         onOpenChange={(open) => {
           setIsFontColorPropertyOpen(open);
         }}
+        placement={'top'}
       >
         <PopoverTrigger asChild>
           <ToolButton

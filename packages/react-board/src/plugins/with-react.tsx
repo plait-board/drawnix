@@ -1,7 +1,7 @@
 import {
   type PlaitTextBoard,
   type RenderComponentRef,
-  type TextProps
+  type TextProps,
 } from '@plait/common';
 import type { PlaitBoard } from '@plait/core';
 import { createRoot } from 'react-dom/client';
@@ -36,7 +36,14 @@ export const withReact = (board: PlaitBoard & PlaitTextBoard) => {
         }, 0);
       },
       update: (updatedProps: Partial<TextProps>) => {
-        const hasUpdated = updatedProps && newProps && !Object.keys(updatedProps).every((key) => updatedProps[key as keyof TextProps] === newProps[key as keyof TextProps]);
+        const hasUpdated =
+          updatedProps &&
+          newProps &&
+          !Object.keys(updatedProps).every(
+            (key) =>
+              updatedProps[key as keyof TextProps] ===
+              newProps[key as keyof TextProps]
+          );
         if (!hasUpdated) {
           return;
         }
@@ -50,8 +57,9 @@ export const withReact = (board: PlaitBoard & PlaitTextBoard) => {
           }, 0);
         } else if (readonly === false && newProps.readonly === true) {
           ReactEditor.blur(currentEditor);
+          ReactEditor.deselect(currentEditor);
         }
-      }
+      },
     };
     return ref;
   };

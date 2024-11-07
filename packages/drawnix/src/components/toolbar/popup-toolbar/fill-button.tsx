@@ -37,6 +37,7 @@ export const PopupFillButton: React.FC<PopupFillButtonProps> = ({
       onOpenChange={(open) => {
         setIsFillPropertyOpen(open);
       }}
+      placement={'top'}
     >
       <PopoverTrigger asChild>
         <ToolButton
