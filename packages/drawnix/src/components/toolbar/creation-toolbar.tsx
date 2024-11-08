@@ -93,18 +93,15 @@ export const isShapePointer = (board: PlaitBoard) => {
   return Object.keys(BasicShapes).includes(board.pointer);
 };
 
-export const CreationToolbar: React.FC<CreationToolbarProps> = ({ setPointer }) => {
+export const CreationToolbar: React.FC<CreationToolbarProps> = ({
+  setPointer,
+}) => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
 
   const [arrowOpen, setArrowOpen] = useState(false);
 
   const [shapeOpen, setShapeOpen] = useState(false);
-
-  const onChange = (pointer: DrawnixPointerType) => {
-    BoardTransforms.updatePointerType(board, pointer);
-    setPointer(pointer);
-  };
 
   const onPointerDown = (pointer: DrawnixPointerType) => {
     setCreationMode(board, BoardCreationMode.dnd);
@@ -221,11 +218,6 @@ export const CreationToolbar: React.FC<CreationToolbarProps> = ({ setPointer }) 
               checked={isChecked(button)}
               title={`${button.title}`}
               aria-label={`${button.title}`}
-              onChange={() => {
-                if (button.pointer && isBasicPointer(button.pointer)) {
-                  onChange(button.pointer);
-                }
-              }}
               onPointerDown={() => {
                 if (button.pointer && !isBasicPointer(button.pointer)) {
                   onPointerDown(button.pointer);
@@ -234,6 +226,9 @@ export const CreationToolbar: React.FC<CreationToolbarProps> = ({ setPointer }) 
               onPointerUp={() => {
                 if (button.pointer && !isBasicPointer(button.pointer)) {
                   onPointerUp();
+                } else if (button.pointer && isBasicPointer(button.pointer)) {
+                  BoardTransforms.updatePointerType(board, button.pointer);
+                  setPointer(button.pointer);
                 }
               }}
             />

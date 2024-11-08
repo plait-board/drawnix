@@ -92,7 +92,7 @@ export const Board: React.FC<PlaitBoardProps> = ({
     };
   }, []);
 
-  useBoardPluginEvent(board, hostRef);
+  useBoardPluginEvent(board, viewportContainerRef, hostRef);
   useBoardEvent(board, viewportContainerRef);
 
   return (

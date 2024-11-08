@@ -8,35 +8,19 @@ import {
   hasInputOrTextareaTarget,
   setFragment,
   toHostPoint,
-  toViewBoxPoint
+  toViewBoxPoint,
 } from '@plait/core';
 import { useEventListener } from 'ahooks';
 
 const useBoardPluginEvent = (
   board: PlaitBoard,
+  viewportContainerRef: React.RefObject<HTMLDivElement>,
   hostRef: React.RefObject<SVGSVGElement>
 ) => {
-  useEventListener(
-    'mousedown',
-    (event) => {
-      board.mousedown(event);
-    },
-    { target: hostRef }
-  );
-
   useEventListener(
     'pointerdown',
     (event) => {
       board.pointerDown(event);
-    },
-    { target: hostRef }
-  );
-
-  useEventListener(
-    'mousemove',
-    (event) => {
-      BOARD_TO_MOVING_POINT_IN_BOARD.set(board, [event.x, event.y]);
-      board.mousemove(event);
     },
     { target: hostRef }
   );
@@ -47,16 +31,7 @@ const useBoardPluginEvent = (
       BOARD_TO_MOVING_POINT_IN_BOARD.set(board, [event.x, event.y]);
       board.pointerMove(event);
     },
-    { target: hostRef }
-  );
-
-  useEventListener(
-    'mouseleave',
-    (event) => {
-      BOARD_TO_MOVING_POINT_IN_BOARD.delete(board);
-      board.mouseleave(event);
-    },
-    { target: hostRef }
+    { target: viewportContainerRef }
   );
 
   useEventListener(
@@ -65,15 +40,7 @@ const useBoardPluginEvent = (
       BOARD_TO_MOVING_POINT_IN_BOARD.delete(board);
       board.pointerLeave(event);
     },
-    { target: hostRef }
-  );
-
-  useEventListener(
-    'mouseup',
-    (event) => {
-      board.mouseup(event);
-    },
-    { target: hostRef }
+    { target: viewportContainerRef }
   );
 
   useEventListener(
@@ -81,7 +48,7 @@ const useBoardPluginEvent = (
     (event) => {
       board.pointerUp(event);
     },
-    { target: hostRef }
+    { target: viewportContainerRef }
   );
 
   useEventListener(
@@ -93,11 +60,6 @@ const useBoardPluginEvent = (
     },
     { target: hostRef }
   );
-
-  useEventListener('mousemove', (event) => {
-    BOARD_TO_MOVING_POINT.set(board, [event.x, event.y]);
-    board.globalMousemove(event);
-  });
 
   useEventListener('pointermove', (event) => {
     BOARD_TO_MOVING_POINT.set(board, [event.x, event.y]);
