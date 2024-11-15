@@ -66,10 +66,6 @@ const useBoardPluginEvent = (
     board.globalPointerMove(event);
   });
 
-  useEventListener('mouseup', (event) => {
-    board.globalMouseup(event);
-  });
-
   useEventListener('pointerup', (event) => {
     board.globalPointerUp(event);
   });

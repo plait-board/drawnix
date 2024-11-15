@@ -61,7 +61,10 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   const [appState, setAppState] = useState<DrawnixState>(() => {
     // TODO: need to consider how to maintenance the pointer state in future
     const md = new MobileDetect(window.navigator.userAgent);
-    return { pointer: PlaitPointerType.hand, isMobile: md.mobile() !== null };
+    return {
+      pointer: PlaitPointerType.hand,
+      isMobile: md.mobile() !== null,
+    };
   });
 
   return (
@@ -80,16 +83,15 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           onChange && onChange(data);
         }}
       >
-        <Board>
-          <AppToolbar></AppToolbar>
-          <CreationToolbar
-            setPointer={(pointer: DrawnixPointerType) => {
-              setAppState({ ...appState, pointer });
-            }}
-          ></CreationToolbar>
-          <ZoomToolbar></ZoomToolbar>
-          <PopupToolbar></PopupToolbar>
-        </Board>
+        <Board></Board>
+        <AppToolbar></AppToolbar>
+        <CreationToolbar
+          setPointer={(pointer: DrawnixPointerType) => {
+            setAppState({ ...appState, pointer });
+          }}
+        ></CreationToolbar>
+        <ZoomToolbar></ZoomToolbar>
+        <PopupToolbar></PopupToolbar>
       </Wrapper>
     </div>
   );
