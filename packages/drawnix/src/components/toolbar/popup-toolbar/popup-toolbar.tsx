@@ -18,13 +18,16 @@ import { useBoard } from '@plait/react-board';
 import { flip, offset, useFloating } from '@floating-ui/react';
 import { Island } from '../../island';
 import classNames from 'classnames';
-import { getStrokeByMindElement, MindElement } from '@plait/mind';
+import {
+  getStrokeColorByElement as getStrokeColorByMindElement,
+  MindElement,
+} from '@plait/mind';
 import './popup-toolbar.scss';
 import {
   DrawTransforms,
   getMemorizeKey,
   getSelectedTableCellsEditor,
-  getStrokeColorByElement,
+  getStrokeColorByElement as getStrokeColorByDrawElement,
   isDrawElementClosed,
   isDrawElementsIncludeText,
   PlaitDrawElement,
@@ -269,7 +272,7 @@ export const getMindElementState = (
   const marks = getTextMarksByElement(element);
   return {
     fill: element.fill,
-    strokeColor: getStrokeByMindElement(board, element),
+    strokeColor: getStrokeColorByMindElement(board, element),
     marks,
   };
 };
@@ -288,7 +291,7 @@ export const getDrawElementState = (
   }
   return {
     fill: element.fill,
-    strokeColor: getStrokeColorByElement(board, element),
+    strokeColor: getStrokeColorByDrawElement(board, element),
     marks,
   };
 };
@@ -337,10 +340,7 @@ export const hasStrokeStyleProperty = (
   board: PlaitBoard,
   element: PlaitElement
 ) => {
-  return (
-    hasStrokeProperty(board, element) &&
-    !MindElement.isMindElement(board, element)
-  );
+  return hasStrokeProperty(board, element);
 };
 
 export const hasTextProperty = (board: PlaitBoard, element: PlaitElement) => {
