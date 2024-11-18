@@ -51,6 +51,11 @@ Drawnix 是想在 Plait 的基础上更多的融合社区的产品思路、技�
 
 我们公司前端的技术栈是 Angular，Plait 框架最初的版本也是与 Angular 框架绑定的，后来为了的提升 Plait 的适用性、更好的服务开源社区，我们将 Plait 逐步改造为无框架依赖架构，Drawnix 也是在这基础上萌生的想法，Drawnix 底层依赖 Plait 的插件机制、UI 上结合 React 及其生态，代表着除了我司主线知识库产品的另外一个重要的应用场景。
 
+因为 Plait & Drawnix 是插件架构，与当前开源领域其它比较流行的工具 Excalidraw、TLDraw 等比技术架构更复杂一些，但是插件架构也有优势，比如能够支持多种 UI 框架（Angular、React），能够集成不同富文本框架（当前仅支持 Slate 框架），在开发上可以很好的实现业务的分层，开发各种细粒度的可复用插件，可以扩展更多的画板的应用场景。
+
+如果你了解富文本编辑器框架 Slate 的设计思路，那么你应该对 Drawnix 和 Plait 的架构模式很熟悉，未来我们还会探索更多有意思的应用场景。
+
+
 # 开发
 
 ```
@@ -58,6 +63,14 @@ npm install
 
 npm run start
 ```
+
+# 依赖
+
+- [plait](https://github.com/worktile/plait) - 画图框架
+- [slate](https://github.com/ianstormtaylor/slate)  - 富文本编辑器框架
+- [floating-ui](https://github.com/floating-ui/floating-ui)  - 一个超级好用的创建弹出层基础库
+
+
 
 # 贡献
 
