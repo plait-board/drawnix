@@ -7,17 +7,16 @@ import {
 import { useBoard, useListRender } from '@plait/react-board';
 import {
   BoardTransforms,
-  getSelectedElements,
   PlaitBoard,
   PlaitElement,
   PlaitTheme,
   ThemeColorMode,
   Viewport,
 } from '@plait/core';
-import { base64ToBlob, boardToImage, download } from '../../../utils/common';
 import { loadFromJSON, saveAsJSON } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
+import { saveAsPNG } from '../../../utils/image';
 
 export const SaveToFile = () => {
   const board = useBoard();
@@ -74,16 +73,7 @@ export const SaveAsImage = () => {
       icon={ExportImageIcon}
       data-testid="image-export-button"
       onSelect={() => {
-        const selectedElements = getSelectedElements(board);
-        boardToImage(board, {
-          elements: selectedElements.length > 0 ? selectedElements : undefined,
-        }).then((image) => {
-          if (image) {
-            const pngImage = base64ToBlob(image);
-            const imageName = `drawnix-${new Date().getTime()}.png`;
-            download(pngImage, imageName);
-          }
-        });
+        saveAsPNG(board);
       }}
       shortcut={`Cmd+Shift+E`}
       aria-label={''}
