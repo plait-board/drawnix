@@ -1,9 +1,21 @@
 import { useBoard } from '@plait/react-board';
 import Stack from '../../stack';
 import { ToolButton } from '../../tool-button';
-import { MenuIcon, RedoIcon, UndoIcon } from '../../icons';
+import {
+  DuplicateIcon,
+  MenuIcon,
+  RedoIcon,
+  TrashIcon,
+  UndoIcon,
+} from '../../icons';
 import classNames from 'classnames';
-import { ATTACHED_ELEMENT_CLASS_NAME, PlaitBoard } from '@plait/core';
+import {
+  ATTACHED_ELEMENT_CLASS_NAME,
+  deleteFragment,
+  duplicateElements,
+  getSelectedElements,
+  PlaitBoard,
+} from '@plait/core';
 import { Island } from '../../island';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import { useState } from 'react';
@@ -14,6 +26,7 @@ import MenuSeparator from '../../menu/menu-separator';
 export const AppToolbar: React.FC<{}> = () => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
+  const selectedElements = getSelectedElements(board);
   const [appMenuOpen, setAppMenuOpen] = useState(false);
   const isUndoDisabled = board.history.undos.length <= 0;
   const isRedoDisabled = board.history.redos.length <= 0;
@@ -83,6 +96,35 @@ export const AppToolbar: React.FC<{}> = () => {
           }}
           disabled={isRedoDisabled}
         />
+        {selectedElements.length > 0 && (
+          <ToolButton
+            className="duplicate"
+            key={3}
+            type="icon"
+            icon={DuplicateIcon}
+            visible={true}
+            title={`Duplicate`}
+            aria-label={`Duplicate`}
+            onPointerUp={() => {
+              duplicateElements(board);
+            }}
+          />
+        )}
+        {selectedElements.length > 0 && (
+          <ToolButton
+            className="trash"
+            key={4}
+            type="icon"
+            icon={TrashIcon}
+            visible={true}
+            title={`Trash`}
+            aria-label={`Trash`}
+            onPointerUp={() => {
+              deleteFragment(board);
+            }}
+          />
+        )}
+        
       </Stack.Row>
     </Island>
   );
