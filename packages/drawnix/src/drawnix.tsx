@@ -22,6 +22,7 @@ import { PopupToolbar } from './components/toolbar/popup-toolbar/popup-toolbar';
 import { AppToolbar } from './components/toolbar/app-toolbar/app-toolbar';
 import classNames from 'classnames';
 import './styles/index.scss';
+import { withDrawnixHotkey } from './plugins/with-hotkey';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -56,6 +57,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     withMind,
     withMindExtend,
     withCommonPlugin,
+    withDrawnixHotkey,
   ];
   const options: PlaitBoardOptions = {};
   const [appState, setAppState] = useState<DrawnixState>(() => {
