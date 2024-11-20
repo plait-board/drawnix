@@ -1,6 +1,6 @@
 <div align="center">
   <h2>
-    开源白板工具（SAAS），一体化白板，包含思维导图、流程图等
+    开源白板工具（SaaS），一体化白板，包含思维导图、流程图等
   <br />
   </h2>
 </div>
@@ -17,6 +17,8 @@
     </figcaption>
   </figure>
 </div>
+
+[English README](https://github.com/plait-board/drawnix/blob/develop/README_en.md)
 
 # 特性
 
