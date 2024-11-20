@@ -18,7 +18,7 @@
   </figure>
 </div>
 
-[中文文档](https://github.com/plait-board/drawnix/blob/develop/README.md)
+[*中文文档*](https://github.com/plait-board/drawnix/blob/develop/README.md)
 
 # Features
 
@@ -38,24 +38,27 @@
 
 ***Drawnix*** is born from the interweaving of ***Draw*** and ***Phoenix***, a fusion of artistic inspiration.
 
-The Phoenix symbolizes endless creativity, while Draw represents humanity's most fundamental form of expression. Here, each creation is an artistic rebirth, every stroke a renaissance of inspiration.
+The *Phoenix* symbolizes endless creativity, while *Draw* represents humanity's most fundamental form of expression. Here, each creation is an artistic rebirth, every stroke a renaissance of inspiration.
 
 Like a Phoenix, creativity must rise from the flames to be reborn, and ***Drawnix*** stands as the guardian of both technical and creative fire.
 
 *Draw Beyond, Rise Above.*
 
+# About Plait Drawing Framework
 
-# With Plait Drawing Framework
+*Drawnix* is positioned as an out-of-the-box, *open-source*, and free tool product. It is built on top of the *Plait* framework, which is our company's *open-source* drawing framework representing significant technical accumulation in knowledge base products.
 
-Drawnix is a whiteboard tool component and product built on top of the Plait framework. Plait is our company's open-source drawing framework - a flexible and extensible solution that represents a significant technical achievement in our knowledge base products. In over 2 years since its launch, it has served more than 6000+ companies in the development track.
 
-Drawnix aims to build upon Plait by incorporating more community-driven product ideas, technical approaches, and interaction inspirations to provide a truly simple and user-friendly drawing tool.
+*Drawnix* uses a *plugin architecture*, which is technically more complex than the previously mentioned *open-source* tools. However, this *plugin architecture* has its advantages: it supports multiple *UI frameworks* (*Angular*, *React*), integrates with different *rich text frameworks* (currently only supporting *Slate* framework), enables better business layer separation in development, allows development of various fine-grained reusable plugins, and can expand to more whiteboard application scenarios.
 
-Our company's frontend tech stack is Angular, and the initial version of the Plait framework was tightly coupled with Angular. Later, to enhance Plait's versatility and better serve the open-source community, we gradually transformed Plait into a framework-agnostic architecture. This transformation sparked the idea for Drawnix, which leverages Plait's plugin mechanism at its core while combining React and its ecosystem for the UI layer, representing another significant use case beyond our company's main knowledge base product.
+# drawnix.com
 
-Since both Plait & Drawnix use a plugin architecture, they are technically more complex than other popular open-source tools like Excalidraw and TLDraw. However, this plugin architecture offers distinct advantages: it supports multiple UI frameworks (Angular, React), integrates with different rich text frameworks (currently supporting Slate framework), enables excellent business layer separation during development, allows for the development of fine-grained reusable plugins, and can expand to more drawing board application scenarios.
+*https://drawnix.com* is the minimal application of *drawnix*.
 
-If you're familiar with the design philosophy of the Slate rich text editor framework, you'll find Drawnix and Plait's architectural patterns very familiar. We look forward to exploring more interesting application scenarios in the future.
+I will be iterating frequently on *drawnix.com* until the release of the *Dawn* version.
+
+*Please show your support by giving us a star ⭐️⭐️⭐️.*
+
 
 # Development
 
