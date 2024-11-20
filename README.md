@@ -20,7 +20,7 @@
 
 [*English README*](https://github.com/plait-board/drawnix/blob/develop/README_en.md)
 
-# 特性
+## 特性
 
 - 💯 免费 + 开源
 - ⚒️ 思维导图、流程图
@@ -34,7 +34,7 @@
 - 📱 移动设备适配
 
 
-# 关于名称
+## 关于名称
 
 ***Drawnix***  ，源于绘画(  ***Draw***  )与凤凰(  ***Phoenix***  )的灵感交织。
 
@@ -45,23 +45,21 @@
 *Draw Beyond, Rise Above.*
 
 
-# 与 Plait 画图框架
+## 与 Plait 画图框架
 
 *Drawnix* 的定位是一个开箱即用、开源、免费的工具产品，它的底层是 *Plait* 框架，*Plait* 是我司开源的一款画图框架，代表着公司在知识库产品上的重要技术沉淀。
 
 
 Drawnix 是插件架构，与前面说到开源工具比技术架构更复杂一些，但是插件架构也有优势，比如能够支持多种 UI 框架（*Angular、React*），能够集成不同富文本框架（当前仅支持 *Slate* 框架），在开发上可以很好的实现业务的分层，开发各种细粒度的可复用插件，可以扩展更多的画板的应用场景。
 
-# drawnix.com
+## 应用
 
-https://drawnix.com，是 *drawnix* 的最小化应用。
+[*https://drawnix.com*](https://drawnix.com) 是 *drawnix* 的最小化应用。
 
-近期我会高频迭代 [drawnix.com](https://drawnix.com)，直到发布 *Dawn* 版本。
-
-*欢迎大家 star ⭐️⭐️⭐️ 支持。*
+近期会高频迭代 drawnix.com，直到发布 *Dawn* 版本。
 
 
-# 开发
+## 开发
 
 ```
 npm install
@@ -69,7 +67,7 @@ npm install
 npm run start
 ```
 
-# 依赖
+## 依赖
 
 - [plait](https://github.com/worktile/plait) - 画图框架
 - [slate](https://github.com/ianstormtaylor/slate)  - 富文本编辑器框架
@@ -77,7 +75,7 @@ npm run start
 
 
 
-# 贡献
+## 贡献
 
 欢迎任何形式的贡献：
 
@@ -85,7 +83,11 @@ npm run start
 
 - 贡献代码
 
+## 支持
 
-# License
+*欢迎大家 star ⭐️⭐️⭐️ 支持。*
+
+
+## License
 
 [MIT License](https://github.com/plait-board/drawnix/blob/master/LICENSE)  

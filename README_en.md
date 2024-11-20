@@ -18,9 +18,9 @@
   </figure>
 </div>
 
-[*中文文档*](https://github.com/plait-board/drawnix/blob/develop/README.md)
+[*中文*](https://github.com/plait-board/drawnix/blob/develop/README.md)
 
-# Features
+## Features
 
 - 💯 Free and Open Source
 - ⚒️ Mind Maps and Flowcharts
@@ -34,7 +34,7 @@
 - 📱 Mobile-friendly
 
 
-# About the Name
+## About the Name
 
 ***Drawnix*** is born from the interweaving of ***Draw*** and ***Phoenix***, a fusion of artistic inspiration.
 
@@ -44,23 +44,21 @@ Like a Phoenix, creativity must rise from the flames to be reborn, and ***Drawni
 
 *Draw Beyond, Rise Above.*
 
-# About Plait Drawing Framework
+## About Plait Drawing Framework
 
 *Drawnix* is positioned as an out-of-the-box, *open-source*, and free tool product. It is built on top of the *Plait* framework, which is our company's *open-source* drawing framework representing significant technical accumulation in knowledge base products.
 
 
 *Drawnix* uses a *plugin architecture*, which is technically more complex than the previously mentioned *open-source* tools. However, this *plugin architecture* has its advantages: it supports multiple *UI frameworks* (*Angular*, *React*), integrates with different *rich text frameworks* (currently only supporting *Slate* framework), enables better business layer separation in development, allows development of various fine-grained reusable plugins, and can expand to more whiteboard application scenarios.
 
-# drawnix.com
+## Try It Out
 
 *https://drawnix.com* is the minimal application of *drawnix*.
 
 I will be iterating frequently on *drawnix.com* until the release of the *Dawn* version.
 
-*Please show your support by giving us a star ⭐️⭐️⭐️.*
 
-
-# Development
+## Development
 
 ```
 npm install
@@ -68,14 +66,14 @@ npm install
 npm run start
 ```
 
-# Dependencies
+## Dependencies
 
 - [plait](https://github.com/worktile/plait) - Drawing framework
 - [slate](https://github.com/ianstormtaylor/slate) - Rich text editor framework
 - [floating-ui](https://github.com/floating-ui/floating-ui) - An awesome library for creating floating UI elements
 
 
-# Contributing
+## Contributing
 
 Any form of contribution is welcome:
 
@@ -83,7 +81,10 @@ Any form of contribution is welcome:
 
 - Contribute code
 
+## Support Us
 
-# License
+*Please show your support by giving us a star ⭐️⭐️⭐️.*
+
+## License
 
 [MIT License](https://github.com/plait-board/drawnix/blob/master/LICENSE)
