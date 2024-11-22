@@ -23,6 +23,8 @@ import { AppToolbar } from './components/toolbar/app-toolbar/app-toolbar';
 import classNames from 'classnames';
 import './styles/index.scss';
 import { withDrawnixHotkey } from './plugins/with-hotkey';
+import { FreehandShape } from './plugins/freehand/type';
+import { withFreehand } from './plugins/freehand/with-freehand';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -38,7 +40,8 @@ export type DrawnixProps = {
 export type DrawnixPointerType =
   | PlaitPointerType
   | MindPointerType
-  | DrawPointerType;
+  | DrawPointerType
+  | FreehandShape;
 
 export type DrawnixState = {
   pointer: DrawnixPointerType;
@@ -58,6 +61,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     withMindExtend,
     withCommonPlugin,
     withDrawnixHotkey,
+    withFreehand
   ];
   const options: PlaitBoardOptions = {};
   const [appState, setAppState] = useState<DrawnixState>(() => {

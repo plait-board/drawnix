@@ -4,7 +4,7 @@ import {
   type EmojiProps,
   type PlaitMindBoard,
   type PlaitMindEmojiBoard,
-  type WithMindOptions
+  type WithMindOptions,
 } from '@plait/mind';
 import { createRoot } from 'react-dom/client';
 import { Emoji } from './components/emoji';
@@ -16,9 +16,8 @@ export const withMindExtend = (board: PlaitBoard) => {
   (board as PlaitOptionsBoard).setPluginOptions<WithMindOptions>(
     WithMindPluginKey,
     {
-      isMultiple: true,
       emojiPadding: 0,
-      spaceBetweenEmojis: 4
+      spaceBetweenEmojis: 4,
     }
   );
 
@@ -40,7 +39,7 @@ export const withMindExtend = (board: PlaitBoard) => {
       update: (updatedProps: Partial<EmojiProps>) => {
         newProps = { ...newProps, ...updatedProps };
         root.render(<Emoji {...newProps}></Emoji>);
-      }
+      },
     };
     return ref;
   };
