@@ -14,8 +14,8 @@ import {
 } from '../../icons';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import Stack from '../../stack';
-import { PropertyTransforms } from '@plait/common';
-import { getMemorizeKey, StrokeStyle } from '@plait/draw';
+import { PropertyTransforms, StrokeStyle } from '@plait/common';
+import { getMemorizeKey } from '@plait/draw';
 
 export type PopupStrokeButtonProps = {
   board: PlaitBoard;

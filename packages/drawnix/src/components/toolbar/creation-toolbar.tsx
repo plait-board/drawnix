@@ -9,6 +9,7 @@ import {
   ShapeIcon,
   TextIcon,
   StraightArrowLineIcon,
+  FeltTipPenIcon,
 } from '../icons';
 import { useBoard } from '@plait/react-board';
 import {
@@ -25,6 +26,7 @@ import { ShapePicker } from '../shape-picker';
 import { ArrowPicker } from '../arrow-picker';
 import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
+import { FreehandShape } from '../../plugins/freehand/type';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -65,6 +67,11 @@ export const BUTTONS: AppToolButtonProps[] = [
     icon: TextIcon,
     pointer: BasicShapes.text,
     title: 'Text',
+  },
+  {
+    icon: FeltTipPenIcon,
+    pointer: FreehandShape.feltTipPen,
+    title: 'Freehand',
   },
   {
     icon: StraightArrowLineIcon,
