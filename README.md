@@ -52,6 +52,26 @@
 
 Drawnix 是插件架构，与前面说到开源工具比技术架构更复杂一些，但是插件架构也有优势，比如能够支持多种 UI 框架（*Angular、React*），能够集成不同富文本框架（当前仅支持 *Slate* 框架），在开发上可以很好的实现业务的分层，开发各种细粒度的可复用插件，可以扩展更多的画板的应用场景。
 
+
+## 仓储结构
+
+```
+drawnix/
+├── apps/
+│   ├── web                   # drawnix.com
+│   │    └── index.html       # HTML
+├── dist/                     # 构建产物
+├── packages/
+│   └── drawnix/              # 白板应用
+│   └── react-board/          # 白板 React 视图层
+│   └── react-text/           # 文本渲染模块
+├── package.json
+├── ...
+└── README.md
+└── README_en.md
+
+```
+
 ## 应用
 
 [*https://drawnix.com*](https://drawnix.com) 是 *drawnix* 的最小化应用。

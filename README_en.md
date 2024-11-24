@@ -51,6 +51,25 @@ Like a Phoenix, creativity must rise from the flames to be reborn, and ***Drawni
 
 *Drawnix* uses a *plugin architecture*, which is technically more complex than the previously mentioned *open-source* tools. However, this *plugin architecture* has its advantages: it supports multiple *UI frameworks* (*Angular*, *React*), integrates with different *rich text frameworks* (currently only supporting *Slate* framework), enables better business layer separation in development, allows development of various fine-grained reusable plugins, and can expand to more whiteboard application scenarios.
 
+## Repository Structure
+
+```
+drawnix/
+├── apps/
+│   ├── web                   # drawnix.com
+│   │    └── index.html       # HTML
+├── dist/                     # Build artifacts
+├── packages/
+│   └── drawnix/              # Whiteboard application core
+│   └── react-board/          # Whiteboard react view layer
+│   └── react-text/           # Text rendering module
+├── package.json
+├── ...
+└── README.md
+└── README_en.md
+
+```
+
 ## Try It Out
 
 *https://drawnix.com* is the minimal application of *drawnix*.
