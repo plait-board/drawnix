@@ -1,3 +1,10 @@
+<p align="center">
+  <picture style="width: 320px">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/plait-board/drawnix/blob/develop/apps/web/public/logo/logo_drawnix_h.svg?raw=true" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/plait-board/drawnix/blob/develop/apps/web/public/logo/logo_drawnix_h_dark.svg?raw=true" />
+    <img src="https://github.com/plait-board/drawnix/blob/develop/apps/web/public/logo/logo_drawnix_h.svg?raw=true" width="360" alt="Drawnix logo and name" />
+  </picture>
+</p>
 <div align="center">
   <h2>
     开源白板工具（SaaS），一体化白板，包含思维导图、流程图等
