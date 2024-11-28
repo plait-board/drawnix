@@ -83,7 +83,7 @@ drawnix/
 
 [*https://drawnix.com*](https://drawnix.com) 是 *drawnix* 的最小化应用。
 
-近期会高频迭代 drawnix.com，直到发布 *Dawn* 版本。
+近期会高频迭代 drawnix.com，直到发布 *Dawn（破晓）* 版本。
 
 
 ## 开发
