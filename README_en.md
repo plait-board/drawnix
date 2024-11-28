@@ -7,7 +7,7 @@
 </p>
 <div align="center">
   <h2>
-    Open-source whiteboard tool (SaaS), an all-in-one collaborative canvas that includes mind mapping, flowcharts and more.
+    Open-source whiteboard tool (SaaS), an all-in-one collaborative canvas that includes mind mapping, flowcharts, freehand and more.
   <br />
   </h2>
 </div>
@@ -31,6 +31,7 @@
 
 - 💯 Free and Open Source
 - ⚒️ Mind Maps and Flowcharts
+- 🖌 Freehand（New 🔥🔥🔥）
 - 😀 Iconfont Emoji Support (🚧 In Progress...)
 - 🚀 Plugin-based Architecture - Extensible
 - 🖼️ 📃 Export to PNG, JPG, JSON(.drawnix)
