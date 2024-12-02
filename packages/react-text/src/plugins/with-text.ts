@@ -1,4 +1,3 @@
-import { CLIPBOARD_FORMAT_KEY } from '@plait/text-plugins';
 import { ReactEditor } from 'slate-react';
 
 export const withText = <T extends ReactEditor>(editor: T) => {
@@ -11,7 +10,7 @@ export const withText = <T extends ReactEditor>(editor: T) => {
 
   e.insertData = (data: DataTransfer) => {
     let text = data.getData('text/plain');
-    let plaitData = data.getData(`application/${CLIPBOARD_FORMAT_KEY}`);
+    let plaitData = data.getData(`application/x-slate-fragment`);
     if (!plaitData && text) {
       if (text.endsWith('\n')) {
         text = text.substring(0, text.length - 1);
