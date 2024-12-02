@@ -3,6 +3,7 @@ import { Editable, RenderLeafProps, Slate, withReact } from 'slate-react';
 import type { CustomText, TextProps } from '@plait/common';
 import React, { useMemo, useCallback } from 'react';
 import { withHistory } from 'slate-history';
+import { withText } from './plugins/with-text';
 
 import './styles/index.scss';
 
@@ -22,7 +23,7 @@ export const Text: React.FC<TextComponentProps> = (
   );
   const initialValue: Descendant[] = [text];
   const editor = useMemo(() => {
-    const editor = withHistory(withReact(createEditor()));
+    const editor = withText(withHistory(withReact(createEditor())));
     afterInit && afterInit(editor);
     return editor;
   }, []);
@@ -43,15 +44,7 @@ export const Text: React.FC<TextComponentProps> = (
         renderElement={renderElement}
         renderLeaf={renderLeaf}
         readOnly={readonly === undefined ? true : readonly}
-        onKeyDown={(event) => {
-          // for (const hotkey in HOTKEYS) {
-          //   if (isHotkey(hotkey, event as any)) {
-          //     event.preventDefault();
-          //     const mark = HOTKEYS[hotkey];
-          //     toggleMark(editor, mark);
-          //   }
-          // }
-        }}
+        onKeyDown={(event) => {}}
         onCompositionStart={(event) => {
           if (onComposition) {
             onComposition(event as unknown as CompositionEvent);
@@ -86,11 +79,7 @@ const ParagraphElement = (props: {
   );
 };
 
-const Leaf: React.FC<RenderLeafProps> = ({
-  children,
-  leaf,
-  attributes
-}) => {
+const Leaf: React.FC<RenderLeafProps> = ({ children, leaf, attributes }) => {
   if ((leaf as CustomText).bold) {
     children = <strong>{children}</strong>;
   }
