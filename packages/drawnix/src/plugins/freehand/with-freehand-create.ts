@@ -51,18 +51,19 @@ export const withFreehandCreate = (board: PlaitBoard) => {
     if (isDrawing) {
       throttleRAF(board, 'with-freehand-creation', () => {
         generator?.destroy();
-        const newPoint = toViewBoxPoint(
-          board,
-          toHostPoint(board, event.x, event.y)
-        );
-        points.push(newPoint);
-        const pointer = PlaitBoard.getPointer(board) as FreehandShape;
-
-        temporaryElement = createFreehandElement(pointer, points);
-        generator.processDrawing(
-          temporaryElement,
-          PlaitBoard.getElementActiveHost(board)
-        );
+        if (isDrawing) {
+          const newPoint = toViewBoxPoint(
+            board,
+            toHostPoint(board, event.x, event.y)
+          );
+          points.push(newPoint);
+          const pointer = PlaitBoard.getPointer(board) as FreehandShape;
+          temporaryElement = createFreehandElement(pointer, points);
+          generator.processDrawing(
+            temporaryElement,
+            PlaitBoard.getElementActiveHost(board)
+          );
+        }
       });
       return;
     }
