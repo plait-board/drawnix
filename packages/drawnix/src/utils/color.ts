@@ -1,5 +1,5 @@
 import { DEFAULT_COLOR } from '@plait/core';
-import { TRANSPARENT, WHITE } from '../constants/color';
+import { TRANSPARENT, NO_COLOR, WHITE } from '../constants/color';
 
 // 将 0-100 的透明度转换为 0-255 的整数
 function transparencyToAlpha255(transparency: number) {
@@ -60,6 +60,14 @@ export function isTransparent(color?: string) {
 
 export function isWhite(color?: string) {
   return color === WHITE;
+}
+
+export function isCompleteOpacity(opacity: number) {
+  return opacity === 0;
+}
+
+export function isNoColor(value: string) {
+  return value === NO_COLOR;
 }
 
 export function isDefaultStroke(color?: string) {

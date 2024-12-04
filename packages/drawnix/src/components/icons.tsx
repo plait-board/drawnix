@@ -249,8 +249,8 @@ export const BackgroundColorIcon = createIcon(
   </svg>
 );
 
-export const TransparentIcon = createIcon(
-  <svg viewBox="0 0 32 32" className="transparent-icon">
+export const NoColorIcon = createIcon(
+  <svg viewBox="0 0 32 32" className="no-color-icon">
     <g
       xmlns="http://www.w3.org/2000/svg"
       fillRule="nonzero"
@@ -300,7 +300,7 @@ export const StrokeIcon = createIcon(
 );
 
 export const StrokeWhiteIcon = createIcon(
-  <svg viewBox="0 0 24 24" className="transparent-icon">
+  <svg viewBox="0 0 24 24">
     <g
       xmlns="http://www.w3.org/2000/svg"
       id="icon-border-white"

@@ -4,7 +4,11 @@ import classNames from 'classnames';
 import { ATTACHED_ELEMENT_CLASS_NAME, PlaitBoard } from '@plait/core';
 import { Island } from '../../island';
 import { ColorPicker } from '../../color-picker';
-import { isTransparent, removeHexAlpha } from '../../../utils/color';
+import {
+  hexAlphaToOpacity,
+  isCompleteOpacity,
+  removeHexAlpha,
+} from '../../../utils/color';
 import { BackgroundColorIcon } from '../../icons';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 
@@ -25,10 +29,10 @@ export const PopupFillButton: React.FC<PopupFillButtonProps> = ({
 }) => {
   const [isFillPropertyOpen, setIsFillPropertyOpen] = useState(false);
   const hexColor = currentColor && removeHexAlpha(currentColor);
+  const opacity = currentColor ? hexAlphaToOpacity(currentColor) : 100;
   const container = PlaitBoard.getBoardContainer(board);
-
   const icon =
-    !hexColor || isTransparent(hexColor) ? BackgroundColorIcon : undefined;
+    !hexColor || isCompleteOpacity(opacity) ? BackgroundColorIcon : undefined;
 
   return (
     <Popover

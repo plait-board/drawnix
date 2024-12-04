@@ -1,12 +1,14 @@
-import { DEFAULT_COLOR } from "@plait/core";
+import { DEFAULT_COLOR } from '@plait/core';
 
 export const TRANSPARENT = 'TRANSPARENT';
+
+export const NO_COLOR = 'NO_COLOR';
 
 export const WHITE = '#FFFFFF';
 
 export const CLASSIC_COLORS = [
-  { name: 'Transparent', value: TRANSPARENT },
-  { name: 'Default', value: DEFAULT_COLOR },
+  { name: 'Topic Color', value: NO_COLOR },
+  { name: 'Basic Black', value: DEFAULT_COLOR },
   { name: 'White', value: WHITE },
   { name: 'Gray', value: '#808080' },
   { name: 'Deep Blue', value: '#1E90FF' },

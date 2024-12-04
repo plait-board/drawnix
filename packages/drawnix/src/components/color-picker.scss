@@ -12,7 +12,7 @@
   padding: 0;
   &.active {
     border-color: var(--color-primary);
-    &.transparent {
+    &.no-color {
       .selected-icon {
         background-color: $oc-white;
       }
@@ -26,9 +26,9 @@
     height: var(--default-icon-size);
 
   }
-  &.transparent {
+  &.no-color {
     border: none;
-    .transparent-icon {
+    .no-color-icon {
       display: block;
       width: var(-default-button-size);
       height: var(-default-button-size);

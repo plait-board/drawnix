@@ -35,6 +35,10 @@ export const SizeSlider: React.FC<SliderProps> = ({
     }
   }, [thumbRef, sliderRef]);
 
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
+
   const handleSliderChange = useCallback(
     (event: React.MouseEvent<HTMLDivElement> | MouseEvent) => {
       if (sliderRef.current && thumbRef.current) {
