@@ -10,6 +10,8 @@ interface SliderProps {
   defaultValue?: number;
   disabled?: boolean;
   onChange?: (value: number) => void;
+  beforeStart?: () => void;
+  afterEnd?: () => void;
 }
 
 export const SizeSlider: React.FC<SliderProps> = ({
@@ -19,6 +21,8 @@ export const SizeSlider: React.FC<SliderProps> = ({
   defaultValue = 100,
   disabled = false,
   onChange,
+  beforeStart,
+  afterEnd,
 }) => {
   const [value, setValue] = useState(defaultValue);
   const thumbPercentageRef = useRef(0);
@@ -62,6 +66,7 @@ export const SizeSlider: React.FC<SliderProps> = ({
   const handlePointerDown = useCallback(() => {
     const handleMouseMove = (e: MouseEvent) => handleSliderChange(e);
     const handleMouseUp = () => {
+      afterEnd();
       document.removeEventListener('pointermove', handleMouseMove);
       document.removeEventListener('pointerup', handleMouseUp);
     };
@@ -94,6 +99,7 @@ export const SizeSlider: React.FC<SliderProps> = ({
           if (disabled) {
             return;
           }
+          beforeStart();
           handlePointerDown();
         }}
       >
