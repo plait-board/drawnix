@@ -27,7 +27,7 @@ export const PopupFillButton: React.FC<PopupFillButtonProps> = ({
   const hexColor = currentColor && removeHexAlpha(currentColor);
   const container = PlaitBoard.getBoardContainer(board);
 
-  let icon =
+  const icon =
     !hexColor || isTransparent(hexColor) ? BackgroundColorIcon : undefined;
 
   return (

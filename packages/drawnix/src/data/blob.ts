@@ -7,11 +7,7 @@ export const loadFromBlob = async (board: PlaitBoard, blob: Blob | File) => {
   const contents = await parseFileContents(blob);
   let data;
   try {
-    try {
-      data = JSON.parse(contents);
-    } catch (error: any) {
-      throw error;
-    }
+    data = JSON.parse(contents);
     if (isValidDrawnixData(data)) {
       return data;
     }

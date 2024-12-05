@@ -1,5 +1,5 @@
 export class AbortError extends DOMException {
-  constructor(message: string = 'Request Aborted') {
+  constructor(message = 'Request Aborted') {
     super(message, 'AbortError');
   }
 }

@@ -15,8 +15,7 @@ export enum FreehandShape {
 
 export const FREEHAND_TYPE = 'freehand';
 
-export interface Freehand
-  extends PlaitCustomGeometry<typeof FREEHAND_TYPE, Point[], FreehandShape> {}
+export type Freehand = PlaitCustomGeometry<typeof FREEHAND_TYPE, Point[], FreehandShape>
 
 export const Freehand = {
   isFreehand: (value: any): value is Freehand => {

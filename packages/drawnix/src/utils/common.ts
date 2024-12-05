@@ -33,11 +33,11 @@ export const composeEventHandlers = <E>(
 };
 
 export const base64ToBlob = (base64: string) => {
-  let arr = base64.split(','),
-    fileType = arr[0].match(/:(.*?);/)![1],
-    bstr = atob(arr[1]),
-    l = bstr.length,
-    u8Arr = new Uint8Array(l);
+  const arr = base64.split(',');
+  const fileType = arr[0].match(/:(.*?);/)![1];
+  const bstr = atob(arr[1]);
+  let l = bstr.length;
+  const u8Arr = new Uint8Array(l);
 
   while (l--) {
     u8Arr[l] = bstr.charCodeAt(l);
@@ -72,7 +72,7 @@ export function download(blob: Blob | MediaSource, filename: string) {
 }
 
 export const splitRows = <T>(shapes: T[], cols: number) => {
-  let result = [];
+  const result = [];
   for (let i = 0; i < shapes.length; i += cols) {
     result.push(shapes.slice(i, i + cols));
   }
