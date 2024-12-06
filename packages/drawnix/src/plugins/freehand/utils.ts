@@ -69,3 +69,37 @@ export const isRectangleHitFreehand = (
 export const getSelectedFreehandElements = (board: PlaitBoard) => {
   return getSelectedElements(board).filter((ele) => Freehand.isFreehand(ele));
 };
+
+export function gaussianWeight(x: number, sigma: number) {
+  return Math.exp(-(x * x) / (2 * sigma * sigma));
+}
+
+export function gaussianSmooth(points: Point[], sigma: number, windowSize: number) {
+  if (points.length < 2) return points;
+
+  const halfWindow = Math.floor(windowSize / 2);
+  const smoothedPoints: Point[] = [];
+  
+  for (let i = 0; i < points.length; i++) {
+    let sumX = 0;
+    let sumY = 0;
+    let weightSum = 0;
+
+    for (let j = -halfWindow; j <= halfWindow; j++) {
+      const idx = i + j;
+      if (idx >= 0 && idx < points.length) {
+        const weight = gaussianWeight(j, sigma);
+        sumX += points[idx][0] * weight;
+        sumY += points[idx][1] * weight;
+        weightSum += weight;
+      }
+    }
+
+    smoothedPoints.push([
+      sumX / weightSum,
+      sumY / weightSum
+    ]);
+  }
+
+  return smoothedPoints;
+}

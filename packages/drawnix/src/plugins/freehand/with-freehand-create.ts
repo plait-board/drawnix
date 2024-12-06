@@ -2,6 +2,7 @@ import {
   PlaitBoard,
   Point,
   Transforms,
+  distanceBetweenPointAndPoint,
   throttleRAF,
   toHostPoint,
   toViewBoxPoint,
@@ -22,6 +23,8 @@ export const withFreehandCreate = (board: PlaitBoard) => {
 
   let temporaryElement: Freehand | null = null;
 
+  let previousScreenPoint: Point | null = null;
+
   const complete = (cancel?: boolean) => {
     if (isDrawing) {
       const pointer = PlaitBoard.getPointer(board) as FreehandShape;
@@ -34,6 +37,7 @@ export const withFreehandCreate = (board: PlaitBoard) => {
     temporaryElement = null;
     isDrawing = false;
     points = [];
+    previousScreenPoint = null;
   };
 
   board.pointerDown = (event: PointerEvent) => {
@@ -43,12 +47,18 @@ export const withFreehandCreate = (board: PlaitBoard) => {
       isDrawing = true;
       const point = toViewBoxPoint(board, toHostPoint(board, event.x, event.y));
       points.push(point);
+      previousScreenPoint = [event.x, event.y];
     }
     pointerDown(event);
   };
 
   board.pointerMove = (event: PointerEvent) => {
-    if (isDrawing) {
+    if (isDrawing && previousScreenPoint) {
+      const distance = distanceBetweenPointAndPoint(previousScreenPoint[0], previousScreenPoint[1], event.x, event.y);
+      if (distance < 2) {
+        return;
+      }
+      previousScreenPoint = [event.x, event.y];
       throttleRAF(board, 'with-freehand-creation', () => {
         generator?.destroy();
         if (isDrawing) {
