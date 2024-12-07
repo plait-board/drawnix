@@ -26,7 +26,7 @@ export const Text: React.FC<TextComponentProps> = (
     const editor = withText(withHistory(withReact(createEditor())));
     afterInit && afterInit(editor);
     return editor;
-  }, []);
+  }, [afterInit]);
   return (
     <Slate
       editor={editor}
@@ -44,7 +44,6 @@ export const Text: React.FC<TextComponentProps> = (
         renderElement={renderElement}
         renderLeaf={renderLeaf}
         readOnly={readonly === undefined ? true : readonly}
-        onKeyDown={(event) => {}}
         onCompositionStart={(event) => {
           if (onComposition) {
             onComposition(event as unknown as CompositionEvent);

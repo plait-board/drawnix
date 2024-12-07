@@ -23,7 +23,7 @@ import { OpenFile, SaveAsImage, SaveToFile, Socials } from './app-menu-items';
 import Menu from '../../menu/menu';
 import MenuSeparator from '../../menu/menu-separator';
 
-export const AppToolbar: React.FC<null> = () => {
+export const AppToolbar = () => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
   const selectedElements = getSelectedElements(board);

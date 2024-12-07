@@ -44,9 +44,7 @@ import { PopupFillButton } from './fill-button';
 import { isWhite, removeHexAlpha } from '../../../utils/color';
 import { NO_COLOR } from '../../../constants/color';
 
-export type PopupToolbarProps = null;
-
-export const PopupToolbar: React.FC<PopupToolbarProps> = () => {
+export const PopupToolbar = () => {
   const board = useBoard();
   const selectedElements = getSelectedElements(board);
   const [movingOrDragging, setMovingOrDragging] = useState(false);
