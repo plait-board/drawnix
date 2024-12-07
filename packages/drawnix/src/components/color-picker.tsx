@@ -18,7 +18,7 @@ import {
   TRANSPARENT,
   WHITE,
 } from '../constants/color';
-import { DEFAULT_COLOR } from '@plait/core';
+import { DEFAULT_COLOR, isNullOrUndefined } from '@plait/core';
 
 const ROWS_CLASSIC_COLORS = splitRows(CLASSIC_COLORS, 4);
 
@@ -33,61 +33,60 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
     (currentColor && removeHexAlpha(currentColor)) ||
       ROWS_CLASSIC_COLORS[0][0].value
   );
-  const [opacity, setOpacity] = useState(
-    (currentColor && hexAlphaToOpacity(currentColor)) || 100
-  );
+  const [opacity, setOpacity] = useState(() => {
+    const _opacity = currentColor && hexAlphaToOpacity(currentColor);
+    return (!isNullOrUndefined(_opacity) ? _opacity : 100) as number;
+  });
   return (
     <Stack.Col gap={3}>
-        <SizeSlider
-          step={5}
-          defaultValue={opacity}
-          onChange={(value) => {
-            setOpacity(value);
-            onSelect(applyOpacityToHex(selectedColor, value));
-          }}
-          disabled={selectedColor === CLASSIC_COLORS[0]['value']}
-        ></SizeSlider>
-        <Stack.Col gap={2}>
-          {ROWS_CLASSIC_COLORS.map((colors, index) => (
-            <Stack.Row key={index} gap={2}>
-              {colors.map((color) => {
-                return (
-                  <button
-                    key={color.value}
-                    className={`color-select-item ${
-                      selectedColor === color.value ? 'active' : ''
-                    } ${isNoColor(color.value) ? 'no-color' : ''}`}
-                    style={{
-                      backgroundColor: isNoColor(color.value)
-                        ? TRANSPARENT
-                        : color.value,
-                      color: isDefaultStroke(color.value)
-                        ? WHITE
-                        : DEFAULT_COLOR,
-                    }}
-                    onClick={() => {
-                      setSelectedColor(color.value);
-                      if (color.value === NO_COLOR) {
-                        setOpacity(100);
-                        onSelect(color.value);
-                        return;
-                      }
-                      if (opacity !== 100) {
-                        onSelect(applyOpacityToHex(color.value, opacity));
-                      } else {
-                        onSelect(color.value);
-                      }
-                    }}
-                    title={color.name}
-                  >
-                    {isNoColor(color.value) && NoColorIcon}
-                    {selectedColor === color.value && Check}
-                  </button>
-                );
-              })}
-            </Stack.Row>
-          ))}
-        </Stack.Col>
+      <SizeSlider
+        step={5}
+        defaultValue={opacity}
+        onChange={(value) => {
+          setOpacity(value);
+          onSelect(applyOpacityToHex(selectedColor, value));
+        }}
+        disabled={selectedColor === CLASSIC_COLORS[0]['value']}
+      ></SizeSlider>
+      <Stack.Col gap={2}>
+        {ROWS_CLASSIC_COLORS.map((colors, index) => (
+          <Stack.Row key={index} gap={2}>
+            {colors.map((color) => {
+              return (
+                <button
+                  key={color.value}
+                  className={`color-select-item ${
+                    selectedColor === color.value ? 'active' : ''
+                  } ${isNoColor(color.value) ? 'no-color' : ''}`}
+                  style={{
+                    backgroundColor: isNoColor(color.value)
+                      ? TRANSPARENT
+                      : color.value,
+                    color: isDefaultStroke(color.value) ? WHITE : DEFAULT_COLOR,
+                  }}
+                  onClick={() => {
+                    setSelectedColor(color.value);
+                    if (color.value === NO_COLOR) {
+                      setOpacity(100);
+                      onSelect(color.value);
+                      return;
+                    }
+                    if (opacity !== 100) {
+                      onSelect(applyOpacityToHex(color.value, opacity));
+                    } else {
+                      onSelect(color.value);
+                    }
+                  }}
+                  title={color.name}
+                >
+                  {isNoColor(color.value) && NoColorIcon}
+                  {selectedColor === color.value && Check}
+                </button>
+              );
+            })}
+          </Stack.Row>
+        ))}
       </Stack.Col>
+    </Stack.Col>
   );
 });
