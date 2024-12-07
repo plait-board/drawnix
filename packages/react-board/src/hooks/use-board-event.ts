@@ -5,7 +5,6 @@ import {
   initializeViewBox,
   initializeViewportContainer,
   isFromViewportChange,
-  isPreventTouchMove,
   setIsFromViewportChange,
   updateViewportByScrolling,
   updateViewportOffset,

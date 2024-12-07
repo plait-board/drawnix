@@ -14,7 +14,7 @@ import { useState } from 'react';
 import Menu from '../menu/menu';
 import MenuItem from '../menu/menu-item';
 
-export const ZoomToolbar: React.FC<null> = () => {
+export const ZoomToolbar = () => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
   const [zoomMenuOpen, setZoomMenuOpen] = useState(false);
