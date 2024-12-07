@@ -59,7 +59,7 @@ export const withFreehand = (board: PlaitBoard) => {
   board.getOneHitElement = (elements) => {
     const isAllFreehand = elements.every((item) => Freehand.isFreehand(item));
     if (isAllFreehand) {
-      return getHitDrawElement(board, elements);
+      return getHitDrawElement(board, elements as Freehand[]);
     }
     return getOneHitElement(elements);
   };
