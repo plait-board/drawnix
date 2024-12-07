@@ -197,18 +197,6 @@ export const PopupToolbar: React.FC<PopupToolbarProps> = () => {
                       getMemorizeKey,
                     }
                   );
-                  const selectedElements = getSelectedElements(board);
-
-                  if (selectedElements.length) {
-                    selectedElements.forEach((element) => {
-                      const path = PlaitBoard.findPath(board, element);
-                      Transforms.setNode(
-                        board,
-                        { branchColor: getColorPropertyValue(selectedColor) },
-                        path
-                      );
-                    });
-                  }
                 }}
               >
                 <label
