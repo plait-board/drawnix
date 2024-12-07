@@ -31,8 +31,7 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
     hexAlphaToOpacity(currentColor || ROWS_CLASSIC_COLORS[0][0].value)
   );
   return (
-    <>
-      <Stack.Col gap={3}>
+    <Stack.Col gap={3}>
         <SizeSlider
           step={5}
           defaultValue={opacity}
@@ -81,6 +80,5 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
           ))}
         </Stack.Col>
       </Stack.Col>
-    </>
   );
 });

@@ -14,7 +14,7 @@ import { FreehandGenerator } from './freehand.generator';
 export const withFreehandCreate = (board: PlaitBoard) => {
   const { pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
 
-  let isDrawing: boolean = false;
+  let isDrawing = false;
 
   let points: Point[] = [];
 

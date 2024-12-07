@@ -86,15 +86,13 @@ SaveAsImage.displayName = 'SaveAsImage';
 
 export const Socials = () => {
   return (
-    <>
-      <MenuItemLink
+    <MenuItemLink
         icon={GithubIcon}
         href="https://github.com/plait-board/drawnix"
         aria-label="GitHub"
       >
         GitHub
       </MenuItemLink>
-    </>
   );
 };
 Socials.displayName = 'Socials';

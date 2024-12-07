@@ -38,7 +38,7 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
   const hexColor = currentColor && removeHexAlpha(currentColor);
   const container = PlaitBoard.getBoardContainer(board);
 
-  let icon = isTransparent(hexColor)
+  const icon = isTransparent(hexColor)
     ? StrokeIcon
     : isWhite(hexColor)
     ? StrokeWhiteIcon
@@ -49,84 +49,82 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
   };
 
   return (
-    <>
-      <Popover
-        sideOffset={12}
-        open={isStrokePropertyOpen}
-        onOpenChange={(open) => {
-          setIsStrokePropertyOpen(open);
-        }}
-        placement={'top'}
-      >
-        <PopoverTrigger asChild>
-          <ToolButton
-            className={classNames(`property-button`)}
-            visible={true}
-            icon={icon}
-            type="button"
-            title={title}
-            aria-label={title}
-            onPointerUp={() => {
-              setIsStrokePropertyOpen(!isStrokePropertyOpen);
-            }}
-          >
-            {!icon && children}
-          </ToolButton>
-        </PopoverTrigger>
-        <PopoverContent container={container}>
-          <Island
-            padding={4}
-            className={classNames(
-              `${ATTACHED_ELEMENT_CLASS_NAME}`,
-              'stroke-setting',
-              { 'has-stroke-style': hasStrokeStyle }
+    <Popover
+      sideOffset={12}
+      open={isStrokePropertyOpen}
+      onOpenChange={(open) => {
+        setIsStrokePropertyOpen(open);
+      }}
+      placement={'top'}
+    >
+      <PopoverTrigger asChild>
+        <ToolButton
+          className={classNames(`property-button`)}
+          visible={true}
+          icon={icon}
+          type="button"
+          title={title}
+          aria-label={title}
+          onPointerUp={() => {
+            setIsStrokePropertyOpen(!isStrokePropertyOpen);
+          }}
+        >
+          {!icon && children}
+        </ToolButton>
+      </PopoverTrigger>
+      <PopoverContent container={container}>
+        <Island
+          padding={4}
+          className={classNames(
+            `${ATTACHED_ELEMENT_CLASS_NAME}`,
+            'stroke-setting',
+            { 'has-stroke-style': hasStrokeStyle }
+          )}
+        >
+          <Stack.Col>
+            {hasStrokeStyle && (
+              <Stack.Row className={classNames('stroke-style-picker')}>
+                <ToolButton
+                  visible={true}
+                  icon={StrokeStyleNormalIcon}
+                  type="button"
+                  title={title}
+                  aria-label={title}
+                  onPointerUp={() => {
+                    setStrokeStyle(StrokeStyle.solid);
+                  }}
+                ></ToolButton>
+                <ToolButton
+                  visible={true}
+                  icon={StrokeStyleDashedIcon}
+                  type="button"
+                  title={title}
+                  aria-label={title}
+                  onPointerUp={() => {
+                    setStrokeStyle(StrokeStyle.dashed);
+                  }}
+                ></ToolButton>
+                <ToolButton
+                  visible={true}
+                  icon={StrokeStyleDotedIcon}
+                  type="button"
+                  title={title}
+                  aria-label={title}
+                  onPointerUp={() => {
+                    setStrokeStyle(StrokeStyle.dotted);
+                  }}
+                ></ToolButton>
+              </Stack.Row>
             )}
-          >
-            <Stack.Col>
-              {hasStrokeStyle && (
-                <Stack.Row className={classNames('stroke-style-picker')}>
-                  <ToolButton
-                    visible={true}
-                    icon={StrokeStyleNormalIcon}
-                    type="button"
-                    title={title}
-                    aria-label={title}
-                    onPointerUp={() => {
-                      setStrokeStyle(StrokeStyle.solid);
-                    }}
-                  ></ToolButton>
-                  <ToolButton
-                    visible={true}
-                    icon={StrokeStyleDashedIcon}
-                    type="button"
-                    title={title}
-                    aria-label={title}
-                    onPointerUp={() => {
-                      setStrokeStyle(StrokeStyle.dashed);
-                    }}
-                  ></ToolButton>
-                  <ToolButton
-                    visible={true}
-                    icon={StrokeStyleDotedIcon}
-                    type="button"
-                    title={title}
-                    aria-label={title}
-                    onPointerUp={() => {
-                      setStrokeStyle(StrokeStyle.dotted);
-                    }}
-                  ></ToolButton>
-                </Stack.Row>
-              )}
-              <ColorPicker
-                onSelect={(selectedColor) => {
-                  onColorSelect(selectedColor);
-                }}
-                currentColor={currentColor}
-              ></ColorPicker>
-            </Stack.Col>
-          </Island>
-        </PopoverContent>
-      </Popover>
-    </>
+            <ColorPicker
+              onSelect={(selectedColor) => {
+                onColorSelect(selectedColor);
+              }}
+              currentColor={currentColor}
+            ></ColorPicker>
+          </Stack.Col>
+        </Island>
+      </PopoverContent>
+    </Popover>
   );
 };

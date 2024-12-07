@@ -14,7 +14,7 @@ import { useState } from 'react';
 import Menu from '../menu/menu';
 import MenuItem from '../menu/menu-item';
 
-export const ZoomToolbar: React.FC<{}> = () => {
+export const ZoomToolbar: React.FC<null> = () => {
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
   const [zoomMenuOpen, setZoomMenuOpen] = useState(false);
@@ -31,7 +31,6 @@ export const ZoomToolbar: React.FC<{}> = () => {
           visible={true}
           title={`缩小 — Cmd+-`}
           aria-label={`缩小 — Cmd+-`}
-          onPointerDown={() => {}}
           onPointerUp={() => {
             BoardTransforms.updateZoom(board, board.viewport.zoom - 0.1);
           }}
@@ -92,7 +91,6 @@ export const ZoomToolbar: React.FC<{}> = () => {
           visible={true}
           title={`放大 — Cmd++`}
           aria-label={`放大 — Cmd++`}
-          onPointerDown={() => {}}
           onPointerUp={() => {
             BoardTransforms.updateZoom(board, board.viewport.zoom + 0.1);
           }}

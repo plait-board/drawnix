@@ -25,8 +25,7 @@ export const PopupFontColorButton: React.FC<PopupFontColorButtonProps> = ({
   const container = PlaitBoard.getBoardContainer(board);
 
   return (
-    <>
-      <Popover
+    <Popover
         sideOffset={12}
         open={isFontColorPropertyOpen}
         onOpenChange={(open) => {
@@ -62,6 +61,5 @@ export const PopupFontColorButton: React.FC<PopupFontColorButtonProps> = ({
           </Island>
         </PopoverContent>
       </Popover>
-    </>
   );
 };
