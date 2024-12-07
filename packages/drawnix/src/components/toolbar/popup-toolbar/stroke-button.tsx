@@ -4,7 +4,12 @@ import classNames from 'classnames';
 import { ATTACHED_ELEMENT_CLASS_NAME, PlaitBoard } from '@plait/core';
 import { Island } from '../../island';
 import { ColorPicker } from '../../color-picker';
-import { isTransparent, isWhite, removeHexAlpha } from '../../../utils/color';
+import {
+  hexAlphaToOpacity,
+  isCompleteOpacity,
+  isWhite,
+  removeHexAlpha,
+} from '../../../utils/color';
 import {
   StrokeIcon,
   StrokeStyleDashedIcon,
@@ -36,9 +41,10 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
 }) => {
   const [isStrokePropertyOpen, setIsStrokePropertyOpen] = useState(false);
   const hexColor = currentColor && removeHexAlpha(currentColor);
+  const opacity = currentColor ? hexAlphaToOpacity(currentColor) : 100;
   const container = PlaitBoard.getBoardContainer(board);
 
-  const icon = isTransparent(hexColor)
+  const icon = isCompleteOpacity(opacity)
     ? StrokeIcon
     : isWhite(hexColor)
     ? StrokeWhiteIcon

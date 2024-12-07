@@ -42,7 +42,7 @@ import { PopupFontColorButton } from './font-color-button';
 import { PopupStrokeButton } from './stroke-button';
 import { PopupFillButton } from './fill-button';
 import { isWhite, removeHexAlpha } from '../../../utils/color';
-import { TRANSPARENT } from '../../../constants/color';
+import { NO_COLOR } from '../../../constants/color';
 
 export type PopupToolbarProps = null;
 
@@ -354,7 +354,7 @@ export const hasTextProperty = (board: PlaitBoard, element: PlaitElement) => {
 };
 
 export const getColorPropertyValue = (color: string) => {
-  if (color === TRANSPARENT) {
+  if (color === NO_COLOR) {
     return null;
   } else {
     return color;
