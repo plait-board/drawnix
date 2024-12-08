@@ -12,7 +12,12 @@ import {
 } from '../utils/color';
 import React from 'react';
 import { SizeSlider } from './size-slider';
-import { DEFAULT_COLOR, isNullOrUndefined, MERGING } from '@plait/core';
+import {
+  DEFAULT_COLOR,
+  isNullOrUndefined,
+  MERGING,
+  PlaitHistoryBoard,
+} from '@plait/core';
 import {
   CLASSIC_COLORS,
   NO_COLOR,
@@ -25,7 +30,6 @@ const ROWS_CLASSIC_COLORS = splitRows(CLASSIC_COLORS, 4);
 
 export type ColorPickerProps = {
   onSelect: (color: string) => void;
-  // 支持选中多个图形（颜色不同）是批量调整透明度，而不改变图形本身的颜色
   onColorChange?: (color: string) => void;
   onOpacityChange?: (opacity: number) => void;
   currentColor?: string;
@@ -54,9 +58,10 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
           }}
           beforeStart={() => {
             MERGING.set(board, true);
+            PlaitHistoryBoard.setSplittingOnce(board, true);
           }}
           afterEnd={() => {
-            MERGING.set(board, false);
+            MERGING.set(board, false);              
           }}
           disabled={selectedColor === CLASSIC_COLORS[0]['value']}
         ></SizeSlider>
