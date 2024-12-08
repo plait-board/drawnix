@@ -54,27 +54,28 @@ export const withFreehandCreate = (board: PlaitBoard) => {
 
   board.pointerMove = (event: PointerEvent) => {
     if (isDrawing && previousScreenPoint) {
-      const distance = distanceBetweenPointAndPoint(previousScreenPoint[0], previousScreenPoint[1], event.x, event.y);
-      if (distance < 2) {
+      const distance = distanceBetweenPointAndPoint(
+        previousScreenPoint[0],
+        previousScreenPoint[1],
+        event.x,
+        event.y
+      );
+      if (distance <= 0.5) {
         return;
       }
       previousScreenPoint = [event.x, event.y];
-      throttleRAF(board, 'with-freehand-creation', () => {
-        generator?.destroy();
-        if (isDrawing) {
-          const newPoint = toViewBoxPoint(
-            board,
-            toHostPoint(board, event.x, event.y)
-          );
-          points.push(newPoint);
-          const pointer = PlaitBoard.getPointer(board) as FreehandShape;
-          temporaryElement = createFreehandElement(pointer, points);
-          generator.processDrawing(
-            temporaryElement,
-            PlaitBoard.getElementActiveHost(board)
-          );
-        }
-      });
+      generator?.destroy();
+      const newPoint = toViewBoxPoint(
+        board,
+        toHostPoint(board, event.x, event.y)
+      );
+      points.push(newPoint);
+      const pointer = PlaitBoard.getPointer(board) as FreehandShape;
+      temporaryElement = createFreehandElement(pointer, points);
+      generator.processDrawing(
+        temporaryElement,
+        PlaitBoard.getElementActiveHost(board)
+      );
       return;
     }
 
