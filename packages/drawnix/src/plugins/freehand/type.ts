@@ -3,7 +3,7 @@ import { PlaitCustomGeometry } from '@plait/draw';
 
 export const DefaultFreehand = {
   strokeColor: DEFAULT_COLOR,
-  strokeWidth: 4,
+  strokeWidth: 2,
 };
 
 export enum FreehandShape {
