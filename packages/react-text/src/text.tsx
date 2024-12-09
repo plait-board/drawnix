@@ -26,7 +26,7 @@ export const Text: React.FC<TextComponentProps> = (
     const editor = withText(withHistory(withReact(createEditor())));
     afterInit && afterInit(editor);
     return editor;
-  }, [afterInit]);
+  }, []);
   return (
     <Slate
       editor={editor}
