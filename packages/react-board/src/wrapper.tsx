@@ -110,7 +110,7 @@ export const Wrapper: React.FC<WrapperProps> = ({
       BOARD_TO_ON_CHANGE.delete(board);
       BOARD_TO_AFTER_CHANGE.delete(board);
     };
-  }, [board, onContextChange]);
+  }, [board]);
 
   return (
     <BoardContext.Provider value={context}>{children}</BoardContext.Provider>
