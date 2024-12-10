@@ -170,14 +170,6 @@ export const PopupToolbar = () => {
                 fontColorIcon={
                   <FontColorIcon currentColor={state.marks?.color} />
                 }
-                onSelect={(selectedColor: string) => {
-                  TextTransforms.setTextColor(
-                    board,
-                    getColorPropertyValue(selectedColor),
-                    undefined,
-                    getSelectedTableCellsEditor(board)
-                  );
-                }}
               ></PopupFontColorButton>
             )}
             {state.hasStroke && (
@@ -187,15 +179,6 @@ export const PopupToolbar = () => {
                 currentColor={state.strokeColor}
                 title={`Stroke`}
                 hasStrokeStyle={state.hasStrokeStyle || false}
-                onColorSelect={(selectedColor: string) => {
-                  PropertyTransforms.setStrokeColor(
-                    board,
-                    getColorPropertyValue(selectedColor),
-                    {
-                      getMemorizeKey,
-                    }
-                  );
-                }}
               >
                 <label
                   className={classNames('stroke-label', 'color-label')}
@@ -209,31 +192,6 @@ export const PopupToolbar = () => {
                 key={2}
                 currentColor={state.fill}
                 title={`Fill Color`}
-                onColorSelect={(selectedColor: string) => {
-                  PropertyTransforms.setFillColor(board, selectedColor, {
-                    getMemorizeKey,
-                    callback: (element: PlaitElement, path: Path) => {
-                      const tableElement =
-                        PlaitDrawElement.isElementByTable(element);
-                      if (tableElement) {
-                        DrawTransforms.setTableFill(
-                          board,
-                          element,
-                          getColorPropertyValue(selectedColor),
-                          path
-                        );
-                      } else {
-                        if (isDrawElementClosed(element as PlaitDrawElement)) {
-                          Transforms.setNode(
-                            board,
-                            { fill: getColorPropertyValue(selectedColor) },
-                            path
-                          );
-                        }
-                      }
-                    },
-                  });
-                }}
               >
                 <label
                   className={classNames('fill-label', 'color-label', {
@@ -267,14 +225,7 @@ export const getDrawElementState = (
   board: PlaitBoard,
   element: PlaitDrawElement
 ) => {
-  let marks: Omit<CustomText, 'text'>;
-  const selectedTableCellsEditor = getSelectedTableCellsEditor(board);
-  if (selectedTableCellsEditor?.length) {
-    const editor = selectedTableCellsEditor[0];
-    marks = editor && PlaitMarkEditor.getMarks(editor);
-  } else {
-    marks = getTextMarksByElement(element);
-  }
+  let marks: Omit<CustomText, 'text'> = getTextMarksByElement(element);
   return {
     fill: element.fill,
     strokeColor: getStrokeColorByDrawElement(board, element),

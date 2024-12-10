@@ -62,8 +62,12 @@ export function isWhite(color?: string) {
   return color === WHITE;
 }
 
-export function isCompleteOpacity(opacity: number) {
+export function isFullyTransparent(opacity: number) {
   return opacity === 0;
+}
+
+export function isFullyOpaque(opacity: number) {
+  return opacity === 100;
 }
 
 export function isNoColor(value: string) {

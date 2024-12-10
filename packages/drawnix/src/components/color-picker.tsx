@@ -4,7 +4,6 @@ import Stack from '../components/stack';
 import './color-picker.scss';
 import { splitRows } from '../utils/common';
 import {
-  applyOpacityToHex,
   hexAlphaToOpacity,
   isDefaultStroke,
   isNoColor,
@@ -29,15 +28,14 @@ import { useBoard } from '@plait/react-board';
 const ROWS_CLASSIC_COLORS = splitRows(CLASSIC_COLORS, 4);
 
 export type ColorPickerProps = {
-  onSelect: (color: string) => void;
-  onColorChange?: (color: string) => void;
-  onOpacityChange?: (opacity: number) => void;
+  onColorChange: (color: string) => void;
+  onOpacityChange: (opacity: number) => void;
   currentColor?: string;
 };
 
 export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
   const board = useBoard();
-  const { onSelect, currentColor } = props;
+  const { currentColor, onColorChange, onOpacityChange } = props;
   const [selectedColor, setSelectedColor] = useState(
     (currentColor && removeHexAlpha(currentColor)) ||
       ROWS_CLASSIC_COLORS[0][0].value
@@ -54,7 +52,7 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
           defaultValue={opacity}
           onChange={(value) => {
             setOpacity(value);
-            onSelect(applyOpacityToHex(selectedColor, value));
+            onOpacityChange(value);
           }}
           beforeStart={() => {
             MERGING.set(board, true);
@@ -62,7 +60,7 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
             // PlaitHistoryBoard.setSplittingOnce(board, true);
           }}
           afterEnd={() => {
-            MERGING.set(board, false);              
+            MERGING.set(board, false);
           }}
           disabled={selectedColor === CLASSIC_COLORS[0]['value']}
         ></SizeSlider>
@@ -88,14 +86,8 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
                       setSelectedColor(color.value);
                       if (color.value === NO_COLOR) {
                         setOpacity(100);
-                        onSelect(color.value);
-                        return;
                       }
-                      if (opacity !== 100) {
-                        onSelect(applyOpacityToHex(color.value, opacity));
-                      } else {
-                        onSelect(color.value);
-                      }
+                      onColorChange(color.value);
                     }}
                     title={color.name}
                   >
