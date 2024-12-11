@@ -6,7 +6,7 @@ import { Island } from '../../island';
 import { ColorPicker } from '../../color-picker';
 import {
   hexAlphaToOpacity,
-  isCompleteOpacity,
+  isFullyTransparent,
   isWhite,
   removeHexAlpha,
 } from '../../../utils/color';
@@ -21,6 +21,10 @@ import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import Stack from '../../stack';
 import { PropertyTransforms, StrokeStyle } from '@plait/common';
 import { getMemorizeKey } from '@plait/draw';
+import {
+  setStrokeColor,
+  setStrokeColorOpacity,
+} from '../../../transforms/property';
 
 export type PopupStrokeButtonProps = {
   board: PlaitBoard;
@@ -28,7 +32,6 @@ export type PopupStrokeButtonProps = {
   title: string;
   hasStrokeStyle: boolean;
   children?: React.ReactNode;
-  onColorSelect: (selectedColor: string) => void;
 };
 
 export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
@@ -37,14 +40,13 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
   title,
   hasStrokeStyle,
   children,
-  onColorSelect,
 }) => {
   const [isStrokePropertyOpen, setIsStrokePropertyOpen] = useState(false);
   const hexColor = currentColor && removeHexAlpha(currentColor);
   const opacity = currentColor ? hexAlphaToOpacity(currentColor) : 100;
   const container = PlaitBoard.getBoardContainer(board);
 
-  const icon = isCompleteOpacity(opacity)
+  const icon = isFullyTransparent(opacity)
     ? StrokeIcon
     : isWhite(hexColor)
     ? StrokeWhiteIcon
@@ -123,8 +125,11 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
               </Stack.Row>
             )}
             <ColorPicker
-              onSelect={(selectedColor) => {
-                onColorSelect(selectedColor);
+              onColorChange={(selectedColor: string) => {
+                setStrokeColor(board, selectedColor);
+              }}
+              onOpacityChange={(opacity: number) => {
+                setStrokeColorOpacity(board, opacity);
               }}
               currentColor={currentColor}
             ></ColorPicker>
