@@ -20,7 +20,6 @@ import {
   isClosedElement,
 } from '../utils/property';
 import { TextTransforms } from '@plait/text-plugins';
-import { getColorPropertyValue } from '../components/toolbar/popup-toolbar/popup-toolbar';
 
 export const setFillColorOpacity = (board: PlaitBoard, fillOpacity: number) => {
   PropertyTransforms.setFillColor(board, null, {
@@ -30,7 +29,7 @@ export const setFillColorOpacity = (board: PlaitBoard, fillOpacity: number) => {
         return;
       }
       const currentFill = getCurrentFill(board, element);
-      let currentFillColor = removeHexAlpha(currentFill);
+      const currentFillColor = removeHexAlpha(currentFill);
       const newFill = isFullyOpaque(fillOpacity)
         ? currentFillColor
         : applyOpacityToHex(currentFillColor, fillOpacity);
@@ -76,7 +75,7 @@ export const setStrokeColorOpacity = (
     getMemorizeKey,
     callback: (element: PlaitElement, path: Path) => {
       const currentStrokeColor = getCurrentStrokeColor(board, element);
-      let currentStrokeColorValue = removeHexAlpha(currentStrokeColor);
+      const currentStrokeColorValue = removeHexAlpha(currentStrokeColor);
       const newStrokeColor = isFullyOpaque(fillOpacity)
         ? currentStrokeColorValue
         : applyOpacityToHex(currentStrokeColorValue, fillOpacity);
@@ -132,7 +131,7 @@ export const setTextColorOpacity = (
   currentColor: string,
   opacity: number
 ) => {
-  let currentFontColorValue = removeHexAlpha(currentColor);
+  const currentFontColorValue = removeHexAlpha(currentColor);
   const newFontColor = isFullyOpaque(opacity)
     ? currentFontColorValue
     : applyOpacityToHex(currentFontColorValue, opacity);

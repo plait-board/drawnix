@@ -225,7 +225,7 @@ export const getDrawElementState = (
   board: PlaitBoard,
   element: PlaitDrawElement
 ) => {
-  let marks: Omit<CustomText, 'text'> = getTextMarksByElement(element);
+  const marks: Omit<CustomText, 'text'> = getTextMarksByElement(element);
   return {
     fill: element.fill,
     strokeColor: getStrokeColorByDrawElement(board, element),
