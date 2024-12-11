@@ -56,8 +56,7 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
           }}
           beforeStart={() => {
             MERGING.set(board, true);
-            // can use in @plait/core@0.74.0
-            // PlaitHistoryBoard.setSplittingOnce(board, true);
+            PlaitHistoryBoard.setSplittingOnce(board, true);
           }}
           afterEnd={() => {
             MERGING.set(board, false);
