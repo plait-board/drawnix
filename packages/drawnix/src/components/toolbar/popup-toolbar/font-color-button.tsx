@@ -58,9 +58,11 @@ export const PopupFontColorButton: React.FC<PopupFontColorButtonProps> = ({
         >
           <ColorPicker
             onColorChange={(selectedColor: string) => {
-              if (currentColor) {
-                setTextColor(board, currentColor, selectedColor);
-              }
+              setTextColor(
+                board,
+                currentColor ? currentColor : selectedColor,
+                selectedColor
+              );
             }}
             onOpacityChange={(opacity: number) => {
               if (currentColor) {
