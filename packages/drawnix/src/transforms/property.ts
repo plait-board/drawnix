@@ -115,7 +115,7 @@ export const setTextColor = (
   currentColor: string,
   newColor: string
 ) => {
-  let currentOpacity = hexAlphaToOpacity(currentColor);
+  const currentOpacity = hexAlphaToOpacity(currentColor);
   if (isNoColor(newColor)) {
     TextTransforms.setTextColor(board, null);
   } else {
