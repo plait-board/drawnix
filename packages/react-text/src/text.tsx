@@ -1,7 +1,7 @@
 import { createEditor, type Descendant, type Element } from 'slate';
 import { Editable, RenderLeafProps, Slate, withReact } from 'slate-react';
 import type { CustomText, TextProps } from '@plait/common';
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useEffect } from 'react';
 import { withHistory } from 'slate-history';
 import { withText } from './plugins/with-text';
 
@@ -27,6 +27,13 @@ export const Text: React.FC<TextComponentProps> = (
     afterInit && afterInit(editor);
     return editor;
   }, []);
+  useEffect(() => {
+    if (text === editor.children[0]) {
+      return;
+    }
+    editor.children = [text];
+    editor.onChange();
+  }, [text, editor]);
   return (
     <Slate
       editor={editor}
