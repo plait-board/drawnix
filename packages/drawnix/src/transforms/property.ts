@@ -12,6 +12,7 @@ import {
   hexAlphaToOpacity,
   isFullyOpaque,
   isNoColor,
+  isValidColor,
   removeHexAlpha,
 } from '../utils/color';
 import {
@@ -29,6 +30,9 @@ export const setFillColorOpacity = (board: PlaitBoard, fillOpacity: number) => {
         return;
       }
       const currentFill = getCurrentFill(board, element);
+      if (!isValidColor(currentFill)) {
+        return;
+      }
       const currentFillColor = removeHexAlpha(currentFill);
       const newFill = isFullyOpaque(fillOpacity)
         ? currentFillColor

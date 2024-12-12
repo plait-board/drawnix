@@ -36,6 +36,13 @@ export function hexAlphaToOpacity(hexColor: string) {
   return 100 - alpha255ToTransparency(alpha);
 }
 
+export function isValidColor(color: string) {
+  if (color === 'none') {
+    return false;
+  }
+  return true;
+}
+
 export function removeHexAlpha(hexColor: string) {
   // 移除可能存在的 # 前缀，并转换为大写
   const hexColorClone = hexColor.replace(/^#/, '').toUpperCase();
