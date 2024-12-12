@@ -70,8 +70,10 @@ export const SizeSlider: React.FC<SliderProps> = ({
   );
 
   const handlePointerDown = useCallback(() => {
-    setIsDragging(true);
-    const handleMouseMove = (e: MouseEvent) => handleSliderChange(e);
+    const handleMouseMove = (e: MouseEvent) => {
+      setIsDragging(true);
+      handleSliderChange(e);
+    };
     const handleMouseUp = () => {
       document.removeEventListener('pointermove', handleMouseMove);
       document.removeEventListener('pointerup', handleMouseUp);
