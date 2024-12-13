@@ -26,8 +26,6 @@ export const withFreehandCreate = (board: PlaitBoard) => {
 
   let temporaryElement: Freehand | null = null;
 
-  let previousScreenPoint: Point | null = null;
-
   const complete = (cancel?: boolean) => {
     if (isDrawing) {
       const pointer = PlaitBoard.getPointer(board) as FreehandShape;
@@ -40,7 +38,6 @@ export const withFreehandCreate = (board: PlaitBoard) => {
     temporaryElement = null;
     isDrawing = false;
     points = [];
-    previousScreenPoint = null;
     smoother.reset();
   };
 
@@ -56,25 +53,14 @@ export const withFreehandCreate = (board: PlaitBoard) => {
         toHostPoint(board, smoothingPoint[0], smoothingPoint[1])
       );
       points.push(point);
-      previousScreenPoint = smoothingPoint;
     }
     pointerDown(event);
   };
 
   board.pointerMove = (event: PointerEvent) => {
-    if (isDrawing && previousScreenPoint) {
+    if (isDrawing) {
       const originPoint: Point = [event.x, event.y];
       const smoothingPoint = smoother.smoothPoint(originPoint);
-      const distance = distanceBetweenPointAndPoint(
-        previousScreenPoint[0],
-        previousScreenPoint[1],
-        smoothingPoint[0],
-        smoothingPoint[1]
-      );
-      if (distance <= 0.5) {
-        return;
-      }
-      previousScreenPoint = smoothingPoint;
       generator?.destroy();
       const newPoint = toViewBoxPoint(
         board,
