@@ -8,6 +8,33 @@ export interface FreehandSmootherConfig {
   minDistance: number; // 最小距离阈值
 }
 
+// 例如需要更精细的笔画
+// const preciseConfig = {
+//   smoothing: 0.3,      // 较小的平滑度保留更多细节
+//   velocityWeight: 0.4, // 更敏感的速度响应
+//   curvatureWeight: 0.4,// 更好地保留转角
+//   maxPoints: 3,        // 更少的历史点提高响应速度
+//   minDistance: 0.3     // 保留更多细微变化
+// };
+
+// 例如需要更平滑的笔画
+// const smoothConfig = {
+//   smoothing: 0.7,      // 较大的平滑度
+//   velocityWeight: 0.2, // 较小的速度影响
+//   curvatureWeight: 0.2,// 较圆滑的转角
+//   maxPoints: 7,        // 更多的历史点实现更平滑的效果
+//   minDistance: 0.8     // 更强的抖动过滤
+// };
+
+// 最大平滑效果的配置
+// const maxSmoothConfig = {
+//   smoothing: 0.9,        // 接近 1，最大平滑度
+//   velocityWeight: 0.1,   // 很小的速度影响，保持一致的平滑度
+//   curvatureWeight: 0.1,  // 很小的曲率影响，让转角也变得圆滑
+//   maxPoints: 10,         // 更多的历史点参与计算
+//   minDistance: 1.0       // 强力过滤小幅度抖动
+// };
+
 export class FreehandSmoother {
   private config: FreehandSmootherConfig;
   private points: Point[];
@@ -16,11 +43,11 @@ export class FreehandSmoother {
   constructor(options: Partial<FreehandSmootherConfig> = {}) {
     // 默认配置
     const defaultConfig: FreehandSmootherConfig = {
-      smoothing: 0.5,
-      velocityWeight: 0.3,
-      curvatureWeight: 0.3,
-      maxPoints: 5,
-      minDistance: 0.5,
+      smoothing: 0.9, // 接近 1，最大平滑度
+      velocityWeight: 0.1, // 很小的速度影响，保持一致的平滑度
+      curvatureWeight: 0.1, // 很小的曲率影响，让转角也变得圆滑
+      maxPoints: 10, // 更多的历史点参与计算
+      minDistance: 1.0, // 强力过滤小幅度抖动
     };
 
     this.config = {

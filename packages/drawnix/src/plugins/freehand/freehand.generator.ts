@@ -7,11 +7,10 @@ import { gaussianSmooth } from './utils';
 export class FreehandGenerator extends Generator<Freehand> {
   protected draw(element: Freehand): SVGGElement | undefined {
     const option: Options = { ...DefaultFreehand };
-    // const g = PlaitBoard.getRoughSVG(this.board).curve(
-    //   gaussianSmooth(element.points, 1.2, 4),
-    //   option
-    // );
-    const g = PlaitBoard.getRoughSVG(this.board).curve(element.points, option);
+    const g = PlaitBoard.getRoughSVG(this.board).curve(
+      gaussianSmooth(element.points, 3, 9),
+      option
+    );
     setStrokeLinecap(g, 'round');
     return g;
   }
