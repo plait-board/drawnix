@@ -28,6 +28,7 @@ import { withReact } from './plugins/with-react';
 import { withImage, withText } from '@plait/common';
 import { BoardContext, BoardContextValue } from './hooks/use-board';
 import React from 'react';
+import { withPinchZoom } from './hooks/with-pinch-zoom-plugin';
 
 export type WrapperProps = {
   value: PlaitElement[];
@@ -128,12 +129,16 @@ const initializeBoard = (
     withHotkey(
       withHandPointer(
         withHistory(
-          withSelection(
-            withMoving(
-              withBoard(
-                withViewport(
-                  withOptions(
-                    withReact(withImage(withText(createBoard(value, options))))
+          withPinchZoom(
+            withSelection(
+              withMoving(
+                withBoard(
+                  withViewport(
+                    withOptions(
+                      withReact(
+                        withImage(withText(createBoard(value, options)))
+                      )
+                    )
                   )
                 )
               )
