@@ -21,7 +21,7 @@
         top: 36px;
         right: 36px;
         @include isMobile {
-            display: none;
+            top: 20px;
         }
         .zoom-out-button {
             border-top-right-radius: 0 !important;
