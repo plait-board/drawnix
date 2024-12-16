@@ -1,163 +1,243 @@
 import { Point } from '@plait/core';
 
-export interface FreehandSmootherConfig {
-  smoothing: number; // 基础平滑系数
-  velocityWeight: number; // 速度权重
-  curvatureWeight: number; // 曲率权重
-  maxPoints: number; // 最大历史点数
-  minDistance: number; // 最小距离阈值
+interface StrokePoint {
+  point: Point;
+  pressure?: number;
+  timestamp: number;
+  tiltX?: number;
+  tiltY?: number;
 }
 
-// 例如需要更精细的笔画
-// const preciseConfig = {
-//   smoothing: 0.3,      // 较小的平滑度保留更多细节
-//   velocityWeight: 0.4, // 更敏感的速度响应
-//   curvatureWeight: 0.4,// 更好地保留转角
-//   maxPoints: 3,        // 更少的历史点提高响应速度
-//   minDistance: 0.3     // 保留更多细微变化
-// };
+interface SmootherOptions {
+  // 基础平滑参数
+  smoothing?: number; // 基础平滑强度 (0-1)
+  velocityWeight?: number; // 速度权重
+  curvatureWeight?: number; // 曲率权重
+  minDistance?: number; // 最小距离阈值
+  maxPoints?: number; // 历史点数量
 
-// 例如需要更平滑的笔画
-// const smoothConfig = {
-//   smoothing: 0.7,      // 较大的平滑度
-//   velocityWeight: 0.2, // 较小的速度影响
-//   curvatureWeight: 0.2,// 较圆滑的转角
-//   maxPoints: 7,        // 更多的历史点实现更平滑的效果
-//   minDistance: 0.8     // 更强的抖动过滤
-// };
-
-// 最大平滑效果的配置
-// const maxSmoothConfig = {
-//   smoothing: 0.9,        // 接近 1，最大平滑度
-//   velocityWeight: 0.1,   // 很小的速度影响，保持一致的平滑度
-//   curvatureWeight: 0.1,  // 很小的曲率影响，让转角也变得圆滑
-//   maxPoints: 10,         // 更多的历史点参与计算
-//   minDistance: 1.0       // 强力过滤小幅度抖动
-// };
+  // 高级参数
+  pressureSensitivity?: number; // 压力敏感度 (0-1)
+  tiltSensitivity?: number; // 倾斜敏感度 (0-1)
+  velocityThreshold?: number; // 速度阈值
+  samplingRate?: number; // 采样率控制(ms)
+}
 
 export class FreehandSmoother {
-  private config: FreehandSmootherConfig;
-  private points: Point[];
-  private velocities: number[];
+  private readonly defaultOptions: Required<SmootherOptions> = {
+    smoothing: 0.7,
+    velocityWeight: 0.25,
+    curvatureWeight: 0.35,
+    minDistance: 0.8,
+    maxPoints: 6,
+    pressureSensitivity: 0.5,
+    tiltSensitivity: 0.3,
+    velocityThreshold: 1000,
+    samplingRate: 8,
+  };
 
-  constructor(options: Partial<FreehandSmootherConfig> = {}) {
-    // 默认配置
-    const defaultConfig: FreehandSmootherConfig = {
-      smoothing: 0.9, // 接近 1，最大平滑度
-      velocityWeight: 0.1, // 很小的速度影响，保持一致的平滑度
-      curvatureWeight: 0.1, // 很小的曲率影响，让转角也变得圆滑
-      maxPoints: 10, // 更多的历史点参与计算
-      minDistance: 1.0, // 强力过滤小幅度抖动
-    };
+  private options: Required<SmootherOptions>;
+  private points: StrokePoint[] = [];
+  private lastProcessedTime: number = 0;
+  private movingAverageVelocity: number[] = [];
+  private readonly velocityWindowSize = 3;
 
-    this.config = {
-      ...defaultConfig,
-      ...options,
-    };
-
-    this.points = [];
-    this.velocities = [];
+  constructor(options: SmootherOptions = {}) {
+    this.options = { ...this.defaultOptions, ...options };
   }
 
-  public smoothPoint(point: Point): Point {
+  /**
+   * 处理新的点
+   * @param point 基础坐标点
+   * @param data 额外的点数据（压力、倾斜等）
+   * @returns 平滑后的点，如果点被过滤则返回 null
+   */
+  process(
+    point: Point,
+    data: Partial<Omit<StrokePoint, 'point'>> = {}
+  ): Point | null {
+    const timestamp = data.timestamp ?? Date.now();
+
+    // 采样率控制
+    if (timestamp - this.lastProcessedTime < this.options.samplingRate) {
+      return null;
+    }
+
+    const strokePoint: StrokePoint = {
+      point,
+      timestamp,
+      ...data,
+    };
+
+    // 距离检查
+    if (this.points.length > 0 && !this.checkDistance(point)) {
+      return null;
+    }
+
+    // 更新历史点
+    this.updatePoints(strokePoint);
+
+    // 计算动态参数
+    const dynamicParams = this.calculateDynamicParameters(strokePoint);
+
+    // 应用平滑
+    const smoothedPoint = this.smooth(point, dynamicParams);
+
+    this.lastProcessedTime = timestamp;
+    return smoothedPoint;
+  }
+
+  /**
+   * 重置状态
+   */
+  reset(): void {
+    this.points = [];
+    this.lastProcessedTime = 0;
+    this.movingAverageVelocity = [];
+  }
+
+  private updatePoints(point: StrokePoint): void {
     this.points.push(point);
-    if (this.points.length > this.config.maxPoints) {
+    if (this.points.length > this.options.maxPoints) {
       this.points.shift();
     }
+  }
 
+  private checkDistance(point: Point): boolean {
+    if (this.points.length === 0) return true;
+
+    const lastPoint = this.points[this.points.length - 1].point;
+    const distance = this.getDistance(lastPoint, point);
+    return distance >= this.options.minDistance;
+  }
+
+  private calculateDynamicParameters(strokePoint: StrokePoint) {
+    // 计算速度
+    const velocity = this.calculateVelocity(strokePoint);
+    this.updateMovingAverage(velocity);
+    const avgVelocity = this.getAverageVelocity();
+
+    // 基础参数
+    const params = { ...this.options };
+
+    // 压力适应
+    if (strokePoint.pressure !== undefined) {
+      const pressureWeight = Math.pow(strokePoint.pressure, 1.5);
+      params.smoothing *= 1 - pressureWeight * params.pressureSensitivity;
+    }
+
+    // 速度适应
+    const velocityFactor = Math.min(avgVelocity / params.velocityThreshold, 1);
+    params.velocityWeight = 0.3 + velocityFactor * 0.4;
+    params.curvatureWeight *= 1 - velocityFactor * 0.5;
+
+    // 倾斜角度适应
+    if (strokePoint.tiltX !== undefined && strokePoint.tiltY !== undefined) {
+      const tiltFactor =
+        Math.sqrt(strokePoint.tiltX ** 2 + strokePoint.tiltY ** 2) / 90;
+      params.smoothing *= 1 + tiltFactor * params.tiltSensitivity;
+    }
+
+    return params;
+  }
+
+  private smooth(point: Point, params: Required<SmootherOptions>): Point {
     if (this.points.length < 2) return point;
 
-    // 计算速度
-    const velocity = this.calculateVelocity(point);
-    this.velocities.push(velocity);
-    if (this.velocities.length > this.config.maxPoints) {
-      this.velocities.shift();
+    const weights = this.calculateWeights(params);
+    const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+
+    const smoothedPoint: Point = [0, 0];
+    for (let i = 0; i < this.points.length; i++) {
+      const weight = weights[i] / totalWeight;
+      smoothedPoint[0] += this.points[i].point[0] * weight;
+      smoothedPoint[1] += this.points[i].point[1] * weight;
     }
 
-    // 计算曲率
-    const curvature = this.calculateCurvature();
-
-    // 动态调整平滑系数
-    const adaptiveSmoothing = this.getAdaptiveSmoothing(velocity, curvature);
-
-    let smoothX = point[0];
-    let smoothY = point[1];
-    let totalWeight = 1;
-    let weight = 1;
-
-    // 指数加权移动平均
-    for (let i = this.points.length - 2; i >= 0; i--) {
-      weight *= adaptiveSmoothing;
-      totalWeight += weight;
-
-      smoothX += this.points[i][0] * weight;
-      smoothY += this.points[i][1] * weight;
-    }
-
-    return [smoothX / totalWeight, smoothY / totalWeight];
+    return smoothedPoint;
   }
 
-  private calculateVelocity(point: Point): number {
+  private calculateWeights(params: Required<SmootherOptions>): number[] {
+    const weights: number[] = [];
+    const lastIndex = this.points.length - 1;
+
+    for (let i = 0; i < this.points.length; i++) {
+      // 基础权重
+      let weight = Math.pow(params.smoothing, lastIndex - i);
+
+      // 速度权重
+      if (i < lastIndex) {
+        const velocity = this.getPointVelocity(i);
+        weight *= 1 + velocity * params.velocityWeight;
+      }
+
+      // 曲率权重
+      if (i > 0 && i < lastIndex) {
+        const curvature = this.getPointCurvature(i);
+        weight *= 1 + curvature * params.curvatureWeight;
+      }
+
+      weights.push(weight);
+    }
+
+    return weights;
+  }
+
+  // 工具方法
+  private getDistance(p1: Point, p2: Point): number {
+    const dx = p2[0] - p1[0];
+    const dy = p2[1] - p1[1];
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  private calculateVelocity(point: StrokePoint): number {
     if (this.points.length < 2) return 0;
 
-    const prev = this.points[this.points.length - 2];
-    const dx = point[0] - prev[0];
-    const dy = point[1] - prev[1];
-    const dt = 1; // 假设时间间隔恒定
-
-    return Math.sqrt(dx * dx + dy * dy) / dt;
+    const prevPoint = this.points[this.points.length - 1];
+    const distance = this.getDistance(prevPoint.point, point.point);
+    const timeDiff = point.timestamp - prevPoint.timestamp;
+    return timeDiff > 0 ? distance / timeDiff : 0;
   }
 
-  private calculateCurvature(): number {
-    if (this.points.length < 3) return 0;
-
-    const p1 = this.points[this.points.length - 3];
-    const p2 = this.points[this.points.length - 2];
-    const p3 = this.points[this.points.length - 1];
-
-    // 使用三点法计算曲率
-    const dx1 = p2[0] - p1[0];
-    const dy1 = p2[1] - p1[1];
-    const dx2 = p3[0] - p2[0];
-    const dy2 = p3[1] - p2[1];
-
-    // 使用叉积估算曲率
-    const cross = dx1 * dy2 - dy1 * dx2;
-    const velocity = Math.sqrt(dx1 * dx1 + dy1 * dy1);
-
-    return Math.abs(cross) / (velocity * velocity + this.config.minDistance);
+  private updateMovingAverage(velocity: number): void {
+    this.movingAverageVelocity.push(velocity);
+    if (this.movingAverageVelocity.length > this.velocityWindowSize) {
+      this.movingAverageVelocity.shift();
+    }
   }
 
-  private getAdaptiveSmoothing(velocity: number, curvature: number): number {
-    // 基于速度和曲率动态调整平滑系数
-    const velocityFactor = Math.exp(-velocity * this.config.velocityWeight);
-    const curvatureFactor = Math.exp(-curvature * this.config.curvatureWeight);
-
-    // 结合基础平滑系数和动态因子
-    return this.config.smoothing * velocityFactor * curvatureFactor;
+  private getAverageVelocity(): number {
+    if (this.movingAverageVelocity.length === 0) return 0;
+    return (
+      this.movingAverageVelocity.reduce((a, b) => a + b) /
+      this.movingAverageVelocity.length
+    );
   }
 
-  // 获取当前配置
-  public getConfig(): FreehandSmootherConfig {
-    return { ...this.config };
+  private getPointVelocity(index: number): number {
+    if (index >= this.points.length - 1) return 0;
+
+    const p1 = this.points[index];
+    const p2 = this.points[index + 1];
+    const distance = this.getDistance(p1.point, p2.point);
+    const timeDiff = p2.timestamp - p1.timestamp;
+    return timeDiff > 0 ? distance / timeDiff : 0;
   }
 
-  // 更新配置
-  public updateConfig(newConfig: Partial<FreehandSmootherConfig>): void {
-    this.config = {
-      ...this.config,
-      ...newConfig,
-    };
-  }
+  private getPointCurvature(index: number): number {
+    if (index <= 0 || index >= this.points.length - 1) return 0;
 
-  // 重置状态
-  public reset(): void {
-    this.points = [];
-    this.velocities = [];
-  }
+    const p1 = this.points[index - 1].point;
+    const p2 = this.points[index].point;
+    const p3 = this.points[index + 1].point;
 
-  // 获取当前点的数量
-  public getPointCount(): number {
-    return this.points.length;
+    const a = this.getDistance(p1, p2);
+    const b = this.getDistance(p2, p3);
+    const c = this.getDistance(p1, p3);
+
+    // 使用海伦公式计算曲率
+    const s = (a + b + c) / 2;
+    const area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+    return (4 * area) / (a * b * c);
   }
 }
