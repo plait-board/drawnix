@@ -8,9 +8,13 @@ export class FreehandGenerator extends Generator<Freehand> {
   protected draw(element: Freehand): SVGGElement | undefined {
     const option: Options = { ...DefaultFreehand };
     const g = PlaitBoard.getRoughSVG(this.board).curve(
-      gaussianSmooth(element.points, 3, 9),
+      gaussianSmooth(element.points, 1, 3),
       option
     );
+    // const g = PlaitBoard.getRoughSVG(this.board).curve(
+    //   element.points,
+    //   option
+    // );
     setStrokeLinecap(g, 'round');
     return g;
   }
