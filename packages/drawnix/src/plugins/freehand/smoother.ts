@@ -35,7 +35,7 @@ export class FreehandSmoother {
 
   private options: Required<SmootherOptions>;
   private points: StrokePoint[] = [];
-  private lastProcessedTime: number = 0;
+  private lastProcessedTime = 0;
   private movingAverageVelocity: number[] = [];
   private readonly velocityWindowSize = 3;
 
