@@ -8,7 +8,7 @@ export const withPenMode = (board: PlaitBoard) => {
   const { pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
   
   // 跟踪触控状态
-  let activePointers = new Map<number, PointerEvent>();
+  const activePointers = new Map<number, PointerEvent>();
   let lastStylusTime = 0;
   let penMode = false;
   
