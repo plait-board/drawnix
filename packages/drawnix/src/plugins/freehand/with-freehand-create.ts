@@ -20,7 +20,10 @@ export const withFreehandCreate = (board: PlaitBoard) => {
 
   const generator = new FreehandGenerator(board);
 
-  const smoother = new FreehandSmoother();
+  const smoother = new FreehandSmoother({
+    smoothing: 0.7,
+    pressureSensitivity: 0.6,
+  });
 
   let temporaryElement: Freehand | null = null;
 
@@ -45,7 +48,7 @@ export const withFreehandCreate = (board: PlaitBoard) => {
     if (isFreehandPointer && isDrawingMode(board)) {
       isDrawing = true;
       const originPoint: Point = [event.x, event.y];
-      const smoothingPoint = smoother.smoothPoint(originPoint);
+      const smoothingPoint = smoother.process(originPoint) as Point;
       const point = toViewBoxPoint(
         board,
         toHostPoint(board, smoothingPoint[0], smoothingPoint[1])
@@ -58,19 +61,21 @@ export const withFreehandCreate = (board: PlaitBoard) => {
   board.pointerMove = (event: PointerEvent) => {
     if (isDrawing) {
       const originPoint: Point = [event.x, event.y];
-      const smoothingPoint = smoother.smoothPoint(originPoint);
-      generator?.destroy();
-      const newPoint = toViewBoxPoint(
-        board,
-        toHostPoint(board, smoothingPoint[0], smoothingPoint[1])
-      );
-      points.push(newPoint);
-      const pointer = PlaitBoard.getPointer(board) as FreehandShape;
-      temporaryElement = createFreehandElement(pointer, points);
-      generator.processDrawing(
-        temporaryElement,
-        PlaitBoard.getElementActiveHost(board)
-      );
+      const smoothingPoint = smoother.process(originPoint);
+      if (smoothingPoint) {
+        generator?.destroy();
+        const newPoint = toViewBoxPoint(
+          board,
+          toHostPoint(board, smoothingPoint[0], smoothingPoint[1])
+        );
+        points.push(newPoint);
+        const pointer = PlaitBoard.getPointer(board) as FreehandShape;
+        temporaryElement = createFreehandElement(pointer, points);
+        generator.processDrawing(
+          temporaryElement,
+          PlaitBoard.getElementActiveHost(board)
+        );
+      }
       return;
     }
 
