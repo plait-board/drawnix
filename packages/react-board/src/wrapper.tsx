@@ -28,6 +28,7 @@ import { withReact } from './plugins/with-react';
 import { withImage, withText } from '@plait/common';
 import { BoardContext, BoardContextValue } from './hooks/use-board';
 import React from 'react';
+import { withPenMode } from './hooks/with-pen-mode';
 
 export type WrapperProps = {
   value: PlaitElement[];
@@ -124,16 +125,20 @@ const initializeBoard = (
   viewport?: Viewport,
   theme?: PlaitTheme
 ) => {
-  let board = withRelatedFragment(
-    withHotkey(
-      withHandPointer(
-        withHistory(
-          withSelection(
-            withMoving(
-              withBoard(
-                withViewport(
-                  withOptions(
-                    withReact(withImage(withText(createBoard(value, options))))
+  let board = withPenMode(
+    withRelatedFragment(
+      withHotkey(
+        withHandPointer(
+          withHistory(
+            withSelection(
+              withMoving(
+                withBoard(
+                  withViewport(
+                    withOptions(
+                      withReact(
+                        withImage(withText(createBoard(value, options)))
+                      )
+                    )
                   )
                 )
               )
