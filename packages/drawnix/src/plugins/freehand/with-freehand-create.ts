@@ -2,8 +2,6 @@ import {
   PlaitBoard,
   Point,
   Transforms,
-  distanceBetweenPointAndPoint,
-  throttleRAF,
   toHostPoint,
   toViewBoxPoint,
 } from '@plait/core';
@@ -11,6 +9,7 @@ import { isDrawingMode } from '@plait/common';
 import { createFreehandElement, getFreehandPointers } from './utils';
 import { Freehand, FreehandShape } from './type';
 import { FreehandGenerator } from './freehand.generator';
+import { FreehandSmoother } from './smoother';
 
 export const withFreehandCreate = (board: PlaitBoard) => {
   const { pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
@@ -21,9 +20,9 @@ export const withFreehandCreate = (board: PlaitBoard) => {
 
   const generator = new FreehandGenerator(board);
 
-  let temporaryElement: Freehand | null = null;
+  const smoother = new FreehandSmoother();
 
-  let previousScreenPoint: Point | null = null;
+  let temporaryElement: Freehand | null = null;
 
   const complete = (cancel?: boolean) => {
     if (isDrawing) {
@@ -37,7 +36,7 @@ export const withFreehandCreate = (board: PlaitBoard) => {
     temporaryElement = null;
     isDrawing = false;
     points = [];
-    previousScreenPoint = null;
+    smoother.reset();
   };
 
   board.pointerDown = (event: PointerEvent) => {
@@ -45,29 +44,25 @@ export const withFreehandCreate = (board: PlaitBoard) => {
     const isFreehandPointer = PlaitBoard.isInPointer(board, freehandPointers);
     if (isFreehandPointer && isDrawingMode(board)) {
       isDrawing = true;
-      const point = toViewBoxPoint(board, toHostPoint(board, event.x, event.y));
+      const originPoint: Point = [event.x, event.y];
+      const smoothingPoint = smoother.smoothPoint(originPoint);
+      const point = toViewBoxPoint(
+        board,
+        toHostPoint(board, smoothingPoint[0], smoothingPoint[1])
+      );
       points.push(point);
-      previousScreenPoint = [event.x, event.y];
     }
     pointerDown(event);
   };
 
   board.pointerMove = (event: PointerEvent) => {
-    if (isDrawing && previousScreenPoint) {
-      const distance = distanceBetweenPointAndPoint(
-        previousScreenPoint[0],
-        previousScreenPoint[1],
-        event.x,
-        event.y
-      );
-      if (distance <= 0.5) {
-        return;
-      }
-      previousScreenPoint = [event.x, event.y];
+    if (isDrawing) {
+      const originPoint: Point = [event.x, event.y];
+      const smoothingPoint = smoother.smoothPoint(originPoint);
       generator?.destroy();
       const newPoint = toViewBoxPoint(
         board,
-        toHostPoint(board, event.x, event.y)
+        toHostPoint(board, smoothingPoint[0], smoothingPoint[1])
       );
       points.push(newPoint);
       const pointer = PlaitBoard.getPointer(board) as FreehandShape;
