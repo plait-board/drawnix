@@ -12,7 +12,7 @@ import {
 import React, { useState } from 'react';
 import { withGroup } from '@plait/common';
 import { DrawPointerType, withDraw } from '@plait/draw';
-import { MindPointerType, withMind } from '@plait/mind';
+import { MindPointerType, MindThemeColors, withMind } from '@plait/mind';
 import MobileDetect from 'mobile-detect';
 import { withMindExtend } from './plugins/with-mind-extend';
 import { withCommonPlugin } from './plugins/with-common';
@@ -25,6 +25,7 @@ import './styles/index.scss';
 import { withDrawnixHotkey } from './plugins/with-hotkey';
 import { FreehandShape } from './plugins/freehand/type';
 import { withFreehand } from './plugins/freehand/with-freehand';
+import { ThemeToolbar } from './components/toolbar/theme-toolbar';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -61,9 +62,14 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     withMindExtend,
     withCommonPlugin,
     withDrawnixHotkey,
-    withFreehand
+    withFreehand,
   ];
-  const options: PlaitBoardOptions = {};
+  const options: PlaitBoardOptions = {
+    readonly: false,
+    hideScrollbar: false,
+    disabledScrollOnNonFocus: false,
+    themeColors: MindThemeColors,
+  };
   const [appState, setAppState] = useState<DrawnixState>(() => {
     // TODO: need to consider how to maintenance the pointer state in future
     const md = new MobileDetect(window.navigator.userAgent);
@@ -97,6 +103,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           }}
         ></CreationToolbar>
         <ZoomToolbar></ZoomToolbar>
+        <ThemeToolbar></ThemeToolbar>
         <PopupToolbar></PopupToolbar>
       </Wrapper>
     </div>

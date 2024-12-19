@@ -66,6 +66,29 @@
             }
         }
     }
+    .theme-toolbar {
+        position: absolute;
+        bottom: 36px;
+        right: 36px;
+        @include isMobile {
+            display: none;
+        }
+        select {
+            width: 100px;
+            background-color: var(--color-surface-secondary-container);
+            color: var(--color-on-surface);
+            border-radius: var(--border-radius-sm);
+            padding: 4px 8px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            font-weight: 500;
+            &:hover {
+                background-color: var(--color-surface-primary-container);
+            }
+        }
+    }
     .drawnix-link, a {
         font-weight: 500;
         text-decoration: none;
@@ -79,5 +102,5 @@
         &:active {
         text-decoration: none;
         }
-  }
+    }
 }
