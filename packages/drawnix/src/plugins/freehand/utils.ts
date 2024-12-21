@@ -3,14 +3,18 @@ import {
   idCreator,
   isPointInPolygon,
   PlaitBoard,
+  PlaitElement,
   Point,
   RectangleClient,
   rotateAntiPointsByElement,
   Selection,
+  ThemeColorMode,
 } from '@plait/core';
-import { DefaultFreehand, Freehand, FreehandShape } from './type';
+import { Freehand, FreehandShape, FreehandThemeColors } from './type';
 import {
+  DefaultDrawStyle,
   isClosedPoints,
+  isCustomGeometryClosed,
   isHitPolyLine,
   isRectangleHitRotatedPoints,
 } from '@plait/draw';
@@ -28,8 +32,6 @@ export const createFreehandElement = (
     type: 'freehand',
     shape,
     points,
-    strokeWidth: DefaultFreehand.strokeWidth,
-    strokeColor: DefaultFreehand.strokeColor,
   };
   return element;
 };
@@ -68,6 +70,34 @@ export const isRectangleHitFreehand = (
 
 export const getSelectedFreehandElements = (board: PlaitBoard) => {
   return getSelectedElements(board).filter((ele) => Freehand.isFreehand(ele));
+};
+
+export const getFreehandDefaultStrokeColor = (theme: ThemeColorMode) => {
+  return FreehandThemeColors[theme].strokeColor;
+};
+
+export const getFreehandDefaultFill = (theme: ThemeColorMode) => {
+  return FreehandThemeColors[theme].fill;
+};
+
+export const getStrokeColorByElement = (
+  board: PlaitBoard,
+  element: PlaitElement
+) => {
+  const defaultColor = getFreehandDefaultStrokeColor(
+    board.theme.themeColorMode
+  );
+  const strokeColor = element.strokeColor || defaultColor;
+  return strokeColor;
+};
+
+export const getFillByElement = (board: PlaitBoard, element: PlaitElement) => {
+  const defaultFill =
+    Freehand.isFreehand(element) && isCustomGeometryClosed(board, element)
+      ? getFreehandDefaultFill(board.theme.themeColorMode)
+      : DefaultDrawStyle.fill;
+  const fill = element.fill || defaultFill;
+  return fill;
 };
 
 export function gaussianWeight(x: number, sigma: number) {
