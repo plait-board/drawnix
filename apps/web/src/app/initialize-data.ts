@@ -21,7 +21,6 @@ export const initializeData: PlaitElement[] = [
       [-156.50609579402317, 684.50390625],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'aMJWD',
@@ -43,7 +42,6 @@ export const initializeData: PlaitElement[] = [
       [48.49390420597683, 524.50390625],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'FHSxH',
@@ -65,7 +63,6 @@ export const initializeData: PlaitElement[] = [
       [-146.50609579402317, 529.50390625],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'xnnhM',
@@ -87,7 +84,6 @@ export const initializeData: PlaitElement[] = [
       [-156.50609579402317, 404.50390625],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'FAkXk',
@@ -109,7 +105,6 @@ export const initializeData: PlaitElement[] = [
       [-156.50609579402317, 289.50390625],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'mrdfi',
@@ -132,7 +127,6 @@ export const initializeData: PlaitElement[] = [
       [-156.50609579402317, 654.50390625],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'bjjcw',
@@ -168,7 +162,6 @@ export const initializeData: PlaitElement[] = [
       [-71.50609579402317, 494.50390625],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'mnzKm',
@@ -204,7 +197,6 @@ export const initializeData: PlaitElement[] = [
       [-216.50609579402317, 624.50390625],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'bJmWK',
@@ -227,7 +219,6 @@ export const initializeData: PlaitElement[] = [
       [-216.50609579402317, 459.50390625],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'zZtTs',
@@ -250,7 +241,6 @@ export const initializeData: PlaitElement[] = [
       [-216.50609579402317, 344.50390625],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     type: 'mindmap',
@@ -491,7 +481,6 @@ export const initializeData: PlaitElement[] = [
       [34.73785580109626, 398.6839479717576],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'ieFQi',
@@ -518,7 +507,6 @@ export const initializeData: PlaitElement[] = [
       [71.0432829003974, 348.88126019241946],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'ZjTpX',
@@ -581,7 +569,6 @@ export const initializeData: PlaitElement[] = [
       [104.97507141472926, 369.44997213897597],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'BcwPw',
@@ -612,7 +599,6 @@ export const initializeData: PlaitElement[] = [
       [112.34070966123869, 377.28716626469696],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'yMmdM',
@@ -679,7 +665,6 @@ export const initializeData: PlaitElement[] = [
       [146.43462336140402, 359.1790375455451],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'mGnrA',
@@ -735,7 +720,6 @@ export const initializeData: PlaitElement[] = [
       [224.5894090448324, 360.01990397554465],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'zZrtc',
@@ -797,7 +781,6 @@ export const initializeData: PlaitElement[] = [
       [262.0338021629971, 354.5988338504333],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'yrTcA',
@@ -889,7 +872,6 @@ export const initializeData: PlaitElement[] = [
       [310.4153822205861, 369.94518305581397],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'HbPrm',
@@ -941,7 +923,6 @@ export const initializeData: PlaitElement[] = [
       [92.31854092168419, 229.1926961149211],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'kMZAM',
@@ -991,7 +972,6 @@ export const initializeData: PlaitElement[] = [
       [131.24274161566223, 191.86461980618424],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'zRYyC',
@@ -1030,7 +1010,6 @@ export const initializeData: PlaitElement[] = [
       [120.02019183115067, 212.38609744841233],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'iixpb',
@@ -1048,7 +1027,6 @@ export const initializeData: PlaitElement[] = [
       [110.58280353034593, 212.47644418757773],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'xaJii',
@@ -1070,7 +1048,6 @@ export const initializeData: PlaitElement[] = [
       [155.25118970327185, 206.87342478932715],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'nHaGM',
@@ -1096,7 +1073,6 @@ export const initializeData: PlaitElement[] = [
       [245.45635766125383, 182.50532452339849],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'EDFJM',
@@ -1124,7 +1100,6 @@ export const initializeData: PlaitElement[] = [
       [202.82487976095376, 223.02012038579687],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'tPPjW',
@@ -1165,7 +1140,6 @@ export const initializeData: PlaitElement[] = [
       [236.4394236685862, 220.17265552988738],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'XDkHb',
@@ -1229,7 +1203,6 @@ export const initializeData: PlaitElement[] = [
       [289.62570919265227, 199.15668653786543],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'NicwR',
@@ -1255,7 +1228,6 @@ export const initializeData: PlaitElement[] = [
       [327.08638402232964, 210.8244265314197],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'sRRNe',
@@ -1268,7 +1240,6 @@ export const initializeData: PlaitElement[] = [
       [323.15511529456035, 231.59301219439112],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'fDPmi',
@@ -1293,7 +1264,6 @@ export const initializeData: PlaitElement[] = [
       [352.145855053867, 362.38485242157304],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'PFTyp',
@@ -1305,7 +1275,6 @@ export const initializeData: PlaitElement[] = [
       [343.2941655804586, 378.7622637552775],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'EeWSd',
@@ -1377,7 +1346,6 @@ export const initializeData: PlaitElement[] = [
       [73.30918441983619, 723.145838922595],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'Zhdzy',
@@ -1407,7 +1375,6 @@ export const initializeData: PlaitElement[] = [
       [108.96267065634021, 698.3970410314837],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'eiKfZ',
@@ -1502,7 +1469,6 @@ export const initializeData: PlaitElement[] = [
       [168.22662032946693, 699.670893638618],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'cNdFJ',
@@ -1548,7 +1514,6 @@ export const initializeData: PlaitElement[] = [
       [188.68686388226303, 708.8495533540672],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'hmmjc',
@@ -1569,7 +1534,6 @@ export const initializeData: PlaitElement[] = [
       [199.46160557782497, 711.9174850129948],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'DwBED',
@@ -1581,7 +1545,6 @@ export const initializeData: PlaitElement[] = [
       [200.38979737706796, 687.7940270547242],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'fESHQ',
@@ -1606,7 +1569,6 @@ export const initializeData: PlaitElement[] = [
       [224.02886743579262, 710.9955408421006],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'NRyaM',
@@ -1630,7 +1592,6 @@ export const initializeData: PlaitElement[] = [
       [210.9525657393845, 709.8861957043268],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'rExRd',
@@ -1641,7 +1602,6 @@ export const initializeData: PlaitElement[] = [
       [233.75595734369364, 711.2739174016092],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
   {
     id: 'DkEDR',
@@ -1761,6 +1721,5 @@ export const initializeData: PlaitElement[] = [
       [317.54367468099264, 711.1655915202477],
     ],
     strokeWidth: 2,
-    strokeColor: '#333333',
   },
 ];
