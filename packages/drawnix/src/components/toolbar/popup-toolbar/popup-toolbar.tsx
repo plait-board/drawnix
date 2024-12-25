@@ -6,12 +6,10 @@ import {
   isDragging,
   isMovingElements,
   isSelectionMoving,
-  Path,
   PlaitBoard,
   PlaitElement,
   SELECTION_RECTANGLE_BOUNDING_CLASS_NAME,
   SELECTION_RECTANGLE_CLASS_NAME,
-  Transforms,
 } from '@plait/core';
 import React, { useEffect, useRef, useState } from 'react';
 import { useBoard } from '@plait/react-board';
@@ -24,25 +22,20 @@ import {
 } from '@plait/mind';
 import './popup-toolbar.scss';
 import {
-  DrawTransforms,
-  getMemorizeKey,
-  getSelectedTableCellsEditor,
   getStrokeColorByElement as getStrokeColorByDrawElement,
+  isCustomGeometryClosed,
   isDrawElementClosed,
   isDrawElementsIncludeText,
   PlaitDrawElement,
 } from '@plait/draw';
-import { CustomText, PropertyTransforms } from '@plait/common';
-import {
-  getTextMarksByElement,
-  PlaitMarkEditor,
-  TextTransforms,
-} from '@plait/text-plugins';
+import { CustomText } from '@plait/common';
+import { getTextMarksByElement } from '@plait/text-plugins';
 import { PopupFontColorButton } from './font-color-button';
 import { PopupStrokeButton } from './stroke-button';
 import { PopupFillButton } from './fill-button';
 import { isWhite, removeHexAlpha } from '../../../utils/color';
 import { NO_COLOR } from '../../../constants/color';
+import { Freehand } from '../../../plugins/freehand/type';
 
 export const PopupToolbar = () => {
   const board = useBoard();
@@ -245,6 +238,9 @@ export const hasFillProperty = (board: PlaitBoard, element: PlaitElement) => {
   if (MindElement.isMindElement(board, element)) {
     return true;
   }
+  if (isCustomGeometryClosed(board, element)) {
+    return true;
+  }
   if (PlaitDrawElement.isDrawElement(element)) {
     return (
       PlaitDrawElement.isShapeElement(element) &&
@@ -258,6 +254,9 @@ export const hasFillProperty = (board: PlaitBoard, element: PlaitElement) => {
 
 export const hasStrokeProperty = (board: PlaitBoard, element: PlaitElement) => {
   if (MindElement.isMindElement(board, element)) {
+    return true;
+  }
+  if (Freehand.isFreehand(element)) {
     return true;
   }
   if (PlaitDrawElement.isDrawElement(element)) {

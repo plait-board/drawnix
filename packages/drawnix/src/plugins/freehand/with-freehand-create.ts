@@ -2,6 +2,7 @@ import {
   PlaitBoard,
   Point,
   Transforms,
+  distanceBetweenPointAndPoint,
   toHostPoint,
   toViewBoxPoint,
 } from '@plait/core';
@@ -16,7 +17,11 @@ export const withFreehandCreate = (board: PlaitBoard) => {
 
   let isDrawing = false;
 
+  let isSnapping = false;
+
   let points: Point[] = [];
+
+  let originScreenPoint: Point | null = null;
 
   const generator = new FreehandGenerator(board);
 
@@ -30,6 +35,9 @@ export const withFreehandCreate = (board: PlaitBoard) => {
   const complete = (cancel?: boolean) => {
     if (isDrawing) {
       const pointer = PlaitBoard.getPointer(board) as FreehandShape;
+      if (isSnapping) {
+        points.push(points[0]);
+      }
       temporaryElement = createFreehandElement(pointer, points);
     }
     if (temporaryElement && !cancel) {
@@ -47,8 +55,8 @@ export const withFreehandCreate = (board: PlaitBoard) => {
     const isFreehandPointer = PlaitBoard.isInPointer(board, freehandPointers);
     if (isFreehandPointer && isDrawingMode(board)) {
       isDrawing = true;
-      const originPoint: Point = [event.x, event.y];
-      const smoothingPoint = smoother.process(originPoint) as Point;
+      originScreenPoint = [event.x, event.y];
+      const smoothingPoint = smoother.process(originScreenPoint) as Point;
       const point = toViewBoxPoint(
         board,
         toHostPoint(board, smoothingPoint[0], smoothingPoint[1])
@@ -60,8 +68,21 @@ export const withFreehandCreate = (board: PlaitBoard) => {
 
   board.pointerMove = (event: PointerEvent) => {
     if (isDrawing) {
-      const originPoint: Point = [event.x, event.y];
-      const smoothingPoint = smoother.process(originPoint);
+      const currentScreenPoint: Point = [event.x, event.y];
+      if (
+        originScreenPoint &&
+        distanceBetweenPointAndPoint(
+          originScreenPoint[0],
+          originScreenPoint[1],
+          currentScreenPoint[0],
+          currentScreenPoint[1]
+        ) < 8
+      ) {
+        isSnapping = true;
+      } else {
+        isSnapping = false;
+      }
+      const smoothingPoint = smoother.process(currentScreenPoint);
       if (smoothingPoint) {
         generator?.destroy();
         const newPoint = toViewBoxPoint(
