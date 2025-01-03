@@ -23,8 +23,8 @@ import {
 import './popup-toolbar.scss';
 import {
   getStrokeColorByElement as getStrokeColorByDrawElement,
-  isCustomGeometryClosed,
-  isDrawElementClosed,
+  isClosedCustomGeometry,
+  isClosedDrawElement,
   isDrawElementsIncludeText,
   PlaitDrawElement,
 } from '@plait/draw';
@@ -238,7 +238,7 @@ export const hasFillProperty = (board: PlaitBoard, element: PlaitElement) => {
   if (MindElement.isMindElement(board, element)) {
     return true;
   }
-  if (isCustomGeometryClosed(board, element)) {
+  if (isClosedCustomGeometry(board, element)) {
     return true;
   }
   if (PlaitDrawElement.isDrawElement(element)) {
@@ -246,7 +246,7 @@ export const hasFillProperty = (board: PlaitBoard, element: PlaitElement) => {
       PlaitDrawElement.isShapeElement(element) &&
       !PlaitDrawElement.isImage(element) &&
       !PlaitDrawElement.isText(element) &&
-      isDrawElementClosed(element)
+      isClosedDrawElement(element)
     );
   }
   return false;

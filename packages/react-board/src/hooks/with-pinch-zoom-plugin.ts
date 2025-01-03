@@ -1,6 +1,7 @@
 import {
   BoardTransforms,
   distanceBetweenPointAndPoint,
+  getPointBetween,
   MAX_ZOOM,
   MIN_ZOOM,
   PlaitBoard,
@@ -19,14 +20,7 @@ export const withPinchZoom = (board: PlaitBoard) => {
   let touchPoints: {
     [key: number]: [number, number];
   } = {};
-  let pinchCenter: [number, number] | null = null;
-
-  const getMidPoint = (
-    p1: [number, number],
-    p2: [number, number]
-  ): [number, number] => {
-    return [(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2];
-  };
+  let pinchCenter: Point | null = null;
 
   board.pointerDown = (event: PointerEvent) => {
     const point = [event.x, event.y] as Point;
@@ -43,10 +37,13 @@ export const withPinchZoom = (board: PlaitBoard) => {
       );
       initialZoom = board.viewport.zoom;
       lastZoom = initialZoom;
-      pinchCenter = getMidPoint(
-        toViewBoxPoint(board, toHostPoint(board, points[0][0], points[0][1])),
-        toViewBoxPoint(board, toHostPoint(board, points[1][0], points[1][1]))
-      );
+      pinchCenter = getPointBetween(
+        ...toViewBoxPoint(
+          board,
+          toHostPoint(board, points[0][0], points[0][1])
+        ),
+        ...toViewBoxPoint(board, toHostPoint(board, points[1][0], points[1][1]))
+      ) as Point;
       return;
     }
     pointerDown(event);

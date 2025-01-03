@@ -1,7 +1,7 @@
 import { PlaitBoard, PlaitElement } from '@plait/core';
 import {
-  isCustomGeometryClosed,
-  isDrawElementClosed,
+  isClosedCustomGeometry,
+  isClosedDrawElement,
   PlaitDrawElement,
 } from '@plait/draw';
 import {
@@ -18,8 +18,8 @@ import { getTextMarksByElement } from '@plait/text-plugins';
 export const isClosedElement = (board: PlaitBoard, element: PlaitElement) => {
   return (
     MindElement.isMindElement(board, element) ||
-    (PlaitDrawElement.isDrawElement(element) && isDrawElementClosed(element)) ||
-    isCustomGeometryClosed(board, element)
+    (PlaitDrawElement.isDrawElement(element) && isClosedDrawElement(element)) ||
+    isClosedCustomGeometry(board, element)
   );
 };
 
