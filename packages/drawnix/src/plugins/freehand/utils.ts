@@ -13,8 +13,8 @@ import {
 import { Freehand, FreehandShape, FreehandThemeColors } from './type';
 import {
   DefaultDrawStyle,
+  isClosedCustomGeometry,
   isClosedPoints,
-  isCustomGeometryClosed,
   isHitPolyLine,
   isRectangleHitRotatedPoints,
 } from '@plait/draw';
@@ -93,7 +93,7 @@ export const getStrokeColorByElement = (
 
 export const getFillByElement = (board: PlaitBoard, element: PlaitElement) => {
   const defaultFill =
-    Freehand.isFreehand(element) && isCustomGeometryClosed(board, element)
+    Freehand.isFreehand(element) && isClosedCustomGeometry(board, element)
       ? getFreehandDefaultFill(board.theme.themeColorMode)
       : DefaultDrawStyle.fill;
   const fill = element.fill || defaultFill;
