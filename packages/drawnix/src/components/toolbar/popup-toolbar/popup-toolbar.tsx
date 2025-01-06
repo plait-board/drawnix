@@ -2,16 +2,18 @@ import Stack from '../../stack';
 import { FontColorIcon } from '../../icons';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
+  getRectangleByElements,
   getSelectedElements,
   isDragging,
   isMovingElements,
   isSelectionMoving,
   PlaitBoard,
   PlaitElement,
-  SELECTION_RECTANGLE_BOUNDING_CLASS_NAME,
-  SELECTION_RECTANGLE_CLASS_NAME,
+  RectangleClient,
+  toHostPointFromViewBoxPoint,
+  toScreenPointFromHostPoint,
 } from '@plait/core';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useBoard } from '@plait/react-board';
 import { flip, offset, useFloating } from '@floating-ui/react';
 import { Island } from '../../island';
@@ -83,27 +85,32 @@ export const PopupToolbar = () => {
   }
   useEffect(() => {
     if (open) {
-      let selectionG = PlaitBoard.getBoardContainer(board).querySelector(
-        `.${SELECTION_RECTANGLE_BOUNDING_CLASS_NAME}`
-      );
-      if (!selectionG) {
-        selectionG = PlaitBoard.getBoardContainer(board).querySelector(
-          `.${SELECTION_RECTANGLE_CLASS_NAME}`
+      const hasSelected = selectedElements.length > 0;
+      if (!movingOrDragging && hasSelected) {
+        const elements = getSelectedElements(board);
+        const rectangle = getRectangleByElements(board, elements, false);
+        const [start, end] = RectangleClient.getPoints(rectangle);
+        const screenStart = toScreenPointFromHostPoint(
+          board,
+          toHostPointFromViewBoxPoint(board, start)
         );
-      }
-      if (selectionG) {
-        const rect = selectionG?.getBoundingClientRect();
+        const screenEnd = toScreenPointFromHostPoint(
+          board,
+          toHostPointFromViewBoxPoint(board, end)
+        );
+        const width = screenEnd[0] - screenStart[0];
+        const height = screenEnd[1] - screenStart[1];
         refs.setPositionReference({
           getBoundingClientRect() {
             return {
-              width: rect.width,
-              height: rect.height,
-              x: rect.x,
-              y: rect.y,
-              top: rect.top,
-              left: rect.left,
-              right: rect.right,
-              bottom: rect.bottom,
+              width,
+              height,
+              x: screenStart[0],
+              y: screenStart[1],
+              top: screenStart[1],
+              left: screenStart[0],
+              right: screenStart[0] + width,
+              bottom: screenStart[1] + height,
             };
           },
         });
