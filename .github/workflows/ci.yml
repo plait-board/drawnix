@@ -22,10 +22,6 @@ jobs:
       # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "e2e-ci" targets have been requested
       # - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-js" --stop-agents-after="e2e-ci"
 
-      # 安装 Playwright 浏览器和依赖
-      - name: Install Playwright
-        run: npx playwright install --with-deps
-
       # Cache node_modules
       - uses: actions/setup-node@v3
         with:
@@ -34,6 +30,10 @@ jobs:
 
       - run: npm ci
       - uses: nrwl/nx-set-shas@v4
+
+      # 安装 Playwright 浏览器和依赖
+      - name: Install Playwright
+        run: npx playwright install --with-deps
 
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
       # - run: npx nx-cloud record -- echo Hello World
