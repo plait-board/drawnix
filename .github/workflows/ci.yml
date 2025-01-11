@@ -30,7 +30,6 @@ jobs:
 
       # 缓存 Playwright 的浏览器
       - name: Cache Playwright browsers
-        id: playwright-cache  # 添加 id 用于后续判断
         uses: actions/cache@v3
         with:
           path: ~/.cache/ms-playwright
@@ -43,7 +42,6 @@ jobs:
 
       # 安装 Playwright 浏览器和依赖
       - name: Install Playwright
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
 
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
