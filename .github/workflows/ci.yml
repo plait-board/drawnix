@@ -30,7 +30,7 @@ jobs:
 
       # 安装 Playwright 浏览器和依赖
       - name: Install Playwright
-      - run: npx playwright install --with-deps
+        run: npx playwright install --with-deps
 
       - run: npm ci
       - uses: nrwl/nx-set-shas@v4
