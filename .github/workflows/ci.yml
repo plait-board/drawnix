@@ -28,12 +28,12 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      # 安装 Playwright 浏览器和依赖
-      - name: Install Playwright
-        run: npx playwright install --with-deps
-
       - run: npm ci
       - uses: nrwl/nx-set-shas@v4
+
+      # 使用官方的 Playwright action
+      - name: Install Playwright Browsers
+        uses: microsoft/playwright-github-action@v1
 
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
       # - run: npx nx-cloud record -- echo Hello World
