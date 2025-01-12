@@ -28,7 +28,7 @@ import { withReact } from './plugins/with-react';
 import { withImage, withText } from '@plait/common';
 import { BoardContext, BoardContextValue } from './hooks/use-board';
 import React from 'react';
-import { withPinchZoom } from './hooks/with-pinch-zoom-plugin';
+import { withPinchZoom } from './plugins/with-pinch-zoom-plugin';
 
 export type WrapperProps = {
   value: PlaitElement[];
