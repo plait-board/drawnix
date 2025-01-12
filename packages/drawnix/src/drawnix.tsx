@@ -11,8 +11,8 @@ import {
 } from '@plait/core';
 import React, { useState } from 'react';
 import { withGroup } from '@plait/common';
-import { DrawPointerType, withDraw } from '@plait/draw';
-import { MindPointerType, MindThemeColors, withMind } from '@plait/mind';
+import { withDraw } from '@plait/draw';
+import { MindThemeColors, withMind } from '@plait/mind';
 import MobileDetect from 'mobile-detect';
 import { withMindExtend } from './plugins/with-mind-extend';
 import { withCommonPlugin } from './plugins/with-common';
@@ -23,9 +23,11 @@ import { AppToolbar } from './components/toolbar/app-toolbar/app-toolbar';
 import classNames from 'classnames';
 import './styles/index.scss';
 import { withDrawnixHotkey } from './plugins/with-hotkey';
-import { FreehandShape } from './plugins/freehand/type';
 import { withFreehand } from './plugins/freehand/with-freehand';
 import { ThemeToolbar } from './components/toolbar/theme-toolbar';
+import { buildPencilPlugin } from './plugins/with-pencil';
+import { DrawnixContext, DrawnixState } from './hooks/use-drawnix';
+import { ClosePencilToolbar } from './components/toolbar/pencil-mode-toolbar';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -38,32 +40,12 @@ export type DrawnixProps = {
   onThemeChange?: (value: ThemeColorMode) => void;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export type DrawnixPointerType =
-  | PlaitPointerType
-  | MindPointerType
-  | DrawPointerType
-  | FreehandShape;
-
-export type DrawnixState = {
-  pointer: DrawnixPointerType;
-  isMobile: boolean;
-};
-
 export const Drawnix: React.FC<DrawnixProps> = ({
   value,
   viewport,
   theme,
   onChange,
 }) => {
-  const plugins: PlaitPlugin[] = [
-    withDraw,
-    withGroup,
-    withMind,
-    withMindExtend,
-    withCommonPlugin,
-    withDrawnixHotkey,
-    withFreehand,
-  ];
   const options: PlaitBoardOptions = {
     readonly: false,
     hideScrollbar: false,
@@ -76,36 +58,47 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     return {
       pointer: PlaitPointerType.hand,
       isMobile: md.mobile() !== null,
+      isPencilMode: false,
     };
   });
 
+  const plugins: PlaitPlugin[] = [
+    withDraw,
+    withGroup,
+    withMind,
+    withMindExtend,
+    withCommonPlugin,
+    withDrawnixHotkey,
+    withFreehand,
+    buildPencilPlugin(appState, setAppState),
+  ];
+
   return (
-    <div
-      className={classNames('drawnix', {
-        'drawnix--mobile': appState.isMobile,
-      })}
-    >
-      <Wrapper
-        value={value}
-        viewport={viewport}
-        theme={theme}
-        options={options}
-        plugins={plugins}
-        onChange={(data: BoardChangeData) => {
-          onChange && onChange(data);
-        }}
+    <DrawnixContext.Provider value={{ appState, setAppState }}>
+      <div
+        className={classNames('drawnix', {
+          'drawnix--mobile': appState.isMobile,
+        })}
       >
-        <Board></Board>
-        <AppToolbar></AppToolbar>
-        <CreationToolbar
-          setPointer={(pointer: DrawnixPointerType) => {
-            setAppState({ ...appState, pointer });
+        <Wrapper
+          value={value}
+          viewport={viewport}
+          theme={theme}
+          options={options}
+          plugins={plugins}
+          onChange={(data: BoardChangeData) => {
+            onChange && onChange(data);
           }}
-        ></CreationToolbar>
-        <ZoomToolbar></ZoomToolbar>
-        <ThemeToolbar></ThemeToolbar>
-        <PopupToolbar></PopupToolbar>
-      </Wrapper>
-    </div>
+        >
+          <Board></Board>
+          <AppToolbar></AppToolbar>
+          <CreationToolbar></CreationToolbar>
+          <ZoomToolbar></ZoomToolbar>
+          <ThemeToolbar></ThemeToolbar>
+          <PopupToolbar></PopupToolbar>
+          <ClosePencilToolbar></ClosePencilToolbar>
+        </Wrapper>
+      </div>
+    </DrawnixContext.Provider>
   );
 };

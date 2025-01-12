@@ -3,13 +3,7 @@
  * context whenever changes occur.
  */
 
-import {
-  ListRender,
-  PlaitBoard,
-  PlaitElement,
-  PlaitTheme,
-  Viewport,
-} from '@plait/core';
+import { ListRender, PlaitBoard } from '@plait/core';
 import { createContext, useContext } from 'react';
 
 export interface BoardContextValue {

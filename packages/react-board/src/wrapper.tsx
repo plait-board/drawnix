@@ -129,16 +129,12 @@ const initializeBoard = (
     withHotkey(
       withHandPointer(
         withHistory(
-          withPinchZoom(
-            withSelection(
-              withMoving(
-                withBoard(
-                  withViewport(
-                    withOptions(
-                      withReact(
-                        withImage(withText(createBoard(value, options)))
-                      )
-                    )
+          withSelection(
+            withMoving(
+              withBoard(
+                withViewport(
+                  withOptions(
+                    withReact(withImage(withText(createBoard(value, options))))
                   )
                 )
               )
@@ -151,6 +147,7 @@ const initializeBoard = (
   plugins.forEach((plugin: any) => {
     board = plugin(board);
   });
+  withPinchZoom(board);
 
   if (viewport) {
     board.viewport = viewport;
