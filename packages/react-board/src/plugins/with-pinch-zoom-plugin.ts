@@ -64,14 +64,10 @@ export const withPinchZoom = (board: PlaitBoard) => {
             ...p1.currentPoint,
             ...p2.currentPoint
           ) as Point;
-          const distanceOfCenter = distanceBetweenPointAndPoint(
-            ...pinchCenter,
-            ...newPinchCenter
-          );
           const dx = newPinchCenter[0] - pinchCenter[0];
           const dy = newPinchCenter[1] - pinchCenter[1];
 
-          // hand moving 
+          // hand moving
           const boardContainerRect =
             PlaitBoard.getBoardContainer(board).getBoundingClientRect();
           const halfOfWidth = boardContainerRect.width / 2;
@@ -94,9 +90,9 @@ export const withPinchZoom = (board: PlaitBoard) => {
             ...p1.currentPoint,
             ...p2.currentPoint
           );
-          const distanceDelta = Math.abs(lastDistance - currentDistance);
+          // zoom 处理
+          const scale = currentDistance / lastDistance;
 
-          // 计算两个触控点的移动向量
           const v1 = [
             p1.currentPoint[0] - p1.lastPoint[0],
             p1.currentPoint[1] - p1.lastPoint[1],
@@ -106,24 +102,26 @@ export const withPinchZoom = (board: PlaitBoard) => {
             p2.currentPoint[1] - p2.lastPoint[1],
           ] as Point;
 
-          // 计算向量的点积，判断两个触控点的移动是否同向
           const dotProduct = v1[0] * v2[0] + v1[1] * v2[1];
           const v1Magnitude = Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1]);
           const v2Magnitude = Math.sqrt(v2[0] * v2[0] + v2[1] * v2[1]);
 
-          // 计算向量夹角的余弦值
           const cosTheta = dotProduct / (v1Magnitude * v2Magnitude || 1);
 
           // 控制缩放
-          const conditionOfPinching =
-            distanceDelta >= 0.1 || distanceOfCenter <= 0.1;
-          if (cosTheta < 0.7 || (isPinching && conditionOfPinching)) {
+          // 基于余弦相似度（Cosine Similarity）
+          // 余弦值 > 0.8：判定为平移手势（向量基本同向）
+          // 余弦值 < -0.7：判定为缩放手势（向量基本反向）
+          // 其他情况：未知手势
+          if (
+            cosTheta < -0.7 ||
+            (cosTheta <= 0.8 && isPinching && scale >= 0.01)
+          ) {
             isPinching = true;
           } else {
             isPinching = false;
           }
           if (isPinching) {
-            const scale = currentDistance / lastDistance;
             newZoom = Math.min(
               Math.max(board.viewport.zoom * scale, MIN_ZOOM),
               MAX_ZOOM
