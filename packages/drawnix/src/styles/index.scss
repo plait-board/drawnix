@@ -5,6 +5,16 @@
 .drawnix {
     height: 100%;
     font-family: PingFangSC-Regular, "PingFang SC";
+    .pencil-mode-toolbar {
+        position: absolute;
+        top: 82px;
+        left: 0;
+        .tool-icon__icon {
+            width: auto;
+            padding: 0 8px;
+            background-color: var(--color-surface-mid);
+        }
+    }
     .draw-toolbar {
         cursor: default;
         position: absolute;
