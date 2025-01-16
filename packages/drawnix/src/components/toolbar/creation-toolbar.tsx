@@ -26,7 +26,11 @@ import { ArrowPicker } from '../arrow-picker';
 import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
 import { FreehandShape } from '../../plugins/freehand/type';
-import { DrawnixPointerType, useSetPointer } from '../../hooks/use-drawnix';
+import {
+  DrawnixPointerType,
+  useDrawnix,
+  useSetPointer,
+} from '../../hooks/use-drawnix';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -98,6 +102,7 @@ export const isShapePointer = (board: PlaitBoard) => {
 
 export const CreationToolbar = () => {
   const board = useBoard();
+  const { appState } = useDrawnix();
   const setPointer = useSetPointer();
   const container = PlaitBoard.getBoardContainer(board);
 
@@ -128,6 +133,13 @@ export const CreationToolbar = () => {
     >
       <Stack.Row gap={1}>
         {BUTTONS.map((button, index) => {
+          if (
+            appState.isMobile &&
+            (button.pointer === PlaitPointerType.hand ||
+              button.pointer === PlaitPointerType.selection)
+          ) {
+            return <></>;
+          }
           if (button.popupKey === PopupKey.shape) {
             return (
               <Popover
