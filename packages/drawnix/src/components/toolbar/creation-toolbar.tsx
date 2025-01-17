@@ -133,11 +133,7 @@ export const CreationToolbar = () => {
     >
       <Stack.Row gap={1}>
         {BUTTONS.map((button, index) => {
-          if (
-            appState.isMobile &&
-            (button.pointer === PlaitPointerType.hand ||
-              button.pointer === PlaitPointerType.selection)
-          ) {
+          if (appState.isMobile && button.pointer === PlaitPointerType.hand) {
             return <></>;
           }
           if (button.popupKey === PopupKey.shape) {
