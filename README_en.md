@@ -38,8 +38,8 @@
 - 💾 Auto-save (Browser Storage)
 - ⚡ Edit Features: Undo, Redo, Copy, Paste, etc.
 - 🌌 Infinite Canvas: Zoom, Pan
-- 🎨 Theme Support（New 🔥🔥🔥）
-- 📱 Mobile-friendly（To be optimized）
+- 🎨 Theme Support
+- 📱 Mobile-friendly（Optimization completed 🔥🔥🔥）
 
 
 ## About the Name
