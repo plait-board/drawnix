@@ -9,11 +9,12 @@ import {
   DiamondIcon,
   ParallelogramIcon,
   RoundRectangleIcon,
+  TerminalIcon,
 } from './icons';
 import { BoardTransforms } from '@plait/core';
 import React from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
-import { BasicShapes, DrawPointerType } from '@plait/draw';
+import { BasicShapes, DrawPointerType, FlowchartSymbols } from '@plait/draw';
 import { useBoard } from '@plait/react-board';
 import { splitRows } from '../utils/common';
 
@@ -38,6 +39,11 @@ const SHAPES: ShapeProps[] = [
     icon: TriangleIcon,
     title: 'Triangle',
     pointer: BasicShapes.triangle,
+  },
+  {
+    icon: TerminalIcon,
+    title: 'Terminal',
+    pointer: FlowchartSymbols.terminal,
   },
   {
     icon: DiamondIcon,

@@ -67,6 +67,14 @@ export const RectangleIcon = createIcon(
   </svg>
 );
 
+export const TerminalIcon = createIcon(
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <g id="terminal" stroke="none" fill="currentColor">
+      <path d="M11,3 C13.7614237,3 16,5.23857625 16,8 C16,10.7614237 13.7614237,13 11,13 L5,13 C2.23857625,13 0,10.7614237 0,8 C0,5.23857625 2.23857625,3 5,3 L11,3 Z M11,4.2 L5,4.2 C2.90131795,4.2 1.2,5.90131795 1.2,8 C1.2,10.0330982 2.79664702,11.6932796 4.8044525,11.7950555 L5,11.8 L11,11.8 C13.098682,11.8 14.8,10.098682 14.8,8 C14.8,5.96690176 13.203353,4.30672042 11.1955475,4.20494454 L11,4.2 Z" />
+    </g>
+  </svg>
+);
+
 export const EllipseIcon = createIcon(
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1">
     <g id="ellipse" stroke="none" fill="currentColor">

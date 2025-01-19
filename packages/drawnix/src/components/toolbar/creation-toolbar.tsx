@@ -20,7 +20,12 @@ import {
 } from '@plait/core';
 import { MindPointerType } from '@plait/mind';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
-import { ArrowLineShape, BasicShapes, DrawPointerType } from '@plait/draw';
+import {
+  ArrowLineShape,
+  BasicShapes,
+  DrawPointerType,
+  FlowchartSymbols,
+} from '@plait/draw';
 import { ShapePicker } from '../shape-picker';
 import { ArrowPicker } from '../arrow-picker';
 import { useState } from 'react';
@@ -97,7 +102,10 @@ export const isArrowLinePointer = (board: PlaitBoard) => {
 };
 
 export const isShapePointer = (board: PlaitBoard) => {
-  return Object.keys(BasicShapes).includes(board.pointer);
+  return (
+    Object.keys(BasicShapes).includes(board.pointer) ||
+    Object.keys(FlowchartSymbols).includes(board.pointer)
+  );
 };
 
 export const CreationToolbar = () => {
