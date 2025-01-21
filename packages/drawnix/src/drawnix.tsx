@@ -34,7 +34,7 @@ export type DrawnixProps = {
   viewport?: Viewport;
   theme?: PlaitTheme;
   onChange?: (value: BoardChangeData) => void;
-  onSelectionChange?: (selection: Selection) => void;
+  onSelectionChange?: (selection: Selection | null) => void;
   onValueChange?: (value: PlaitElement[]) => void;
   onViewportChange?: (value: Viewport) => void;
   onThemeChange?: (value: ThemeColorMode) => void;
@@ -45,6 +45,10 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   viewport,
   theme,
   onChange,
+  onSelectionChange,
+  onViewportChange,
+  onThemeChange,
+  onValueChange,
 }) => {
   const options: PlaitBoardOptions = {
     readonly: false,
@@ -89,6 +93,10 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           onChange={(data: BoardChangeData) => {
             onChange && onChange(data);
           }}
+          onSelectionChange={onSelectionChange}
+          onViewportChange={onViewportChange}
+          onThemeChange={onThemeChange}
+          onValueChange={onValueChange}
         >
           <Board></Board>
           <AppToolbar></AppToolbar>

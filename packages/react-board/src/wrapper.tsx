@@ -81,10 +81,36 @@ export const Wrapper: React.FC<WrapperProps> = ({
       onChange(data);
     }
 
-    if (
-      board.operations.some((o) => PlaitOperation.isSetViewportOperation(o))
-    ) {
-      onViewportChange?.(board.viewport);
+    const hasSelectionChanged = board.operations.some((o) =>
+      PlaitOperation.isSetSelectionOperation(o)
+    );
+    const hasViewportChanged = board.operations.some((o) =>
+      PlaitOperation.isSetViewportOperation(o)
+    );
+    const hasThemeChanged = board.operations.some((o) =>
+      PlaitOperation.isSetThemeOperation(o)
+    );
+    const hasChildrenChanged = board.operations.length > 0 && !board.operations.every(
+      (o) =>
+        PlaitOperation.isSetSelectionOperation(o) ||
+        PlaitOperation.isSetViewportOperation(o) ||
+        PlaitOperation.isSetThemeOperation(o)
+    );
+
+    if (onValueChange && hasChildrenChanged) {
+      onValueChange(board.children);
+    }
+
+    if (onSelectionChange && hasSelectionChanged) {
+      onSelectionChange(board.selection);
+    }
+
+    if (onViewportChange && hasViewportChanged) {
+      onViewportChange(board.viewport);
+    }
+
+    if (onThemeChange && hasThemeChanged) {
+      onThemeChange(board.theme.themeColorMode);
     }
 
     setContext((prevContext) => ({
