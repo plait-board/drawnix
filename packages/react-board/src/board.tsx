@@ -31,12 +31,14 @@ export type PlaitBoardProps = {
   style?: React.CSSProperties;
   className?: string;
   children?: React.ReactNode;
+  afterInit?: (board: PlaitBoard) => void;
 };
 
 export const Board: React.FC<PlaitBoardProps> = ({
   style,
   className,
   children,
+  afterInit,
 }) => {
   const hostRef = useRef<SVGSVGElement>(null);
   const elementLowerHostRef = useRef<SVGGElement>(null);
@@ -74,6 +76,9 @@ export const Board: React.FC<PlaitBoardProps> = ({
         parent: board,
         parentG: PlaitBoard.getElementHost(board),
       });
+      if (afterInit) {
+        afterInit(board);
+      }
     }
 
     initializeViewportContainer(board);

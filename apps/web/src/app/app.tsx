@@ -25,10 +25,9 @@ export function App() {
       onChange={(value) => {
         localStorage.setItem(DRAWNIX_LOCAL_DATA_KEY, JSON.stringify(value));
       }}
-      onSelectionChange={(value) => {}}
-      onViewportChange={(value) => {}}
-      onThemeChange={(value) => {}}
-      onValueChange={(value) => {}}
+      afterInit={(board) => {
+        console.log('board initialized');
+      }}
     ></Drawnix>
   );
 }
