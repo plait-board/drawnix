@@ -1,11 +1,7 @@
-import { PlaitBoard } from '@plait/core';
+import { isPencilEvent, PlaitBoard } from '@plait/core';
 import { DrawnixState } from '../hooks/use-drawnix';
 
 const IS_PENCIL_MODE = new WeakMap<PlaitBoard, boolean>();
-
-export const isPencilEvent = (event: PointerEvent) => {
-  return event.pointerType === 'pen';
-};
 
 export const isPencilMode = (board: PlaitBoard) => {
   return !!IS_PENCIL_MODE.get(board);

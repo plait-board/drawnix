@@ -17,7 +17,7 @@ export const withFreehandCreate = (board: PlaitBoard) => {
 
   let isDrawing = false;
 
-  let isSnapping = false;
+  let isSnappingStartAndEnd = false;
 
   let points: Point[] = [];
 
@@ -35,7 +35,7 @@ export const withFreehandCreate = (board: PlaitBoard) => {
   const complete = (cancel?: boolean) => {
     if (isDrawing) {
       const pointer = PlaitBoard.getPointer(board) as FreehandShape;
-      if (isSnapping) {
+      if (isSnappingStartAndEnd) {
         points.push(points[0]);
       }
       temporaryElement = createFreehandElement(pointer, points);
@@ -78,9 +78,9 @@ export const withFreehandCreate = (board: PlaitBoard) => {
           currentScreenPoint[1]
         ) < 8
       ) {
-        isSnapping = true;
+        isSnappingStartAndEnd = true;
       } else {
-        isSnapping = false;
+        isSnappingStartAndEnd = false;
       }
       const smoothingPoint = smoother.process(currentScreenPoint);
       if (smoothingPoint) {
