@@ -1,5 +1,6 @@
 import { Board, BoardChangeData, Wrapper } from '@plait/react-board';
 import {
+  PlaitBoard,
   PlaitBoardOptions,
   PlaitElement,
   PlaitPlugin,
@@ -38,6 +39,7 @@ export type DrawnixProps = {
   onValueChange?: (value: PlaitElement[]) => void;
   onViewportChange?: (value: Viewport) => void;
   onThemeChange?: (value: ThemeColorMode) => void;
+  afterInit?: (board: PlaitBoard) => void;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export const Drawnix: React.FC<DrawnixProps> = ({
@@ -49,6 +51,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   onViewportChange,
   onThemeChange,
   onValueChange,
+  afterInit,
 }) => {
   const options: PlaitBoardOptions = {
     readonly: false,
@@ -98,7 +101,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           onThemeChange={onThemeChange}
           onValueChange={onValueChange}
         >
-          <Board></Board>
+          <Board afterInit={afterInit}></Board>
           <AppToolbar></AppToolbar>
           <CreationToolbar></CreationToolbar>
           <ZoomToolbar></ZoomToolbar>
