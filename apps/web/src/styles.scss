@@ -14,3 +14,16 @@ body {
     width: 100%;
     overflow: hidden;
 }
+.drawnix-console {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    height: 200px;
+    width: 200px;
+    overflow: auto;
+    background-color: black;
+    color: white;
+    padding: 8px;
+    opacity: 0.5;
+}
