@@ -6,7 +6,7 @@ import {
   isSelectionMoving,
   ACTIVE_STROKE_WIDTH,
 } from '@plait/core';
-import { ActiveGenerator, CommonElementFlavour } from '@plait/common';
+import { ActiveGenerator, CommonElementFlavour, hasResizeHandle } from '@plait/common';
 import { Freehand } from './type';
 import { FreehandGenerator } from './freehand.generator';
 
@@ -30,7 +30,7 @@ export class FreehandComponent
       getStrokeWidth: () => ACTIVE_STROKE_WIDTH,
       getStrokeOpacity: () => 1,
       hasResizeHandle: () => {
-        return !isSelectionMoving(this.board);
+        return hasResizeHandle(this.board, this.element);
       },
     });
     this.generator = new FreehandGenerator(this.board);
