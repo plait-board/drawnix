@@ -12,7 +12,6 @@ import {
   withOptions,
   withRelatedFragment,
   withSelection,
-  withViewport,
   PlaitBoard,
   type PlaitPlugin,
   type PlaitBoardOptions,
@@ -21,11 +20,16 @@ import {
   BOARD_TO_AFTER_CHANGE,
   PlaitOperation,
   PlaitTheme,
+  isFromScrolling,
+  setIsFromScrolling,
+  getSelectedElements,
+  updateViewportOffset,
+  initializeViewBox,
 } from '@plait/core';
 import { BoardChangeData } from './plugins/board';
 import { useCallback, useEffect, useState } from 'react';
 import { withReact } from './plugins/with-react';
-import { withImage, withText } from '@plait/common';
+import { PlaitCommonElementRef, withImage, withText } from '@plait/common';
 import { BoardContext, BoardContextValue } from './hooks/use-board';
 import React from 'react';
 import { withPinchZoom } from './plugins/with-pinch-zoom-plugin';
@@ -90,12 +94,14 @@ export const Wrapper: React.FC<WrapperProps> = ({
     const hasThemeChanged = board.operations.some((o) =>
       PlaitOperation.isSetThemeOperation(o)
     );
-    const hasChildrenChanged = board.operations.length > 0 && !board.operations.every(
-      (o) =>
-        PlaitOperation.isSetSelectionOperation(o) ||
-        PlaitOperation.isSetViewportOperation(o) ||
-        PlaitOperation.isSetThemeOperation(o)
-    );
+    const hasChildrenChanged =
+      board.operations.length > 0 &&
+      !board.operations.every(
+        (o) =>
+          PlaitOperation.isSetSelectionOperation(o) ||
+          PlaitOperation.isSetViewportOperation(o) ||
+          PlaitOperation.isSetThemeOperation(o)
+      );
 
     if (onValueChange && hasChildrenChanged) {
       onValueChange(board.children);
@@ -122,10 +128,41 @@ export const Wrapper: React.FC<WrapperProps> = ({
 
   useEffect(() => {
     BOARD_TO_ON_CHANGE.set(board, () => {
+      const isOnlySetSelection =
+        board.operations.length &&
+        board.operations.every((op) => op.type === 'set_selection');
+      if (isOnlySetSelection) {
+        listRender.update(board.children, {
+          board: board,
+          parent: board,
+          parentG: PlaitBoard.getElementHost(board),
+        });
+        return;
+      }
+      const isSetViewport =
+        board.operations.length &&
+        board.operations.some((op) => op.type === 'set_viewport');
+      if (isSetViewport && isFromScrolling(board)) {
+        setIsFromScrolling(board, false);
+        listRender.update(board.children, {
+          board: board,
+          parent: board,
+          parentG: PlaitBoard.getElementHost(board),
+        });
+        return;
+      }
       listRender.update(board.children, {
         board: board,
         parent: board,
         parentG: PlaitBoard.getElementHost(board),
+      });
+      initializeViewBox(board);
+      updateViewportOffset(board);
+      const selectedElements = getSelectedElements(board);
+      selectedElements.forEach((element) => {
+        const elementRef =
+          PlaitElement.getElementRef<PlaitCommonElementRef>(element);
+        elementRef.updateActiveSection();
       });
     });
 
@@ -158,10 +195,8 @@ const initializeBoard = (
           withSelection(
             withMoving(
               withBoard(
-                withViewport(
-                  withOptions(
-                    withReact(withImage(withText(createBoard(value, options))))
-                  )
+                withOptions(
+                  withReact(withImage(withText(createBoard(value, options))))
                 )
               )
             )

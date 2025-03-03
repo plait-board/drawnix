@@ -6,7 +6,12 @@ import {
   isSelectionMoving,
   ACTIVE_STROKE_WIDTH,
 } from '@plait/core';
-import { ActiveGenerator, CommonElementFlavour, hasResizeHandle } from '@plait/common';
+import {
+  ActiveGenerator,
+  CommonElementFlavour,
+  createActiveGenerator,
+  hasResizeHandle,
+} from '@plait/common';
 import { Freehand } from './type';
 import { FreehandGenerator } from './freehand.generator';
 
@@ -23,7 +28,7 @@ export class FreehandComponent
   generator!: FreehandGenerator;
 
   initializeGenerator() {
-    this.activeGenerator = new ActiveGenerator<Freehand>(this.board, {
+    this.activeGenerator = createActiveGenerator(this.board, {
       getRectangle: (element: Freehand) => {
         return RectangleClient.getRectangleByPoints(element.points);
       },
@@ -50,17 +55,17 @@ export class FreehandComponent
       this.generator.processDrawing(this.element, this.getElementG());
       this.activeGenerator.processDrawing(
         this.element,
-        PlaitBoard.getElementActiveHost(this.board),
+        PlaitBoard.getActiveHost(this.board),
         {
           selected: this.selected,
         }
       );
     } else {
       const needUpdate = value.selected !== previous.selected;
-      if (needUpdate) {
+      if (needUpdate || value.selected) {
         this.activeGenerator.processDrawing(
           this.element,
-          PlaitBoard.getElementActiveHost(this.board),
+          PlaitBoard.getActiveHost(this.board),
           {
             selected: this.selected,
           }

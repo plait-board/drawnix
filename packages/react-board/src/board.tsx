@@ -44,7 +44,8 @@ export const Board: React.FC<PlaitBoardProps> = ({
   const elementLowerHostRef = useRef<SVGGElement>(null);
   const elementHostRef = useRef<SVGGElement>(null);
   const elementUpperHostRef = useRef<SVGGElement>(null);
-  const elementActiveHostRef = useRef<SVGGElement>(null);
+  const elementTopHostRef = useRef<SVGGElement>(null);
+  const activeHostRef = useRef<SVGGElement>(null);
   const viewportContainerRef = useRef<HTMLDivElement>(null);
   const boardContainerRef = useRef<HTMLDivElement>(null);
 
@@ -62,7 +63,8 @@ export const Board: React.FC<PlaitBoardProps> = ({
       lowerHost: elementLowerHostRef.current!,
       host: elementHostRef.current!,
       upperHost: elementUpperHostRef.current!,
-      activeHost: elementActiveHostRef.current!,
+      topHost: elementTopHostRef.current!,
+      activeHost: activeHostRef.current!,
       container: boardContainerRef.current!,
       viewportContainer: viewportContainerRef.current!,
     });
@@ -134,7 +136,10 @@ export const Board: React.FC<PlaitBoardProps> = ({
           <g className="element-lower-host" ref={elementLowerHostRef}></g>
           <g className="element-host" ref={elementHostRef}></g>
           <g className="element-upper-host" ref={elementUpperHostRef}></g>
-          <g className="element-active-host" ref={elementActiveHostRef}></g>
+          <g className="element-top-host" ref={elementTopHostRef}></g>
+        </svg>
+        <svg width="100%" height="100%" className="board-active-svg">
+          <g className="active-host-g" ref={activeHostRef}></g>
         </svg>
         {children}
       </div>
