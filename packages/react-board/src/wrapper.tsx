@@ -25,6 +25,7 @@ import {
   getSelectedElements,
   updateViewportOffset,
   initializeViewBox,
+  withI18n,
 } from '@plait/core';
 import { BoardChangeData } from './plugins/board';
 import { useCallback, useEffect, useState } from 'react';
@@ -195,8 +196,10 @@ const initializeBoard = (
           withSelection(
             withMoving(
               withBoard(
-                withOptions(
-                  withReact(withImage(withText(createBoard(value, options))))
+                withI18n(
+                  withOptions(
+                    withReact(withImage(withText(createBoard(value, options))))
+                  )
                 )
               )
             )
