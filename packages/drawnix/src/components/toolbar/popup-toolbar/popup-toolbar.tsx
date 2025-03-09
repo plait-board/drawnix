@@ -44,7 +44,10 @@ export const PopupToolbar = () => {
   const selectedElements = getSelectedElements(board);
   const [movingOrDragging, setMovingOrDragging] = useState(false);
   const movingOrDraggingRef = useRef(movingOrDragging);
-  const open = selectedElements.length > 0 && !isSelectionMoving(board);
+  const open =
+    selectedElements.length > 0 &&
+    !isSelectionMoving(board) &&
+    !selectedElements.some(PlaitDrawElement.isImage);
   const { viewport, selection, children } = board;
   const { refs, floatingStyles } = useFloating({
     placement: 'right-start',
