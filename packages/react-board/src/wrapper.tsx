@@ -26,6 +26,7 @@ import {
   updateViewportOffset,
   initializeViewBox,
   withI18n,
+  updateViewBox,
 } from '@plait/core';
 import { BoardChangeData } from './plugins/board';
 import { useCallback, useEffect, useState } from 'react';
@@ -157,7 +158,11 @@ export const Wrapper: React.FC<WrapperProps> = ({
         parent: board,
         parentG: PlaitBoard.getElementHost(board),
       });
-      initializeViewBox(board);
+      if (isSetViewport) {
+        initializeViewBox(board);
+      } else {
+        updateViewBox(board);
+      }
       updateViewportOffset(board);
       const selectedElements = getSelectedElements(board);
       selectedElements.forEach((element) => {
