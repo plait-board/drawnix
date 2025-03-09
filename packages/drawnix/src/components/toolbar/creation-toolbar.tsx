@@ -281,7 +281,6 @@ export const CreationToolbar = () => {
                   setPointer(button.pointer);
                 }
                 if (button.key === 'image') {
-                  console.log('add image');
                   addImage();
                 }
               }}
