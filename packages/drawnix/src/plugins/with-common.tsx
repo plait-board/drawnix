@@ -1,11 +1,12 @@
 import type {
   ImageProps,
   PlaitImageBoard,
-  RenderComponentRef
+  RenderComponentRef,
 } from '@plait/common';
 import { PlaitBoard } from '@plait/core';
 import { createRoot } from 'react-dom/client';
 import { Image } from './components/image';
+import { withImagePlugin } from './with-image';
 
 export const withCommonPlugin = (board: PlaitBoard) => {
   const newBoard = board as PlaitBoard & PlaitImageBoard;
@@ -26,10 +27,10 @@ export const withCommonPlugin = (board: PlaitBoard) => {
       update: (updatedProps: Partial<ImageProps>) => {
         newProps = { ...newProps, ...updatedProps };
         root.render(<Image {...newProps}></Image>);
-      }
+      },
     };
     return ref;
   };
 
-  return board;
+  return withImagePlugin(board);
 };

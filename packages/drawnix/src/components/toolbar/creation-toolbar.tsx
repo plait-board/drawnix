@@ -10,20 +10,29 @@ import {
   TextIcon,
   StraightArrowLineIcon,
   FeltTipPenIcon,
+  ImageIcon,
 } from '../icons';
 import { useBoard } from '@plait/react-board';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
   BoardTransforms,
+  getSelectedElements,
   PlaitBoard,
   PlaitPointerType,
 } from '@plait/core';
-import { MindPointerType } from '@plait/mind';
-import { BoardCreationMode, setCreationMode } from '@plait/common';
+import { MindElement, MindPointerType, MindTransforms } from '@plait/mind';
+import {
+  BoardCreationMode,
+  CommonImageItem,
+  getElementOfFocusedImage,
+  selectImage,
+  setCreationMode,
+} from '@plait/common';
 import {
   ArrowLineShape,
   BasicShapes,
   DrawPointerType,
+  DrawTransforms,
   FlowchartSymbols,
 } from '@plait/draw';
 import { ShapePicker } from '../shape-picker';
@@ -36,6 +45,14 @@ import {
   useDrawnix,
   useSetPointer,
 } from '../../hooks/use-drawnix';
+import { fileOpen } from '../../data/filesystem';
+import { IMAGE_MIME_TYPES } from '../../constants';
+import { getDataURL } from '../../data/blob';
+import {
+  buildImage,
+  insertImage,
+  loadHTMLImageElement,
+} from '../../data/image';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -47,7 +64,7 @@ type AppToolButtonProps = {
   name?: string;
   icon: React.ReactNode;
   pointer?: DrawnixPointerType;
-  popupKey?: PopupKey;
+  key?: PopupKey | 'image';
 };
 
 const isBasicPointer = (pointer: string) => {
@@ -85,14 +102,19 @@ export const BUTTONS: AppToolButtonProps[] = [
   {
     icon: StraightArrowLineIcon,
     title: 'Arrow Line',
-    popupKey: PopupKey.arrow,
+    key: PopupKey.arrow,
     pointer: ArrowLineShape.straight,
   },
   {
     icon: ShapeIcon,
     title: 'Shape',
-    popupKey: PopupKey.shape,
+    key: PopupKey.shape,
     pointer: BasicShapes.rectangle,
+  },
+  {
+    icon: ImageIcon,
+    title: 'Image',
+    key: 'image',
   },
 ];
 
@@ -134,6 +156,16 @@ export const CreationToolbar = () => {
     );
   };
 
+  const addImage = async () => {
+    const imageFile = await fileOpen({
+      description: 'Image',
+      extensions: Object.keys(
+        IMAGE_MIME_TYPES
+      ) as (keyof typeof IMAGE_MIME_TYPES)[],
+    });
+    insertImage(board, imageFile);
+  };
+
   return (
     <Island
       padding={1}
@@ -144,7 +176,7 @@ export const CreationToolbar = () => {
           if (appState.isMobile && button.pointer === PlaitPointerType.hand) {
             return <></>;
           }
-          if (button.popupKey === PopupKey.shape) {
+          if (button.key === PopupKey.shape) {
             return (
               <Popover
                 key={index}
@@ -188,7 +220,7 @@ export const CreationToolbar = () => {
               </Popover>
             );
           }
-          if (button.popupKey === PopupKey.arrow) {
+          if (button.key === PopupKey.arrow) {
             return (
               <Popover
                 key={index}
@@ -247,6 +279,10 @@ export const CreationToolbar = () => {
                 } else if (button.pointer && isBasicPointer(button.pointer)) {
                   BoardTransforms.updatePointerType(board, button.pointer);
                   setPointer(button.pointer);
+                }
+                if (button.key === 'image') {
+                  console.log('add image');
+                  addImage();
                 }
               }}
             />

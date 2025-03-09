@@ -1,7 +1,8 @@
 import { PlaitBoard } from '@plait/core';
 import { isValidDrawnixData } from './json';
-import { MIME_TYPES } from '../constants';
+import { IMAGE_MIME_TYPES, MIME_TYPES } from '../constants';
 import { ValueOf } from '../utils/utility-types';
+import { DataURL } from '../types';
 
 export const loadFromBlob = async (board: PlaitBoard, blob: Blob | File) => {
   const contents = await parseFileContents(blob);
@@ -73,4 +74,27 @@ export const parseFileContents = async (blob: Blob | File) => {
     });
   }
   return contents;
+};
+
+export const getDataURL = async (file: Blob | File): Promise<DataURL> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataURL = reader.result as DataURL;
+      resolve(dataURL);
+    };
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+};
+
+export const isSupportedImageFileType = (type: string | null | undefined) => {
+  return !!type && (Object.values(IMAGE_MIME_TYPES) as string[]).includes(type);
+};
+
+export const isSupportedImageFile = (
+  blob: Blob | null | undefined
+): blob is Blob & { type: ValueOf<typeof IMAGE_MIME_TYPES> } => {
+  const { type } = blob || {};
+  return isSupportedImageFileType(type);
 };
