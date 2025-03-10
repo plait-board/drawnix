@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { initializeData } from './initialize-data';
-import { Drawnix } from '@drawnix/core';
+import { Drawnix } from '@drawnix/drawnix';
 import { PlaitBoard, PlaitElement, PlaitTheme, Viewport } from '@plait/core';
 
 const DRAWNIX_LOCAL_DATA_KEY = 'drawnix-local-data';

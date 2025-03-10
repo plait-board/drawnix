@@ -1,11 +1,13 @@
 {
   "name": "@drawnix/source",
-  "version": "0.0.2",
+  "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "start": "nx serve web --host=0.0.0.0",
     "build": "nx run-many -t=build",
-    "test": "nx run-many -t=test"
+    "test": "nx run-many -t=test",
+    "release:version": "nx release version && nx release changelog",
+    "release:publish": "nx release publish"
   },
   "private": true,
   "dependencies": {

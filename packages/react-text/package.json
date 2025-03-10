@@ -1,8 +1,9 @@
 {
-  "name": "@plait/react-text",
-  "version": "0.0.2",
+  "name": "@drawnix/react-text",
+  "version": "0.0.0",
   "main": "./index.js",
   "types": "./index.d.ts",
+  "private": false,
   "exports": {
     ".": {
       "import": "./index.mjs",
