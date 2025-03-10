@@ -1,3 +1,14 @@
+## 0.0.2 (2025-03-10)
+
+
+### 🚀 Features
+
+- improve README ([9e0190d](https://github.com/plait-board/drawnix/commit/9e0190d))
+
+### ❤️  Thank You
+
+- pubuzhixing8 @pubuzhixing8
+
 ## 0.0.1 (2025-03-10)
 
 
