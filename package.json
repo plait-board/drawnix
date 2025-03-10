@@ -6,7 +6,7 @@
     "start": "nx serve web --host=0.0.0.0",
     "build": "nx run-many -t=build",
     "test": "nx run-many -t=test",
-    "release:version": "nx release version && nx release changelog",
+    "release:version": "node scripts/release-version.js",
     "release:publish": "nx release publish"
   },
   "private": true,

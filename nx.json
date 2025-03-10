@@ -1,7 +1,10 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
@@ -67,18 +70,14 @@
       "workspaceChangelog": true,
       "file": "CHANGELOG.md",
       "git": {
-        "commit": true,
-        "commitMessage": "chore(release): publish {version}",
-        "tag": true,
-        "tagMessage": "v{version}"
+        "commit": false,
+        "tag": false
       }
     },
     "version": {
       "git": {
-        "commit": true,
-        "commitMessage": "chore(release): publish {version}",
-        "tag": true,
-        "tagMessage": "v{version}"
+        "commit": false,
+        "tag": false
       }
     }
   }
