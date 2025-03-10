@@ -31,8 +31,8 @@
 
 - 💯 Free and Open Source
 - ⚒️ Mind Maps and Flowcharts
-- 🖌 Freehand（New 🔥🔥🔥）
-- 😀 Iconfont Emoji Support (🚧 In Progress...)
+- 🖌 Freehand
+- 😀 Image Support
 - 🚀 Plugin-based Architecture - Extensible
 - 🖼️ 📃 Export to PNG, JPG, JSON(.drawnix)
 - 💾 Auto-save (Browser Storage)
