@@ -1,4 +1,4 @@
-import { useBoard } from '@plait/react-board';
+import { useBoard } from '@drawnix/react-board';
 import classNames from 'classnames';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,

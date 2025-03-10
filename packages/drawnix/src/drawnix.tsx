@@ -1,4 +1,4 @@
-import { Board, BoardChangeData, Wrapper } from '@plait/react-board';
+import { Board, BoardChangeData, Wrapper } from '@drawnix/react-board';
 import {
   PlaitBoard,
   PlaitBoardOptions,

@@ -4,7 +4,7 @@ import {
   OpenFileIcon,
   SaveFileIcon,
 } from '../../icons';
-import { useBoard, useListRender } from '@plait/react-board';
+import { useBoard, useListRender } from '@drawnix/react-board';
 import {
   BoardTransforms,
   PlaitBoard,

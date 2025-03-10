@@ -15,7 +15,7 @@ import { BoardTransforms } from '@plait/core';
 import React from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { BasicShapes, DrawPointerType, FlowchartSymbols } from '@plait/draw';
-import { useBoard } from '@plait/react-board';
+import { useBoard } from '@drawnix/react-board';
 import { splitRows } from '../utils/common';
 
 export interface ShapeProps {

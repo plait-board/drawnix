@@ -12,7 +12,7 @@ import {
   FeltTipPenIcon,
   ImageIcon,
 } from '../icons';
-import { useBoard } from '@plait/react-board';
+import { useBoard } from '@drawnix/react-board';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
   BoardTransforms,

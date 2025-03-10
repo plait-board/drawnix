@@ -23,7 +23,7 @@ import {
   TRANSPARENT,
   WHITE,
 } from '../constants/color';
-import { useBoard } from '@plait/react-board';
+import { useBoard } from '@drawnix/react-board';
 
 const ROWS_CLASSIC_COLORS = splitRows(CLASSIC_COLORS, 4);
 

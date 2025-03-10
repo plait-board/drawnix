@@ -15,9 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@drawnix/core": ["packages/drawnix/src/index.ts"],
-      "@plait/react-board": ["packages/react-board/src/index.ts"],
-      "@plait/react-text": ["packages/react-text/src/index.ts"]
+      "@drawnix/drawnix": ["packages/drawnix/src/index.ts"],
+      "@drawnix/react-board": ["packages/react-board/src/index.ts"],
+      "@drawnix/react-text": ["packages/react-text/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

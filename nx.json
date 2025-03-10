@@ -61,5 +61,25 @@
         "unitTestRunner": "jest"
       }
     }
+  },
+  "release": {
+    "changelog": {
+      "workspaceChangelog": true,
+      "file": "CHANGELOG.md",
+      "git": {
+        "commit": true,
+        "commitMessage": "chore(release): publish {version}",
+        "tag": true,
+        "tagMessage": "v{version}"
+      }
+    },
+    "version": {
+      "git": {
+        "commit": true,
+        "commitMessage": "chore(release): publish {version}",
+        "tag": true,
+        "tagMessage": "v{version}"
+      }
+    }
   }
 }
