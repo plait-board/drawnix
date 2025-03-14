@@ -1,3 +1,16 @@
+## 0.0.3 (2025-03-14)
+
+
+### 🩹 Fixes
+
+- revert package lock ([1aa9d42](https://github.com/plait-board/drawnix/commit/1aa9d42))
+- fix pub issue ([156abcb](https://github.com/plait-board/drawnix/commit/156abcb))
+- **text:** fix text can not display correctly on windows 10 chrome env #99 ([#100](https://github.com/plait-board/drawnix/pull/100), [#99](https://github.com/plait-board/drawnix/issues/99))
+
+### ❤️  Thank You
+
+- pubuzhixing8 @pubuzhixing8
+
 ## 0.0.2 (2025-03-10)
 
 
