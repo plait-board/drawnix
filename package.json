@@ -7,7 +7,7 @@
     "build": "nx run-many -t=build",
     "test": "nx run-many -t=test",
     "release": "node scripts/release-version.js",
-    "pub": "node scripts/publish.js"
+    "pub": "npm run build && node scripts/publish.js"
   },
   "private": true,
   "dependencies": {
