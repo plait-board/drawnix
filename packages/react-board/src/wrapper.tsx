@@ -27,9 +27,10 @@ import {
   initializeViewBox,
   withI18n,
   updateViewBox,
+  FLUSHING,
 } from '@plait/core';
 import { BoardChangeData } from './plugins/board';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { withReact } from './plugins/with-react';
 import { PlaitCommonElementRef, withImage, withText } from '@plait/common';
 import { BoardContext, BoardContextValue } from './hooks/use-board';
@@ -181,6 +182,24 @@ export const Wrapper: React.FC<WrapperProps> = ({
       BOARD_TO_AFTER_CHANGE.delete(board);
     };
   }, [board]);
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    if (value !== context.board.children && !FLUSHING.get(board)) {
+      board.children = value;
+      listRender.update(board.children, {
+        board: board,
+        parent: board,
+        parentG: PlaitBoard.getElementHost(board),
+      });
+    }
+  }, [value]);
 
   return (
     <BoardContext.Provider value={context}>{children}</BoardContext.Provider>
