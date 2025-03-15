@@ -28,6 +28,7 @@ import {
   withI18n,
   updateViewBox,
   FLUSHING,
+  BoardTransforms,
 } from '@plait/core';
 import { BoardChangeData } from './plugins/board';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -198,6 +199,7 @@ export const Wrapper: React.FC<WrapperProps> = ({
         parent: board,
         parentG: PlaitBoard.getElementHost(board),
       });
+      BoardTransforms.fitViewport(board);
     }
   }, [value]);
 
