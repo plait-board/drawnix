@@ -1,3 +1,21 @@
+## 0.0.4-0 (2025-03-16)
+
+
+### 🚀 Features
+
+- add dependencies for packages ([6d89b32](https://github.com/plait-board/drawnix/commit/6d89b32))
+- **component:** support update value from drawnix component outside ([#103](https://github.com/plait-board/drawnix/pull/103))
+- **component:** fit viewport after children updated ([#104](https://github.com/plait-board/drawnix/pull/104))
+- **drawnix:** export utils ([#105](https://github.com/plait-board/drawnix/pull/105))
+
+### 🩹 Fixes
+
+- **app-toolbar:** correct app-toolbar style ([#106](https://github.com/plait-board/drawnix/pull/106))
+
+### ❤️  Thank You
+
+- pubuzhixing8 @pubuzhixing8
+
 ## 0.0.3 (2025-03-14)
 
 
