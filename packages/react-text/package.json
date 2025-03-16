@@ -4,6 +4,11 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "private": false,
+  "dependencies": {
+    "slate": "^0.101.5",
+    "slate-history": "^0.100.0",
+    "slate-react": "^0.105.0"
+  },
   "exports": {
     ".": {
       "import": "./index.mjs",
