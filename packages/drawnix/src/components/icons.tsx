@@ -459,8 +459,19 @@ export const FeltTipPenIcon = createIcon(
 
 export const ImageIcon = createIcon(
   <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-    <g id="image" stroke="none" fill='currentColor'>
+    <g id="image" stroke="none" fill="currentColor">
       <path d="M10.496 7c-.824 0-1.572-.675-1.498-1.5 0-.825.674-1.5 1.498-1.5.823 0 1.497.675 1.497 1.5S11.319 7 10.496 7zM13.8 9.476V2.2H2.2v5.432l.1-.078C3.132 6.904 4.029 6.5 5 6.5c.823 0 1.552.27 2.342.778.226.145.449.304.735.518.06.045.546.413.69.52 1.634 1.21 2.833 1.6 4.798 1.207l.235-.047zm0 1.523V10.7c-5 1-6.3-3-8.8-3-1.5 0-2.8 1.6-2.8 1.6v4.6h11.6V11zM14 1c.6 0 1 .536 1 1.071v11.784c0 .642-.4 1.071-1 1.071H2c-.6 0-1-.429-1-1.07V2.07c0-.535.4-1.07 1-1.07h12z"></path>
+    </g>
+  </svg>
+);
+
+export const ExtraToolsIcon = createIcon(
+  <svg stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <g strokeWidth={1.5} fill='none'>
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+      <path d="M12 3l-4 7h8z"></path>
+      <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+      <path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
     </g>
   </svg>
 );

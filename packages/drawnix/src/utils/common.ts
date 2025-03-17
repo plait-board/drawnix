@@ -1,4 +1,4 @@
-import { PlaitBoard, toImage, ToImageOptions } from '@plait/core';
+import { IS_APPLE, IS_MAC, PlaitBoard, toImage, ToImageOptions } from '@plait/core';
 import type { ResolutionType } from './utility-types';
 
 export const isPromiseLike = (
@@ -77,4 +77,17 @@ export const splitRows = <T>(shapes: T[], cols: number) => {
     result.push(shapes.slice(i, i + cols));
   }
   return result;
+};
+
+export const getShortcutKey = (shortcut: string): string => {
+  shortcut = shortcut
+    .replace(/\bAlt\b/i, "Alt")
+    .replace(/\bShift\b/i, "Shift")
+    .replace(/\b(Enter|Return)\b/i, "Enter");
+  if (IS_APPLE || IS_MAC) {
+    return shortcut
+      .replace(/\bCtrlOrCmd\b/gi, "Cmd")
+      .replace(/\bAlt\b/i, "Option");
+  }
+  return shortcut.replace(/\bCtrlOrCmd\b/gi, "Ctrl");
 };

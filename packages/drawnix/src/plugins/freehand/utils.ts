@@ -41,7 +41,7 @@ export const isHitFreehand = (
   element: Freehand,
   point: Point
 ) => {
-  const antiPoint = rotateAntiPointsByElement(point, element) || point;
+  const antiPoint = rotateAntiPointsByElement(board, point, element) || point;
   const points = element.points;
   if (isClosedPoints(element.points)) {
     return (
