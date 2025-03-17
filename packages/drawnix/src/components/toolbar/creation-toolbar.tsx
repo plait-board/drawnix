@@ -11,6 +11,7 @@ import {
   StraightArrowLineIcon,
   FeltTipPenIcon,
   ImageIcon,
+  ExtraToolsIcon,
 } from '../icons';
 import { useBoard } from '@drawnix/react-board';
 import {
@@ -53,6 +54,16 @@ import {
   insertImage,
   loadHTMLImageElement,
 } from '../../data/image';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeading,
+  DialogTrigger,
+} from '../dialog/dialog';
+import MermaidToDrawnix from '../ttd-dialog/mermaid-to-drawnix';
+import { MermaidToDrawnixLibProps } from '../ttd-dialog/common';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -64,7 +75,7 @@ type AppToolButtonProps = {
   name?: string;
   icon: React.ReactNode;
   pointer?: DrawnixPointerType;
-  key?: PopupKey | 'image';
+  key?: PopupKey | 'image' | 'extra-tools';
 };
 
 const isBasicPointer = (pointer: string) => {
@@ -116,6 +127,11 @@ export const BUTTONS: AppToolButtonProps[] = [
     title: 'Image',
     key: 'image',
   },
+  {
+    icon: ExtraToolsIcon,
+    title: '更多工具',
+    key: 'extra-tools',
+  },
 ];
 
 // TODO provider by plait/draw
@@ -166,6 +182,14 @@ export const CreationToolbar = () => {
     insertImage(board, imageFile);
   };
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const [mermaidToDrawnixLib, setMermaidToDrawnixLib] =
+    useState<MermaidToDrawnixLibProps>({
+      loaded: false,
+      api: import('@drawnix/mermaid-to-drawnix'),
+    });
+
   return (
     <Island
       padding={1}
@@ -183,6 +207,7 @@ export const CreationToolbar = () => {
                 open={shapeOpen}
                 sideOffset={12}
                 onOpenChange={(open) => {
+                  console.log('open', open);
                   setShapeOpen(open);
                 }}
               >
@@ -258,6 +283,35 @@ export const CreationToolbar = () => {
                   ></ArrowPicker>
                 </PopoverContent>
               </Popover>
+            );
+          }
+          if (button.key === 'extra-tools') {
+            return (
+              <Dialog
+                key={index}
+                open={dialogOpen}
+                onOpenChange={(open) => {
+                  console.log('open', open);
+                  setDialogOpen(open);
+                }}
+              >
+                <DialogTrigger asChild>
+                  <ToolButton
+                    type="radio"
+                    icon={button.icon}
+                    checked={isChecked(button)}
+                    title={`${button.title}`}
+                    aria-label={`${button.title}`}
+                    onPointerUp={() => {
+                      setDialogOpen(!dialogOpen);
+                      console.log('dialogOpen', !dialogOpen);
+                    }}
+                  />
+                </DialogTrigger>
+                <DialogContent className="Dialog ttd-dialog" container={container}>
+                  <MermaidToDrawnix mermaidToDrawnixLib={mermaidToDrawnixLib}></MermaidToDrawnix>
+                </DialogContent>
+              </Dialog>
             );
           }
           return (
