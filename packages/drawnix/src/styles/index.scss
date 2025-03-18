@@ -112,4 +112,21 @@
         text-decoration: none;
         }
     }
+    .a {
+        font-weight: 500;
+        text-decoration: none;
+        color: var(--link-color);
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: pointer;
+    }
+    textarea {
+        outline: none;
+        &:hover, &:focus {
+            border: 1px solid var(--color-primary);
+        }
+    }
+    .drawnix-button {
+        @include outlineButtonStyles;
+    }
 }

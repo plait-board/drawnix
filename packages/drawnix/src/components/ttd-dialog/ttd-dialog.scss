@@ -5,6 +5,12 @@ $verticalBreakpoint: 861px;
 .drawnix {
   .Dialog.ttd-dialog {
     padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1024px;
+    height: 100%;
+    max-height: 540px;
 
     &.Dialog--fullscreen {
       margin-top: 0;
@@ -108,8 +114,8 @@ $verticalBreakpoint: 861px;
     flex-grow: 1;
     position: relative;
 
-    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==")
-      left center;
+    // background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMUlEQVQ4T2NkYGAQYcAP3uCTZhw1gGGYhAGBZIA/nYDCgBDAm9BGDWAAJyRCgLaBCAAgXwixzAS0pgAAAABJRU5ErkJggg==")
+    //   left center;
     border-radius: var(--border-radius-lg);
     border: 1px solid var(--dialog-border-color);
 
@@ -135,6 +141,7 @@ $verticalBreakpoint: 861px;
     align-items: center;
     justify-content: center;
     flex-grow: 1;
+    overflow: hidden;
   }
 
   .ttd-dialog-output-error {

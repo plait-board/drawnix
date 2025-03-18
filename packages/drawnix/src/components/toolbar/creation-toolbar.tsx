@@ -17,23 +17,15 @@ import { useBoard } from '@drawnix/react-board';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
   BoardTransforms,
-  getSelectedElements,
   PlaitBoard,
   PlaitPointerType,
 } from '@plait/core';
-import { MindElement, MindPointerType, MindTransforms } from '@plait/mind';
-import {
-  BoardCreationMode,
-  CommonImageItem,
-  getElementOfFocusedImage,
-  selectImage,
-  setCreationMode,
-} from '@plait/common';
+import { MindPointerType } from '@plait/mind';
+import { BoardCreationMode, setCreationMode } from '@plait/common';
 import {
   ArrowLineShape,
   BasicShapes,
   DrawPointerType,
-  DrawTransforms,
   FlowchartSymbols,
 } from '@plait/draw';
 import { ShapePicker } from '../shape-picker';
@@ -48,22 +40,8 @@ import {
 } from '../../hooks/use-drawnix';
 import { fileOpen } from '../../data/filesystem';
 import { IMAGE_MIME_TYPES } from '../../constants';
-import { getDataURL } from '../../data/blob';
-import {
-  buildImage,
-  insertImage,
-  loadHTMLImageElement,
-} from '../../data/image';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeading,
-  DialogTrigger,
-} from '../dialog/dialog';
-import MermaidToDrawnix from '../ttd-dialog/mermaid-to-drawnix';
-import { MermaidToDrawnixLibProps } from '../ttd-dialog/common';
+import { insertImage } from '../../data/image';
+import { ExtraToolsButton } from './extra-tools/extra-tools-button';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -184,12 +162,6 @@ export const CreationToolbar = () => {
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const [mermaidToDrawnixLib, setMermaidToDrawnixLib] =
-    useState<MermaidToDrawnixLibProps>({
-      loaded: false,
-      api: import('@drawnix/mermaid-to-drawnix'),
-    });
-
   return (
     <Island
       padding={1}
@@ -207,7 +179,6 @@ export const CreationToolbar = () => {
                 open={shapeOpen}
                 sideOffset={12}
                 onOpenChange={(open) => {
-                  console.log('open', open);
                   setShapeOpen(open);
                 }}
               >
@@ -286,33 +257,7 @@ export const CreationToolbar = () => {
             );
           }
           if (button.key === 'extra-tools') {
-            return (
-              <Dialog
-                key={index}
-                open={dialogOpen}
-                onOpenChange={(open) => {
-                  console.log('open', open);
-                  setDialogOpen(open);
-                }}
-              >
-                <DialogTrigger asChild>
-                  <ToolButton
-                    type="radio"
-                    icon={button.icon}
-                    checked={isChecked(button)}
-                    title={`${button.title}`}
-                    aria-label={`${button.title}`}
-                    onPointerUp={() => {
-                      setDialogOpen(!dialogOpen);
-                      console.log('dialogOpen', !dialogOpen);
-                    }}
-                  />
-                </DialogTrigger>
-                <DialogContent className="Dialog ttd-dialog" container={container}>
-                  <MermaidToDrawnix mermaidToDrawnixLib={mermaidToDrawnixLib}></MermaidToDrawnix>
-                </DialogContent>
-              </Dialog>
-            );
+            return <ExtraToolsButton key={index}></ExtraToolsButton>;
           }
           return (
             <ToolButton

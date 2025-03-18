@@ -11,7 +11,7 @@
   --dialog-border-color: var(--color-gray-20);
   --button-hover-bg: var(--color-surface-high);
   --button-active-border: var(--color-brand-active);
-
+  --link-color: var(--color-primary);
   --default-button-size: 2rem;
   --default-icon-size: 1rem;
   --lg-button-size: 2.25rem;
@@ -33,11 +33,16 @@
   --color-icon-white: #{$oc-white};
 
   --color-primary: #6698ff;
-  --color-primary-darker: #5b57d1;
-  --color-primary-darkest: #4a47b1;
-  --color-primary-light: #e3e2fe;
-  --color-primary-light-darker: #d7d5ff;
-  --color-primary-hover: #5753d0;
+  --color-primary-darker: #4a7ee6;    // 降低亮度和饱和度
+  --color-primary-darkest: #3366cc;   // 进一步降低亮度
+  --color-primary-light: #e6f0ff;     // 提高亮度，降低饱和度
+  --color-primary-light-darker: #cce0ff;  // light 的稍暗版本
+  --color-primary-hover: #80acff;     // 略微提高亮度的互动状态
+
+  --button-hover-bg: var(--color-surface-high);
+  --button-active-bg: var(--color-surface-high);
+  --button-active-border: var(--color-brand-active);
+  --default-border-color: var(--color-surface-high);
 
   --color-gray-10: #f5f5f5;
   --color-gray-20: #ebebeb;

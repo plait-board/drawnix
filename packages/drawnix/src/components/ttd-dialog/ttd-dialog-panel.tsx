@@ -41,15 +41,14 @@ export const TTDDialogPanel = ({
         style={{ display: "flex", alignItems: "center" }}
       >
         <button
-          className="ttd-dialog-panel-button"
-          onSelect={panelAction ? panelAction.action : () => {}}
+          className="ttd-dialog-panel-button drawnix-button "
+          onClick={panelAction ? panelAction.action : () => {}}
           disabled={panelActionDisabled || onTextSubmitInProgress}
         >
           <div className={classNames({ invisible: onTextSubmitInProgress })}>
             {panelAction?.label}
             {panelAction?.icon && <span>{panelAction.icon}</span>}
           </div>
-          {/* {onTextSubmitInProgress && <Spinner />} */}
         </button>
         {!panelActionDisabled &&
           !onTextSubmitInProgress &&

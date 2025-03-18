@@ -10,7 +10,7 @@ import {
   ThemeColorMode,
   Viewport,
 } from '@plait/core';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { withGroup } from '@plait/common';
 import { withDraw } from '@plait/draw';
 import { MindThemeColors, withMind } from '@plait/mind';
@@ -29,6 +29,7 @@ import { ThemeToolbar } from './components/toolbar/theme-toolbar';
 import { buildPencilPlugin } from './plugins/with-pencil';
 import { DrawnixContext, DrawnixState } from './hooks/use-drawnix';
 import { ClosePencilToolbar } from './components/toolbar/pencil-mode-toolbar';
+import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -66,6 +67,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
       pointer: PlaitPointerType.hand,
       isMobile: md.mobile() !== null,
       isPencilMode: false,
+      openDialog: false,
     };
   });
 
@@ -80,12 +82,15 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     buildPencilPlugin(appState, setAppState),
   ];
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
     <DrawnixContext.Provider value={{ appState, setAppState }}>
       <div
         className={classNames('drawnix', {
           'drawnix--mobile': appState.isMobile,
         })}
+        ref={containerRef}
       >
         <Wrapper
           value={value}
@@ -108,6 +113,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           <ThemeToolbar></ThemeToolbar>
           <PopupToolbar></PopupToolbar>
           <ClosePencilToolbar></ClosePencilToolbar>
+          <TTDDialog container={containerRef.current}></TTDDialog>
         </Wrapper>
       </div>
     </DrawnixContext.Provider>

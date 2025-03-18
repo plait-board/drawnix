@@ -1,3 +1,10 @@
+import { withGroup } from '@plait/common';
+import { PlaitElement, PlaitPlugin } from '@plait/core';
+import { withDraw } from '@plait/draw';
+import { withCommonPlugin } from '../../plugins/with-common';
+import { Board, Wrapper } from '@drawnix/react-board';
+import { MindThemeColors } from '@plait/mind';
+
 const ErrorComp = ({ error }: { error: string }) => {
   return (
     <div
@@ -11,27 +18,35 @@ const ErrorComp = ({ error }: { error: string }) => {
 
 interface TTDDialogOutputProps {
   error: Error | null;
-  canvasRef: React.RefObject<HTMLDivElement>;
+  value: PlaitElement[];
   loaded: boolean;
 }
 
 export const TTDDialogOutput = ({
   error,
-  canvasRef,
+  value,
   loaded,
 }: TTDDialogOutputProps) => {
+  const plugins: PlaitPlugin[] = [withDraw, withGroup, withCommonPlugin];
+  const options = {
+    readonly: true,
+    hideScrollbar: false,
+    disabledScrollOnNonFocus: true,
+    themeColors: MindThemeColors,
+  };
   return (
     <div className="ttd-dialog-output-wrapper">
       {error && <ErrorComp error={error.message} />}
-      {loaded ? (
+      {
         <div
-          ref={canvasRef}
           style={{ opacity: error ? '0.15' : 1 }}
           className="ttd-dialog-output-canvas-container"
-        />
-      ) : (
-        <div className="ttd-dialog-output-loading">Loading...</div>
-      )}
+        >
+          <Wrapper value={value} options={options} plugins={plugins}>
+            <Board></Board>
+          </Wrapper>
+        </div>
+      }
     </div>
   );
 };
