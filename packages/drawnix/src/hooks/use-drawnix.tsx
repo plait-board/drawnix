@@ -19,6 +19,7 @@ export type DrawnixState = {
   pointer: DrawnixPointerType;
   isMobile: boolean;
   isPencilMode: boolean;
+  openDialog: boolean;
 };
 
 export const DrawnixContext = createContext<{

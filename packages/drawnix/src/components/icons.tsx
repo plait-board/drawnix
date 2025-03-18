@@ -466,12 +466,30 @@ export const ImageIcon = createIcon(
 );
 
 export const ExtraToolsIcon = createIcon(
-  <svg stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <g strokeWidth={1.5} fill='none'>
+  <svg
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g strokeWidth={1.8} fill="none">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
       <path d="M12 3l-4 7h8z"></path>
       <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
       <path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
     </g>
+  </svg>
+);
+
+export const MermaidLogoIcon = createIcon(
+  <svg
+    stroke="currentColor"
+    viewBox="0 0 512 512"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      stroke='none'
+      fill="currentColor"
+      d="M407.48,111.18C335.587,108.103 269.573,152.338 245.08,220C220.587,152.338 154.573,108.103 82.68,111.18C80.285,168.229 107.577,222.632 154.74,254.82C178.908,271.419 193.35,298.951 193.27,328.27L193.27,379.13L296.9,379.13L296.9,328.27C296.816,298.953 311.255,271.42 335.42,254.82C382.596,222.644 409.892,168.233 407.48,111.18Z"
+    />
   </svg>
 );
