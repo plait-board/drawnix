@@ -1,3 +1,15 @@
+## 0.0.4-2 (2025-03-19)
+
+
+### 🚀 Features
+
+- init dialog and mermaid-to-dialog ([6ff70b9](https://github.com/plait-board/drawnix/commit/6ff70b9))
+- **mermaid:** improve mermaid-to-drawnix ([a928ba1](https://github.com/plait-board/drawnix/commit/a928ba1))
+
+### ❤️  Thank You
+
+- pubuzhixing8 @pubuzhixing8
+
 ## 0.0.4-1 (2025-03-16)
 
 This was a version bump only, there were no code changes.
