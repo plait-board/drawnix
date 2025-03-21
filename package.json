@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@drawnix/mermaid-to-drawnix": "^0.0.1",
+    "@drawnix/mermaid-to-drawnix": "^0.0.2",
     "@floating-ui/react": "^0.26.24",
     "@plait/common": "^0.77.3",
     "@plait/core": "^0.77.3",
