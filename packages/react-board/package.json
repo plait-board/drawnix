@@ -1,5 +1,5 @@
 {
-  "name": "@drawnix/react-board",
+  "name": "@plait-board/react-board",
   "version": "0.0.4-2",
   "main": "./index.js",
   "types": "./index.d.ts",

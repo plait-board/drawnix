@@ -13,7 +13,7 @@ import {
   ImageIcon,
   ExtraToolsIcon,
 } from '../icons';
-import { useBoard } from '@drawnix/react-board';
+import { useBoard } from '@plait-board/react-board';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
   BoardTransforms,

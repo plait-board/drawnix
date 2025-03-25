@@ -16,8 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@drawnix/drawnix": ["packages/drawnix/src/index.ts"],
-      "@drawnix/react-board": ["packages/react-board/src/index.ts"],
-      "@drawnix/react-text": ["packages/react-text/src/index.ts"]
+      "@plait-board/react-board": ["packages/react-board/src/index.ts"],
+      "@plait-board/react-text": ["packages/react-text/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

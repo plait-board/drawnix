@@ -1,4 +1,4 @@
-import { useBoard } from "@drawnix/react-board";
+import { useBoard } from "@plait-board/react-board";
 import { Popover, PopoverContent, PopoverTrigger } from "../../popover/popover";
 import { PlaitBoard } from "@plait/core";
 import { useState } from "react";

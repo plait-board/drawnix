@@ -2,7 +2,7 @@ import { withGroup } from '@plait/common';
 import { PlaitElement, PlaitPlugin } from '@plait/core';
 import { withDraw } from '@plait/draw';
 import { withCommonPlugin } from '../../plugins/with-common';
-import { Board, Wrapper } from '@drawnix/react-board';
+import { Board, Wrapper } from '@plait-board/react-board';
 import { MindThemeColors } from '@plait/mind';
 
 const ErrorComp = ({ error }: { error: string }) => {
