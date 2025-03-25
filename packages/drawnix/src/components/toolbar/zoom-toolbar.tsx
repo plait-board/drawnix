@@ -1,4 +1,4 @@
-import { useBoard } from '@drawnix/react-board';
+import { useBoard } from '@plait-board/react-board';
 import Stack from '../stack';
 import { ToolButton } from '../tool-button';
 import { ZoomInIcon, ZoomOutIcon } from '../icons';

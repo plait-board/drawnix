@@ -14,7 +14,7 @@ import {
   toScreenPointFromHostPoint,
 } from '@plait/core';
 import { useEffect, useRef, useState } from 'react';
-import { useBoard } from '@drawnix/react-board';
+import { useBoard } from '@plait-board/react-board';
 import { flip, offset, useFloating } from '@floating-ui/react';
 import { Island } from '../../island';
 import classNames from 'classnames';
