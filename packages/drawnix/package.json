@@ -8,7 +8,7 @@
     "@floating-ui/react": "^0.26.24",
     "mobile-detect": "^1.4.5",
     "open-color": "^1.9.1",
-    "@drawnix/mermaid-to-drawnix": "^0.0.1"
+    "@drawnix/mermaid-to-drawnix": "^0.0.2"
   },
   "exports": {
     ".": {
