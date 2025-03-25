@@ -2,14 +2,10 @@ import {
   BoardTransforms,
   PlaitBoard,
   ZOOM_STEP,
-  initializeViewBox,
-  initializeViewportContainer,
   isFromViewportChange,
   setIsFromViewportChange,
   updateViewportByScrolling,
-  updateViewportOffset,
 } from '@plait/core';
-import { useEffect } from 'react';
 import { useEventListener } from 'ahooks';
 
 const useBoardEvent = (

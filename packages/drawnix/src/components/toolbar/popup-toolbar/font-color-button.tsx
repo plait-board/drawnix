@@ -5,8 +5,6 @@ import classNames from 'classnames';
 import { Island } from '../../island';
 import { ATTACHED_ELEMENT_CLASS_NAME, PlaitBoard } from '@plait/core';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
-import { TextTransforms } from '@plait/text-plugins';
-import { getColorPropertyValue } from './popup-toolbar';
 import {
   setTextColor,
   setTextColorOpacity,
