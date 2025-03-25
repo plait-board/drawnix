@@ -1,3 +1,15 @@
+## 0.0.4-3 (2025-03-25)
+
+
+### 🩹 Fixes
+
+- improve libs build ([9ddb6d9](https://github.com/plait-board/drawnix/commit/9ddb6d9))
+- **mermaid:** bump mermaid-to-drawnix to 0.0.2 to fix text display issue ([33878d0](https://github.com/plait-board/drawnix/commit/33878d0))
+
+### ❤️  Thank You
+
+- pubuzhixing8
+
 ## 0.0.4-2 (2025-03-19)
 
 
