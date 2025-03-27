@@ -16,8 +16,8 @@ import {
   RectangleClient,
   WritableClipboardOperationType,
 } from '@plait/core';
-import type { MermaidConfig } from '@drawnix/mermaid-to-drawnix/dist';
-import type { MermaidToDrawnixResult } from '@drawnix/mermaid-to-drawnix/dist/interfaces';
+import type { MermaidConfig } from '@plait-board/mermaid-to-drawnix/dist';
+import type { MermaidToDrawnixResult } from '@plait-board/mermaid-to-drawnix/dist/interfaces';
 
 export interface MermaidToDrawnixLibProps {
   loaded: boolean;
@@ -45,7 +45,7 @@ const MermaidToDrawnix = () => {
   useEffect(() => {
     const loadLib = async () => {
       try {
-        const module = await import('@drawnix/mermaid-to-drawnix');
+        const module = await import('@plait-board/mermaid-to-drawnix');
         setMermaidToDrawnixLib({
           loaded: true,
           api: Promise.resolve(module),
