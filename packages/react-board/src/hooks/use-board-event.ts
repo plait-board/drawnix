@@ -2,11 +2,15 @@ import {
   BoardTransforms,
   PlaitBoard,
   ZOOM_STEP,
+  initializeViewBox,
+  initializeViewportContainer,
   isFromViewportChange,
   setIsFromViewportChange,
   updateViewportByScrolling,
+  updateViewportOffset,
 } from '@plait/core';
 import { useEventListener } from 'ahooks';
+import { useEffect, useRef } from 'react';
 
 const useBoardEvent = (
   board: PlaitBoard,
@@ -66,17 +70,23 @@ const useBoardEvent = (
     { target: viewportContainerRef, passive: false }
   );
 
-  // useEffect(() => {
-  //   const resizeObserver = new ResizeObserver(() => {
-  //     initializeViewportContainer(board);
-  //     initializeViewBox(board);
-  //     updateViewportOffset(board);
-  //   });
-  //   resizeObserver.observe(PlaitBoard.getBoardContainer(board));
-  //   return () => {
-  //     resizeObserver && (resizeObserver as ResizeObserver).disconnect();
-  //   };
-  // }, []);
+  const isInitialized = useRef(false);
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      if (!isInitialized.current) {
+        isInitialized.current = true;
+        return;
+      }
+      initializeViewportContainer(board);
+      initializeViewBox(board);
+      updateViewportOffset(board);
+    });
+    resizeObserver.observe(PlaitBoard.getBoardContainer(board));
+    return () => {
+      resizeObserver && (resizeObserver as ResizeObserver).disconnect();
+    };
+  }, []);
 };
 
 export default useBoardEvent;
