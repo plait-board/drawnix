@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import classNames from "classnames";
+import type { ReactNode } from 'react';
+import classNames from 'classnames';
 
 interface TTDDialogPanelProps {
   label: string;
@@ -35,14 +35,14 @@ export const TTDDialogPanel = ({
 
       {children}
       <div
-        className={classNames("ttd-dialog-panel-button-container", {
+        className={classNames('ttd-dialog-panel-button-container', {
           invisible: !panelAction,
         })}
-        style={{ display: "flex", alignItems: "center" }}
+        style={{ display: 'flex', alignItems: 'center' }}
       >
         <button
           className="ttd-dialog-panel-button drawnix-button "
-          onClick={panelAction ? panelAction.action : () => {}}
+          onClick={panelAction && panelAction.action}
           disabled={panelActionDisabled || onTextSubmitInProgress}
         >
           <div className={classNames({ invisible: onTextSubmitInProgress })}>
