@@ -19,8 +19,7 @@ export function App() {
   });
 
   return (
-    <>
-      <Drawnix
+    <Drawnix
         value={value.children}
         viewport={value.viewport}
         theme={value.theme}
@@ -37,7 +36,6 @@ export function App() {
           };
         }}
       ></Drawnix>
-    </>
   );
 }
 

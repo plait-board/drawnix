@@ -5,5 +5,5 @@ test('has title', async ({ page }) => {
 
   // Expect h1 to contain a substring.
   expect(await page.title()).toContain('Drawnix - 开源白板工具');
-  expect(await page.locator('drawnix')).toBeTruthy();
+  expect(page.locator('drawnix')).toBeTruthy();
 });

@@ -91,7 +91,7 @@ const MermaidToDrawnix = () => {
     }
     const boardContainerRect =
       PlaitBoard.getBoardContainer(board).getBoundingClientRect();
-    let focusPoint = [
+    const focusPoint = [
       boardContainerRect.width / 2,
       boardContainerRect.height / 2,
     ];
@@ -123,20 +123,20 @@ const MermaidToDrawnix = () => {
     <>
       <div className="ttd-dialog-desc">
         目前仅支持
-        <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank">
+        <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noreferrer">
           流程图
         </a>
         、
         <a
           href="https://mermaid.js.org/syntax/sequenceDiagram.html"
-          target="_blank"
+          target="_blank" rel="noreferrer"
         >
           序列图
         </a>
         和
         <a
           href="https://mermaid.js.org/syntax/classDiagram.html"
-          target="_blank"
+          target="_blank" rel="noreferrer"
         >
           类图
         </a>

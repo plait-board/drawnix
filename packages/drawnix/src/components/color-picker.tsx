@@ -45,8 +45,7 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
     return (!isNullOrUndefined(_opacity) ? _opacity : 100) as number;
   });
   return (
-    <>
-      <Stack.Col gap={3}>
+    <Stack.Col gap={3}>
         <SizeSlider
           step={5}
           defaultValue={opacity}
@@ -99,6 +98,5 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
           ))}
         </Stack.Col>
       </Stack.Col>
-    </>
   );
 });
