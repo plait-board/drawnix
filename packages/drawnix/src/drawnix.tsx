@@ -23,13 +23,14 @@ import { PopupToolbar } from './components/toolbar/popup-toolbar/popup-toolbar';
 import { AppToolbar } from './components/toolbar/app-toolbar/app-toolbar';
 import classNames from 'classnames';
 import './styles/index.scss';
-import { withDrawnixHotkey } from './plugins/with-hotkey';
+import { buildDrawnixHotkeyPlugin } from './plugins/with-hotkey';
 import { withFreehand } from './plugins/freehand/with-freehand';
 import { ThemeToolbar } from './components/toolbar/theme-toolbar';
 import { buildPencilPlugin } from './plugins/with-pencil';
 import { DrawnixContext, DrawnixState } from './hooks/use-drawnix';
 import { ClosePencilToolbar } from './components/toolbar/pencil-mode-toolbar';
 import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
+import { ResetConfirm } from './components/reset-confirm/reset-confirm';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -68,6 +69,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
       isMobile: md.mobile() !== null,
       isPencilMode: false,
       openDialog: false,
+      openResetConfirm: false,
     };
   });
 
@@ -77,7 +79,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     withMind,
     withMindExtend,
     withCommonPlugin,
-    withDrawnixHotkey,
+    buildDrawnixHotkeyPlugin(appState, setAppState),
     withFreehand,
     buildPencilPlugin(appState, setAppState),
   ];
@@ -114,6 +116,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           <PopupToolbar></PopupToolbar>
           <ClosePencilToolbar></ClosePencilToolbar>
           <TTDDialog container={containerRef.current}></TTDDialog>
+          <ResetConfirm container={containerRef.current}></ResetConfirm>
         </Wrapper>
       </div>
     </DrawnixContext.Provider>

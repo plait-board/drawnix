@@ -3,6 +3,7 @@ import {
   GithubIcon,
   OpenFileIcon,
   SaveFileIcon,
+  TrashIcon,
 } from '../../icons';
 import { useBoard, useListRender } from '@plait-board/react-board';
 import {
@@ -28,6 +29,7 @@ export const SaveToFile = () => {
       }}
       icon={SaveFileIcon}
       aria-label={`${`保存文件`}`}
+      shortcut={`Cmd+S`}
     >{`保存文件`}</MenuItem>
   );
 };
@@ -83,6 +85,24 @@ export const SaveAsImage = () => {
   );
 };
 SaveAsImage.displayName = 'SaveAsImage';
+
+export const ResetBoard = () => {
+  const board = useBoard();
+  return (
+    <MenuItem
+      icon={TrashIcon}
+      data-testid="reset-button"
+      onSelect={() => {
+        
+      }}
+      shortcut={`Cmd+Delete`}
+      aria-label={'重置画布'}
+    >
+      {'导出图片'}
+    </MenuItem>
+  );
+};
+ResetBoard.displayName = 'ResetBoard';
 
 export const Socials = () => {
   return (

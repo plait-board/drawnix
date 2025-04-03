@@ -20,6 +20,7 @@ export type DrawnixState = {
   isMobile: boolean;
   isPencilMode: boolean;
   openDialog: boolean;
+  openResetConfirm: boolean;
 };
 
 export const DrawnixContext = createContext<{
