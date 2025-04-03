@@ -6,7 +6,7 @@ import localforage from 'localforage';
 
 // 1个月后移出删除兼容
 const OLD_DRAWNIX_LOCAL_DATA_KEY = 'drawnix-local-data';
-const mainBoardContentKey = 'main_board_content';
+const MAIN_BOARD_CONTENT_KEY = 'main_board_content';
 
 localforage.config({
   name: 'Drawnix',
@@ -23,7 +23,7 @@ export function App() {
 
   useEffect(() => {
     const loadData = async () => {
-      const storedData = await localforage.getItem(mainBoardContentKey);
+      const storedData = await localforage.getItem(MAIN_BOARD_CONTENT_KEY);
       if (storedData) {
         setValue(storedData as any);
         return;
@@ -32,7 +32,7 @@ export function App() {
       if (localData) {
         const parsedData = JSON.parse(localData);
         setValue(parsedData);
-        await localforage.setItem(mainBoardContentKey, parsedData);
+        await localforage.setItem(MAIN_BOARD_CONTENT_KEY, parsedData);
         localStorage.removeItem(OLD_DRAWNIX_LOCAL_DATA_KEY);
         return;
       }
@@ -47,7 +47,7 @@ export function App() {
       viewport={value.viewport}
       theme={value.theme}
       onChange={(value) => {
-        localforage.setItem(mainBoardContentKey, value);
+        localforage.setItem(MAIN_BOARD_CONTENT_KEY, value);
       }}
       afterInit={(board) => {
         console.log('board initialized');
