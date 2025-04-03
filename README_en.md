@@ -39,7 +39,8 @@
 - ⚡ Edit Features: Undo, Redo, Copy, Paste, etc.
 - 🌌 Infinite Canvas: Zoom, Pan
 - 🎨 Theme Support
-- 📱 Mobile-friendly（Optimization completed 🔥🔥🔥）
+- 📱 Mobile-friendly
+- 📈 Support mermaid syntax conversion to flowchart（New 🔥🔥🔥）
 
 
 ## About the Name
