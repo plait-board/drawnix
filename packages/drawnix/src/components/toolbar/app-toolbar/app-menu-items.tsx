@@ -3,6 +3,7 @@ import {
   GithubIcon,
   OpenFileIcon,
   SaveFileIcon,
+  TrashIcon,
 } from '../../icons';
 import { useBoard, useListRender } from '@plait-board/react-board';
 import {
@@ -17,6 +18,7 @@ import { loadFromJSON, saveAsJSON } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
 import { saveAsPNG } from '../../../utils/image';
+import { useDrawnix } from '../../../hooks/use-drawnix';
 
 export const SaveToFile = () => {
   const board = useBoard();
@@ -28,6 +30,7 @@ export const SaveToFile = () => {
       }}
       icon={SaveFileIcon}
       aria-label={`${`保存文件`}`}
+      shortcut={`Cmd+S`}
     >{`保存文件`}</MenuItem>
   );
 };
@@ -83,6 +86,27 @@ export const SaveAsImage = () => {
   );
 };
 SaveAsImage.displayName = 'SaveAsImage';
+
+export const CleanBoard = () => {
+  const { appState, setAppState } = useDrawnix();
+  return (
+    <MenuItem
+      icon={TrashIcon}
+      data-testid="reset-button"
+      onSelect={() => {
+        setAppState({
+          ...appState,
+          openCleanConfirm: true
+        })
+      }}
+      shortcut={`Cmd+Backspace`}
+      aria-label={'清除画布'}
+    >
+      {'清除画布'}
+    </MenuItem>
+  );
+};
+CleanBoard.displayName = 'CleanBoard';
 
 export const Socials = () => {
   return (
