@@ -18,6 +18,7 @@ import { loadFromJSON, saveAsJSON } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
 import { saveAsPNG } from '../../../utils/image';
+import { useDrawnix } from '../../../hooks/use-drawnix';
 
 export const SaveToFile = () => {
   const board = useBoard();
@@ -86,23 +87,26 @@ export const SaveAsImage = () => {
 };
 SaveAsImage.displayName = 'SaveAsImage';
 
-export const ResetBoard = () => {
-  const board = useBoard();
+export const CleanBoard = () => {
+  const { appState, setAppState } = useDrawnix();
   return (
     <MenuItem
       icon={TrashIcon}
       data-testid="reset-button"
       onSelect={() => {
-        
+        setAppState({
+          ...appState,
+          openCleanConfirm: true
+        })
       }}
-      shortcut={`Cmd+Delete`}
-      aria-label={'重置画布'}
+      shortcut={`Cmd+Backspace`}
+      aria-label={'清除画布'}
     >
-      {'导出图片'}
+      {'清除画布'}
     </MenuItem>
   );
 };
-ResetBoard.displayName = 'ResetBoard';
+CleanBoard.displayName = 'CleanBoard';
 
 export const Socials = () => {
   return (

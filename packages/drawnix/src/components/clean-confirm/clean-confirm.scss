@@ -1,0 +1,52 @@
+.clean-confirm {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+
+  &__title {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 8px;
+  }
+
+  &__description {
+    color: #666;
+    font-size: 14px;
+    margin: 0 0 20px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  &__button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+
+    &--cancel {
+      background: #f5f5f5;
+      color: #000;
+      
+      &:hover {
+        background: #e8e8e8;
+      }
+    }
+
+    &--ok {
+      background: white;
+      color: #ff4d4f;
+      border: 1px solid #ff4d4f;
+      
+      &:hover {
+        color: white;
+        background: #ff4d4f;
+      }
+    }
+  }
+}

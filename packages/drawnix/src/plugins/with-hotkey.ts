@@ -25,10 +25,13 @@ export const buildDrawnixHotkeyPlugin = (
           event.preventDefault();
           return;
         }
-        if (isHotkey(['mod+k'], { byKey: true })(event)) {
+        if (
+          isHotkey(['mod+backspace'])(event) ||
+          isHotkey(['mod+delete'])(event)
+        ) {
           setAppState({
             ...appState,
-            openResetConfirm: true,
+            openCleanConfirm: true,
           });
           event.preventDefault();
           return;

@@ -30,7 +30,7 @@ import { buildPencilPlugin } from './plugins/with-pencil';
 import { DrawnixContext, DrawnixState } from './hooks/use-drawnix';
 import { ClosePencilToolbar } from './components/toolbar/pencil-mode-toolbar';
 import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
-import { ResetConfirm } from './components/reset-confirm/reset-confirm';
+import { CleanConfirm } from './components/clean-confirm/clean-confirm';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -69,7 +69,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
       isMobile: md.mobile() !== null,
       isPencilMode: false,
       openDialog: false,
-      openResetConfirm: false,
+      openCleanConfirm: false,
     };
   });
 
@@ -116,7 +116,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           <PopupToolbar></PopupToolbar>
           <ClosePencilToolbar></ClosePencilToolbar>
           <TTDDialog container={containerRef.current}></TTDDialog>
-          <ResetConfirm container={containerRef.current}></ResetConfirm>
+          <CleanConfirm container={containerRef.current}></CleanConfirm>
         </Wrapper>
       </div>
     </DrawnixContext.Provider>
