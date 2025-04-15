@@ -3,6 +3,7 @@
 
 ### 🚀 Features
 
+- ci: a tiny docker image (#127) ([#122](https://github.com/plait-board/drawnix/pull/127))
 - support save as json from hotkey ([120dffa](https://github.com/plait-board/drawnix/commit/120dffa))
 - **app:** use localforage to storage main board content #122 ([#122](https://github.com/plait-board/drawnix/issues/122))
 - **clean-board:** complete clean board ([#124](https://github.com/plait-board/drawnix/pull/124))
@@ -13,6 +14,8 @@
 
 ### ❤️  Thank You
 
+- lurenyang418 @lurenyang418
+- whyour @whyour
 - pubuzhixing8 @pubuzhixing8
 
 ## 0.0.4-3 (2025-03-25)
