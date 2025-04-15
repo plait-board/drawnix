@@ -1,3 +1,20 @@
+## 0.0.4 (2025-04-15)
+
+
+### 🚀 Features
+
+- support save as json from hotkey ([120dffa](https://github.com/plait-board/drawnix/commit/120dffa))
+- **app:** use localforage to storage main board content #122 ([#122](https://github.com/plait-board/drawnix/issues/122))
+- **clean-board:** complete clean board ([#124](https://github.com/plait-board/drawnix/pull/124))
+
+### 🩹 Fixes
+
+- **react-board:** support fit viewport after browser window resized ([96f4a0e](https://github.com/plait-board/drawnix/commit/96f4a0e))
+
+### ❤️  Thank You
+
+- pubuzhixing8 @pubuzhixing8
+
 ## 0.0.4-3 (2025-03-25)
 
 
