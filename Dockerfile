@@ -1,11 +1,19 @@
+FROM node:20 AS builder 
 
-FROM node:latest
+WORKDIR /builder
 
-WORKDIR /app
-COPY . /app
+COPY . /builder
 
-RUN npm install
+RUN npm install \
+    && npm run build 
 
-EXPOSE 7200
 
-CMD ["npm", "run", "start"]
+FROM lipanski/docker-static-website:2.4.0
+
+WORKDIR /home/static
+
+COPY  --from=builder /builder/dist/apps/web/  /home/static
+
+EXPOSE 80
+
+CMD ["/busybox-httpd", "-f", "-v", "-p", "80", "-c", "httpd.conf"]
