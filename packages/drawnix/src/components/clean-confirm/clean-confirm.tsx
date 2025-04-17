@@ -33,6 +33,7 @@ export const CleanConfirm = ({
           </button>
           <button
             className="clean-confirm__button clean-confirm__button--ok"
+            autoFocus
             onClick={() => {
               board.deleteFragment(board.children);
               setAppState({ ...appState, openCleanConfirm: false });
