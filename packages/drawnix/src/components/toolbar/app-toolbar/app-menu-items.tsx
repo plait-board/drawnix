@@ -19,6 +19,7 @@ import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
 import { saveAsPNG } from '../../../utils/image';
 import { useDrawnix } from '../../../hooks/use-drawnix';
+import Menu from '../../menu/menu';
 
 export const SaveToFile = () => {
   const board = useBoard();
@@ -78,6 +79,12 @@ export const SaveAsImage = () => {
       onSelect={() => {
         saveAsPNG(board);
       }}
+      submenu={
+        <Menu>
+          <MenuItem onSelect={() => {}}>子菜单项 1</MenuItem>
+          <MenuItem onSelect={() => {}}>子菜单项 2</MenuItem>
+        </Menu>
+      }
       shortcut={`Cmd+Shift+E`}
       aria-label={''}
     >
