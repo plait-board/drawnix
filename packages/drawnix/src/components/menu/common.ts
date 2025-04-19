@@ -8,10 +8,10 @@ export const MenuContentPropsContext = React.createContext<{
 
 export const getMenuItemClassName = (
   className = '',
-  selected = false
+  active = false,
 ) => {
   return `menu-item menu-item-base ${className} ${
-    selected ? 'menu-item--selected' : ''
+    active ? 'menu-item--active' : ''
   }`.trim();
 };
 

@@ -58,8 +58,9 @@ const MenuItem = ({
           <button
             {...rest}
             type="button"
-            className={getMenuItemClassName(className, selected)}
+            className={getMenuItemClassName(className, selected || isOpen)}
             title={rest.title ?? rest['aria-label']}
+            onClick={handleClick}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >

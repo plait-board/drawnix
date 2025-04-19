@@ -17,7 +17,7 @@ import {
 import { loadFromJSON, saveAsJSON } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
-import { saveAsPNG } from '../../../utils/image';
+import { saveAsImage } from '../../../utils/image';
 import { useDrawnix } from '../../../hooks/use-drawnix';
 import Menu from '../../menu/menu';
 
@@ -77,12 +77,26 @@ export const SaveAsImage = () => {
       icon={ExportImageIcon}
       data-testid="image-export-button"
       onSelect={() => {
-        saveAsPNG(board);
+        saveAsImage(board, true);
       }}
       submenu={
         <Menu>
-          <MenuItem onSelect={() => {}}>子菜单项 1</MenuItem>
-          <MenuItem onSelect={() => {}}>子菜单项 2</MenuItem>
+          <MenuItem
+            onSelect={() => {
+              saveAsImage(board, true);
+            }}
+            aria-label={'透明背景'}
+          >
+            PNG
+          </MenuItem>
+          <MenuItem
+            onSelect={() => {
+              saveAsImage(board, false);
+            }}
+            aria-label={'白色背景'}
+          >
+            JPG
+          </MenuItem>
         </Menu>
       }
       shortcut={`Cmd+Shift+E`}
@@ -103,8 +117,8 @@ export const CleanBoard = () => {
       onSelect={() => {
         setAppState({
           ...appState,
-          openCleanConfirm: true
-        })
+          openCleanConfirm: true,
+        });
       }}
       shortcut={`Cmd+Backspace`}
       aria-label={'清除画布'}
@@ -118,12 +132,12 @@ CleanBoard.displayName = 'CleanBoard';
 export const Socials = () => {
   return (
     <MenuItemLink
-        icon={GithubIcon}
-        href="https://github.com/plait-board/drawnix"
-        aria-label="GitHub"
-      >
-        GitHub
-      </MenuItemLink>
+      icon={GithubIcon}
+      href="https://github.com/plait-board/drawnix"
+      aria-label="GitHub"
+    >
+      GitHub
+    </MenuItemLink>
   );
 };
 Socials.displayName = 'Socials';
