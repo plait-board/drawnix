@@ -21,7 +21,7 @@ export const useHandleMenuItemClick = (
     | undefined,
   onSelect: ((event: Event) => void) | undefined
 ) => {
-  const MenuContentProps = useContext(MenuContentPropsContext);
+  const menuContentProps = useContext(MenuContentPropsContext);
 
   return composeEventHandlers(origOnClick, (event) => {
     const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
@@ -30,7 +30,7 @@ export const useHandleMenuItemClick = (
     });
     onSelect?.(itemSelectEvent);
     if (!itemSelectEvent.defaultPrevented) {
-      MenuContentProps.onSelect?.(itemSelectEvent);
+      menuContentProps.onSelect?.(itemSelectEvent);
     }
   });
 };

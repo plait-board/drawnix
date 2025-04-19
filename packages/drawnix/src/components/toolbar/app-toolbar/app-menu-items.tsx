@@ -20,6 +20,9 @@ import MenuItemLink from '../../menu/menu-item-link';
 import { saveAsImage } from '../../../utils/image';
 import { useDrawnix } from '../../../hooks/use-drawnix';
 import Menu from '../../menu/menu';
+import { useContext } from 'react';
+import { MenuContentPropsContext } from '../../menu/common';
+import { EVENT } from '../../../constants';
 
 export const SaveToFile = () => {
   const board = useBoard();
@@ -72,6 +75,7 @@ OpenFile.displayName = 'OpenFile';
 
 export const SaveAsImage = () => {
   const board = useBoard();
+  const menuContentProps = useContext(MenuContentPropsContext);
   return (
     <MenuItem
       icon={ExportImageIcon}
@@ -80,7 +84,13 @@ export const SaveAsImage = () => {
         saveAsImage(board, true);
       }}
       submenu={
-        <Menu>
+        <Menu onSelect={() => {
+          const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
+            bubbles: true,
+            cancelable: true,
+          });
+          menuContentProps.onSelect?.(itemSelectEvent);
+        }}>
           <MenuItem
             onSelect={() => {
               saveAsImage(board, true);
