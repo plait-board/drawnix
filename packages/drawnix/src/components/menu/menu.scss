@@ -52,9 +52,9 @@
         height: 2.25rem;
       }
 
-      &--selected {
-        background: var(--color-primary-light);
-        --icon-fill-color: var(--color-primary-darker);
+      &--active {
+        background-color: var(--color-surface-primary-container);
+        text-decoration: none;
       }
 
       &__text {

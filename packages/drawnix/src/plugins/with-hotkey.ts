@@ -1,6 +1,6 @@
 import { PlaitBoard } from '@plait/core';
 import { isHotkey } from 'is-hotkey';
-import { saveAsPNG } from '../utils/image';
+import { saveAsImage } from '../utils/image';
 import { saveAsJSON } from '../data/json';
 import { DrawnixState } from '../hooks/use-drawnix';
 
@@ -16,7 +16,7 @@ export const buildDrawnixHotkeyPlugin = (
         PlaitBoard.isMovingPointInBoard(board)
       ) {
         if (isHotkey(['mod+shift+e'], { byKey: true })(event)) {
-          saveAsPNG(board);
+          saveAsImage(board, true);
           event.preventDefault();
           return;
         }

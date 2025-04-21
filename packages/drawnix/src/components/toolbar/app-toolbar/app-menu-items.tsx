@@ -17,8 +17,12 @@ import {
 import { loadFromJSON, saveAsJSON } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
-import { saveAsPNG } from '../../../utils/image';
+import { saveAsImage } from '../../../utils/image';
 import { useDrawnix } from '../../../hooks/use-drawnix';
+import Menu from '../../menu/menu';
+import { useContext } from 'react';
+import { MenuContentPropsContext } from '../../menu/common';
+import { EVENT } from '../../../constants';
 
 export const SaveToFile = () => {
   const board = useBoard();
@@ -71,13 +75,40 @@ OpenFile.displayName = 'OpenFile';
 
 export const SaveAsImage = () => {
   const board = useBoard();
+  const menuContentProps = useContext(MenuContentPropsContext);
   return (
     <MenuItem
       icon={ExportImageIcon}
       data-testid="image-export-button"
       onSelect={() => {
-        saveAsPNG(board);
+        saveAsImage(board, true);
       }}
+      submenu={
+        <Menu onSelect={() => {
+          const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
+            bubbles: true,
+            cancelable: true,
+          });
+          menuContentProps.onSelect?.(itemSelectEvent);
+        }}>
+          <MenuItem
+            onSelect={() => {
+              saveAsImage(board, true);
+            }}
+            aria-label={'透明背景'}
+          >
+            PNG
+          </MenuItem>
+          <MenuItem
+            onSelect={() => {
+              saveAsImage(board, false);
+            }}
+            aria-label={'白色背景'}
+          >
+            JPG
+          </MenuItem>
+        </Menu>
+      }
       shortcut={`Cmd+Shift+E`}
       aria-label={''}
     >
@@ -96,8 +127,8 @@ export const CleanBoard = () => {
       onSelect={() => {
         setAppState({
           ...appState,
-          openCleanConfirm: true
-        })
+          openCleanConfirm: true,
+        });
       }}
       shortcut={`Cmd+Backspace`}
       aria-label={'清除画布'}
@@ -111,12 +142,12 @@ CleanBoard.displayName = 'CleanBoard';
 export const Socials = () => {
   return (
     <MenuItemLink
-        icon={GithubIcon}
-        href="https://github.com/plait-board/drawnix"
-        aria-label="GitHub"
-      >
-        GitHub
-      </MenuItemLink>
+      icon={GithubIcon}
+      href="https://github.com/plait-board/drawnix"
+      aria-label="GitHub"
+    >
+      GitHub
+    </MenuItemLink>
   );
 };
 Socials.displayName = 'Socials';

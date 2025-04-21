@@ -8,10 +8,10 @@ export const MenuContentPropsContext = React.createContext<{
 
 export const getMenuItemClassName = (
   className = '',
-  selected = false
+  active = false,
 ) => {
   return `menu-item menu-item-base ${className} ${
-    selected ? 'menu-item--selected' : ''
+    active ? 'menu-item--active' : ''
   }`.trim();
 };
 
@@ -21,7 +21,7 @@ export const useHandleMenuItemClick = (
     | undefined,
   onSelect: ((event: Event) => void) | undefined
 ) => {
-  const MenuContentProps = useContext(MenuContentPropsContext);
+  const menuContentProps = useContext(MenuContentPropsContext);
 
   return composeEventHandlers(origOnClick, (event) => {
     const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
@@ -30,7 +30,7 @@ export const useHandleMenuItemClick = (
     });
     onSelect?.(itemSelectEvent);
     if (!itemSelectEvent.defaultPrevented) {
-      MenuContentProps.onSelect?.(itemSelectEvent);
+      menuContentProps.onSelect?.(itemSelectEvent);
     }
   });
 };
