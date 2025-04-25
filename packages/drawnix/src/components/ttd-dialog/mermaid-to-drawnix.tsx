@@ -12,6 +12,7 @@ import {
   getViewportOrigination,
   PlaitBoard,
   PlaitElement,
+  PlaitGroupElement,
   Point,
   RectangleClient,
   WritableClipboardOperationType,
@@ -101,9 +102,11 @@ const MermaidToDrawnix = () => {
     const centerY = origination![1] + focusPoint[1] / zoom;
     const elements = value;
     const elementRectangle = RectangleClient.getBoundingRectangle(
-      elements.map((ele) =>
-        RectangleClient.getRectangleByPoints(ele.points as Point[])
-      )
+      elements
+        .filter((ele) => !PlaitGroupElement.isGroup(ele))
+        .map((ele) =>
+          RectangleClient.getRectangleByPoints(ele.points as Point[])
+        )
     );
     const startPoint = [
       centerX - elementRectangle.width / 2,
@@ -123,20 +126,26 @@ const MermaidToDrawnix = () => {
     <>
       <div className="ttd-dialog-desc">
         目前仅支持
-        <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank" rel="noreferrer">
+        <a
+          href="https://mermaid.js.org/syntax/flowchart.html"
+          target="_blank"
+          rel="noreferrer"
+        >
           流程图
         </a>
         、
         <a
           href="https://mermaid.js.org/syntax/sequenceDiagram.html"
-          target="_blank" rel="noreferrer"
+          target="_blank"
+          rel="noreferrer"
         >
           序列图
         </a>
         和
         <a
           href="https://mermaid.js.org/syntax/classDiagram.html"
-          target="_blank" rel="noreferrer"
+          target="_blank"
+          rel="noreferrer"
         >
           类图
         </a>
