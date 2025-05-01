@@ -38,4 +38,4 @@ export const MarkdownToDrawnixItem = () => {
   );
 };
 
-MermaidToDrawnixItem.displayName = 'MermaidToDrawnix';
+MermaidToDrawnixItem.displayName = 'MarkdownToDrawnix';
