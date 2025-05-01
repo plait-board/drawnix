@@ -3,7 +3,7 @@ import { PlaitElement, PlaitPlugin } from '@plait/core';
 import { withDraw } from '@plait/draw';
 import { withCommonPlugin } from '../../plugins/with-common';
 import { Board, Wrapper } from '@plait-board/react-board';
-import { MindThemeColors } from '@plait/mind';
+import { MindThemeColors, withMind } from '@plait/mind';
 
 const ErrorComp = ({ error }: { error: string }) => {
   return (
@@ -27,7 +27,7 @@ export const TTDDialogOutput = ({
   value,
   loaded,
 }: TTDDialogOutputProps) => {
-  const plugins: PlaitPlugin[] = [withDraw, withGroup, withCommonPlugin];
+  const plugins: PlaitPlugin[] = [withDraw, withMind, withGroup, withCommonPlugin];
   const options = {
     readonly: true,
     hideScrollbar: false,

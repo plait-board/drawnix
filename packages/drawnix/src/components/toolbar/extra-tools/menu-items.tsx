@@ -1,16 +1,16 @@
 import MenuItem from '../../menu/menu-item';
-import { MermaidLogoIcon } from '../../icons';
-import { useDrawnix } from '../../../hooks/use-drawnix';
+import { MarkdownLogoIcon, MermaidLogoIcon } from '../../icons';
+import { DialogType, useDrawnix } from '../../../hooks/use-drawnix';
 
 export const MermaidToDrawnixItem = () => {
   const { appState, setAppState } = useDrawnix();
   return (
     <MenuItem
-      data-testid="save-button"
+      data-testid="marmaid-to-drawnix-button"
       onSelect={() => {
         setAppState({
           ...appState,
-          openDialog: true,
+          openDialogType: DialogType.mermaidToDrawnix,
         });
       }}
       icon={MermaidLogoIcon}
@@ -18,4 +18,24 @@ export const MermaidToDrawnixItem = () => {
     >{`Mermaid 到 Drawnix`}</MenuItem>
   );
 };
-MermaidToDrawnixItem.displayName = 'SaveToFile';
+
+MermaidToDrawnixItem.displayName = 'MermaidToDrawnix';
+
+export const MarkdownToDrawnixItem = () => {
+  const { appState, setAppState } = useDrawnix();
+  return (
+    <MenuItem
+      data-testid="markdown-to-drawnix-button"
+      onSelect={() => {
+        setAppState({
+          ...appState,
+          openDialogType: DialogType.markdownToDrawnix,
+        });
+      }}
+      icon={MarkdownLogoIcon}
+      aria-label={`${`Markdown 到 Drawnix`}`}
+    >{`Markdown 到 Drawnix`}</MenuItem>
+  );
+};
+
+MermaidToDrawnixItem.displayName = 'MermaidToDrawnix';
