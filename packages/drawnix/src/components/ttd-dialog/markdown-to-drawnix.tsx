@@ -12,42 +12,56 @@ import {
   getViewportOrigination,
   PlaitBoard,
   PlaitElement,
-  PlaitGroupElement,
-  Point,
-  RectangleClient,
   WritableClipboardOperationType,
 } from '@plait/core';
-import type { MermaidConfig } from '@plait-board/mermaid-to-drawnix/dist';
-import type { MermaidToDrawnixResult } from '@plait-board/mermaid-to-drawnix/dist/interfaces';
+import { MindElement } from '@plait/mind';
 
-export interface MermaidToDrawnixLibProps {
+export interface MarkdownToDrawnixLibProps {
   loaded: boolean;
   api: Promise<{
-    parseMermaidToDrawnix: (
+    parseMarkdownToDrawnix: (
       definition: string,
-      config?: MermaidConfig
-    ) => Promise<MermaidToDrawnixResult>;
+      mainTopic?: string
+    ) => MindElement;
   }>;
 }
 
-const MERMAID_EXAMPLE =
-  'flowchart TD\n A[Christmas] -->|Get money| B(Go shopping)\n B --> C{Let me think}\n C -->|One| D[Laptop]\n C -->|Two| E[iPhone]\n C -->|Three| F[Car]';
+const MARKDOWN_EXAMPLE = `# 我开始了
 
-const MermaidToDrawnix = () => {
+- 让我看看是谁搞出了这个 bug 🕵️ ♂️ 🔍
+  - 😯 💣
+    - 原来是我 👈 🎯 💘
+
+- 竟然不可以运行，为什么呢 🚫 ⚙️ ❓
+  - 竟然可以运行了，为什么呢？🎢 ✨
+    - 🤯 ⚡ ➡️ 🎉
+
+- 能运行起来的 🐞 🚀
+  - 就不要去动它 🛑 ✋
+    - 👾 💥 🏹 🎯
+    
+## 男孩还是女孩 👶 ❓ 🤷 ♂️ ♀️
+
+### Hello world 👋 🌍 ✨ 💻
+
+#### 哇 是个程序员 🤯 ⌨️ 💡 👩 💻`;
+
+const MarkdownToDrawnix = () => {
   const { appState, setAppState } = useDrawnix();
-  const [mermaidToDrawnixLib, setMermaidToDrawnixLib] =
-    useState<MermaidToDrawnixLibProps>({
+  const [markdownToDrawnixLib, setMarkdownToDrawnixLib] =
+    useState<MarkdownToDrawnixLibProps>({
       loaded: false,
       api: Promise.resolve({
-        parseMermaidToDrawnix: async () => ({ elements: [] }),
+        parseMarkdownToDrawnix: (definition: string, mainTopic?: string) =>
+          null as any as MindElement,
       }),
     });
 
   useEffect(() => {
     const loadLib = async () => {
       try {
-        const module = await import('@plait-board/mermaid-to-drawnix');
-        setMermaidToDrawnixLib({
+        const module = await import('@plait-board/markdown-to-drawnix');
+        setMarkdownToDrawnixLib({
           loaded: true,
           api: Promise.resolve(module),
         });
@@ -58,33 +72,36 @@ const MermaidToDrawnix = () => {
     };
     loadLib();
   }, []);
-  const [text, setText] = useState(() => MERMAID_EXAMPLE);
+  const [text, setText] = useState(() => MARKDOWN_EXAMPLE);
   const [value, setValue] = useState<PlaitElement[]>(() => []);
   const deferredText = useDeferredValue(text.trim());
   const [error, setError] = useState<Error | null>(null);
   const board = useBoard();
 
   useEffect(() => {
-    const convertMermaid = async () => {
+    const convertMarkdown = async () => {
       try {
-        const api = await mermaidToDrawnixLib.api;
+        const api = await markdownToDrawnixLib.api;
         let ret;
         try {
-          ret = await api.parseMermaidToDrawnix(deferredText);
+          ret = await api.parseMarkdownToDrawnix(deferredText);
         } catch (err: any) {
-          ret = await api.parseMermaidToDrawnix(
+          ret = await api.parseMarkdownToDrawnix(
             deferredText.replace(/"/g, "'")
           );
         }
-        const { elements } = ret;
-        setValue(elements);
-        setError(null);
+        const mind = ret;
+        mind.points = [[0, 0]];
+        if (mind) {
+          setValue([mind]);
+          setError(null);
+        }
       } catch (err: any) {
         setError(err);
       }
     };
-    convertMermaid();
-  }, [deferredText, mermaidToDrawnixLib]);
+    convertMarkdown();
+  }, [deferredText, markdownToDrawnixLib]);
 
   const insertToBoard = () => {
     if (!value.length) {
@@ -93,30 +110,19 @@ const MermaidToDrawnix = () => {
     const boardContainerRect =
       PlaitBoard.getBoardContainer(board).getBoundingClientRect();
     const focusPoint = [
-      boardContainerRect.width / 2,
-      boardContainerRect.height / 2,
+      boardContainerRect.width / 4,
+      boardContainerRect.height / 2 - 20,
     ];
     const zoom = board.viewport.zoom;
     const origination = getViewportOrigination(board);
-    const centerX = origination![0] + focusPoint[0] / zoom;
-    const centerY = origination![1] + focusPoint[1] / zoom;
+    const focusX = origination![0] + focusPoint[0] / zoom;
+    const focusY = origination![1] + focusPoint[1] / zoom;
     const elements = value;
-    const elementRectangle = RectangleClient.getBoundingRectangle(
-      elements
-        .filter((ele) => !PlaitGroupElement.isGroup(ele))
-        .map((ele) =>
-          RectangleClient.getRectangleByPoints(ele.points as Point[])
-        )
-    );
-    const startPoint = [
-      centerX - elementRectangle.width / 2,
-      centerY - elementRectangle.height / 2,
-    ] as Point;
     board.insertFragment(
       {
         elements: JSON.parse(JSON.stringify(elements)),
       },
-      startPoint,
+      [focusX, focusY],
       WritableClipboardOperationType.paste
     );
     setAppState({ ...appState, openDialogType: null });
@@ -124,41 +130,14 @@ const MermaidToDrawnix = () => {
 
   return (
     <>
-      <div className="ttd-dialog-desc">
-        目前仅支持
-        <a
-          href="https://mermaid.js.org/syntax/flowchart.html"
-          target="_blank"
-          rel="noreferrer"
-        >
-          流程图
-        </a>
-        、
-        <a
-          href="https://mermaid.js.org/syntax/sequenceDiagram.html"
-          target="_blank"
-          rel="noreferrer"
-        >
-          序列图
-        </a>
-        和
-        <a
-          href="https://mermaid.js.org/syntax/classDiagram.html"
-          target="_blank"
-          rel="noreferrer"
-        >
-          类图
-        </a>
-        。其他类型在 Drawnix 中将以图片呈现。
-      </div>
       <TTDDialogPanels>
-        <TTDDialogPanel label={'Mermaid 语法'}>
+        <TTDDialogPanel label={'Markdown 语法'}>
           <TTDDialogInput
             input={text}
-            placeholder={'在此处编写 Mermaid 图表定义...'}
+            placeholder={'在此处编写 Markdown 文本定义...'}
             onChange={(event) => setText(event.target.value)}
             onKeyboardSubmit={() => {
-              insertToBoard();
+              // insertToBoard();
             }}
           />
         </TTDDialogPanel>
@@ -174,7 +153,7 @@ const MermaidToDrawnix = () => {
         >
           <TTDDialogOutput
             value={value}
-            loaded={mermaidToDrawnixLib.loaded}
+            loaded={markdownToDrawnixLib.loaded}
             error={error}
           />
         </TTDDialogPanel>
@@ -182,4 +161,4 @@ const MermaidToDrawnix = () => {
     </>
   );
 };
-export default MermaidToDrawnix;
+export default MarkdownToDrawnix;

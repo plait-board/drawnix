@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ToolButton } from "../../tool-button";
 import { ExtraToolsIcon } from "../../icons";
 import Menu from "../../menu/menu";
-import { MermaidToDrawnixItem } from "./menu-items";
+import { MarkdownToDrawnixItem, MermaidToDrawnixItem } from "./menu-items";
 
 export const ExtraToolsButton = () => {
   const board = useBoard();
@@ -41,6 +41,7 @@ export const ExtraToolsButton = () => {
           }}
         >
           <MermaidToDrawnixItem></MermaidToDrawnixItem>
+          <MarkdownToDrawnixItem></MarkdownToDrawnixItem>
         </Menu>
       </PopoverContent>
     </Popover>

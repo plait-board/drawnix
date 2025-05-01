@@ -9,6 +9,11 @@ import { MindPointerType } from '@plait/mind';
 import { DrawPointerType } from '@plait/draw';
 import { FreehandShape } from '../plugins/freehand/type';
 
+export enum DialogType {
+  mermaidToDrawnix = 'mermaidToDrawnix',
+  markdownToDrawnix = 'markdownToDrawnix',
+}
+
 export type DrawnixPointerType =
   | PlaitPointerType
   | MindPointerType
@@ -19,7 +24,7 @@ export type DrawnixState = {
   pointer: DrawnixPointerType;
   isMobile: boolean;
   isPencilMode: boolean;
-  openDialog: boolean;
+  openDialogType: DialogType | null;
   openCleanConfirm: boolean;
 };
 
