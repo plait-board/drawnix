@@ -40,7 +40,8 @@
 - 🌌 Infinite Canvas: Zoom, Pan
 - 🎨 Theme Support
 - 📱 Mobile-friendly
-- 📈 Support mermaid syntax conversion to flowchart（New 🔥🔥🔥）
+- 📈 Support mermaid syntax conversion to flowchart
+- ✨ Support markdown text conversion to mind map（New 🔥🔥🔥）
 
 
 ## About the Name
