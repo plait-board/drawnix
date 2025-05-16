@@ -8,6 +8,10 @@ export const withText = <T extends ReactEditor>(editor: T) => {
     editor.insertText('\n');
   };
 
+  e.insertSoftBreak = () => {
+    editor.insertText('\n');
+  };
+
   e.insertData = (data: DataTransfer) => {
     let text = data.getData('text/plain');
     const plaitData = data.getData(`application/x-slate-fragment`);
