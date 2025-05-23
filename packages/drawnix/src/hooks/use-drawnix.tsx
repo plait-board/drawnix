@@ -8,6 +8,8 @@ import { createContext, useContext } from 'react';
 import { MindPointerType } from '@plait/mind';
 import { DrawPointerType } from '@plait/draw';
 import { FreehandShape } from '../plugins/freehand/type';
+import { Editor, Element } from 'slate';
+import { LinkElement } from '@plait-board/react-text';
 
 export enum DialogType {
   mermaidToDrawnix = 'mermaidToDrawnix',
@@ -20,12 +22,20 @@ export type DrawnixPointerType =
   | DrawPointerType
   | FreehandShape;
 
+export type LinkState = {
+  targetDom: HTMLElement;
+  editor: Editor;
+  targetElement: LinkElement;
+  isEditing?: boolean;
+};
+
 export type DrawnixState = {
   pointer: DrawnixPointerType;
   isMobile: boolean;
   isPencilMode: boolean;
   openDialogType: DialogType | null;
   openCleanConfirm: boolean;
+  linkState?: LinkState | null;
 };
 
 export const DrawnixContext = createContext<{

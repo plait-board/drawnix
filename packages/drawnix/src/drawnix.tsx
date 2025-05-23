@@ -31,6 +31,8 @@ import { DrawnixContext, DrawnixState } from './hooks/use-drawnix';
 import { ClosePencilToolbar } from './components/toolbar/pencil-mode-toolbar';
 import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
 import { CleanConfirm } from './components/clean-confirm/clean-confirm';
+import { buildTextLinkPlugin } from './plugins/with-text-link';
+import { LinkPopup } from './components/popup/link-popup/link-popup';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -68,7 +70,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
       pointer: PlaitPointerType.hand,
       isMobile: md.mobile() !== null,
       isPencilMode: false,
-      openDialog: false,
+      openDialogType: null,
       openCleanConfirm: false,
     };
   });
@@ -82,6 +84,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     buildDrawnixHotkeyPlugin(appState, setAppState),
     withFreehand,
     buildPencilPlugin(appState, setAppState),
+    buildTextLinkPlugin(appState, setAppState),
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -114,6 +117,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           <ZoomToolbar></ZoomToolbar>
           <ThemeToolbar></ThemeToolbar>
           <PopupToolbar></PopupToolbar>
+          <LinkPopup></LinkPopup>
           <ClosePencilToolbar></ClosePencilToolbar>
           <TTDDialog container={containerRef.current}></TTDDialog>
           <CleanConfirm container={containerRef.current}></CleanConfirm>

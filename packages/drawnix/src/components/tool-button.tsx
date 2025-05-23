@@ -124,6 +124,7 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
         type={type}
         onClick={onClick}
         onPointerDown={(event) => {
+          event.preventDefault();
           props.onPointerDown?.({ pointerType: event.pointerType || null });
         }}
         onPointerUp={(event) => {
