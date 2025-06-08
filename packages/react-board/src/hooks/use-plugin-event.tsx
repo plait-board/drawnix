@@ -137,6 +137,25 @@ const useBoardPluginEvent = (
       deleteFragment(board);
     }
   });
+
+  useEventListener(
+    'drop',
+    (event) => {
+      if (!PlaitBoard.isReadonly(board)) {
+        event.preventDefault();
+        board.drop(event);
+      }
+    },
+    { target: viewportContainerRef }
+  );
+
+  useEventListener(
+    'dragover',
+    (event) => {
+      event.preventDefault();
+    },
+    { target: viewportContainerRef }
+  );
 };
 
 export default useBoardPluginEvent;
