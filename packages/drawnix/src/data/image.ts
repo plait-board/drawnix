@@ -1,4 +1,9 @@
-import { getSelectedElements, PlaitBoard, PlaitElement } from '@plait/core';
+import {
+  getHitElementByPoint,
+  getSelectedElements,
+  PlaitBoard,
+  Point,
+} from '@plait/core';
 import { DataURL } from '../types';
 import { getDataURL } from './blob';
 import { MindElement, MindTransforms } from '@plait/mind';
@@ -32,16 +37,30 @@ export const buildImage = (
   };
 };
 
-export const insertImage = async (board: PlaitBoard, imageFile: File) => {
+export const insertImage = async (
+  board: PlaitBoard,
+  imageFile: File,
+  startPoint?: Point,
+  isDrop?: boolean
+) => {
   const selectedElement =
     getSelectedElements(board)[0] || getElementOfFocusedImage(board);
   const defaultImageWidth = selectedElement ? 240 : 400;
   const dataURL = await getDataURL(imageFile);
   const image = await loadHTMLImageElement(dataURL);
   const imageItem = buildImage(image, dataURL, defaultImageWidth);
-  if (selectedElement && MindElement.isMindElement(board, selectedElement)) {
+  const element = startPoint && getHitElementByPoint(board, startPoint);
+  if (isDrop && element && MindElement.isMindElement(board, element)) {
+    MindTransforms.setImage(board, element as MindElement, imageItem);
+    return;
+  }
+  if (
+    selectedElement &&
+    MindElement.isMindElement(board, selectedElement) &&
+    !isDrop
+  ) {
     MindTransforms.setImage(board, selectedElement as MindElement, imageItem);
   } else {
-    DrawTransforms.insertImage(board, imageItem);
+    DrawTransforms.insertImage(board, imageItem, startPoint);
   }
 };

@@ -32,5 +32,5 @@ export const withCommonPlugin = (board: PlaitBoard) => {
     return ref;
   };
 
-  return withImagePlugin(board);
+  return withImagePlugin(newBoard);
 };
