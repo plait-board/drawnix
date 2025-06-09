@@ -43,7 +43,7 @@ export default defineConfig({
     },
     rollupOptions: {
       // External packages that should not be bundled into your library.
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'slate', 'slate-react', 'slate-history', '@plait/text-plugins', '@plait/common'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', 'slate', 'slate-react', 'slate-history', 'is-hotkey', '@plait/text-plugins', '@plait/common'],
     },
   },
   resolve: {

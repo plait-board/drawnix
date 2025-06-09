@@ -8,7 +8,6 @@ import {
   withReact,
 } from 'slate-react';
 import {
-  CustomElementType,
   type CustomElement,
   type CustomText,
   type LinkElement,
@@ -22,6 +21,7 @@ import { withText } from './plugins/with-text';
 import { CustomEditor, RenderElementPropsFor } from './custom-types';
 
 import './styles/index.scss';
+import { LinkComponent, withInlineLink } from './plugins/with-link';
 
 export type TextComponentProps = TextProps;
 
@@ -146,36 +146,6 @@ const ParagraphComponent = ({
   );
 };
 
-// Put this at the start and end of an inline component to work around this Chromium bug:
-// https://bugs.chromium.org/p/chromium/issues/detail?id=1249405
-const InlineChromiumBugfix = () => (
-  <span contentEditable={false} style={{ fontSize: 0 }}>
-    {String.fromCodePoint(160) /* Non-breaking space */}
-  </span>
-);
-
-const LinkComponent = ({
-  attributes,
-  children,
-  element,
-}: RenderElementPropsFor<LinkElement>) => {
-  return (
-    <a
-      {...attributes}
-      style={{
-        textDecoration: 'none',
-        cursor: 'inherit',
-      }}
-      data-url={element.url}
-      className="plait-board-link"
-    >
-      <InlineChromiumBugfix />
-      {children}
-      <InlineChromiumBugfix />
-    </a>
-  );
-};
-
 const Leaf: React.FC<RenderLeafProps> = ({ children, leaf, attributes }) => {
   if ((leaf as CustomText).bold) {
     children = <strong>{children}</strong>;
@@ -197,32 +167,4 @@ const Leaf: React.FC<RenderLeafProps> = ({ children, leaf, attributes }) => {
       {children}
     </span>
   );
-};
-
-const withInlineLink = (editor: CustomEditor) => {
-  const { insertData, insertText, isInline } = editor;
-
-  editor.isInline = (element: CustomElement) => {
-    return ['link'].includes(element.type) || isInline(element);
-  };
-
-  editor.insertText = (text) => {
-    if (text && isUrl(text)) {
-      LinkEditor.wrapLink(editor, text, text);
-    } else {
-      insertText(text);
-    }
-  };
-
-  editor.insertData = (data) => {
-    const text = data.getData('text/plain');
-
-    if (text && isUrl(text)) {
-      LinkEditor.wrapLink(editor, text, text);
-    } else {
-      insertData(data);
-    }
-  };
-
-  return editor;
 };

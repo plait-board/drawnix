@@ -9,7 +9,8 @@
     "slate-history": "^0.100.0",
     "slate-react": "^0.105.0",
     "@plait/text-plugins": "^0.77.3",
-    "@plait/common": "^0.77.3"
+    "@plait/common": "^0.77.3",
+    "is-hotkey": "^0.2.0"
   },
   "exports": {
     ".": {
