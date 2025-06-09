@@ -5,8 +5,7 @@ import { saveAsJSON } from '../data/json';
 import { DrawnixState } from '../hooks/use-drawnix';
 
 export const buildDrawnixHotkeyPlugin = (
-  appState: DrawnixState,
-  setAppState: (appState: DrawnixState) => void
+  updateAppState: (appState: Partial<DrawnixState>) => void
 ) => {
   const withDrawnixHotkey = (board: PlaitBoard) => {
     const { globalKeyDown } = board;
@@ -29,8 +28,7 @@ export const buildDrawnixHotkeyPlugin = (
           isHotkey(['mod+backspace'])(event) ||
           isHotkey(['mod+delete'])(event)
         ) {
-          setAppState({
-            ...appState,
+          updateAppState({
             openCleanConfirm: true,
           });
           event.preventDefault();

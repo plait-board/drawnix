@@ -129,8 +129,7 @@ const MarkdownToDrawnix = () => {
   };
 
   return (
-    <>
-      <TTDDialogPanels>
+    <TTDDialogPanels>
         <TTDDialogPanel label={'Markdown 语法'}>
           <TTDDialogInput
             input={text}
@@ -158,7 +157,6 @@ const MarkdownToDrawnix = () => {
           />
         </TTDDialogPanel>
       </TTDDialogPanels>
-    </>
   );
 };
 export default MarkdownToDrawnix;

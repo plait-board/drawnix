@@ -38,6 +38,7 @@ import { PopupFillButton } from './fill-button';
 import { isWhite, removeHexAlpha } from '../../../utils/color';
 import { NO_COLOR } from '../../../constants/color';
 import { Freehand } from '../../../plugins/freehand/type';
+import { PopupLinkButton } from './link-button';
 
 export const PopupToolbar = () => {
   const board = useBoard();
@@ -57,6 +58,7 @@ export const PopupToolbar = () => {
     fill: string | undefined;
     strokeColor?: string;
     hasFill?: boolean;
+    hasText?: boolean;
     fontColor?: string;
     hasFontColor?: boolean;
     hasStroke?: boolean;
@@ -84,6 +86,7 @@ export const PopupToolbar = () => {
       hasFontColor: hasText,
       hasStroke,
       hasStrokeStyle,
+      hasText,
     };
   }
   useEffect(() => {
@@ -204,6 +207,13 @@ export const PopupToolbar = () => {
                   style={{ backgroundColor: state.fill }}
                 ></label>
               </PopupFillButton>
+            )}
+            {state.hasText && (
+              <PopupLinkButton
+                board={board}
+                key={3}
+                title={`Link`}
+              ></PopupLinkButton>
             )}
           </Stack.Row>
         </Island>

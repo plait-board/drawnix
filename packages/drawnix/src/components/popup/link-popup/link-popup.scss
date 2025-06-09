@@ -1,0 +1,27 @@
+.drawnix {
+  .link-popup {
+    padding-left: 8px;
+
+    &__link {
+      font-size: 14px;
+    }
+
+    .link-popup__link {
+      display: inline-block;
+      width: 18rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__input {
+      padding: 10px 0px;
+      width: 364px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      outline: none;
+      margin-right: 4px;
+    }
+  }
+}

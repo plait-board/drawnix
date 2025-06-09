@@ -2,12 +2,13 @@
  * A React context for sharing the board object, in a way that re-renders the
  * context whenever changes occur.
  */
-
-import { PlaitPointerType } from '@plait/core';
+import { PlaitBoard, PlaitPointerType } from '@plait/core';
 import { createContext, useContext } from 'react';
 import { MindPointerType } from '@plait/mind';
 import { DrawPointerType } from '@plait/draw';
 import { FreehandShape } from '../plugins/freehand/type';
+import { Editor } from 'slate';
+import { LinkElement } from '@plait/common';
 
 export enum DialogType {
   mermaidToDrawnix = 'mermaidToDrawnix',
@@ -20,12 +21,24 @@ export type DrawnixPointerType =
   | DrawPointerType
   | FreehandShape;
 
+export interface DrawnixBoard extends PlaitBoard {
+  appState: DrawnixState;
+}
+
+export type LinkState = {
+  targetDom: HTMLElement;
+  editor: Editor;
+  targetElement: LinkElement;
+  isEditing: boolean;
+};
+
 export type DrawnixState = {
   pointer: DrawnixPointerType;
   isMobile: boolean;
   isPencilMode: boolean;
   openDialogType: DialogType | null;
   openCleanConfirm: boolean;
+  linkState?: LinkState | null;
 };
 
 export const DrawnixContext = createContext<{
