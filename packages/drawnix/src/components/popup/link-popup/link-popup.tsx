@@ -103,8 +103,7 @@ export const LinkPopup = () => {
       >
         <Stack.Row gap={1} align="center">
           {isEditing ? (
-            <>
-              <input
+            <input
                 type="text"
                 value={url}
                 onChange={(e) => {
@@ -119,7 +118,6 @@ export const LinkPopup = () => {
                 className="link-popup__input"
                 autoFocus
               />
-            </>
           ) : (
             <>
               <a
