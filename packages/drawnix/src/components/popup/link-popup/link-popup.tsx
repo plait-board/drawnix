@@ -11,6 +11,7 @@ import { Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { LinkEditor } from '@plait/text-plugins';
 import { LinkElement } from '@plait/common';
+import { useBoard } from '@plait-board/react-board';
 
 export const LinkPopup = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -20,6 +21,8 @@ export const LinkPopup = () => {
   const [isHovering, setIsHovering] = useState(false);
 
   const { appState, setAppState } = useDrawnix();
+
+  const board = useBoard();
 
   const { refs, floatingStyles } = useFloating({
     placement: 'top',
@@ -40,6 +43,12 @@ export const LinkPopup = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (isOpening && target) {
+      refs.setPositionReference(target);
+    }
+  }, [board.viewport])
 
   useEffect(() => {
     if (target) {
