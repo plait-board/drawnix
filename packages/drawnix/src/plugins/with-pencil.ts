@@ -12,8 +12,7 @@ export const setIsPencilMode = (board: PlaitBoard, isPencilMode: boolean) => {
 };
 
 export const buildPencilPlugin = (
-  appState: DrawnixState,
-  setAppState: (appState: DrawnixState) => void
+  updateAppState: (appState: Partial<DrawnixState>) => void
 ) => {
   const withPencil = (board: PlaitBoard) => {
     const { pointerDown } = board;
@@ -21,7 +20,7 @@ export const buildPencilPlugin = (
     board.pointerDown = (event: PointerEvent) => {
       if (isPencilEvent(event) && !isPencilMode(board)) {
         setIsPencilMode(board, true);
-        setAppState({ ...appState, isPencilMode: true });
+        updateAppState({ isPencilMode: true });
       }
       if (isPencilMode(board) && !isPencilEvent(event)) {
         return;

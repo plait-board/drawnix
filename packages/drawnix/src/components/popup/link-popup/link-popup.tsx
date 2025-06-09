@@ -9,6 +9,8 @@ import { LinkState, useDrawnix } from '../../../hooks/use-drawnix';
 import { FeltTipPenIcon, TrashIcon } from '../../icons';
 import { Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
+import { LinkEditor } from '@plait/text-plugins';
+import { LinkElement } from '@plait/common';
 
 export const LinkPopup = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -26,6 +28,19 @@ export const LinkPopup = () => {
 
   const target = appState.linkState?.targetDom || null;
 
+  const closeHandle = () => {
+    setIsOpening(false);
+    setLinkState(null);
+    setIsEditing(false);
+    setUrl('');
+    if (target) {
+      setAppState({
+        ...appState,
+        linkState: null,
+      });
+    }
+  };
+
   useEffect(() => {
     if (target) {
       setIsOpening(true);
@@ -40,12 +55,16 @@ export const LinkPopup = () => {
       if (appState.linkState?.isEditing) {
         setIsEditing(true);
       }
-    } else if (!isHovering && !isEditing) {
-      setIsOpening(false);
-      setLinkState(null);
-      setUrl('');
+    } else if (!isHovering) {
+      closeHandle();
     }
-  }, [target, isHovering]);
+  }, [target]);
+
+  useEffect(() => {
+    if (!isHovering && !isEditing && !target) {
+      closeHandle();
+    }
+  }, [isHovering]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -53,16 +72,13 @@ export const LinkPopup = () => {
         refs.floating.current &&
         !refs.floating.current.contains(event.target as Node)
       ) {
-        setIsOpening(false);
-        setIsEditing(false);
-        setLinkState(null);
-        setUrl('');
-        if (linkState && url !== linkState.targetElement.url) {
-          const editor = linkState.editor;
-          const node = linkState.targetElement;
-          const path = ReactEditor.findPath(editor, node);
-          Transforms.setNodes(editor, { url: url }, { at: path });
+        if (linkState) {
+          const linkElement = LinkEditor.getLinkElement(linkState.editor);
+          if (linkElement && !(linkElement[0] as LinkElement).url.trim()) {
+            LinkEditor.unwrapLink(linkState.editor);
+          }
         }
+        closeHandle();
       }
     };
 
@@ -71,6 +87,36 @@ export const LinkPopup = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (appState.linkState) {
+      if (isEditing && !appState.linkState.isEditing) {
+        setAppState({
+          ...appState,
+          linkState: {
+            ...appState.linkState,
+            isEditing: true,
+          },
+        });
+      } else if (!isEditing && appState.linkState.isEditing) {
+        setAppState({
+          ...appState,
+          linkState: {
+            ...appState.linkState,
+            isEditing: false,
+          },
+        });
+      }
+    } else if (isEditing) {
+      setAppState({
+        ...appState,
+        linkState: {
+          ...linkState!,
+          isEditing: true,
+        },
+      });
+    }
+  }, [isEditing]);
 
   let timeoutId: any | null = null;
 
@@ -104,19 +150,19 @@ export const LinkPopup = () => {
         <Stack.Row gap={1} align="center">
           {isEditing ? (
             <input
-                type="text"
-                value={url}
-                onChange={(e) => {
-                  setUrl(e.target.value);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    saveUrl();
-                  }
-                }}
-                className="link-popup__input"
-                autoFocus
-              />
+              type="text"
+              value={url}
+              onChange={(e) => {
+                setUrl(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  saveUrl();
+                }
+              }}
+              className="link-popup__input"
+              autoFocus
+            />
           ) : (
             <>
               <a

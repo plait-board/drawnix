@@ -27,7 +27,11 @@ import { buildDrawnixHotkeyPlugin } from './plugins/with-hotkey';
 import { withFreehand } from './plugins/freehand/with-freehand';
 import { ThemeToolbar } from './components/toolbar/theme-toolbar';
 import { buildPencilPlugin } from './plugins/with-pencil';
-import { DrawnixContext, DrawnixState } from './hooks/use-drawnix';
+import {
+  DrawnixBoard,
+  DrawnixContext,
+  DrawnixState,
+} from './hooks/use-drawnix';
 import { ClosePencilToolbar } from './components/toolbar/pencil-mode-toolbar';
 import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
 import { CleanConfirm } from './components/clean-confirm/clean-confirm';
@@ -63,6 +67,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     disabledScrollOnNonFocus: false,
     themeColors: MindThemeColors,
   };
+
   const [appState, setAppState] = useState<DrawnixState>(() => {
     // TODO: need to consider how to maintenance the pointer state in future
     const md = new MobileDetect(window.navigator.userAgent);
@@ -75,16 +80,29 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     };
   });
 
+  const [board, setBoard] = useState<DrawnixBoard | null>(null);
+
+  if (board) {
+    board.appState = appState;
+  }
+
+  const updateAppState = (newAppState: Partial<DrawnixState>) => {
+    setAppState({
+      ...appState,
+      ...newAppState,
+    });
+  };
+
   const plugins: PlaitPlugin[] = [
     withDraw,
     withGroup,
     withMind,
     withMindExtend,
     withCommonPlugin,
-    buildDrawnixHotkeyPlugin(appState, setAppState),
+    buildDrawnixHotkeyPlugin(updateAppState),
     withFreehand,
-    buildPencilPlugin(appState, setAppState),
-    buildTextLinkPlugin(appState, setAppState),
+    buildPencilPlugin(updateAppState),
+    buildTextLinkPlugin(updateAppState),
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -111,7 +129,12 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           onThemeChange={onThemeChange}
           onValueChange={onValueChange}
         >
-          <Board afterInit={afterInit}></Board>
+          <Board
+            afterInit={(board) => {
+              setBoard(board as DrawnixBoard);
+              afterInit && afterInit(board);
+            }}
+          ></Board>
           <AppToolbar></AppToolbar>
           <CreationToolbar></CreationToolbar>
           <ZoomToolbar></ZoomToolbar>
