@@ -109,7 +109,6 @@ export const LinkPopup = () => {
                 onChange={(e) => {
                   setUrl(e.target.value);
                 }}
-                onBlur={() => {}}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     saveUrl();
