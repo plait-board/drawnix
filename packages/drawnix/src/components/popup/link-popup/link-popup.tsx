@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Island } from '../../island';
 import Stack from '../../stack';
 import { ToolButton } from '../../tool-button';
 import classNames from 'classnames';
 import './link-popup.scss';
 import { flip, offset, useFloating } from '@floating-ui/react';
-import { LinkState, useDrawnix } from '../../../hooks/use-drawnix';
+import { useDrawnix } from '../../../hooks/use-drawnix';
 import { FeltTipPenIcon, TrashIcon } from '../../icons';
 import { Transforms } from 'slate';
 import { ReactEditor } from 'slate-react';
@@ -14,11 +14,7 @@ import { LinkElement } from '@plait/common';
 import { useBoard } from '@plait-board/react-board';
 
 export const LinkPopup = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [isOpening, setIsOpening] = useState(false);
-  const [linkState, setLinkState] = useState<LinkState | null>(null);
   const [url, setUrl] = useState('');
-  const [isHovering, setIsHovering] = useState(false);
 
   const { appState, setAppState } = useDrawnix();
 
@@ -29,51 +25,29 @@ export const LinkPopup = () => {
     middleware: [offset(20), flip()],
   });
 
+  const linkState = appState.linkState;
   const target = appState.linkState?.targetDom || null;
+  const isEditing = appState.linkState?.isEditing || false;
+  const isHoveringOrigin = appState.linkState?.isHoveringOrigin || false;
+  const isHovering = appState.linkState?.isHovering || false;
+  const isOpening = isEditing || isHoveringOrigin || isHovering;
 
-  const closeHandle = () => {
-    setIsOpening(false);
-    setLinkState(null);
-    setIsEditing(false);
-    setUrl('');
-    if (target) {
-      setAppState({
-        ...appState,
-        linkState: null,
-      });
-    }
-  };
+  const linkStateRef = useRef(appState.linkState);
 
   useEffect(() => {
-    if (isOpening && target) {
-      refs.setPositionReference(target);
+    linkStateRef.current = appState.linkState;
+    if (appState.linkState) {
+      setUrl(appState.linkState.targetElement.url);
+    } else {
+      setUrl('');
     }
-  }, [board.viewport])
+  }, [appState.linkState]);
 
   useEffect(() => {
     if (target) {
-      setIsOpening(true);
       refs.setPositionReference(target);
-      if (target !== linkState?.targetDom) {
-        setIsEditing(false);
-      }
-      setLinkState(appState.linkState!);
-      if (appState.linkState?.targetElement?.url) {
-        setUrl(appState.linkState.targetElement.url);
-      }
-      if (appState.linkState?.isEditing) {
-        setIsEditing(true);
-      }
-    } else if (!isHovering) {
-      closeHandle();
     }
-  }, [target]);
-
-  useEffect(() => {
-    if (!isHovering && !isEditing && !target) {
-      closeHandle();
-    }
-  }, [isHovering]);
+  }, [board.viewport, target]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -81,13 +55,18 @@ export const LinkPopup = () => {
         refs.floating.current &&
         !refs.floating.current.contains(event.target as Node)
       ) {
-        if (linkState) {
-          const linkElement = LinkEditor.getLinkElement(linkState.editor);
+        if (linkStateRef.current) {
+          const linkElement = LinkEditor.getLinkElement(
+            linkStateRef.current.editor
+          );
           if (linkElement && !(linkElement[0] as LinkElement).url.trim()) {
-            LinkEditor.unwrapLink(linkState.editor);
+            LinkEditor.unwrapLink(linkStateRef.current.editor);
           }
         }
-        closeHandle();
+        setAppState({
+          ...appState,
+          linkState: null,
+        });
       }
     };
 
@@ -97,46 +76,23 @@ export const LinkPopup = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (appState.linkState) {
-      if (isEditing && !appState.linkState.isEditing) {
-        setAppState({
-          ...appState,
-          linkState: {
-            ...appState.linkState,
-            isEditing: true,
-          },
-        });
-      } else if (!isEditing && appState.linkState.isEditing) {
-        setAppState({
-          ...appState,
-          linkState: {
-            ...appState.linkState,
-            isEditing: false,
-          },
-        });
-      }
-    } else if (isEditing) {
-      setAppState({
-        ...appState,
-        linkState: {
-          ...linkState!,
-          isEditing: true,
-        },
-      });
-    }
-  }, [isEditing]);
-
-  let timeoutId: any | null = null;
-
-  const saveUrl = () => {
+  const saveUrlAndExitEditing = () => {
     if (url !== linkState!.targetElement.url) {
       const editor = linkState!.editor;
       const node = linkState!.targetElement;
       const path = ReactEditor.findPath(editor, node);
       Transforms.setNodes(editor, { url: url }, { at: path });
     }
-    setIsEditing(false);
+    const linkElement = LinkEditor.getLinkElement(linkState!.editor);
+    setAppState({
+      ...appState,
+      linkState: {
+        ...appState.linkState!,
+        targetElement: linkElement[0] as LinkElement,
+        isEditing: false,
+        isHoveringOrigin: true,
+      },
+    });
   };
 
   return (
@@ -147,13 +103,27 @@ export const LinkPopup = () => {
         padding={1}
         className={classNames('link-popup')}
         onPointerEnter={() => {
-          clearTimeout(timeoutId);
-          setIsHovering(true);
+          if (!isHovering) {
+            setAppState({
+              ...appState,
+              linkState: {
+                ...appState.linkState!,
+                isHovering: true,
+              },
+            });
+          }
         }}
         onPointerLeave={() => {
-          timeoutId = setTimeout(() => {
-            setIsHovering(false);
-          }, 300);
+          if (!isEditing) {
+            console.log('set isHovering', false);
+            setAppState({
+              ...appState,
+              linkState: {
+                ...appState.linkState!,
+                isHovering: false,
+              },
+            });
+          }
         }}
       >
         <Stack.Row gap={1} align="center">
@@ -166,7 +136,7 @@ export const LinkPopup = () => {
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  saveUrl();
+                  saveUrlAndExitEditing();
                 }
               }}
               className="link-popup__input"
@@ -190,7 +160,13 @@ export const LinkPopup = () => {
                 title={`Edit link`}
                 aria-label={`Edit link`}
                 onPointerDown={() => {
-                  setIsEditing(true);
+                  setAppState({
+                    ...appState,
+                    linkState: {
+                      ...appState.linkState!,
+                      isEditing: true,
+                    },
+                  });
                 }}
               ></ToolButton>
               <ToolButton
@@ -206,8 +182,10 @@ export const LinkPopup = () => {
                   Transforms.unwrapNodes(editor, {
                     at: path,
                   });
-                  setIsHovering(false);
-                  setIsEditing(false);
+                  setAppState({
+                    ...appState,
+                    linkState: null,
+                  });
                 }}
               ></ToolButton>
             </>
