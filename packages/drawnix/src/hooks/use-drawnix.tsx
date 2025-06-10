@@ -30,6 +30,8 @@ export type LinkState = {
   editor: Editor;
   targetElement: LinkElement;
   isEditing: boolean;
+  isHovering: boolean;
+  isHoveringOrigin: boolean;
 };
 
 export type DrawnixState = {

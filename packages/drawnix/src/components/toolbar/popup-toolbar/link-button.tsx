@@ -4,9 +4,8 @@ import classNames from 'classnames';
 import { getSelectedElements, PlaitBoard } from '@plait/core';
 import { LinkIcon } from '../../icons';
 import { useDrawnix } from '../../../hooks/use-drawnix';
-import { getFirstTextEditor } from '@plait/common';
+import { getFirstTextEditor, LinkElement } from '@plait/common';
 import { ReactEditor } from 'slate-react';
-import { LinkElement, ParagraphElement } from '@plait-board/react-text';
 import { LinkEditor } from '@plait/text-plugins';
 
 export type PopupLinkButtonProps = {
@@ -45,6 +44,8 @@ export const PopupLinkButton: React.FC<PopupLinkButtonProps> = ({
               targetDom: targetDom,
               targetElement: linkElement,
               isEditing: true,
+              isHovering: false,
+              isHoveringOrigin: false,
             },
           });
         }, 0);
