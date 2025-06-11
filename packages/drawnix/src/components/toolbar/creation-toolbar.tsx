@@ -196,12 +196,6 @@ export const CreationToolbar = () => {
                     aria-label={`Shape`}
                     onPointerDown={() => {
                       setShapeOpen(!shapeOpen);
-                      BoardTransforms.updatePointerType(
-                        board,
-                        BasicShapes.rectangle
-                      );
-                      setPointer(BasicShapes.rectangle);
-                      setCreationMode(board, BoardCreationMode.drawing);
                     }}
                   />
                 </PopoverTrigger>
@@ -236,12 +230,6 @@ export const CreationToolbar = () => {
                     aria-label={`Arrow`}
                     onPointerDown={() => {
                       setArrowOpen(!shapeOpen);
-                      BoardTransforms.updatePointerType(
-                        board,
-                        ArrowLineShape.straight
-                      );
-                      setPointer(ArrowLineShape.straight);
-                      setCreationMode(board, BoardCreationMode.drawing);
                     }}
                   />
                 </PopoverTrigger>

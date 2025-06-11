@@ -28,7 +28,10 @@ type ToolButtonBaseProps = {
   disabled?: boolean;
   className?: string;
   style?: CSSProperties;
-  onPointerDown?(data: { pointerType: EventPointerType }): void;
+  onPointerDown?(data: {
+    pointerType: EventPointerType;
+    event: React.PointerEvent<HTMLElement>;
+  }): void;
   onPointerUp?(data: { pointerType: EventPointerType }): void;
 };
 
@@ -124,8 +127,10 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
         type={type}
         onClick={onClick}
         onPointerDown={(event) => {
-          event.preventDefault();
-          props.onPointerDown?.({ pointerType: event.pointerType || null });
+          props.onPointerDown?.({
+            pointerType: event.pointerType || null,
+            event,
+          });
         }}
         onPointerUp={(event) => {
           props.onPointerUp?.({ pointerType: event.pointerType || null });
@@ -163,7 +168,10 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
       title={props.title}
       onPointerDown={(event) => {
         lastPointerTypeRef.current = event.pointerType || null;
-        props.onPointerDown?.({ pointerType: event.pointerType || null });
+        props.onPointerDown?.({
+          pointerType: event.pointerType || null,
+          event,
+        });
       }}
       onPointerUp={(event) => {
         props.onPointerUp?.({ pointerType: event.pointerType || null });

@@ -159,7 +159,8 @@ export const LinkPopup = () => {
                 icon={FeltTipPenIcon}
                 title={`Edit link`}
                 aria-label={`Edit link`}
-                onPointerDown={() => {
+                onPointerDown={({ event }) => {
+                  event.preventDefault();
                   setAppState({
                     ...appState,
                     linkState: {
