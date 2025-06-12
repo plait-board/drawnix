@@ -45,7 +45,21 @@ export const LinkPopup = () => {
 
   useEffect(() => {
     if (target) {
-      refs.setPositionReference(target);
+      const rect = target.getBoundingClientRect();
+      refs.setPositionReference({
+        getBoundingClientRect() {
+          return {
+            x: rect.x,
+            y: rect.y,
+            width: rect.width,
+            height: rect.height,
+            top: rect.y,
+            left: rect.x,
+            right: rect.x + rect.width,
+            bottom: rect.y + rect.height,
+          };
+        },
+      });
     }
   }, [board.viewport, target]);
 
@@ -128,20 +142,41 @@ export const LinkPopup = () => {
       >
         <Stack.Row gap={1} align="center">
           {isEditing ? (
-            <input
-              type="text"
-              value={url}
-              onChange={(e) => {
-                setUrl(e.target.value);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  saveUrlAndExitEditing();
-                }
-              }}
-              className="link-popup__input"
-              autoFocus
-            />
+            <>
+              <input
+                type="text"
+                value={url}
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    saveUrlAndExitEditing();
+                  }
+                }}
+                className="link-popup__input"
+                autoFocus
+              />
+              <ToolButton
+                type="icon"
+                visible={true}
+                icon={TrashIcon}
+                title={`Delete link`}
+                aria-label={`Delete link`}
+                onPointerDown={() => {
+                  const editor = linkState!.editor;
+                  const targetElement = linkState!.targetElement;
+                  const path = ReactEditor.findPath(editor, targetElement);
+                  Transforms.unwrapNodes(editor, {
+                    at: path,
+                  });
+                  setAppState({
+                    ...appState,
+                    linkState: null,
+                  });
+                }}
+              ></ToolButton>
+            </>
           ) : (
             <>
               <a
