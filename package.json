@@ -5,6 +5,7 @@
   "scripts": {
     "start": "nx serve web --host=0.0.0.0",
     "build": "nx run-many -t=build",
+    "build:web": "nx build web",
     "test": "nx run-many -t=test",
     "release": "node scripts/release-version.js",
     "pub": "npm run build && node scripts/publish.js"
