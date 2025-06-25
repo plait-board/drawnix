@@ -110,6 +110,7 @@ export const Text: React.FC<TextComponentProps> = (
           }
         }}
         onKeyDown={onKeyDown}
+        style={{ whiteSpace: 'nowrap' }}
       />
     </Slate>
   );
