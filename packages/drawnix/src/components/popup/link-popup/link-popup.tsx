@@ -129,7 +129,6 @@ export const LinkPopup = () => {
         }}
         onPointerLeave={() => {
           if (!isEditing) {
-            console.log('set isHovering', false);
             setAppState({
               ...appState,
               linkState: {
