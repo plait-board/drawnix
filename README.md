@@ -97,6 +97,12 @@ npm install
 npm run start
 ```
 
+## Docker
+
+```
+docker pull pubuzhixing/drawnix:latest
+```
+
 ## 依赖
 
 - [plait](https://github.com/worktile/plait) - 画图框架
