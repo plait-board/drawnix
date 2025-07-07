@@ -8,7 +8,8 @@
     "build:web": "nx build web",
     "test": "nx run-many -t=test",
     "release": "node scripts/release-version.js",
-    "pub": "npm run build && node scripts/publish.js"
+    "pub": "npm run build && node scripts/publish.js",
+    "tauri": "tauri"
   },
   "private": true,
   "dependencies": {
@@ -54,6 +55,7 @@
     "@swc/cli": "^0.6.0",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@tauri-apps/cli": "^2.6.2",
     "@testing-library/react": "15.0.6",
     "@types/jest": "^29.4.0",
     "@types/node": "18.16.9",
