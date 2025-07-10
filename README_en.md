@@ -95,6 +95,21 @@ npm install
 npm run start
 ```
 
+## Tauri
+
+Development environment Tauri desktop application running.
+
+```
+npm run tauri dev
+```
+
+Build tauri app.
+```
+npm run tauri build
+```
+
+The directory is `src-tauri/target/`.
+
 ## Docker
 
 ```

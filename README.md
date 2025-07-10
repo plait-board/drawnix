@@ -103,6 +103,21 @@ npm run start
 docker pull pubuzhixing/drawnix:latest
 ```
 
+## Tauri
+
+开发环境tauri桌面应用运行
+
+```
+npm run tauri dev
+```
+
+构建Tauri app
+```
+npm run tauri build
+```
+
+生成目录为`src-tauri/target/`
+
 ## 依赖
 
 - [plait](https://github.com/worktile/plait) - 画图框架
