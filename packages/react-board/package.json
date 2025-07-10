@@ -1,6 +1,6 @@
 {
   "name": "@plait-board/react-board",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./index.js",
   "types": "./index.d.ts",
   "private": false,

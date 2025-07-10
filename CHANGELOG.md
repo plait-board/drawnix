@@ -1,3 +1,14 @@
+## 0.1.1 (2025-07-10)
+
+
+### 🩹 Fixes
+
+- **text:** resolve text can not auto break line #173 #169 ([#173](https://github.com/plait-board/drawnix/issues/173), [#169](https://github.com/plait-board/drawnix/issues/169))
+
+### ❤️  Thank You
+
+- pubuzhixing8 @pubuzhixing8
+
 ## 0.1.0 (2025-07-02)
 
 
