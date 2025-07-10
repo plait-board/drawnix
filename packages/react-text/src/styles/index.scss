@@ -1,7 +1,7 @@
 .plait-board-container {
     .text {
         foreignObject {
-            overflow-x: auto;
+            overflow-y: auto;
             &::-webkit-scrollbar {
                 display: none;
             }
