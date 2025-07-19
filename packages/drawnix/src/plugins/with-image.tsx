@@ -1,6 +1,7 @@
-import { type PlaitImageBoard } from '@plait/common';
+import { getElementOfFocusedImage, type PlaitImageBoard } from '@plait/common';
 import {
   ClipboardData,
+  getHitElementByPoint,
   PlaitBoard,
   Point,
   toHostPoint,
@@ -9,10 +10,18 @@ import {
 } from '@plait/core';
 import { isSupportedImageFileType } from '../data/blob';
 import { insertImage } from '../data/image';
+import { isHitImage, MindElement, ImageData } from '@plait/mind';
+import { ImageViewer } from '../libs/image-viewer';
 
 export const withImagePlugin = (board: PlaitBoard) => {
   const newBoard = board as PlaitBoard & PlaitImageBoard;
-  const { insertFragment, drop } = newBoard;
+  const { insertFragment, drop, pointerUp } = newBoard;
+  const viewer = new ImageViewer({
+    zoomStep: 0.3,
+    minZoom: 0.1,
+    maxZoom: 5,
+    enableKeyboard: true,
+  });
 
   newBoard.insertFragment = (
     clipboardData: ClipboardData | null,
@@ -43,6 +52,23 @@ export const withImagePlugin = (board: PlaitBoard) => {
       }
     }
     return drop(event);
+  };
+
+  newBoard.pointerUp = (event: PointerEvent) => {
+    const focusMindNode = getElementOfFocusedImage(board);
+    if (focusMindNode) {
+      const point = toViewBoxPoint(board, toHostPoint(board, event.x, event.y));
+      const hitElement = getHitElementByPoint(board, point);
+      const isHittingImage =
+        hitElement &&
+        MindElement.isMindElement(board, hitElement) &&
+        MindElement.hasImage(hitElement) &&
+        isHitImage(board, hitElement as MindElement<ImageData>, point);
+      if (isHittingImage && focusMindNode === hitElement) {
+        viewer.open(hitElement.data.image.url);
+      }
+    }
+    pointerUp(event);
   };
 
   return newBoard;

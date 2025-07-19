@@ -128,4 +128,10 @@
     .drawnix-button {
         @include outlineButtonStyles;
     }
+
+    [plait-mindmap="true"] {
+        img.image-origin--focus:hover {
+            cursor: zoom-in;
+        }
+    }
 }

@@ -46,67 +46,6 @@ export class ImageViewer {
     this.bindEvents();
   }
 
-  // 绑定img标签点击事件
-  bindImages(selector: string = 'img'): void {
-    const images = document.querySelectorAll<HTMLImageElement>(selector);
-    images.forEach((img) => {
-      const isDisabled = img.hasAttribute('data-preview-disabled');
-      if (!isDisabled) {
-        img.style.cursor = 'zoom-in';
-        img.addEventListener('click', (e) => {
-          e.preventDefault();
-          this.open(img.src, img.alt || '');
-        });
-      }
-    });
-  }
-
-  // 使用事件委托绑定所有img标签（支持动态添加）
-  bindImagesWithDelegation(selector: string = 'img'): void {
-    // 移除之前的委托监听器（如果存在）
-    if (this.delegationHandler) {
-      document.removeEventListener('click', this.delegationHandler);
-    }
-
-    // 创建新的委托处理器
-    this.delegationHandler = (e: Event) => {
-      const target = e.target as HTMLElement;
-      if (target.tagName === 'IMG' && target.matches(selector)) {
-        const img = target as HTMLImageElement;
-        const isDisabled = img.getAttribute('data-preview-disabled');
-        if (!isDisabled) {
-          e.preventDefault();
-          this.open(img.src, img.alt || '');
-        }
-      }
-    };
-
-    // 绑定到document
-    document.addEventListener('click', this.delegationHandler);
-
-    // 为已存在的图片添加指针样式
-    const existingImages =
-      document.querySelectorAll<HTMLImageElement>(selector);
-    existingImages.forEach((img) => {
-      const isDisabled = img.hasAttribute('data-preview-disabled');
-      if (!isDisabled) {
-        img.style.cursor = 'zoom-in';
-      }
-    });
-  }
-
-  // 绑定单个图片元素
-  bindImage(img: HTMLImageElement): void {
-    const isDisabled = img.hasAttribute('data-preview-disabled');
-    if (!isDisabled) {
-      img.style.cursor = 'zoom-in';
-      img.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.open(img.src, img.alt || '');
-      });
-    }
-  }
-
   // 打开图片查看器
   open(src: string, alt: string = ''): void {
     this.createOverlay();
@@ -166,33 +105,30 @@ export class ImageViewer {
       top: 20px;
       right: 30px;
       color: white;
-      font-size: 24px;
+      font-size: 18px;
       cursor: pointer;
       z-index: 10001;
       user-select: none;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 34px;
       display: flex;
-      align-items: center;
-      justify-content: center;
       border-radius: 50%;
+      justify-content: center;
       background: rgba(0, 0, 0, 0.5);
       transition: all 0.2s ease;
-      line-height: 0;
-      transform: translateY(-1px);
+      line-height: 34px;
+      padding-bottom:2px;
     `;
 
     this.closeButton.addEventListener('mouseenter', () => {
       if (this.closeButton) {
         this.closeButton.style.background = 'rgba(255, 255, 255, 0.2)';
-        this.closeButton.style.transform = 'translateY(-1px) scale(1.1)';
       }
     });
 
     this.closeButton.addEventListener('mouseleave', () => {
       if (this.closeButton) {
         this.closeButton.style.background = 'rgba(0, 0, 0, 0.5)';
-        this.closeButton.style.transform = 'translateY(-1px) scale(1)';
       }
     });
 
@@ -217,10 +153,10 @@ export class ImageViewer {
       background: rgba(0, 0, 0, 0.7);
       color: white;
       border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
+      padding: 8px 14px;
+      border-radius: 4px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 18px;
       transition: background 0.2s;
       user-select: none;
     `;
@@ -427,10 +363,5 @@ export class ImageViewer {
   // 销毁实例
   destroy(): void {
     this.close();
-    // 清理事件委托监听器
-    if (this.delegationHandler) {
-      document.removeEventListener('click', this.delegationHandler);
-      this.delegationHandler = null;
-    }
   }
 }

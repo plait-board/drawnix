@@ -116,9 +116,6 @@ export const Drawnix: React.FC<DrawnixProps> = ({
       maxZoom: 5,
       enableKeyboard: true,
     });
-
-    // 绑定所有img标签（使用事件委托，支持动态添加）
-    viewer.bindImagesWithDelegation('.image-viewer-origin');
     // 清理函数
     return () => {
       viewer.destroy();
