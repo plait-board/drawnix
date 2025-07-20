@@ -43,6 +43,7 @@ export class ImageViewer {
       enableKeyboard: options.enableKeyboard !== false,
     };
 
+    this.addStyles();
     this.bindEvents();
   }
 
@@ -61,7 +62,6 @@ export class ImageViewer {
       document.removeEventListener('mouseup', this.delegationHandler!);
       document.removeEventListener('keydown', this.delegationHandler!);
       document.removeEventListener('wheel', this.delegationHandler!);
-      
       document.body.removeChild(this.overlay);
       this.overlay = null;
       this.image = null;
@@ -106,38 +106,7 @@ export class ImageViewer {
   private createCloseButton(): void {
     this.closeButton = document.createElement('div');
     this.closeButton.innerHTML = '×';
-    this.closeButton.style.cssText = `
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      color: white;
-      font-size: 18px;
-      cursor: pointer;
-      z-index: 10001;
-      user-select: none;
-      width: 36px;
-      height: 34px;
-      display: flex;
-      border-radius: 50%;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.5);
-      transition: all 0.2s ease;
-      line-height: 34px;
-      padding-bottom:2px;
-    `;
-
-    this.closeButton.addEventListener('mouseenter', () => {
-      if (this.closeButton) {
-        this.closeButton.style.background = 'rgba(255, 255, 255, 0.2)';
-      }
-    });
-
-    this.closeButton.addEventListener('mouseleave', () => {
-      if (this.closeButton) {
-        this.closeButton.style.background = 'rgba(0, 0, 0, 0.5)';
-      }
-    });
-
+    this.closeButton.className = 'image-viewer-close-btn';
     this.closeButton.addEventListener('click', () => this.close());
     this.overlay!.appendChild(this.closeButton);
   }
@@ -155,53 +124,25 @@ export class ImageViewer {
       z-index: 10001;
     `;
 
-    const buttonStyle = `
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 18px;
-      transition: background 0.2s;
-      user-select: none;
-    `;
+    this.addStyles();
 
     // 放大按钮
     const zoomInBtn = document.createElement('button');
     zoomInBtn.innerHTML = '+';
-    zoomInBtn.style.cssText = buttonStyle;
+    zoomInBtn.className = 'image-viewer-control-btn';
     zoomInBtn.addEventListener('click', () => this.zoomIn());
-    zoomInBtn.addEventListener('mouseenter', () => {
-      zoomInBtn.style.background = 'rgba(255, 255, 255, 0.2)';
-    });
-    zoomInBtn.addEventListener('mouseleave', () => {
-      zoomInBtn.style.background = 'rgba(0, 0, 0, 0.7)';
-    });
 
     // 缩小按钮
     const zoomOutBtn = document.createElement('button');
     zoomOutBtn.innerHTML = '-';
-    zoomOutBtn.style.cssText = buttonStyle;
+    zoomOutBtn.className = 'image-viewer-control-btn';
     zoomOutBtn.addEventListener('click', () => this.zoomOut());
-    zoomOutBtn.addEventListener('mouseenter', () => {
-      zoomOutBtn.style.background = 'rgba(255, 255, 255, 0.2)';
-    });
-    zoomOutBtn.addEventListener('mouseleave', () => {
-      zoomOutBtn.style.background = 'rgba(0, 0, 0, 0.7)';
-    });
 
     // 重置按钮
     const resetBtn = document.createElement('button');
     resetBtn.innerHTML = '⌂';
-    resetBtn.style.cssText = buttonStyle;
+    resetBtn.className = 'image-viewer-control-btn';
     resetBtn.addEventListener('click', () => this.resetState());
-    resetBtn.addEventListener('mouseenter', () => {
-      resetBtn.style.background = 'rgba(255, 255, 255, 0.2)';
-    });
-    resetBtn.addEventListener('mouseleave', () => {
-      resetBtn.style.background = 'rgba(0, 0, 0, 0.7)';
-    });
 
     this.controlsContainer.appendChild(zoomOutBtn);
     this.controlsContainer.appendChild(resetBtn);
@@ -368,8 +309,68 @@ export class ImageViewer {
     `;
   }
 
+  private styleElement: HTMLStyleElement | null = null;
+
+  // 添加样式
+  private addStyles(): void {
+    if (!this.styleElement) {
+      this.styleElement = document.createElement('style');
+      this.styleElement.textContent = `
+        .image-viewer-control-btn {
+          background: rgba(0, 0, 0, 0.8);
+          color: white;
+          border: none;
+          padding: 8px 14px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 18px;
+          transition: background 0.2s;
+          user-select: none;
+        }
+        
+        .image-viewer-control-btn:hover {
+          background: rgba(0, 0, 0, 0.4);
+        }
+        
+        .image-viewer-close-btn {
+          position: absolute;
+          top: 20px;
+          right: 30px;
+          color: white;
+          font-size: 18px;
+          cursor: pointer;
+          z-index: 10001;
+          user-select: none;
+          width: 36px;
+          height: 34px;
+          display: flex;
+          border-radius: 50%;
+          justify-content: center;
+          background: rgba(0, 0, 0, 0.8);
+          transition: all 0.2s ease;
+          line-height: 34px;
+          padding-bottom:2px;
+        }
+        
+        .image-viewer-close-btn:hover {
+          background: rgba(0, 0, 0, 0.4);
+        }
+      `;
+      document.head.appendChild(this.styleElement);
+    }
+  }
+
+  // 移除样式
+  private removeStyles(): void {
+    if (this.styleElement) {
+      document.head.removeChild(this.styleElement);
+      this.styleElement = null;
+    }
+  }
+
   // 销毁实例
   destroy(): void {
     this.close();
+    this.removeStyles();
   }
 }
