@@ -57,12 +57,18 @@ export class ImageViewer {
   // 关闭图片查看器
   close(): void {
     if (this.overlay) {
+      document.removeEventListener('mousemove', this.delegationHandler!);
+      document.removeEventListener('mouseup', this.delegationHandler!);
+      document.removeEventListener('keydown', this.delegationHandler!);
+      document.removeEventListener('wheel', this.delegationHandler!);
+      
       document.body.removeChild(this.overlay);
       this.overlay = null;
       this.image = null;
       this.imageContainer = null;
       this.closeButton = null;
       this.controlsContainer = null;
+      this.delegationHandler = null;
     }
     document.body.style.overflow = '';
   }
@@ -242,6 +248,30 @@ export class ImageViewer {
   private bindDragEvents(): void {
     if (!this.imageContainer) return;
 
+    const dragHandler = (e: MouseEvent) => {
+      if (!this.state.isDragging) return;
+
+      const deltaX = e.clientX - this.state.dragStartX;
+      const deltaY = e.clientY - this.state.dragStartY;
+
+      this.state.x = this.state.imageStartX + deltaX;
+      this.state.y = this.state.imageStartY + deltaY;
+
+      this.updateImageTransform();
+    };
+
+    const mouseUpHandler = () => {
+      if (this.state.isDragging) {
+        this.state.isDragging = false;
+        if (this.imageContainer) {
+          this.imageContainer.style.cursor = 'grab';
+        }
+        if (this.overlay) {
+          this.overlay.style.cursor = 'grab';
+        }
+      }
+    };
+
     this.imageContainer.addEventListener('mousedown', (e) => {
       e.preventDefault();
       this.state.isDragging = true;
@@ -256,72 +286,50 @@ export class ImageViewer {
       if (this.overlay) {
         this.overlay.style.cursor = 'grabbing';
       }
-    });
 
-    document.addEventListener('mousemove', (e) => {
-      if (!this.state.isDragging) return;
-
-      const deltaX = e.clientX - this.state.dragStartX;
-      const deltaY = e.clientY - this.state.dragStartY;
-
-      this.state.x = this.state.imageStartX + deltaX;
-      this.state.y = this.state.imageStartY + deltaY;
-
-      this.updateImageTransform();
-    });
-
-    document.addEventListener('mouseup', () => {
-      if (this.state.isDragging) {
-        this.state.isDragging = false;
-        if (this.imageContainer) {
-          this.imageContainer.style.cursor = 'grab';
-        }
-        if (this.overlay) {
-          this.overlay.style.cursor = 'grab';
-        }
-      }
+      document.addEventListener('mousemove', dragHandler);
+      document.addEventListener('mouseup', mouseUpHandler);
     });
   }
 
   // 绑定全局事件
   private bindEvents(): void {
-    document.addEventListener('keydown', (e) => {
-      if (!this.options.enableKeyboard || !this.overlay) return;
-
-      switch (e.key) {
-        case 'Escape':
-          this.close();
-          break;
-        case '+':
-        case '=':
-          e.preventDefault();
-          this.zoomIn();
-          break;
-        case '-':
-          e.preventDefault();
-          this.zoomOut();
-          break;
-        case '0':
-          e.preventDefault();
-          this.resetState();
-          break;
-      }
-    });
-
-    document.addEventListener(
-      'wheel',
-      (e) => {
-        if (!this.overlay) return;
-        e.preventDefault();
-
-        if (e.deltaY < 0) {
+    this.delegationHandler = (e: Event) => {
+      if (!this.overlay) return;
+      
+      if (e.type === 'keydown' && this.options.enableKeyboard) {
+        const keyboardEvent = e as KeyboardEvent;
+        switch (keyboardEvent.key) {
+          case 'Escape':
+            this.close();
+            break;
+          case '+':
+          case '=':
+            keyboardEvent.preventDefault();
+            this.zoomIn();
+            break;
+          case '-':
+            keyboardEvent.preventDefault();
+            this.zoomOut();
+            break;
+          case '0':
+            keyboardEvent.preventDefault();
+            this.resetState();
+            break;
+        }
+      } else if (e.type === 'wheel') {
+        const wheelEvent = e as WheelEvent;
+        wheelEvent.preventDefault();
+        if (wheelEvent.deltaY < 0) {
           this.zoomIn();
         } else {
           this.zoomOut();
         }
-      },
-      { passive: false }
-    );
+      }
+    };
+
+    document.addEventListener('keydown', this.delegationHandler);
+    document.addEventListener('wheel', this.delegationHandler, { passive: false });
   }
 
   // 放大
