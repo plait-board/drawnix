@@ -37,7 +37,6 @@ import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
 import { CleanConfirm } from './components/clean-confirm/clean-confirm';
 import { buildTextLinkPlugin } from './plugins/with-text-link';
 import { LinkPopup } from './components/popup/link-popup/link-popup';
-import { ImageViewer } from './libs/image-viewer';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -107,20 +106,6 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // 初始化图片查看器
-    const viewer = new ImageViewer({
-      zoomStep: 0.3,
-      minZoom: 0.1,
-      maxZoom: 5,
-      enableKeyboard: true,
-    });
-    // 清理函数
-    return () => {
-      viewer.destroy();
-    };
-  }, []);
 
   return (
     <DrawnixContext.Provider value={{ appState, setAppState }}>
