@@ -48,7 +48,7 @@ export class ImageViewer {
   }
 
   // 打开图片查看器
-  open(src: string, alt: string = ''): void {
+  open(src: string, alt = ''): void {
     this.createOverlay();
     this.createImage(src, alt);
     this.resetState();
