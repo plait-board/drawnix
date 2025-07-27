@@ -24,6 +24,10 @@ export class ImageViewer {
   private closeButton: HTMLDivElement | null = null;
   private controlsContainer: HTMLDivElement | null = null;
   private delegationHandler: ((e: Event) => void) | null = null;
+  private dragHandler: ((e: MouseEvent) => void) | null = null;
+  private mouseUpHandler: (() => void) | null = null;
+  private animationFrameId: number | null = null;
+  private pendingUpdate = false;
   private state: ImageState = {
     zoom: 1,
     x: 0,
@@ -58,10 +62,21 @@ export class ImageViewer {
   // 关闭图片查看器
   close(): void {
     if (this.overlay) {
+      // 清理拖动事件监听器
+      this.cleanupDragEvents();
+      
+      // 清理全局事件监听器
       document.removeEventListener('mousemove', this.delegationHandler!);
       document.removeEventListener('mouseup', this.delegationHandler!);
       document.removeEventListener('keydown', this.delegationHandler!);
       document.removeEventListener('wheel', this.delegationHandler!);
+      
+      // 取消动画帧
+      if (this.animationFrameId) {
+        cancelAnimationFrame(this.animationFrameId);
+        this.animationFrameId = null;
+      }
+      
       document.body.removeChild(this.overlay);
       this.overlay = null;
       this.image = null;
@@ -69,6 +84,9 @@ export class ImageViewer {
       this.closeButton = null;
       this.controlsContainer = null;
       this.delegationHandler = null;
+      this.dragHandler = null;
+      this.mouseUpHandler = null;
+      this.pendingUpdate = false;
     }
     document.body.style.overflow = '';
   }
@@ -172,7 +190,6 @@ export class ImageViewer {
       width: auto;
       height: auto;
       display: block;
-      transition: transform 0.2s ease;
       user-select: none;
       pointer-events: none;
       object-fit: contain;
@@ -189,7 +206,8 @@ export class ImageViewer {
   private bindDragEvents(): void {
     if (!this.imageContainer) return;
 
-    const dragHandler = (e: MouseEvent) => {
+    // 使用 requestAnimationFrame 优化的拖动处理器
+    this.dragHandler = (e: MouseEvent) => {
       if (!this.state.isDragging) return;
 
       const deltaX = e.clientX - this.state.dragStartX;
@@ -198,10 +216,17 @@ export class ImageViewer {
       this.state.x = this.state.imageStartX + deltaX;
       this.state.y = this.state.imageStartY + deltaY;
 
-      this.updateImageTransform();
+      // 使用 requestAnimationFrame 优化渲染
+      if (!this.pendingUpdate) {
+        this.pendingUpdate = true;
+        this.animationFrameId = requestAnimationFrame(() => {
+          this.updateImageTransform();
+          this.pendingUpdate = false;
+        });
+      }
     };
 
-    const mouseUpHandler = () => {
+    this.mouseUpHandler = () => {
       if (this.state.isDragging) {
         this.state.isDragging = false;
         if (this.imageContainer) {
@@ -210,6 +235,7 @@ export class ImageViewer {
         if (this.overlay) {
           this.overlay.style.cursor = 'grab';
         }
+        this.cleanupDragEvents();
       }
     };
 
@@ -228,16 +254,29 @@ export class ImageViewer {
         this.overlay.style.cursor = 'grabbing';
       }
 
-      document.addEventListener('mousemove', dragHandler);
-      document.addEventListener('mouseup', mouseUpHandler);
+      // 添加事件监听器
+      if (this.dragHandler && this.mouseUpHandler) {
+        document.addEventListener('mousemove', this.dragHandler, { passive: true });
+        document.addEventListener('mouseup', this.mouseUpHandler, { once: true });
+      }
     });
+  }
+
+  // 清理拖动事件监听器
+  private cleanupDragEvents(): void {
+    if (this.dragHandler) {
+      document.removeEventListener('mousemove', this.dragHandler);
+    }
+    if (this.mouseUpHandler) {
+      document.removeEventListener('mouseup', this.mouseUpHandler);
+    }
   }
 
   // 绑定全局事件
   private bindEvents(): void {
     this.delegationHandler = (e: Event) => {
       if (!this.overlay) return;
-      
+
       if (e.type === 'keydown' && this.options.enableKeyboard) {
         const keyboardEvent = e as KeyboardEvent;
         switch (keyboardEvent.key) {
@@ -270,7 +309,9 @@ export class ImageViewer {
     };
 
     document.addEventListener('keydown', this.delegationHandler);
-    document.addEventListener('wheel', this.delegationHandler, { passive: false });
+    document.addEventListener('wheel', this.delegationHandler, {
+      passive: false,
+    });
   }
 
   // 放大
@@ -302,7 +343,6 @@ export class ImageViewer {
   // 更新图片变换
   private updateImageTransform(): void {
     if (!this.image) return;
-
     this.image.style.transform = `
       translate(${this.state.x}px, ${this.state.y}px) 
       scale(${this.state.zoom})
