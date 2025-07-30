@@ -66,17 +66,17 @@ export const BUTTONS: AppToolButtonProps[] = [
   {
     icon: HandIcon,
     pointer: PlaitPointerType.hand,
-    title: 'Hand',
+    title: 'Hand — H',
   },
   {
     icon: SelectionIcon,
     pointer: PlaitPointerType.selection,
-    title: 'Selection',
+    title: 'Selection — V',
   },
   {
     icon: MindIcon,
     pointer: MindPointerType.mind,
-    title: 'Mind',
+    title: 'Mind — M',
   },
   {
     icon: TextIcon,
@@ -86,7 +86,7 @@ export const BUTTONS: AppToolButtonProps[] = [
   {
     icon: FeltTipPenIcon,
     pointer: FreehandShape.feltTipPen,
-    title: 'Freehand',
+    title: 'Pen — P',
   },
   {
     icon: StraightArrowLineIcon,
@@ -135,6 +135,7 @@ export const CreationToolbar = () => {
   const [shapeOpen, setShapeOpen] = useState(false);
 
   const onPointerDown = (pointer: DrawnixPointerType) => {
+    console.log('onPointerDown', pointer);
     setCreationMode(board, BoardCreationMode.dnd);
     BoardTransforms.updatePointerType(board, pointer);
     setPointer(pointer);
@@ -159,8 +160,6 @@ export const CreationToolbar = () => {
     });
     insertImage(board, imageFile);
   };
-
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
     <Island

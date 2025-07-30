@@ -1,8 +1,11 @@
-import { PlaitBoard } from '@plait/core';
+import { BoardTransforms, PlaitBoard, PlaitPointerType } from '@plait/core';
 import { isHotkey } from 'is-hotkey';
 import { saveAsImage } from '../utils/image';
 import { saveAsJSON } from '../data/json';
 import { DrawnixState } from '../hooks/use-drawnix';
+import { BoardCreationMode, setCreationMode } from '@plait/common';
+import { MindPointerType } from '@plait/mind';
+import { FreehandShape } from './freehand/type';
 
 export const buildDrawnixHotkeyPlugin = (
   updateAppState: (appState: Partial<DrawnixState>) => void
@@ -33,6 +36,24 @@ export const buildDrawnixHotkeyPlugin = (
           });
           event.preventDefault();
           return;
+        }
+        if (event.key === 'h') {
+          BoardTransforms.updatePointerType(board, PlaitPointerType.hand);
+          updateAppState({ pointer: PlaitPointerType.hand });
+        }
+        if (event.key === 'v') {
+          BoardTransforms.updatePointerType(board, PlaitPointerType.selection);
+          updateAppState({ pointer: PlaitPointerType.selection });
+        }
+        if (event.key === 'm') {
+          setCreationMode(board, BoardCreationMode.dnd);
+          BoardTransforms.updatePointerType(board, MindPointerType.mind);
+          updateAppState({ pointer: MindPointerType.mind });
+        }
+        if (event.key === 'p') {
+          setCreationMode(board, BoardCreationMode.drawing);
+          BoardTransforms.updatePointerType(board, FreehandShape.feltTipPen);
+          updateAppState({ pointer: FreehandShape.feltTipPen });
         }
       }
       globalKeyDown(event);
