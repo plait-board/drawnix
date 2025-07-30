@@ -169,7 +169,7 @@ export class ImageViewer {
   }
 
   // 创建图片元素
-  private createImage(src: string, alt: string): void {
+  private  createImage(src: string, alt: string): void {
     this.imageContainer = document.createElement('div');
     this.imageContainer.style.cssText = `
       position: relative;
@@ -342,8 +342,8 @@ export class ImageViewer {
 
   // 更新图片变换
   private updateImageTransform(): void {
-    if (!this.image) return;
-    this.image.style.transform = `
+    if (!this.imageContainer) return;
+    this.imageContainer.style.transform = `
       translate(${this.state.x}px, ${this.state.y}px) 
       scale(${this.state.zoom})
     `;
