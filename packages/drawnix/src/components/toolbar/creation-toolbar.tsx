@@ -38,10 +38,8 @@ import {
   useDrawnix,
   useSetPointer,
 } from '../../hooks/use-drawnix';
-import { fileOpen } from '../../data/filesystem';
-import { IMAGE_MIME_TYPES } from '../../constants';
-import { insertImage } from '../../data/image';
 import { ExtraToolsButton } from './extra-tools/extra-tools-button';
+import { addImage } from '../../utils/image';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -66,17 +64,17 @@ export const BUTTONS: AppToolButtonProps[] = [
   {
     icon: HandIcon,
     pointer: PlaitPointerType.hand,
-    title: 'Hand',
+    title: 'Hand — H',
   },
   {
     icon: SelectionIcon,
     pointer: PlaitPointerType.selection,
-    title: 'Selection',
+    title: 'Selection — V',
   },
   {
     icon: MindIcon,
     pointer: MindPointerType.mind,
-    title: 'Mind',
+    title: 'Mind — M',
   },
   {
     icon: TextIcon,
@@ -86,11 +84,11 @@ export const BUTTONS: AppToolButtonProps[] = [
   {
     icon: FeltTipPenIcon,
     pointer: FreehandShape.feltTipPen,
-    title: 'Freehand',
+    title: 'Pen — P',
   },
   {
     icon: StraightArrowLineIcon,
-    title: 'Arrow Line',
+    title: 'Arrow — A',
     key: PopupKey.arrow,
     pointer: ArrowLineShape.straight,
   },
@@ -102,12 +100,12 @@ export const BUTTONS: AppToolButtonProps[] = [
   },
   {
     icon: ImageIcon,
-    title: 'Image',
+    title: 'Image — Cmd+U',
     key: 'image',
   },
   {
     icon: ExtraToolsIcon,
-    title: '更多工具',
+    title: 'More Tools',
     key: 'extra-tools',
   },
 ];
@@ -149,18 +147,6 @@ export const CreationToolbar = () => {
       PlaitBoard.isPointer(board, button.pointer) && !arrowOpen && !shapeOpen
     );
   };
-
-  const addImage = async () => {
-    const imageFile = await fileOpen({
-      description: 'Image',
-      extensions: Object.keys(
-        IMAGE_MIME_TYPES
-      ) as (keyof typeof IMAGE_MIME_TYPES)[],
-    });
-    insertImage(board, imageFile);
-  };
-
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
     <Island
@@ -226,8 +212,8 @@ export const CreationToolbar = () => {
                     visible={true}
                     selected={arrowOpen || isArrowLinePointer(board)}
                     icon={button.icon}
-                    title={`Arrow`}
-                    aria-label={`Arrow`}
+                    title={button.title!}
+                    aria-label={button.title!}
                     onPointerDown={() => {
                       setArrowOpen(!shapeOpen);
                     }}
@@ -268,7 +254,7 @@ export const CreationToolbar = () => {
                   setPointer(button.pointer);
                 }
                 if (button.key === 'image') {
-                  addImage();
+                  addImage(board);
                 }
               }}
             />

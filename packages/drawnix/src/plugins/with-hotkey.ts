@@ -1,8 +1,12 @@
-import { PlaitBoard } from '@plait/core';
+import { BoardTransforms, PlaitBoard, PlaitPointerType } from '@plait/core';
 import { isHotkey } from 'is-hotkey';
-import { saveAsImage } from '../utils/image';
+import { addImage, saveAsImage } from '../utils/image';
 import { saveAsJSON } from '../data/json';
 import { DrawnixState } from '../hooks/use-drawnix';
+import { BoardCreationMode, setCreationMode } from '@plait/common';
+import { MindPointerType } from '@plait/mind';
+import { FreehandShape } from './freehand/type';
+import { ArrowLineShape, BasicShapes } from '@plait/draw';
 
 export const buildDrawnixHotkeyPlugin = (
   updateAppState: (appState: Partial<DrawnixState>) => void
@@ -33,6 +37,42 @@ export const buildDrawnixHotkeyPlugin = (
           });
           event.preventDefault();
           return;
+        }
+        if (event.key === 'h') {
+          BoardTransforms.updatePointerType(board, PlaitPointerType.hand);
+          updateAppState({ pointer: PlaitPointerType.hand });
+        }
+        if (event.key === 'v') {
+          BoardTransforms.updatePointerType(board, PlaitPointerType.selection);
+          updateAppState({ pointer: PlaitPointerType.selection });
+        }
+        if (event.key === 'm') {
+          setCreationMode(board, BoardCreationMode.dnd);
+          BoardTransforms.updatePointerType(board, MindPointerType.mind);
+          updateAppState({ pointer: MindPointerType.mind });
+        }
+        if (event.key === 'p') {
+          setCreationMode(board, BoardCreationMode.drawing);
+          BoardTransforms.updatePointerType(board, FreehandShape.feltTipPen);
+          updateAppState({ pointer: FreehandShape.feltTipPen });
+        }
+        if (event.key === 'a') {
+          setCreationMode(board, BoardCreationMode.drawing);
+          BoardTransforms.updatePointerType(board, ArrowLineShape.straight);
+          updateAppState({ pointer: ArrowLineShape.straight });
+        }
+        if (event.key === 'r' || event.key === 'o' || event.key === 't') {
+          const keyToPointer = {
+            r: BasicShapes.rectangle,
+            o: BasicShapes.ellipse,
+            t: BasicShapes.triangle,
+          };
+          setCreationMode(board, BoardCreationMode.drawing);
+          BoardTransforms.updatePointerType(board, keyToPointer[event.key]);
+          updateAppState({ pointer: keyToPointer[event.key] });
+        }
+        if (isHotkey(['mod+u'])(event)) {
+          addImage(board);
         }
       }
       globalKeyDown(event);

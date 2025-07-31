@@ -27,17 +27,17 @@ export interface ShapeProps {
 const SHAPES: ShapeProps[] = [
   {
     icon: RectangleIcon,
-    title: 'Rectangle',
+    title: 'Rectangle — R',
     pointer: BasicShapes.rectangle,
   },
   {
     icon: EllipseIcon,
-    title: 'Ellipse',
+    title: 'Ellipse — O',
     pointer: BasicShapes.ellipse,
   },
   {
     icon: TriangleIcon,
-    title: 'Triangle',
+    title: 'Triangle — T',
     pointer: BasicShapes.triangle,
   },
   {
