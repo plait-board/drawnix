@@ -41,11 +41,6 @@ export const buildTextLinkPlugin = (
     let timeoutId: any | null = null;
 
     board.pointerMove = (event: PointerEvent) => {
-      // const { appState } = board as DrawnixBoard;
-      // const isEditing =
-      //   appState && appState.linkState && appState.linkState.isEditing;
-      // const isHovering =
-      //   appState && appState.linkState && appState.linkState.isEditing;
       if (
         (PlaitBoard.isPointer(board, PlaitPointerType.selection) ||
           PlaitBoard.isPointer(board, PlaitPointerType.hand)) &&

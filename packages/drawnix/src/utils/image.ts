@@ -1,5 +1,8 @@
 import { getSelectedElements, PlaitBoard } from '@plait/core';
 import { base64ToBlob, boardToImage, download } from './common';
+import { fileOpen } from '../data/filesystem';
+import { IMAGE_MIME_TYPES } from '../constants';
+import { insertImage } from '../data/image';
 
 export const saveAsImage = (board: PlaitBoard, isTransparent: boolean) => {
   const selectedElements = getSelectedElements(board);
@@ -14,4 +17,14 @@ export const saveAsImage = (board: PlaitBoard, isTransparent: boolean) => {
       download(pngImage, imageName);
     }
   });
+};
+
+export const addImage = async (board: PlaitBoard) => {
+  const imageFile = await fileOpen({
+    description: 'Image',
+    extensions: Object.keys(
+      IMAGE_MIME_TYPES
+    ) as (keyof typeof IMAGE_MIME_TYPES)[],
+  });
+  insertImage(board, imageFile);
 };
