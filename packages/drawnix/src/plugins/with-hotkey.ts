@@ -14,9 +14,14 @@ export const buildDrawnixHotkeyPlugin = (
   const withDrawnixHotkey = (board: PlaitBoard) => {
     const { globalKeyDown } = board;
     board.globalKeyDown = (event: KeyboardEvent) => {
+      const isTypingNormal =
+        event.target instanceof HTMLInputElement ||
+        event.target instanceof HTMLTextAreaElement;
       if (
-        PlaitBoard.getMovingPointInBoard(board) ||
-        PlaitBoard.isMovingPointInBoard(board)
+        !isTypingNormal &&
+        (PlaitBoard.getMovingPointInBoard(board) ||
+          PlaitBoard.isMovingPointInBoard(board)) &&
+        !PlaitBoard.hasBeenTextEditing(board)
       ) {
         if (isHotkey(['mod+shift+e'], { byKey: true })(event)) {
           saveAsImage(board, true);
