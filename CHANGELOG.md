@@ -1,3 +1,16 @@
+## 0.1.2 (2025-08-06)
+
+
+### 🚀 Features
+
+- **creation:** support creation mode hotkey #183 ([#185](https://github.com/plait-board/drawnix/pull/185), [#183](https://github.com/plait-board/drawnix/issues/183))
+- **mind:** bump plait into 0.82.0 to improve the experience of mind ([f904594](https://github.com/plait-board/drawnix/commit/f904594))
+- **viewer:** support image which in mind node view #125 ([#125](https://github.com/plait-board/drawnix/issues/125))
+
+### ❤️  Thank You
+
+- pubuzhixing8 @pubuzhixing8
+
 ## 0.1.1 (2025-07-10)
 
 

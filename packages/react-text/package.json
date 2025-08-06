@@ -1,6 +1,6 @@
 {
   "name": "@plait-board/react-text",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "./index.js",
   "types": "./index.d.ts",
   "private": false,
