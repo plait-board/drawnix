@@ -1,3 +1,14 @@
+## 0.1.3 (2025-08-06)
+
+
+### 🩹 Fixes
+
+- **hotkey:** prevent hotkey when  type normally ([#189](https://github.com/plait-board/drawnix/pull/189))
+
+### ❤️  Thank You
+
+- pubuzhixing8 @pubuzhixing8
+
 ## 0.1.2 (2025-08-06)
 
 
