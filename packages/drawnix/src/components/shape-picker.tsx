@@ -37,7 +37,7 @@ const SHAPES: ShapeProps[] = [
   },
   {
     icon: TriangleIcon,
-    title: 'Triangle — T',
+    title: 'Triangle',
     pointer: BasicShapes.triangle,
   },
   {
