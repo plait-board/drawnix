@@ -5,11 +5,12 @@
   "types": "./index.d.ts",
   "private": false,
   "dependencies": {
-    "slate": "^0.101.5",
-    "slate-history": "^0.100.0",
-    "slate-react": "^0.105.0",
-    "@plait/text-plugins": "^0.77.3",
-    "@plait/common": "^0.77.3",
+    "slate": "^0.116.0",
+    "slate-dom": "^0.116.0",
+    "slate-history": "^0.115.0",
+    "slate-react": "^0.116.0",
+    "@plait/text-plugins": "^0.82.0",
+    "@plait/common": "^0.82.0",
     "is-hotkey": "^0.2.0"
   },
   "exports": {
