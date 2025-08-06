@@ -1,3 +1,14 @@
+## 0.2.1 (2025-08-06)
+
+
+### 🩹 Fixes
+
+- **hotkey:** assign t as hotkey to create text element ([#192](https://github.com/plait-board/drawnix/pull/192))
+
+### ❤️  Thank You
+
+- pubuzhixing8 @pubuzhixing8
+
 ## 0.2.0 (2025-08-06)
 
 This was a version bump only, there were no code changes.
