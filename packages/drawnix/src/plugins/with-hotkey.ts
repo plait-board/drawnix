@@ -70,9 +70,13 @@ export const buildDrawnixHotkeyPlugin = (
           const keyToPointer = {
             r: BasicShapes.rectangle,
             o: BasicShapes.ellipse,
-            t: BasicShapes.triangle,
+            t: BasicShapes.text,
           };
-          setCreationMode(board, BoardCreationMode.drawing);
+          if (keyToPointer[event.key] === BasicShapes.text) {
+            setCreationMode(board, BoardCreationMode.dnd);
+          } else {
+            setCreationMode(board, BoardCreationMode.drawing);
+          }
           BoardTransforms.updatePointerType(board, keyToPointer[event.key]);
           updateAppState({ pointer: keyToPointer[event.key] });
         }

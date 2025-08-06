@@ -79,7 +79,7 @@ export const BUTTONS: AppToolButtonProps[] = [
   {
     icon: TextIcon,
     pointer: BasicShapes.text,
-    title: 'Text',
+    title: 'Text — T',
   },
   {
     icon: FeltTipPenIcon,
