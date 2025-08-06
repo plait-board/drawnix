@@ -30,9 +30,10 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "rxjs": "~7.8.0",
-    "slate": "^0.101.5",
-    "slate-history": "^0.100.0",
-    "slate-react": "^0.105.0",
+    "slate": "^0.116.0",
+    "slate-dom": "^0.116.0",
+    "slate-history": "^0.115.0",
+    "slate-react": "^0.116.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
