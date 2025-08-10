@@ -4,8 +4,8 @@ WORKDIR /builder
 
 COPY . /builder
 
-RUN npm install \
-    && npm run build:web 
+RUN npm install --legacy-peer-deps \
+    && npm run build 
 
 
 FROM lipanski/docker-static-website:2.4.0
