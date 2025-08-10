@@ -5,7 +5,7 @@ WORKDIR /builder
 COPY . /builder
 
 RUN npm install \
-    && npm run build 
+    && npm run build:web 
 
 
 FROM lipanski/docker-static-website:2.4.0
