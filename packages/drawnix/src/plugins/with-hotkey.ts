@@ -61,7 +61,7 @@ export const buildDrawnixHotkeyPlugin = (
           BoardTransforms.updatePointerType(board, FreehandShape.feltTipPen);
           updateAppState({ pointer: FreehandShape.feltTipPen });
         }
-        if (event.key === 'a') {
+        if (event.key === 'a' && !isHotkey(['mod+a'])(event)) {
           setCreationMode(board, BoardCreationMode.drawing);
           BoardTransforms.updatePointerType(board, ArrowLineShape.straight);
           updateAppState({ pointer: ArrowLineShape.straight });
