@@ -47,7 +47,7 @@
     "@nx/js": "19.3.0",
     "@nx/playwright": "19.3.0",
     "@nx/react": "19.3.0",
-    "@nx/vite": "^20.6.0",
+    "@nx/vite": "19.3.0",
     "@nx/web": "19.3.0",
     "@nx/workspace": "19.3.0",
     "@playwright/test": "^1.36.0",
@@ -81,7 +81,7 @@
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
     "typescript": "~5.4.2",
-    "vite": "^6.2.2",
+    "vite": "^5.4.0",
     "vite-plugin-dts": "^4.5.3",
     "vitest": "^3.0.8"
   }
