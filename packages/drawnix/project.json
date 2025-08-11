@@ -3,5 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/drawnix/src",
   "projectType": "library",
-  "tags": []
+  "tags": [],
+  "// targets": "to see all targets run: nx show project drawnix --web",
+  "targets": {}
 }
