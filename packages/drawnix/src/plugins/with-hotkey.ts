@@ -1,4 +1,9 @@
-import { BoardTransforms, PlaitBoard, PlaitPointerType } from '@plait/core';
+import {
+  BoardTransforms,
+  getSelectedElements,
+  PlaitBoard,
+  PlaitPointerType,
+} from '@plait/core';
 import { isHotkey } from 'is-hotkey';
 import { addImage, saveAsImage } from '../utils/image';
 import { saveAsJSON } from '../data/json';
@@ -62,9 +67,12 @@ export const buildDrawnixHotkeyPlugin = (
           updateAppState({ pointer: FreehandShape.feltTipPen });
         }
         if (event.key === 'a' && !isHotkey(['mod+a'])(event)) {
-          setCreationMode(board, BoardCreationMode.drawing);
-          BoardTransforms.updatePointerType(board, ArrowLineShape.straight);
-          updateAppState({ pointer: ArrowLineShape.straight });
+          // will trigger editing text
+          if (getSelectedElements(board).length === 0) {
+            setCreationMode(board, BoardCreationMode.drawing);
+            BoardTransforms.updatePointerType(board, ArrowLineShape.straight);
+            updateAppState({ pointer: ArrowLineShape.straight });
+          }
         }
         if (event.key === 'r' || event.key === 'o' || event.key === 't') {
           const keyToPointer = {
