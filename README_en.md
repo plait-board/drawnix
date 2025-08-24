@@ -30,6 +30,9 @@
       <img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=4dcea807fab7468a962c153b07ae4e4e&claim_uid=zmFSY5k8EuZri43&theme=neutral" alt="Featured｜HelloGitHub" style="width: 250px; height: 54px;" width="250" height="54"/>
     </picture>
   </a>
+
+  [![Trendshift][github-trending-shield]][github-trending-url]
+
 </div>
 
 [*中文*](https://github.com/plait-board/drawnix/blob/develop/README.md)
