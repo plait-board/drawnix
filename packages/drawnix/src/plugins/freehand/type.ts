@@ -29,6 +29,7 @@ export const FreehandThemeColors = {
 };
 
 export enum FreehandShape {
+  eraser = 'eraser',
   nibPen = 'nibPen',
   feltTipPen = 'feltTipPen',
   artisticBrush = 'artisticBrush',
