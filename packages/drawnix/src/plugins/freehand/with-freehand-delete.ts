@@ -10,75 +10,76 @@ import { getFreehandPointers, isHitFreehand } from './utils';
 import { Freehand, FreehandShape } from './type';
 
 export const withFreehandDelete = (board: PlaitBoard) => {
-const { pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
+    const { pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
 
-let isErasing = false;
-let deletedElements = new Set<string>();
+    let isErasing = false;
+    const deletedElements = new Set<string>();
 
-const checkAndDeleteFreehandElements = (point: Point) => {
-    const viewBoxPoint = toViewBoxPoint(board, toHostPoint(board, point[0], point[1]));
-    
-    const freehandElements = board.children.filter((element) => 
-    Freehand.isFreehand(element)
-    ) as Freehand[];
+    const checkAndDeleteFreehandElements = (point: Point) => {
+        const viewBoxPoint = toViewBoxPoint(board, toHostPoint(board, point[0], point[1]));
 
-    freehandElements.forEach((element) => {
-    if (!deletedElements.has(element.id) && isHitFreehand(board, element, viewBoxPoint)) {
-        deletedElements.add(element.id);
-        const elementIndex = board.children.findIndex(child => child.id === element.id);
-        if (elementIndex !== -1) {
-        Transforms.removeNode(board, [elementIndex]);
+        const freehandElements = board.children.filter((element) =>
+            Freehand.isFreehand(element)
+        ) as Freehand[];
+
+        freehandElements.forEach((element) => {
+            if (!deletedElements.has(element.id) && isHitFreehand(board, element, viewBoxPoint)) {
+                deletedElements.add(element.id);
+                const elementIndex = board.children.findIndex(child => child.id === element.id);
+                if (elementIndex !== -1) {
+                    Transforms.removeNode(board, [elementIndex]);
+                }
+            }
+        });
+    };
+
+    const complete = () => {
+        isErasing = false;
+        deletedElements.clear();
+    };
+
+    board.pointerDown = (event: PointerEvent) => {
+        // freehandPointers is unused, consider removing if not needed
+        // const freehandPointers = getFreehandPointers();
+        const isEraserPointer = PlaitBoard.isInPointer(board, [FreehandShape.eraser]);
+
+        if (isEraserPointer && isDrawingMode(board)) {
+            isErasing = true;
+            const currentPoint: Point = [event.x, event.y];
+            checkAndDeleteFreehandElements(currentPoint);
+            return;
         }
-    }
-    });
-};
 
-const complete = () => {
-    isErasing = false;
-    deletedElements.clear();
-};
+        pointerDown(event);
+    };
 
-board.pointerDown = (event: PointerEvent) => {
-    const freehandPointers = getFreehandPointers();
-    const isEraserPointer = PlaitBoard.isInPointer(board, [FreehandShape.eraser]);
-    
-    if (isEraserPointer && isDrawingMode(board)) {
-    isErasing = true;
-    const currentPoint: Point = [event.x, event.y];
-    checkAndDeleteFreehandElements(currentPoint);
-    return;
-    }
+    board.pointerMove = (event: PointerEvent) => {
+        if (isErasing) {
+            const currentPoint: Point = [event.x, event.y];
+            checkAndDeleteFreehandElements(currentPoint);
+            return;
+        }
 
-    pointerDown(event);
-};
+        pointerMove(event);
+    };
 
-board.pointerMove = (event: PointerEvent) => {
-    if (isErasing) {
-    const currentPoint: Point = [event.x, event.y];
-    checkAndDeleteFreehandElements(currentPoint);
-    return;
-    }
+    board.pointerUp = (event: PointerEvent) => {
+        if (isErasing) {
+            complete();
+            return;
+        }
 
-    pointerMove(event);
-};
+        pointerUp(event);
+    };
 
-board.pointerUp = (event: PointerEvent) => {
-    if (isErasing) {
-    complete();
-    return;
-    }
-    
-    pointerUp(event);
-};
+    board.globalPointerUp = (event: PointerEvent) => {
+        if (isErasing) {
+            complete();
+            return;
+        }
 
-board.globalPointerUp = (event: PointerEvent) => {
-    if (isErasing) {
-    complete();
-    return;
-    }
-    
-    globalPointerUp(event);
-};
+        globalPointerUp(event);
+    };
 
-return board;
+    return board;
 };
