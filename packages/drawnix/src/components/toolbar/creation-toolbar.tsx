@@ -8,6 +8,7 @@ import {
   SelectionIcon,
   ShapeIcon,
   TextIcon,
+  EraseIcon,
   StraightArrowLineIcon,
   FeltTipPenIcon,
   ImageIcon,
@@ -80,6 +81,11 @@ export const BUTTONS: AppToolButtonProps[] = [
     icon: TextIcon,
     pointer: BasicShapes.text,
     title: 'Text — T',
+  },
+  {
+    icon: EraseIcon,
+    pointer: FreehandShape.eraser,
+    title: 'Erase — E',
   },
   {
     icon: FeltTipPenIcon,
