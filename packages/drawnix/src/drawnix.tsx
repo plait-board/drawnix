@@ -37,6 +37,8 @@ import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
 import { CleanConfirm } from './components/clean-confirm/clean-confirm';
 import { buildTextLinkPlugin } from './plugins/with-text-link';
 import { LinkPopup } from './components/popup/link-popup/link-popup';
+import { useI18n } from './i18n';
+import { LanguageSwitcher } from './components/language-switcher/language-switcher';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -61,6 +63,8 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   onValueChange,
   afterInit,
 }) => {
+  const { t } = useI18n(); // This line should now work with the I18nProvider
+  
   const options: PlaitBoardOptions = {
     readonly: false,
     hideScrollbar: false,
@@ -145,6 +149,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           <TTDDialog container={containerRef.current}></TTDDialog>
           <CleanConfirm container={containerRef.current}></CleanConfirm>
         </Wrapper>
+        <LanguageSwitcher />
       </div>
     </DrawnixContext.Provider>
   );
