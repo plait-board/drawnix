@@ -1,13 +1,12 @@
 import {
     PlaitBoard,
     Point,
-    Transforms,
     throttleRAF,
     toHostPoint,
     toViewBoxPoint,
 } from '@plait/core';
 import { isDrawingMode } from '@plait/common';
-import { getFreehandPointers, isHitFreehand } from './utils';
+import { isHitFreehand } from './utils';
 import { Freehand, FreehandShape } from './type';
 import { CoreTransforms } from '@plait/core';
 
@@ -15,7 +14,7 @@ export const withFreehandErase = (board: PlaitBoard) => {
     const { pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
 
     let isErasing = false;
-    let elementsToDelete = new Set<string>();
+    const elementsToDelete = new Set<string>();
 
     const checkAndMarkFreehandElementsForDeletion = (point: Point) => {
         const viewBoxPoint = toViewBoxPoint(board, toHostPoint(board, point[0], point[1]));
