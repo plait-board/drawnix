@@ -105,6 +105,11 @@ const MarkdownToDrawnix = () => {
   const [error, setError] = useState<Error | null>(null);
   const board = useBoard();
 
+  // Update markdown example when language changes
+  useEffect(() => {
+    setText(getMarkdownExample(language));
+  }, [language]);
+
   useEffect(() => {
     const convertMarkdown = async () => {
       try {
