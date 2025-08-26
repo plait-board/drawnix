@@ -9,13 +9,15 @@ import {
 import { isDrawingMode } from '@plait/common';
 import { getFreehandPointers, isHitFreehand } from './utils';
 import { Freehand, FreehandShape } from './type';
+import { CoreTransforms } from '@plait/core';
 
 export const withFreehandErase = (board: PlaitBoard) => {
     const { pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
 
     let isErasing = false;
+    let elementsToDelete = new Set<string>();
 
-    const checkAndDeleteFreehandElements = (point: Point) => {
+    const checkAndMarkFreehandElementsForDeletion = (point: Point) => {
         const viewBoxPoint = toViewBoxPoint(board, toHostPoint(board, point[0], point[1]));
 
         const freehandElements = board.children.filter((element) =>
@@ -23,27 +25,40 @@ export const withFreehandErase = (board: PlaitBoard) => {
         ) as Freehand[];
 
         freehandElements.forEach((element) => {
-            if (isHitFreehand(board, element, viewBoxPoint)) {
-                const elementIndex = board.children.findIndex(child => child.id === element.id);
-                if (elementIndex !== -1) {
-                    Transforms.removeNode(board, [elementIndex]);
-                }
+            if (!elementsToDelete.has(element.id) && isHitFreehand(board, element, viewBoxPoint)) {
+                elementsToDelete.add(element.id);
             }
         });
     };
 
+    const deleteMarkedElements = () => {
+        if (elementsToDelete.size > 0) {
+            const elementsToRemove = board.children.filter((element) =>
+                elementsToDelete.has(element.id)
+            );
+            
+            if (elementsToRemove.length > 0) {
+                CoreTransforms.removeElements(board, elementsToRemove);
+            }
+        }
+    };
+
     const complete = () => {
-        isErasing = false;
+        if (isErasing) {
+            deleteMarkedElements();
+            isErasing = false;
+            elementsToDelete.clear();
+        }
     };
 
     board.pointerDown = (event: PointerEvent) => {
-
         const isEraserPointer = PlaitBoard.isInPointer(board, [FreehandShape.eraser]);
 
         if (isEraserPointer && isDrawingMode(board)) {
             isErasing = true;
+            elementsToDelete.clear();
             const currentPoint: Point = [event.x, event.y];
-            checkAndDeleteFreehandElements(currentPoint);
+            checkAndMarkFreehandElementsForDeletion(currentPoint);
             return;
         }
 
@@ -52,11 +67,11 @@ export const withFreehandErase = (board: PlaitBoard) => {
 
     board.pointerMove = (event: PointerEvent) => {
         if (isErasing) {
-            throttleRAF(board , 'with-freehand-erase', () => {
+            throttleRAF(board, 'with-freehand-erase', () => {
                 const currentPoint: Point = [event.x, event.y];
-                checkAndDeleteFreehandElements(currentPoint);
-                return;
+                checkAndMarkFreehandElementsForDeletion(currentPoint);
             });
+            return;
         }
 
         pointerMove(event);
