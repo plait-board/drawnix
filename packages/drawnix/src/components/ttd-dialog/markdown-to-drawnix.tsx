@@ -137,7 +137,11 @@ const MarkdownToDrawnix = () => {
   };
 
   return (
-    <TTDDialogPanels>
+    <>
+      <div className="ttd-dialog-desc">
+        {t('dialog.markdown.description')}
+      </div>
+      <TTDDialogPanels>
         <TTDDialogPanel label={t('dialog.markdown.syntax')}>
           <TTDDialogInput
             input={text}
@@ -165,6 +169,7 @@ const MarkdownToDrawnix = () => {
           />
         </TTDDialogPanel>
       </TTDDialogPanels>
+    </>
   );
 };
 export default MarkdownToDrawnix;

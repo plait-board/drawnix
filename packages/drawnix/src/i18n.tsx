@@ -62,6 +62,7 @@ export interface Translations {
   'dialog.mermaid.placeholder': string;
   'dialog.mermaid.preview': string;
   'dialog.mermaid.insert': string;
+  'dialog.markdown.description': string;
   'dialog.markdown.syntax': string;
   'dialog.markdown.placeholder': string;
   'dialog.markdown.preview': string;
@@ -133,6 +134,7 @@ const translations: Record<Language, Translations> = {
     'dialog.mermaid.placeholder': '在此处编写 Mermaid 图表定义...',
     'dialog.mermaid.preview': '预览',
     'dialog.mermaid.insert': '插入',
+    'dialog.markdown.description': '支持 Markdown 语法自动转换为思维导图。',
     'dialog.markdown.syntax': 'Markdown 语法',
     'dialog.markdown.placeholder': '在此处编写 Markdown 文本定义...',
     'dialog.markdown.preview': '预览',
@@ -201,6 +203,7 @@ const translations: Record<Language, Translations> = {
     'dialog.mermaid.placeholder': 'Write your Mermaid chart definition here...',
     'dialog.mermaid.preview': 'Preview',
     'dialog.mermaid.insert': 'Insert',
+    'dialog.markdown.description': 'Supports automatic conversion of Markdown syntax to mind map.',
     'dialog.markdown.syntax': 'Markdown Syntax',
     'dialog.markdown.placeholder': 'Write your Markdown text definition here...',
     'dialog.markdown.preview': 'Preview',
