@@ -91,7 +91,7 @@ export const BUTTONS: AppToolButtonProps[] = [
   {
     icon: EraseIcon,
     pointer: FreehandShape.eraser,
-    title: 'Erase — E',
+    titleKey: 'toolbar.eraser',
   },
   {
     icon: StraightArrowLineIcon,
