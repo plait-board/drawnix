@@ -11,7 +11,7 @@ export const initializeData: PlaitElement[] = [
     text: {
       children: [
         {
-          text: '结束',
+          text: 'finish',
         },
       ],
       align: 'center',

@@ -26,25 +26,31 @@ export interface MarkdownToDrawnixLibProps {
   }>;
 }
 
-const MARKDOWN_EXAMPLE = `# 我开始了
+const MARKDOWN_EXAMPLE = `# I have started
 
-- 让我看看是谁搞出了这个 bug 🕵️ ♂️ 🔍
+
+- Let me see who made this bug 🕵️ ♂️ 🔍
   - 😯 💣
-    - 原来是我 👈 🎯 💘
+    - Turns out it was me 👈 🎯 💘
 
-- 竟然不可以运行，为什么呢 🚫 ⚙️ ❓
-  - 竟然可以运行了，为什么呢？🎢 ✨
+
+- Unexpectedly, it cannot run; why is that 🚫 ⚙️ ❓
+  - Unexpectedly, it can run now; why is that? 🎢 ✨
     - 🤯 ⚡ ➡️ 🎉
 
-- 能运行起来的 🐞 🚀
-  - 就不要去动它 🛑 ✋
+
+- What can run 🐞 🚀
+  - then do not touch it 🛑 ✋
     - 👾 💥 🏹 🎯
     
-## 男孩还是女孩 👶 ❓ 🤷 ♂️ ♀️
+## Boy or girl 👶 ❓ 🤷 ♂️ ♀️
+
 
 ### Hello world 👋 🌍 ✨ 💻
 
-#### 哇 是个程序员 🤯 ⌨️ 💡 👩 💻`;
+
+#### Wow, a programmer 🤯 ⌨️ 💡 👩 💻`;
+
 
 const MarkdownToDrawnix = () => {
   const { appState, setAppState } = useDrawnix();
@@ -66,7 +72,7 @@ const MarkdownToDrawnix = () => {
           api: Promise.resolve(module),
         });
       } catch (err) {
-        console.error('Failed to load mermaid library:', err);
+        console.error('write something :', err);
         setError(new Error('加载 Mermaid 库失败'));
       }
     };
