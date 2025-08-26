@@ -8,6 +8,7 @@ import {
   SelectionIcon,
   ShapeIcon,
   TextIcon,
+  EraseIcon,
   StraightArrowLineIcon,
   FeltTipPenIcon,
   ImageIcon,
@@ -86,6 +87,11 @@ export const BUTTONS: AppToolButtonProps[] = [
     icon: FeltTipPenIcon,
     pointer: FreehandShape.feltTipPen,
     titleKey: 'toolbar.pen',
+  },
+  {
+    icon: EraseIcon,
+    pointer: FreehandShape.eraser,
+    title: 'Erase — E',
   },
   {
     icon: StraightArrowLineIcon,
