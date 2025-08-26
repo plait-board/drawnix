@@ -41,6 +41,15 @@ export interface Translations {
   'language.switcher': string;
   'language.chinese': string;
   'language.english': string;
+  
+  // Menu items
+  'menu.open': string;
+  'menu.saveFile': string;
+  'menu.exportImage': string;
+  'menu.exportImage.png': string;
+  'menu.exportImage.jpg': string;
+  'menu.cleanBoard': string;
+  'menu.github': string;
 }
 
 // Translation data
@@ -82,6 +91,15 @@ const translations: Record<Language, Translations> = {
     'language.switcher': '语言',
     'language.chinese': '中文',
     'language.english': 'English',
+    
+    // Menu items
+    'menu.open': '打开',
+    'menu.saveFile': '保存文件',
+    'menu.exportImage': '导出图片',
+    'menu.exportImage.png': 'PNG',
+    'menu.exportImage.jpg': 'JPG',
+    'menu.cleanBoard': '清除画布',
+    'menu.github': 'GitHub',
   },
   en: {
     // Toolbar items
@@ -120,6 +138,15 @@ const translations: Record<Language, Translations> = {
     'language.switcher': 'Language',
     'language.chinese': '中文',
     'language.english': 'English',
+    
+    // Menu items
+    'menu.open': 'Open',
+    'menu.saveFile': 'Save File',
+    'menu.exportImage': 'Export Image',
+    'menu.exportImage.png': 'PNG',
+    'menu.exportImage.jpg': 'JPG',
+    'menu.cleanBoard': 'Clear Board',
+    'menu.github': 'GitHub',
   },
 };
 
