@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
 
 // Define supported languages
-export type Language = 'zh' | 'en';
+export type Language = 'zh' | 'en'|'ar';
 
 // Define translation keys and their corresponding values
 export interface Translations {
@@ -43,6 +43,7 @@ export interface Translations {
   'language.switcher': string;
   'language.chinese': string;
   'language.english': string;
+  'language.arabic': string;
   
   // Menu items
   'menu.open': string;
@@ -117,6 +118,7 @@ const translations: Record<Language, Translations> = {
     'language.switcher': '语言',
     'language.chinese': '中文',
     'language.english': 'English',
+    'language.arabic': 'العربيه',
     
     // Menu items
     'menu.open': '打开',
@@ -188,6 +190,7 @@ const translations: Record<Language, Translations> = {
     'language.switcher': 'Language',
     'language.chinese': '中文',
     'language.english': 'English',
+    'language.arabic': 'العربيه',
     
     // Menu items
     'menu.open': 'Open',
@@ -219,6 +222,78 @@ const translations: Record<Language, Translations> = {
     // Extra tools menu items
     'extraTools.mermaidToDrawnix': 'Mermaid to Drawnix',
     'extraTools.markdownToDrawnix': 'Markdown to Drawnix',
+  },
+  ar: {
+    // Toolbar items
+    "toolbar.hand": "اليد — H",
+    "toolbar.selection": "التحديد — V",
+    "toolbar.mind": "خريطة ذهنية — M",
+    "toolbar.text": "نص — T",
+    "toolbar.pen": "قلم — P",
+    "toolbar.arrow": "سهم — A",
+    "toolbar.shape": "أشكال",
+    "toolbar.image": "صورة — Cmd+U",
+    "toolbar.extraTools": "أدوات إضافية",
+
+    // Zoom controls
+    "zoom.in": "تكبير — Cmd++",
+    "zoom.out": "تصغير — Cmd+-",
+    "zoom.fit": "ملاءمة للشاشة",
+    "zoom.100": "تكبير 100%",
+    "zoom.full.screen": "ملء الشاشة",
+    "zoom.reset.screen": "إعادة ضبط الشاشة",
+
+    // Themes
+    "theme.default": "افتراضي",
+    "theme.colorful": "ملون",
+    "theme.soft": "ناعم",
+    "theme.retro": "كلاسيكي",
+    "theme.dark": "داكن",
+    "theme.starry": "ليلي",
+
+    // General
+    "general.undo": "تراجع",
+    "general.redo": "إعادة",
+    "general.menu": "قائمة التطبيق",
+    "general.duplicate": "تكرار",
+    "general.delete": "حذف",
+
+    // Language
+    "language.switcher": "اللغة",
+    "language.chinese": "中文",
+    "language.english": "الإنجليزية",
+    'language.arabic': 'العربيه',
+
+    // Menu items
+    "menu.open": "فتح",
+    "menu.saveFile": "حفظ الملف",
+    "menu.exportImage": "تصدير صورة",
+    "menu.exportImage.png": "PNG",
+    "menu.exportImage.jpg": "JPG",
+    "menu.cleanBoard": "مسح اللوحة",
+    "menu.github": "غيت هب",
+
+    // Dialog translations
+    "dialog.mermaid.title": "من Mermaid إلى Drawnix",
+    "dialog.mermaid.description": "يدعم حاليًا",
+    "dialog.mermaid.flowchart": "المخططات الانسيابية",
+    "dialog.mermaid.sequence": "مخططات التسلسل",
+    "dialog.mermaid.class": "مخططات الفئات",
+    "dialog.mermaid.otherTypes": "، وأنواع أخرى من المخططات (تُعرض كصور).",
+    "dialog.mermaid.syntax": "صيغة Mermaid",
+    "dialog.mermaid.placeholder": "اكتب تعريف المخطط هنا...",
+    "dialog.mermaid.preview": "معاينة",
+    "dialog.mermaid.insert": "إدراج",
+    "dialog.markdown.description": "يدعم التحويل التلقائي من Markdown إلى خريطة ذهنية.",
+    "dialog.markdown.syntax": "صيغة Markdown",
+    "dialog.markdown.placeholder": "اكتب نص Markdown هنا...",
+    "dialog.markdown.preview": "معاينة",
+    "dialog.markdown.insert": "إدراج",
+    "dialog.error.loadMermaid": "فشل في تحميل مكتبة Mermaid",
+
+    // Extra tools menu items
+    "extraTools.mermaidToDrawnix": "من Mermaid إلى Drawnix",
+    "extraTools.markdownToDrawnix": "من Markdown إلى Drawnix"
   },
 };
 
