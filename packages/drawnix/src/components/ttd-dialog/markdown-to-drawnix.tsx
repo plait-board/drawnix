@@ -27,18 +27,37 @@ export interface MarkdownToDrawnixLibProps {
   }>;
 }
 
-const MARKDOWN_EXAMPLE = `# I have started
+const getMarkdownExample = (language: 'zh' | 'en') => {
+  if (language === 'zh') {
+    return `# 我开始了
 
+- 让我看看是谁搞出了这个 bug 🕵️ ♂️ 🔍
+  - 😯 💣
+    - 原来是我 👈 🎯 💘
+
+- 竟然不可以运行，为什么呢 🚫 ⚙️ ❓
+  - 竟然可以运行了，为什么呢？🎢 ✨
+    - 🤯 ⚡ ➡️ 🎉
+
+- 能运行起来的 🐞 🚀
+  - 就不要去动它 🛑 ✋
+    - 👾 💥 🏹 🎯
+    
+## 男孩还是女孩 👶 ❓ 🤷 ♂️ ♀️
+
+### Hello world 👋 🌍 ✨ 💻
+
+#### 哇 是个程序员 🤯 ⌨️ 💡 👩 💻`;
+  } else {
+    return `# I have started
 
 - Let me see who made this bug 🕵️ ♂️ 🔍
   - 😯 💣
     - Turns out it was me 👈 🎯 💘
 
-
 - Unexpectedly, it cannot run; why is that 🚫 ⚙️ ❓
   - Unexpectedly, it can run now; why is that? 🎢 ✨
     - 🤯 ⚡ ➡️ 🎉
-
 
 - What can run 🐞 🚀
   - then do not touch it 🛑 ✋
@@ -46,16 +65,16 @@ const MARKDOWN_EXAMPLE = `# I have started
     
 ## Boy or girl 👶 ❓ 🤷 ♂️ ♀️
 
-
 ### Hello world 👋 🌍 ✨ 💻
 
-
 #### Wow, a programmer 🤯 ⌨️ 💡 👩 💻`;
+  }
+};
 
 
 const MarkdownToDrawnix = () => {
   const { appState, setAppState } = useDrawnix();
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const [markdownToDrawnixLib, setMarkdownToDrawnixLib] =
     useState<MarkdownToDrawnixLibProps>({
       loaded: false,
@@ -74,17 +93,22 @@ const MarkdownToDrawnix = () => {
           api: Promise.resolve(module),
         });
       } catch (err) {
-        console.error('write something :', err);
+        console.error('Failed to load mermaid library:', err);
         setError(new Error(t('dialog.error.loadMermaid')));
       }
     };
     loadLib();
   }, []);
-  const [text, setText] = useState(() => MARKDOWN_EXAMPLE);
+  const [text, setText] = useState(() => getMarkdownExample(language));
   const [value, setValue] = useState<PlaitElement[]>(() => []);
   const deferredText = useDeferredValue(text.trim());
   const [error, setError] = useState<Error | null>(null);
   const board = useBoard();
+
+  // Update markdown example when language changes
+  useEffect(() => {
+    setText(getMarkdownExample(language));
+  }, [language]);
 
   useEffect(() => {
     const convertMarkdown = async () => {
