@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
 
 // Define supported languages
 export type Language = 'zh' | 'en';
@@ -50,6 +50,23 @@ export interface Translations {
   'menu.exportImage.jpg': string;
   'menu.cleanBoard': string;
   'menu.github': string;
+  
+  // Dialog translations
+  'dialog.mermaid.title': string;
+  'dialog.mermaid.description': string;
+  'dialog.mermaid.flowchart': string;
+  'dialog.mermaid.sequence': string;
+  'dialog.mermaid.class': string;
+  'dialog.mermaid.otherTypes': string;
+  'dialog.mermaid.syntax': string;
+  'dialog.mermaid.placeholder': string;
+  'dialog.mermaid.preview': string;
+  'dialog.mermaid.insert': string;
+  'dialog.markdown.syntax': string;
+  'dialog.markdown.placeholder': string;
+  'dialog.markdown.preview': string;
+  'dialog.markdown.insert': string;
+  'dialog.error.loadMermaid': string;
 }
 
 // Translation data
@@ -100,6 +117,23 @@ const translations: Record<Language, Translations> = {
     'menu.exportImage.jpg': 'JPG',
     'menu.cleanBoard': '清除画布',
     'menu.github': 'GitHub',
+    
+    // Dialog translations
+    'dialog.mermaid.title': 'Mermaid 转 Drawnix',
+    'dialog.mermaid.description': '目前仅支持',
+    'dialog.mermaid.flowchart': '流程图',
+    'dialog.mermaid.sequence': '序列图',
+    'dialog.mermaid.class': '类图',
+    'dialog.mermaid.otherTypes': '。其他类型在 Drawnix 中将以图片呈现。',
+    'dialog.mermaid.syntax': 'Mermaid 语法',
+    'dialog.mermaid.placeholder': '在此处编写 Mermaid 图表定义...',
+    'dialog.mermaid.preview': '预览',
+    'dialog.mermaid.insert': '插入',
+    'dialog.markdown.syntax': 'Markdown 语法',
+    'dialog.markdown.placeholder': '在此处编写 Markdown 文本定义...',
+    'dialog.markdown.preview': '预览',
+    'dialog.markdown.insert': '插入',
+    'dialog.error.loadMermaid': '加载 Mermaid 库失败',
   },
   en: {
     // Toolbar items
@@ -147,6 +181,23 @@ const translations: Record<Language, Translations> = {
     'menu.exportImage.jpg': 'JPG',
     'menu.cleanBoard': 'Clear Board',
     'menu.github': 'GitHub',
+    
+    // Dialog translations
+    'dialog.mermaid.title': 'Mermaid to Drawnix',
+    'dialog.mermaid.description': 'Currently only supports',
+    'dialog.mermaid.flowchart': 'flowcharts',
+    'dialog.mermaid.sequence': 'sequence diagrams',
+    'dialog.mermaid.class': 'class diagrams',
+    'dialog.mermaid.otherTypes': '. Other types will be rendered as images in Drawnix.',
+    'dialog.mermaid.syntax': 'Mermaid Syntax',
+    'dialog.mermaid.placeholder': 'Write your Mermaid chart definition here...',
+    'dialog.mermaid.preview': 'Preview',
+    'dialog.mermaid.insert': 'Insert',
+    'dialog.markdown.syntax': 'Markdown Syntax',
+    'dialog.markdown.placeholder': 'Write your Markdown text definition here...',
+    'dialog.markdown.preview': 'Preview',
+    'dialog.markdown.insert': 'Insert',
+    'dialog.error.loadMermaid': 'Failed to load Mermaid library',
   },
 };
 
@@ -177,11 +228,11 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
     return translations[language][key] || key;
   };
 
-  const value: I18nContextType = {
+  const value: I18nContextType = useMemo(() => ({
     language,
     setLanguage,
     t,
-  };
+  }), [language]);
 
   return (
     <I18nContext.Provider value={value}>

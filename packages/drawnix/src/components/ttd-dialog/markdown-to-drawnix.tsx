@@ -7,6 +7,7 @@ import { TTDDialogInput } from './ttd-dialog-input';
 import { TTDDialogOutput } from './ttd-dialog-output';
 import { TTDDialogSubmitShortcut } from './ttd-dialog-submit-shortcut';
 import { useDrawnix } from '../../hooks/use-drawnix';
+import { useI18n } from '../../i18n';
 import { useBoard } from '@plait-board/react-board';
 import {
   getViewportOrigination,
@@ -54,6 +55,7 @@ const MARKDOWN_EXAMPLE = `# I have started
 
 const MarkdownToDrawnix = () => {
   const { appState, setAppState } = useDrawnix();
+  const { t } = useI18n();
   const [markdownToDrawnixLib, setMarkdownToDrawnixLib] =
     useState<MarkdownToDrawnixLibProps>({
       loaded: false,
@@ -73,7 +75,7 @@ const MarkdownToDrawnix = () => {
         });
       } catch (err) {
         console.error('write something :', err);
-        setError(new Error('加载 Mermaid 库失败'));
+        setError(new Error(t('dialog.error.loadMermaid')));
       }
     };
     loadLib();
@@ -136,23 +138,23 @@ const MarkdownToDrawnix = () => {
 
   return (
     <TTDDialogPanels>
-        <TTDDialogPanel label={'Markdown 语法'}>
+        <TTDDialogPanel label={t('dialog.markdown.syntax')}>
           <TTDDialogInput
             input={text}
-            placeholder={'在此处编写 Markdown 文本定义...'}
+            placeholder={t('dialog.markdown.placeholder')}
             onChange={(event) => setText(event.target.value)}
             onKeyboardSubmit={() => {
-              // insertToBoard();
+              insertToBoard();
             }}
           />
         </TTDDialogPanel>
         <TTDDialogPanel
-          label={'预览'}
+          label={t('dialog.markdown.preview')}
           panelAction={{
             action: () => {
               insertToBoard();
             },
-            label: '插入',
+            label: t('dialog.markdown.insert'),
           }}
           renderSubmitShortcut={() => <TTDDialogSubmitShortcut />}
         >

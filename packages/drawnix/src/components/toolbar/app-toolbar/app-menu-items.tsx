@@ -125,6 +125,7 @@ SaveAsImage.displayName = 'SaveAsImage';
 
 export const CleanBoard = () => {
   const { appState, setAppState } = useDrawnix();
+  const { t } = useI18n();
   return (
     <MenuItem
       icon={TrashIcon}
@@ -136,9 +137,9 @@ export const CleanBoard = () => {
         });
       }}
       shortcut={`Cmd+Backspace`}
-      aria-label={'清除画布'}
+      aria-label={t('menu.cleanBoard')}
     >
-      {'清除画布'}
+      {t('menu.cleanBoard')}
     </MenuItem>
   );
 };
