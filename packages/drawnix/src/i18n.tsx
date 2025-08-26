@@ -11,6 +11,7 @@ export interface Translations {
   'toolbar.mind': string;
   'toolbar.text': string;
   'toolbar.pen': string;
+  'toolbar.eraser': string;
   'toolbar.arrow': string;
   'toolbar.shape': string;
   'toolbar.image': string;
@@ -83,6 +84,7 @@ const translations: Record<Language, Translations> = {
     'toolbar.mind': '思维导图 — M',
     'toolbar.text': '文本 — T',
     'toolbar.pen': '画笔 — P',
+    'toolbar.eraser': '橡皮擦 — E',
     'toolbar.arrow': '箭头 — A',
     'toolbar.shape': '形状',
     'toolbar.image': '图片 — Cmd+U',
@@ -152,6 +154,7 @@ const translations: Record<Language, Translations> = {
     'toolbar.mind': 'Mind — M',
     'toolbar.text': 'Text — T',
     'toolbar.pen': 'Pen — P',
+    'toolbar.eraser': 'Eraser — E',
     'toolbar.arrow': 'Arrow — A',
     'toolbar.shape': 'Shape',
     'toolbar.image': 'Image — Cmd+U',
