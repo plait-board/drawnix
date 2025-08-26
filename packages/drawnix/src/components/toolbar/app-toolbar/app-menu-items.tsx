@@ -1,6 +1,7 @@
 import {
   ExportImageIcon,
   GithubIcon,
+  MenuIcon,
   OpenFileIcon,
   SaveFileIcon,
   TrashIcon,
@@ -19,6 +20,7 @@ import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
 import { saveAsImage } from '../../../utils/image';
 import { useDrawnix } from '../../../hooks/use-drawnix';
+import { useI18n } from '../../../i18n';
 import Menu from '../../menu/menu';
 import { useContext } from 'react';
 import { MenuContentPropsContext } from '../../menu/common';

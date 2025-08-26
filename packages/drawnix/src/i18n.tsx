@@ -36,6 +36,11 @@ export interface Translations {
   'general.menu': string;
   'general.duplicate': string;
   'general.delete': string;
+  
+  // Language
+  'language.switcher': string;
+  'language.chinese': string;
+  'language.english': string;
 }
 
 // Translation data
@@ -72,6 +77,11 @@ const translations: Record<Language, Translations> = {
     'general.menu': '应用菜单',
     'general.duplicate': '复制',
     'general.delete': '删除',
+    
+    // Language
+    'language.switcher': '语言',
+    'language.chinese': '中文',
+    'language.english': 'English',
   },
   en: {
     // Toolbar items
@@ -105,6 +115,11 @@ const translations: Record<Language, Translations> = {
     'general.menu': 'App Menu',
     'general.duplicate': 'Duplicate',
     'general.delete': 'Delete',
+    
+    // Language
+    'language.switcher': 'Language',
+    'language.chinese': '中文',
+    'language.english': 'English',
   },
 };
 
