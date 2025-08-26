@@ -1,6 +1,7 @@
 import MenuItem from '../../menu/menu-item';
 import { MarkdownLogoIcon, MermaidLogoIcon } from '../../icons';
 import { DialogType, useDrawnix } from '../../../hooks/use-drawnix';
+import { useI18n } from '../../../i18n';
 
 export const MermaidToDrawnixItem = () => {
   const { appState, setAppState } = useDrawnix();

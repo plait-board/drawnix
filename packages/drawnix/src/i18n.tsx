@@ -67,6 +67,10 @@ export interface Translations {
   'dialog.markdown.preview': string;
   'dialog.markdown.insert': string;
   'dialog.error.loadMermaid': string;
+  
+  // Extra tools menu items
+  'extraTools.mermaidToDrawnix': string;
+  'extraTools.markdownToDrawnix': string;
 }
 
 // Translation data
@@ -134,6 +138,10 @@ const translations: Record<Language, Translations> = {
     'dialog.markdown.preview': '预览',
     'dialog.markdown.insert': '插入',
     'dialog.error.loadMermaid': '加载 Mermaid 库失败',
+    
+    // Extra tools menu items
+    'extraTools.mermaidToDrawnix': 'Mermaid 到 Drawnix',
+    'extraTools.markdownToDrawnix': 'Markdown 到 Drawnix',
   },
   en: {
     // Toolbar items
@@ -184,11 +192,11 @@ const translations: Record<Language, Translations> = {
     
     // Dialog translations
     'dialog.mermaid.title': 'Mermaid to Drawnix',
-    'dialog.mermaid.description': 'Currently only supports',
+    'dialog.mermaid.description': 'Currently supports',
     'dialog.mermaid.flowchart': 'flowcharts',
-    'dialog.mermaid.sequence': 'sequence diagrams',
+    'dialog.mermaid.sequence': 'sequence diagrams', 
     'dialog.mermaid.class': 'class diagrams',
-    'dialog.mermaid.otherTypes': '. Other types will be rendered as images in Drawnix.',
+    'dialog.mermaid.otherTypes': ', and other diagram types (rendered as images).',
     'dialog.mermaid.syntax': 'Mermaid Syntax',
     'dialog.mermaid.placeholder': 'Write your Mermaid chart definition here...',
     'dialog.mermaid.preview': 'Preview',
@@ -198,6 +206,10 @@ const translations: Record<Language, Translations> = {
     'dialog.markdown.preview': 'Preview',
     'dialog.markdown.insert': 'Insert',
     'dialog.error.loadMermaid': 'Failed to load Mermaid library',
+    
+    // Extra tools menu items
+    'extraTools.mermaidToDrawnix': 'Mermaid to Drawnix',
+    'extraTools.markdownToDrawnix': 'Markdown to Drawnix',
   },
 };
 
