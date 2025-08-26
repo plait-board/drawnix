@@ -40,6 +40,7 @@ import {
 } from '../../hooks/use-drawnix';
 import { ExtraToolsButton } from './extra-tools/extra-tools-button';
 import { addImage } from '../../utils/image';
+import { useI18n } from '../../i18n';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -47,7 +48,7 @@ export enum PopupKey {
 }
 
 type AppToolButtonProps = {
-  title?: string;
+  titleKey?: keyof typeof import('../../i18n').Translations;
   name?: string;
   icon: React.ReactNode;
   pointer?: DrawnixPointerType;
@@ -64,48 +65,48 @@ export const BUTTONS: AppToolButtonProps[] = [
   {
     icon: HandIcon,
     pointer: PlaitPointerType.hand,
-    title: 'Hand — H',
+    titleKey: 'toolbar.hand',
   },
   {
     icon: SelectionIcon,
     pointer: PlaitPointerType.selection,
-    title: 'Selection — V',
+    titleKey: 'toolbar.selection',
   },
   {
     icon: MindIcon,
     pointer: MindPointerType.mind,
-    title: 'Mind — M',
+    titleKey: 'toolbar.mind',
   },
   {
     icon: TextIcon,
     pointer: BasicShapes.text,
-    title: 'Text — T',
+    titleKey: 'toolbar.text',
   },
   {
     icon: FeltTipPenIcon,
     pointer: FreehandShape.feltTipPen,
-    title: 'Pen — P',
+    titleKey: 'toolbar.pen',
   },
   {
     icon: StraightArrowLineIcon,
-    title: 'Arrow — A',
+    titleKey: 'toolbar.arrow',
     key: PopupKey.arrow,
     pointer: ArrowLineShape.straight,
   },
   {
     icon: ShapeIcon,
-    title: 'Shape',
+    titleKey: 'toolbar.shape',
     key: PopupKey.shape,
     pointer: BasicShapes.rectangle,
   },
   {
     icon: ImageIcon,
-    title: 'Image — Cmd+U',
+    titleKey: 'toolbar.image',
     key: 'image',
   },
   {
     icon: ExtraToolsIcon,
-    title: 'More Tools',
+    titleKey: 'toolbar.extraTools',
     key: 'extra-tools',
   },
 ];
@@ -125,6 +126,7 @@ export const isShapePointer = (board: PlaitBoard) => {
 export const CreationToolbar = () => {
   const board = useBoard();
   const { appState } = useDrawnix();
+  const { t } = useI18n();
   const setPointer = useSetPointer();
   const container = PlaitBoard.getBoardContainer(board);
 
@@ -178,8 +180,8 @@ export const CreationToolbar = () => {
                         !PlaitBoard.isPointer(board, BasicShapes.text))
                     }
                     icon={button.icon}
-                    title={`Shape`}
-                    aria-label={`Shape`}
+                    title={button.titleKey ? t(button.titleKey) : 'Shape'}
+                    aria-label={button.titleKey ? t(button.titleKey) : 'Shape'}
                     onPointerDown={() => {
                       setShapeOpen(!shapeOpen);
                     }}
@@ -212,8 +214,8 @@ export const CreationToolbar = () => {
                     visible={true}
                     selected={arrowOpen || isArrowLinePointer(board)}
                     icon={button.icon}
-                    title={button.title!}
-                    aria-label={button.title!}
+                    title={button.titleKey ? t(button.titleKey) : ''}
+                    aria-label={button.titleKey ? t(button.titleKey) : ''}
                     onPointerDown={() => {
                       setArrowOpen(!shapeOpen);
                     }}
@@ -239,8 +241,8 @@ export const CreationToolbar = () => {
               type="radio"
               icon={button.icon}
               checked={isChecked(button)}
-              title={`${button.title}`}
-              aria-label={`${button.title}`}
+              title={button.titleKey ? t(button.titleKey) : ''}
+              aria-label={button.titleKey ? t(button.titleKey) : ''}
               onPointerDown={() => {
                 if (button.pointer && !isBasicPointer(button.pointer)) {
                   onPointerDown(button.pointer);
