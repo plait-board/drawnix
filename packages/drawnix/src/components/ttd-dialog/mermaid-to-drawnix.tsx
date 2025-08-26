@@ -7,6 +7,7 @@ import { TTDDialogInput } from './ttd-dialog-input';
 import { TTDDialogOutput } from './ttd-dialog-output';
 import { TTDDialogSubmitShortcut } from './ttd-dialog-submit-shortcut';
 import { useDrawnix } from '../../hooks/use-drawnix';
+import { useI18n } from '../../i18n';
 import { useBoard } from '@plait-board/react-board';
 import {
   getViewportOrigination,
@@ -35,6 +36,7 @@ const MERMAID_EXAMPLE =
 
 const MermaidToDrawnix = () => {
   const { appState, setAppState } = useDrawnix();
+  const { t, language } = useI18n();
   const [mermaidToDrawnixLib, setMermaidToDrawnixLib] =
     useState<MermaidToDrawnixLibProps>({
       loaded: false,
@@ -53,7 +55,7 @@ const MermaidToDrawnix = () => {
         });
       } catch (err) {
         console.error('Failed to load mermaid library:', err);
-        setError(new Error('加载 Mermaid 库失败'));
+        setError(new Error(t('dialog.error.loadMermaid')));
       }
     };
     loadLib();
@@ -125,37 +127,73 @@ const MermaidToDrawnix = () => {
   return (
     <>
       <div className="ttd-dialog-desc">
-        目前仅支持
-        <a
-          href="https://mermaid.js.org/syntax/flowchart.html"
-          target="_blank"
-          rel="noreferrer"
-        >
-          流程图
-        </a>
-        、
-        <a
-          href="https://mermaid.js.org/syntax/sequenceDiagram.html"
-          target="_blank"
-          rel="noreferrer"
-        >
-          序列图
-        </a>
-        和
-        <a
-          href="https://mermaid.js.org/syntax/classDiagram.html"
-          target="_blank"
-          rel="noreferrer"
-        >
-          类图
-        </a>
-        。其他类型在 Drawnix 中将以图片呈现。
+        {language === 'zh' ? (
+          <>
+            {t('dialog.mermaid.description')}
+            {' '}
+            <a
+              href="https://mermaid.js.org/syntax/flowchart.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('dialog.mermaid.flowchart')}
+            </a>
+            、
+            <a
+              href="https://mermaid.js.org/syntax/sequenceDiagram.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('dialog.mermaid.sequence')}
+            </a>
+            {' '}
+            和
+            {' '}
+            <a
+              href="https://mermaid.js.org/syntax/classDiagram.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('dialog.mermaid.class')}
+            </a>
+            {t('dialog.mermaid.otherTypes')}
+          </>
+        ) : (
+          <>
+            {t('dialog.mermaid.description')}
+            {' '}
+            <a
+              href="https://mermaid.js.org/syntax/flowchart.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('dialog.mermaid.flowchart')}
+            </a>
+            ,{' '}
+            <a
+              href="https://mermaid.js.org/syntax/sequenceDiagram.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('dialog.mermaid.sequence')}
+            </a>
+            ,{' '}
+            <a
+              href="https://mermaid.js.org/syntax/classDiagram.html"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('dialog.mermaid.class')}
+            </a>
+            {t('dialog.mermaid.otherTypes')}
+          </>
+        )}
       </div>
       <TTDDialogPanels>
-        <TTDDialogPanel label={'Mermaid 语法'}>
+        <TTDDialogPanel label={t('dialog.mermaid.syntax')}>
           <TTDDialogInput
             input={text}
-            placeholder={'在此处编写 Mermaid 图表定义...'}
+            placeholder={t('dialog.mermaid.placeholder')}
             onChange={(event) => setText(event.target.value)}
             onKeyboardSubmit={() => {
               insertToBoard();
@@ -163,12 +201,12 @@ const MermaidToDrawnix = () => {
           />
         </TTDDialogPanel>
         <TTDDialogPanel
-          label={'预览'}
+          label={t('dialog.mermaid.preview')}
           panelAction={{
             action: () => {
               insertToBoard();
             },
-            label: '插入',
+            label: t('dialog.mermaid.insert'),
           }}
           renderSubmitShortcut={() => <TTDDialogSubmitShortcut />}
         >

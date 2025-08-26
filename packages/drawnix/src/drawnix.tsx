@@ -37,6 +37,7 @@ import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
 import { CleanConfirm } from './components/clean-confirm/clean-confirm';
 import { buildTextLinkPlugin } from './plugins/with-text-link';
 import { LinkPopup } from './components/popup/link-popup/link-popup';
+import { useI18n, I18nProvider } from './i18n';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -108,44 +109,46 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <DrawnixContext.Provider value={{ appState, setAppState }}>
-      <div
-        className={classNames('drawnix', {
-          'drawnix--mobile': appState.isMobile,
-        })}
-        ref={containerRef}
-      >
-        <Wrapper
-          value={value}
-          viewport={viewport}
-          theme={theme}
-          options={options}
-          plugins={plugins}
-          onChange={(data: BoardChangeData) => {
-            onChange && onChange(data);
-          }}
-          onSelectionChange={onSelectionChange}
-          onViewportChange={onViewportChange}
-          onThemeChange={onThemeChange}
-          onValueChange={onValueChange}
+    <I18nProvider>
+      <DrawnixContext.Provider value={{ appState, setAppState }}>
+        <div
+          className={classNames('drawnix', {
+            'drawnix--mobile': appState.isMobile,
+          })}
+          ref={containerRef}
         >
-          <Board
-            afterInit={(board) => {
-              setBoard(board as DrawnixBoard);
-              afterInit && afterInit(board);
+          <Wrapper
+            value={value}
+            viewport={viewport}
+            theme={theme}
+            options={options}
+            plugins={plugins}
+            onChange={(data: BoardChangeData) => {
+              onChange && onChange(data);
             }}
-          ></Board>
-          <AppToolbar></AppToolbar>
-          <CreationToolbar></CreationToolbar>
-          <ZoomToolbar></ZoomToolbar>
-          <ThemeToolbar></ThemeToolbar>
-          <PopupToolbar></PopupToolbar>
-          <LinkPopup></LinkPopup>
-          <ClosePencilToolbar></ClosePencilToolbar>
-          <TTDDialog container={containerRef.current}></TTDDialog>
-          <CleanConfirm container={containerRef.current}></CleanConfirm>
-        </Wrapper>
-      </div>
-    </DrawnixContext.Provider>
+            onSelectionChange={onSelectionChange}
+            onViewportChange={onViewportChange}
+            onThemeChange={onThemeChange}
+            onValueChange={onValueChange}
+          >
+            <Board
+              afterInit={(board) => {
+                setBoard(board as DrawnixBoard);
+                afterInit && afterInit(board);
+              }}
+            ></Board>
+            <AppToolbar></AppToolbar>
+            <CreationToolbar></CreationToolbar>
+            <ZoomToolbar></ZoomToolbar>
+            <ThemeToolbar></ThemeToolbar>
+            <PopupToolbar></PopupToolbar>
+            <LinkPopup></LinkPopup>
+            <ClosePencilToolbar></ClosePencilToolbar>
+            <TTDDialog container={containerRef.current}></TTDDialog>
+            <CleanConfirm container={containerRef.current}></CleanConfirm>
+          </Wrapper>
+        </div>
+      </DrawnixContext.Provider>
+    </I18nProvider>
   );
 };

@@ -6,9 +6,11 @@ import { ToolButton } from "../../tool-button";
 import { ExtraToolsIcon } from "../../icons";
 import Menu from "../../menu/menu";
 import { MarkdownToDrawnixItem, MermaidToDrawnixItem } from "./menu-items";
+import { useI18n } from "../../../i18n";
 
 export const ExtraToolsButton = () => {
   const board = useBoard();
+  const { t } = useI18n();
   const container = PlaitBoard.getBoardContainer(board);
   const [appMenuOpen, setAppMenuOpen] = useState(false);
   return (
@@ -27,8 +29,8 @@ export const ExtraToolsButton = () => {
           visible={true}
           selected={appMenuOpen}
           icon={ExtraToolsIcon}
-          title={`Extra Tools`}
-          aria-label={`Extra Tools`}
+          title={t('toolbar.extraTools')}
+          aria-label={t('toolbar.extraTools')}
           onPointerDown={() => {
             setAppMenuOpen(!appMenuOpen);
           }}

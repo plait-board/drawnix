@@ -7,6 +7,7 @@ import { TTDDialogInput } from './ttd-dialog-input';
 import { TTDDialogOutput } from './ttd-dialog-output';
 import { TTDDialogSubmitShortcut } from './ttd-dialog-submit-shortcut';
 import { useDrawnix } from '../../hooks/use-drawnix';
+import { useI18n } from '../../i18n';
 import { useBoard } from '@plait-board/react-board';
 import {
   getViewportOrigination,
@@ -26,7 +27,9 @@ export interface MarkdownToDrawnixLibProps {
   }>;
 }
 
-const MARKDOWN_EXAMPLE = `# 我开始了
+const getMarkdownExample = (language: 'zh' | 'en') => {
+  if (language === 'zh') {
+    return `# 我开始了
 
 - 让我看看是谁搞出了这个 bug 🕵️ ♂️ 🔍
   - 😯 💣
@@ -45,9 +48,33 @@ const MARKDOWN_EXAMPLE = `# 我开始了
 ### Hello world 👋 🌍 ✨ 💻
 
 #### 哇 是个程序员 🤯 ⌨️ 💡 👩 💻`;
+  } else {
+    return `# I have started
+
+- Let me see who made this bug 🕵️ ♂️ 🔍
+  - 😯 💣
+    - Turns out it was me 👈 🎯 💘
+
+- Unexpectedly, it cannot run; why is that 🚫 ⚙️ ❓
+  - Unexpectedly, it can run now; why is that? 🎢 ✨
+    - 🤯 ⚡ ➡️ 🎉
+
+- What can run 🐞 🚀
+  - then do not touch it 🛑 ✋
+    - 👾 💥 🏹 🎯
+    
+## Boy or girl 👶 ❓ 🤷 ♂️ ♀️
+
+### Hello world 👋 🌍 ✨ 💻
+
+#### Wow, a programmer 🤯 ⌨️ 💡 👩 💻`;
+  }
+};
+
 
 const MarkdownToDrawnix = () => {
   const { appState, setAppState } = useDrawnix();
+  const { t, language } = useI18n();
   const [markdownToDrawnixLib, setMarkdownToDrawnixLib] =
     useState<MarkdownToDrawnixLibProps>({
       loaded: false,
@@ -67,16 +94,21 @@ const MarkdownToDrawnix = () => {
         });
       } catch (err) {
         console.error('Failed to load mermaid library:', err);
-        setError(new Error('加载 Mermaid 库失败'));
+        setError(new Error(t('dialog.error.loadMermaid')));
       }
     };
     loadLib();
   }, []);
-  const [text, setText] = useState(() => MARKDOWN_EXAMPLE);
+  const [text, setText] = useState(() => getMarkdownExample(language));
   const [value, setValue] = useState<PlaitElement[]>(() => []);
   const deferredText = useDeferredValue(text.trim());
   const [error, setError] = useState<Error | null>(null);
   const board = useBoard();
+
+  // Update markdown example when language changes
+  useEffect(() => {
+    setText(getMarkdownExample(language));
+  }, [language]);
 
   useEffect(() => {
     const convertMarkdown = async () => {
@@ -129,24 +161,28 @@ const MarkdownToDrawnix = () => {
   };
 
   return (
-    <TTDDialogPanels>
-        <TTDDialogPanel label={'Markdown 语法'}>
+    <>
+      <div className="ttd-dialog-desc">
+        {t('dialog.markdown.description')}
+      </div>
+      <TTDDialogPanels>
+        <TTDDialogPanel label={t('dialog.markdown.syntax')}>
           <TTDDialogInput
             input={text}
-            placeholder={'在此处编写 Markdown 文本定义...'}
+            placeholder={t('dialog.markdown.placeholder')}
             onChange={(event) => setText(event.target.value)}
             onKeyboardSubmit={() => {
-              // insertToBoard();
+              insertToBoard();
             }}
           />
         </TTDDialogPanel>
         <TTDDialogPanel
-          label={'预览'}
+          label={t('dialog.markdown.preview')}
           panelAction={{
             action: () => {
               insertToBoard();
             },
-            label: '插入',
+            label: t('dialog.markdown.insert'),
           }}
           renderSubmitShortcut={() => <TTDDialogSubmitShortcut />}
         >
@@ -157,6 +193,7 @@ const MarkdownToDrawnix = () => {
           />
         </TTDDialogPanel>
       </TTDDialogPanels>
+    </>
   );
 };
 export default MarkdownToDrawnix;

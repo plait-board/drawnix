@@ -48,6 +48,7 @@ export function App() {
       theme={value.theme}
       onChange={(value) => {
         localforage.setItem(MAIN_BOARD_CONTENT_KEY, value);
+        setValue(value);
       }}
       afterInit={(board) => {
         console.log('board initialized');

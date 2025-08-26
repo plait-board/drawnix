@@ -13,9 +13,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
 import { useState } from 'react';
 import Menu from '../menu/menu';
 import MenuItem from '../menu/menu-item';
+import { useI18n } from '../../i18n';
 
 export const ZoomToolbar = () => {
   const board = useBoard();
+  const { t } = useI18n();
   const container = PlaitBoard.getBoardContainer(board);
   const [zoomMenuOpen, setZoomMenuOpen] = useState(false);
   return (
@@ -29,8 +31,8 @@ export const ZoomToolbar = () => {
           type="button"
           icon={ZoomOutIcon}
           visible={true}
-          title={`缩小 — Cmd+-`}
-          aria-label={`缩小 — Cmd+-`}
+          title={t('zoom.out')}
+          aria-label={t('zoom.out')}
           onPointerUp={() => {
             BoardTransforms.updateZoom(board, board.viewport.zoom - 0.1);
           }}
@@ -47,8 +49,8 @@ export const ZoomToolbar = () => {
           <PopoverTrigger asChild>
             <div
               key={1}
-              title={`自适应`}
-              aria-label={`自适应`}
+              title={t('zoom.fit')}
+              aria-label={t('zoom.fit')}
               className={classNames('zoom-menu-trigger', {
                 active: zoomMenuOpen,
               })}
@@ -70,17 +72,17 @@ export const ZoomToolbar = () => {
                 onSelect={() => {
                   BoardTransforms.fitViewport(board);
                 }}
-                aria-label={`${`自适应缩放`}`}
+                aria-label={t('zoom.fit')}
                 shortcut={`Cmd+Shift+=`}
-              >{`自适应缩放`}</MenuItem>
+              >{t('zoom.fit')}</MenuItem>
               <MenuItem
                 data-testid="open-button"
                 onSelect={() => {
                   BoardTransforms.updateZoom(board, 1);
                 }}
-                aria-label={`${`缩放至 100%`}`}
+                aria-label={t('zoom.100')}
                 shortcut={`Cmd+0`}
-              >{`缩放至 100%`}</MenuItem>
+              >{t('zoom.100')}</MenuItem>
             </Menu>
           </PopoverContent>
         </Popover>
@@ -89,8 +91,8 @@ export const ZoomToolbar = () => {
           type="button"
           icon={ZoomInIcon}
           visible={true}
-          title={`放大 — Cmd++`}
-          aria-label={`放大 — Cmd++`}
+          title={t('zoom.in')}
+          aria-label={t('zoom.in')}
           onPointerUp={() => {
             BoardTransforms.updateZoom(board, board.viewport.zoom + 0.1);
           }}
