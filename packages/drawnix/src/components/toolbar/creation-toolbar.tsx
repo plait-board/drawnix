@@ -83,14 +83,14 @@ export const BUTTONS: AppToolButtonProps[] = [
     title: 'Text — T',
   },
   {
-    icon: EraseIcon,
-    pointer: FreehandShape.eraser,
-    title: 'Erase — E',
-  },
-  {
     icon: FeltTipPenIcon,
     pointer: FreehandShape.feltTipPen,
     title: 'Pen — P',
+  },
+  {
+    icon: EraseIcon,
+    pointer: FreehandShape.eraser,
+    title: 'Erase — E',
   },
   {
     icon: StraightArrowLineIcon,
