@@ -21,6 +21,8 @@ export interface Translations {
   'zoom.out': string;
   'zoom.fit': string;
   'zoom.100': string;
+  'zoom.full.screen': string;
+  'zoom.reset.screen': string;
   
   // Themes
   'theme.default': string;
@@ -93,6 +95,8 @@ const translations: Record<Language, Translations> = {
     'zoom.out': '缩小 — Cmd+-',
     'zoom.fit': '自适应',
     'zoom.100': '缩放至 100%',
+    'zoom.full.screen':'全画面表示',
+    'zoom.reset.screen':'画面をリセット',
     
     // Themes
     'theme.default': '默认',
@@ -162,6 +166,8 @@ const translations: Record<Language, Translations> = {
     'zoom.out': 'Zoom Out — Cmd+-',
     'zoom.fit': 'Fit to Screen',
     'zoom.100': 'Zoom to 100%',
+    'zoom.full.screen':'Full Screen',
+    'zoom.reset.screen':'Reset Screen',
     
     // Themes
     'theme.default': 'Default',
