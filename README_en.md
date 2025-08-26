@@ -67,7 +67,7 @@ Like a Phoenix, creativity must rise from the flames to be reborn, and ***Drawni
 
 ## About Plait Drawing Framework
 
-*Drawnix* is positioned as an out-of-the-box, *open-source*, and free tool product. It is built on top of the *Plait* framework, which is our company's *open-source* drawing framework representing significant technical accumulation in knowledge base products.
+*Drawnix* is positioned as an out-of-the-box, *open-source*, and free tool product. It is built on top of the *Plait* framework, which is our company's *open-source* drawing framework representing significant technical accumulation in knowledge base products([PingCode Wiki](https://pingcode.com/product/wiki?utm_source=drawnix)).
 
 
 *Drawnix* uses a *plugin architecture*, which is technically more complex than the previously mentioned *open-source* tools. However, this *plugin architecture* has its advantages: it supports multiple *UI frameworks* (*Angular*, *React*), integrates with different *rich text frameworks* (currently only supporting *Slate* framework), enables better business layer separation in development, allows development of various fine-grained reusable plugins, and can expand to more whiteboard application scenarios.
@@ -114,7 +114,7 @@ docker pull pubuzhixing/drawnix:latest
 
 ## Dependencies
 
-- [plait](https://github.com/worktile/plait) - Drawing framework
+- [plait](https://github.com/worktile/plait) - Open source drawing framework
 - [slate](https://github.com/ianstormtaylor/slate) - Rich text editor framework
 - [floating-ui](https://github.com/floating-ui/floating-ui) - An awesome library for creating floating UI elements
 
@@ -127,9 +127,15 @@ Any form of contribution is welcome:
 
 - Contribute code
 
-## Support Us
+## Thank you for supporting
 
-*Please show your support by giving us a star ⭐️⭐️⭐️.*
+Special thanks to the company for its strong support for open source projects, and also to the friends who contributed code and provided suggestions to this project.
+
+<p align="left">
+  <a href="https://pingcode.com?utm_source=drawnix" target="_blank">
+      <img src="https://cdn-aliyun.pingcode.com/static/site/img/pingcode-logo.4267e7b.svg" width="120" alt="PingCode" />
+  </a>
+</p>
 
 ## License
 
