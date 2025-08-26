@@ -61,6 +61,11 @@ export const buildDrawnixHotkeyPlugin = (
           BoardTransforms.updatePointerType(board, MindPointerType.mind);
           updateAppState({ pointer: MindPointerType.mind });
         }
+        if (event.key === 'e') {
+          setCreationMode(board, BoardCreationMode.drawing);
+          BoardTransforms.updatePointerType(board, FreehandShape.eraser);
+          updateAppState({ pointer: FreehandShape.eraser });
+        }
         if (event.key === 'p') {
           setCreationMode(board, BoardCreationMode.drawing);
           BoardTransforms.updatePointerType(board, FreehandShape.feltTipPen);
