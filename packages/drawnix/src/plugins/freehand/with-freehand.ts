@@ -16,7 +16,7 @@ import {
   WithDrawOptions,
   WithDrawPluginKey,
 } from '@plait/draw';
-import { withFreehandDelete } from './with-freehand-delete';
+import { withFreehandErase } from './with-freehand-erase';
 
 export const withFreehand = (board: PlaitBoard) => {
   const {
@@ -84,5 +84,5 @@ export const withFreehand = (board: PlaitBoard) => {
     { customGeometryTypes: [FREEHAND_TYPE] }
   );
 
-  return withFreehandDelete(withFreehandFragment(withFreehandCreate(board)));
+  return withFreehandErase(withFreehandFragment(withFreehandCreate(board)));
 };

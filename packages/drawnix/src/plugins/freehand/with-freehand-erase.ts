@@ -2,6 +2,7 @@ import {
     PlaitBoard,
     Point,
     Transforms,
+    throttleRAF,
     toHostPoint,
     toViewBoxPoint,
 } from '@plait/core';
@@ -9,11 +10,10 @@ import { isDrawingMode } from '@plait/common';
 import { getFreehandPointers, isHitFreehand } from './utils';
 import { Freehand, FreehandShape } from './type';
 
-export const withFreehandDelete = (board: PlaitBoard) => {
+export const withFreehandErase = (board: PlaitBoard) => {
     const { pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
 
     let isErasing = false;
-    const deletedElements = new Set<string>();
 
     const checkAndDeleteFreehandElements = (point: Point) => {
         const viewBoxPoint = toViewBoxPoint(board, toHostPoint(board, point[0], point[1]));
@@ -23,8 +23,7 @@ export const withFreehandDelete = (board: PlaitBoard) => {
         ) as Freehand[];
 
         freehandElements.forEach((element) => {
-            if (!deletedElements.has(element.id) && isHitFreehand(board, element, viewBoxPoint)) {
-                deletedElements.add(element.id);
+            if (isHitFreehand(board, element, viewBoxPoint)) {
                 const elementIndex = board.children.findIndex(child => child.id === element.id);
                 if (elementIndex !== -1) {
                     Transforms.removeNode(board, [elementIndex]);
@@ -35,12 +34,10 @@ export const withFreehandDelete = (board: PlaitBoard) => {
 
     const complete = () => {
         isErasing = false;
-        deletedElements.clear();
     };
 
     board.pointerDown = (event: PointerEvent) => {
-        // freehandPointers is unused, consider removing if not needed
-        // const freehandPointers = getFreehandPointers();
+
         const isEraserPointer = PlaitBoard.isInPointer(board, [FreehandShape.eraser]);
 
         if (isEraserPointer && isDrawingMode(board)) {
@@ -55,9 +52,11 @@ export const withFreehandDelete = (board: PlaitBoard) => {
 
     board.pointerMove = (event: PointerEvent) => {
         if (isErasing) {
-            const currentPoint: Point = [event.x, event.y];
-            checkAndDeleteFreehandElements(currentPoint);
-            return;
+            throttleRAF(board , 'with-freehand-erase', () => {
+                const currentPoint: Point = [event.x, event.y];
+                checkAndDeleteFreehandElements(currentPoint);
+                return;
+            });
         }
 
         pointerMove(event);
