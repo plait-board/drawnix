@@ -1,148 +1,71 @@
 <!DOCTYPE html>
-<!-- HTML5 document declaration for modern browser compatibility -->
 <html lang="zh-CN">
-  <!-- Default language set to Chinese, but supports international users -->
   <head>
-    <!-- Character encoding for proper text rendering in all languages -->
     <meta charset="utf-8" />
-    
-    <!-- ==============================================
-         SEO META TAGS - CHINESE (PRIMARY MARKET)
-         ============================================== -->
-    <!-- Primary title for Chinese users and search engines -->
+    <!-- 基本 SEO Meta 标签 (中文) -->
     <title>Drawnix - 开源白板工具</title>
-    
-    <!-- Detailed description for Chinese search results and social sharing -->
     <meta name="description" content="Drawnix 是一款强大的开源白板工具（https://github.com/plait-board/drawnix），集成思维导图、流程图等功能。基于 Plait 框架开发，支持插件扩展，提供自动保存、无限画布等特性。Draw Beyond, Rise Above.">
-    
-    <!-- Chinese keywords for search engine optimization -->
     <meta name="keywords" content="Drawnix,白板工具,白板,思维导图,流程图,开源白板,开源思维导图,在线绘图,在线白板,协作工具,协作白板,Plait 框架">
-    
-    <!-- ==============================================
-         SEO META TAGS - ENGLISH (INTERNATIONAL)
-         ============================================== -->
-    <!-- English description for international users and search engines -->
+    <!-- 基本 SEO Meta 标签 (英文) -->
     <meta name="description" lang="en" content="Drawnix is a powerful open-source whiteboard tool featuring mind mapping and flowchart capabilities. Built on the Plait framework, it offers plugin extensibility, auto-save, infinite canvas, and more. Draw Beyond, Rise Above.">
-    
-    <!-- English keywords for international search optimization -->
     <meta name="keywords" lang="en" content="Drawnix,whiteboard tool, whiteboard,mind mapping,flowchart,open source whiteboard, open source mind mapping,online drawing,collaboration tool, collaboration whiteboard,Plait framework">
-    
-    <!-- ==============================================
-         OPEN GRAPH META TAGS - SOCIAL MEDIA SHARING
-         ============================================== -->
-    <!-- Chinese Open Graph tags for social media platforms like WeChat, QQ -->
+    <!-- Open Graph Meta 标签 (中文) -->
     <meta property="og:title" content="Drawnix - 开源白板工具 | 思维导图 | 流程图 | 白板 | 协作白板">
     <meta property="og:description" content="一体化开源白板工具（在线白板 | 协作白板），支持思维导图、流程图，基于 Plait 框架开发">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://drawnix.com">
     <meta property="og:site_name" content="Drawnix">
-    
-    <!-- English Open Graph tags for international social media platforms -->
+    <!-- Open Graph Meta 标签 (英文) -->
     <meta property="og:title" lang="en" content="Drawnix - Open Source Whiteboard | Mind Mapping | Flowchart | Whiteboard | Collaboration Whiteboard">
     <meta property="og:description" lang="en" content="An integrated open-source whiteboard tool(online whiteboard | collaboration whiteboard) supporting mind mapping and flowcharts, built on the Plait framework">
-    
-    <!-- ==============================================
-         TWITTER CARD META TAGS - TWITTER SHARING
-         ============================================== -->
-    <!-- Twitter-specific meta tags for rich card display -->
+    <!-- Twitter Card Meta 标签 (英文) -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Drawnix - Open Source Whiteboard | Mind Mapping | Flowchart | Whiteboard | Collaboration Whiteboard">
     <meta name="twitter:description" content="An integrated open-source whiteboard tool(online whiteboard | collaboration whiteboard) supporting mind mapping and flowcharts, built on the Plait framework">
-    
-    <!-- ==============================================
-         ADDITIONAL SEO AND TECHNICAL META TAGS
-         ============================================== -->
-    <!-- Instructs search engines to index and follow links -->
+    <!-- 其他重要 Meta 标签 -->
     <meta name="robots" content="index, follow">
-    
-    <!-- Author attribution for search engines -->
     <meta name="author" content="Drawnix Team">
-    
-    <!-- Canonical URL to prevent duplicate content issues -->
     <link rel="canonical" href="https://drawnix.com">
-    
-    <!-- ==============================================
-         INTERNATIONALIZATION (i18n) LINKS
-         ============================================== -->
-    <!-- Language alternate links for search engines -->
+    <!-- 语言替代链接 -->
     <link rel="alternate" hreflang="zh-CN" href="https://drawnix.com">
-    <!-- English version link (currently commented out - will be activated when English version is ready) -->
-    <!-- English version link will be added when English localization is complete -->
-    
-    <!-- Default language fallback for unspecified regions -->
+    <!-- <link rel="alternate" hreflang="en" href="https://drawnix.com/en"> -->
     <link rel="alternate" hreflang="x-default" href="https://drawnix.com">
-    
-    <!-- ==============================================
-         STRUCTURED DATA (JSON-LD) - RICH SNIPPETS
-         ============================================== -->
-    <!-- Schema.org structured data for enhanced search result display -->
-    <!-- Provides search engines with detailed application information -->
+    <!-- 结构化数据 (JSON-LD) - 中英双语 -->
     <script type="application/ld+json">
         {
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
           "name": "Drawnix",
+          "alternateName": ["开源白板工具", "Open Source Whiteboard Tool"],
           "description": {
-            "@language": "zh-CN",
-            "@value": "开源白板工具，包含思维导图、流程图等功能。基于 Plait 框架开发，支持插件扩展机制。"
+            "zh-CN": "Drawnix 是一款强大的开源白板工具，集成思维导图、流程图等功能。基于 Plait 框架开发，支持插件扩展，提供自动保存、无限画布等特性。",
+            "en": "Drawnix is a powerful open-source whiteboard tool featuring mind mapping and flowchart capabilities. Built on the Plait framework, it offers plugin extensibility, auto-save, infinite canvas, and more."
           },
-          "alternateName": {
-            "@language": "en",
-            "@value": "Open Source Whiteboard Tool with Mind Mapping and Flowchart capabilities"
-          },
-          "applicationCategory": "BusinessApplication",
-          "operatingSystem": "Web",
+          "url": "https://drawnix.com",
+          "applicationCategory": "DesignApplication",
+          "operatingSystem": "Any",
           "offers": {
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD"
           },
-          "featureList": [
-            {
-              "@language": "zh-CN",
-              "@value": ["思维导图", "流程图", "插件机制", "自动保存", "无限画布", "多种格式导出"]
-            },
-            {
-              "@language": "en",
-              "@value": ["Mind Mapping", "Flowchart", "Plugin System", "Auto Save", "Infinite Canvas", "Multiple Export Formats"]
-            }
-          ],
-          "softwareVersion": "0.1",
+          "creator": {
+            "@type": "Organization",
+            "name": "Drawnix Team"
+          },
+          "keywords": ["whiteboard", "mind mapping", "flowchart", "open source", "思维导图", "流程图", "白板"],
+          "inLanguage": ["zh-CN", "en"],
           "license": "https://github.com/plait-board/drawnix/blob/master/LICENSE"
         }
     </script>
-    
-    <!-- ==============================================
-         BASIC DOCUMENT CONFIGURATION
-         ============================================== -->
-    <!-- Base URL for relative links - ensures proper routing in SPA -->
     <base href="/" />
-    
-    <!-- Responsive viewport configuration for mobile and desktop -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
-    <!-- ==============================================
-         ASSETS AND RESOURCES
-         ============================================== -->
-    <!-- Application favicon for browser tabs and bookmarks -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    
-    <!-- Global styles imported from SCSS file (processed by Vite) -->
     <link rel="stylesheet" href="/src/styles.scss" />
-    
-    <!-- ==============================================
-         ANALYTICS AND TRACKING
-         ============================================== -->
-    <!-- Umami analytics for privacy-friendly website usage tracking -->
-    <!-- Deferred loading to avoid blocking page rendering -->
     <script defer src="https://cloud.umami.is/script.js" data-website-id="7083aa92-85b1-4a67-a6d4-03d52819ba3d"></script>
   </head>
-  
   <body>
-    <!-- React application mount point - where the entire app renders -->
     <div id="root"></div>
-    
-    <!-- Main application entry point - TypeScript/React module loaded by Vite -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

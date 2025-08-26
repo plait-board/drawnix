@@ -19,7 +19,8 @@ import {
 import { Island } from '../../island';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import { useState } from 'react';
-import { CleanBoard, LanguageSwitcherMenu, OpenFile, SaveAsImage, SaveToFile, Socials } from './app-menu-items';
+import { CleanBoard, OpenFile, SaveAsImage, SaveToFile, Socials } from './app-menu-items';
+import { LanguageSwitcherMenu } from './language-switcher-menu';
 import Menu from '../../menu/menu';
 import MenuSeparator from '../../menu/menu-separator';
 import { useI18n } from '../../../i18n';

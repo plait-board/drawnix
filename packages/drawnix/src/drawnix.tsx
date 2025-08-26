@@ -62,8 +62,6 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   onValueChange,
   afterInit,
 }) => {
-  const { t } = useI18n(); // This line should now work with the I18nProvider
-  
   const options: PlaitBoardOptions = {
     readonly: false,
     hideScrollbar: false,
