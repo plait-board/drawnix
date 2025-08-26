@@ -6,9 +6,11 @@ import {
   ThemeColorMode,
 } from '@plait/core';
 import { Island } from '../island';
+import { useI18n } from '../../i18n';
 
 export const ThemeToolbar = () => {
   const board = useBoard();
+  const { t } = useI18n();
   const theme = board.theme;
   return (
     <Island
@@ -22,12 +24,12 @@ export const ThemeToolbar = () => {
         }}
         value={theme.themeColorMode}
       >
-        <option value="default">默认</option>
-        <option value="colorful">缤纷</option>
-        <option value="soft">柔和</option>
-        <option value="retro">复古</option>
-        <option value="dark">暗夜</option>
-        <option value="starry">星空</option>
+        <option value="default">{t('theme.default')}</option>
+        <option value="colorful">{t('theme.colorful')}</option>
+        <option value="soft">{t('theme.soft')}</option>
+        <option value="retro">{t('theme.retro')}</option>
+        <option value="dark">{t('theme.dark')}</option>
+        <option value="starry">{t('theme.starry')}</option>
       </select>
     </Island>
   );

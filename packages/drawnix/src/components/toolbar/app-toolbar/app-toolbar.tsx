@@ -22,9 +22,11 @@ import { useState } from 'react';
 import { CleanBoard, OpenFile, SaveAsImage, SaveToFile, Socials } from './app-menu-items';
 import Menu from '../../menu/menu';
 import MenuSeparator from '../../menu/menu-separator';
+import { useI18n } from '../../../i18n';
 
 export const AppToolbar = () => {
   const board = useBoard();
+  const { t } = useI18n();
   const container = PlaitBoard.getBoardContainer(board);
   const selectedElements = getSelectedElements(board);
   const [appMenuOpen, setAppMenuOpen] = useState(false);
@@ -51,8 +53,8 @@ export const AppToolbar = () => {
               visible={true}
               selected={appMenuOpen}
               icon={MenuIcon}
-              title={`App Menu`}
-              aria-label={`App Menu`}
+              title={t('general.menu')}
+              aria-label={t('general.menu')}
               onPointerDown={() => {
                 setAppMenuOpen(!appMenuOpen);
               }}
@@ -78,8 +80,8 @@ export const AppToolbar = () => {
           type="icon"
           icon={UndoIcon}
           visible={true}
-          title={`Undo`}
-          aria-label={`Undo`}
+          title={t('general.undo')}
+          aria-label={t('general.undo')}
           onPointerUp={() => {
             board.undo();
           }}
@@ -90,8 +92,8 @@ export const AppToolbar = () => {
           type="icon"
           icon={RedoIcon}
           visible={true}
-          title={`Redo`}
-          aria-label={`Redo`}
+          title={t('general.redo')}
+          aria-label={t('general.redo')}
           onPointerUp={() => {
             board.redo();
           }}
@@ -104,8 +106,8 @@ export const AppToolbar = () => {
             type="icon"
             icon={DuplicateIcon}
             visible={true}
-            title={`Duplicate`}
-            aria-label={`Duplicate`}
+            title={t('general.duplicate')}
+            aria-label={t('general.duplicate')}
             onPointerUp={() => {
               duplicateElements(board);
             }}
@@ -118,8 +120,8 @@ export const AppToolbar = () => {
             type="icon"
             icon={TrashIcon}
             visible={true}
-            title={`Trash`}
-            aria-label={`Trash`}
+            title={t('general.delete')}
+            aria-label={t('general.delete')}
             onPointerUp={() => {
               deleteFragment(board);
             }}

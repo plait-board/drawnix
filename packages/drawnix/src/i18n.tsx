@@ -20,6 +20,7 @@ export interface Translations {
   'zoom.in': string;
   'zoom.out': string;
   'zoom.fit': string;
+  'zoom.100': string;
   
   // Themes
   'theme.default': string;
@@ -33,6 +34,8 @@ export interface Translations {
   'general.undo': string;
   'general.redo': string;
   'general.menu': string;
+  'general.duplicate': string;
+  'general.delete': string;
 }
 
 // Translation data
@@ -53,6 +56,7 @@ const translations: Record<Language, Translations> = {
     'zoom.in': '放大 — Cmd++',
     'zoom.out': '缩小 — Cmd+-',
     'zoom.fit': '自适应',
+    'zoom.100': '缩放至 100%',
     
     // Themes
     'theme.default': '默认',
@@ -66,6 +70,8 @@ const translations: Record<Language, Translations> = {
     'general.undo': '撤销',
     'general.redo': '重做',
     'general.menu': '应用菜单',
+    'general.duplicate': '复制',
+    'general.delete': '删除',
   },
   en: {
     // Toolbar items
@@ -83,6 +89,7 @@ const translations: Record<Language, Translations> = {
     'zoom.in': 'Zoom In — Cmd++',
     'zoom.out': 'Zoom Out — Cmd+-',
     'zoom.fit': 'Fit to Screen',
+    'zoom.100': 'Zoom to 100%',
     
     // Themes
     'theme.default': 'Default',
@@ -96,6 +103,8 @@ const translations: Record<Language, Translations> = {
     'general.undo': 'Undo',
     'general.redo': 'Redo',
     'general.menu': 'App Menu',
+    'general.duplicate': 'Duplicate',
+    'general.delete': 'Delete',
   },
 };
 
