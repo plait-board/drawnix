@@ -5,6 +5,73 @@
 .drawnix {
     height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Noto Sans', 'Noto Sans CJK SC', 'Microsoft Yahei', 'Hiragino Sans GB', Arial, sans-serif;
+       /* Scrollbar customization with CSS custom properties */
+    --scrollbar-track: var(--color-surface-low);
+    --scrollbar-thumb: var(--color-gray-40);
+    --scrollbar-thumb-hover: var(--color-gray-50);
+
+    /* Base scrollbar styles */
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+        background: transparent;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: var(--scrollbar-track);
+        border-radius: 0;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: var(--scrollbar-thumb);
+        border-radius: 1rem;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--scrollbar-thumb-hover);
+    }
+
+    ::-webkit-scrollbar-corner {
+        background: var(--scrollbar-track);
+    }
+
+    /* Theme-specific scrollbar colors */
+    &[data-theme="default"] {
+        --scrollbar-track: var(--color-surface-low);
+        --scrollbar-thumb: var(--color-gray-40);
+        --scrollbar-thumb-hover: var(--color-gray-50);
+    }
+
+    &[data-theme="colorful"] {
+        --scrollbar-track: #e6f0ff;
+        --scrollbar-thumb: #06ADBF;
+        --scrollbar-thumb-hover: #059aa8;
+    }
+
+    &[data-theme="soft"] {
+        --scrollbar-track: #f8f9ff;
+        --scrollbar-thumb: #6D89C1;
+        --scrollbar-thumb-hover: #5d7ab0;
+    }
+
+    &[data-theme="retro"] {
+        --scrollbar-track: #fef9e7;
+        --scrollbar-thumb: #E9C358;
+        --scrollbar-thumb-hover: #d4b04a;
+    }
+
+    &[data-theme="dark"] {
+        --scrollbar-track: #2d2d2d;
+        --scrollbar-thumb: #666666;
+        --scrollbar-thumb-hover: #888888;
+    }
+
+    &[data-theme="starry"] {
+        --scrollbar-track: #0a1a2a;
+        --scrollbar-thumb: #42ABE5;
+        --scrollbar-thumb-hover: #3a9bd4;
+    }
+  
     .pencil-mode-toolbar {
         position: absolute;
         top: 82px;

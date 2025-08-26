@@ -115,6 +115,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           className={classNames('drawnix', {
             'drawnix--mobile': appState.isMobile,
           })}
+          data-theme={theme?.themeColorMode || 'default'}
           ref={containerRef}
         >
           <Wrapper
