@@ -63,7 +63,7 @@ export const OpenFile = () => {
       data-testid="open-button"
       onSelect={() => {
         loadFromJSON(board).then((data) => {
-          clearAndLoad(data.elements, data.viewport);
+          clearAndLoad(data.elements, data.viewport, data.theme);
         });
       }}
       icon={OpenFileIcon}
@@ -84,13 +84,15 @@ export const SaveAsImage = () => {
         saveAsImage(board, true);
       }}
       submenu={
-        <Menu onSelect={() => {
-          const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
-            bubbles: true,
-            cancelable: true,
-          });
-          menuContentProps.onSelect?.(itemSelectEvent);
-        }}>
+        <Menu
+          onSelect={() => {
+            const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
+              bubbles: true,
+              cancelable: true,
+            });
+            menuContentProps.onSelect?.(itemSelectEvent);
+          }}
+        >
           <MenuItem
             onSelect={() => {
               saveAsImage(board, true);
