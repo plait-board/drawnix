@@ -231,6 +231,7 @@ const translations: Record<Language, Translations> = {
     "toolbar.hand": "اليد — H",
     "toolbar.selection": "التحديد — V",
     "toolbar.mind": "خريطة ذهنية — M",
+    'toolbar.eraser': 'ممحاة — E',
     "toolbar.text": "نص — T",
     "toolbar.pen": "قلم — P",
     "toolbar.arrow": "سهم — A",
