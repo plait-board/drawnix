@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react';
 import { initializeData } from './initialize-data';
 import { Drawnix } from '@drawnix/drawnix';
-import { PlaitBoard, PlaitElement, PlaitTheme, Viewport } from '@plait/core';
+import {
+  PlaitBoard,
+  PlaitElement,
+  PlaitTheme,
+  Viewport,
+  ThemeColorMode,
+  BoardTransforms,
+} from '@plait/core';
+import { BoardChangeData } from '@plait-board/react-board';
 import localforage from 'localforage';
+import { loadThemeFromStorage, saveThemeToStorage } from '@drawnix/drawnix';
 
 // 1个月后移出删除兼容
 const OLD_DRAWNIX_LOCAL_DATA_KEY = 'drawnix-local-data';
@@ -23,20 +32,42 @@ export function App() {
 
   useEffect(() => {
     const loadData = async () => {
+      // Load saved theme from localStorage
+      const savedTheme = loadThemeFromStorage();
+
       const storedData = await localforage.getItem(MAIN_BOARD_CONTENT_KEY);
       if (storedData) {
-        setValue(storedData as any);
+        const data = storedData as any;
+        // Always use theme from localStorage, not from stored data
+        setValue({
+          children: data.children,
+          viewport: data.viewport,
+          theme: { themeColorMode: savedTheme || ThemeColorMode.default },
+        });
         return;
       }
       const localData = localStorage.getItem(OLD_DRAWNIX_LOCAL_DATA_KEY);
       if (localData) {
         const parsedData = JSON.parse(localData);
-        setValue(parsedData);
-        await localforage.setItem(MAIN_BOARD_CONTENT_KEY, parsedData);
+        // Use theme from localStorage, not from old data
+        setValue({
+          children: parsedData.children,
+          viewport: parsedData.viewport,
+          theme: { themeColorMode: savedTheme || ThemeColorMode.default },
+        });
+        // Save only children and viewport to new storage
+        await localforage.setItem(MAIN_BOARD_CONTENT_KEY, {
+          children: parsedData.children,
+          viewport: parsedData.viewport,
+        });
         localStorage.removeItem(OLD_DRAWNIX_LOCAL_DATA_KEY);
         return;
       }
-      setValue({ children: initializeData });
+      // For new users, use saved theme or default
+      setValue({
+        children: initializeData,
+        theme: { themeColorMode: savedTheme || ThemeColorMode.default },
+      });
     };
 
     loadData();
@@ -46,11 +77,37 @@ export function App() {
       value={value.children}
       viewport={value.viewport}
       theme={value.theme}
-      onChange={(value) => {
-        localforage.setItem(MAIN_BOARD_CONTENT_KEY, value);
+      //@ts-ignore
+      onChange={(boardData: BoardChangeData) => {
+        // Save theme to localStorage when it changes
+        if (boardData.theme?.themeColorMode) {
+          saveThemeToStorage(boardData.theme.themeColorMode);
+        }
+
+        // Don't save theme to localforage - only save content and viewport
+        const newValue = {
+          children: boardData.children,
+          viewport: boardData.viewport,
+          theme: boardData.theme, // Keep for state but don't persist
+        };
+        setValue(newValue);
+
+        // Only save children and viewport to localforage, not theme
+        localforage.setItem(MAIN_BOARD_CONTENT_KEY, {
+          children: boardData.children,
+          viewport: boardData.viewport,
+        });
       }}
       afterInit={(board) => {
         console.log('board initialized');
+
+        // Ensure the saved theme is applied after board initialization
+        const savedTheme = loadThemeFromStorage();
+        if (savedTheme && board.theme.themeColorMode !== savedTheme) {
+          console.log('Applying saved theme after board init:', savedTheme);
+          BoardTransforms.updateThemeColor(board, savedTheme);
+        }
+
         console.log(
           `add __drawnix__web__debug_log to window, so you can call add log anywhere, like: window.__drawnix__web__console('some thing')`
         );

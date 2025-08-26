@@ -17,8 +17,8 @@ export const ThemeToolbar = () => {
     >
       <select
         onChange={(e) => {
-          const value = (e.target as HTMLSelectElement).value;
-          BoardTransforms.updateThemeColor(board, value as ThemeColorMode);
+          const value = (e.target as HTMLSelectElement).value as ThemeColorMode;
+          BoardTransforms.updateThemeColor(board, value);
         }}
         value={theme.themeColorMode}
       >
