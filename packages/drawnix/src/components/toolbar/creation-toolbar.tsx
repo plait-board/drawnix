@@ -29,6 +29,7 @@ import {
   DrawPointerType,
   FlowchartSymbols,
 } from '@plait/draw';
+import { FreehandPicker } from './freehand-toolbar/freehand-toolbar';
 import { ShapePicker } from '../shape-picker';
 import { ArrowPicker } from '../arrow-picker';
 import { useState } from 'react';
@@ -46,6 +47,7 @@ import { useI18n } from '../../i18n';
 export enum PopupKey {
   'shape' = 'shape',
   'arrow' = 'arrow',
+  'freehand' = 'freehand',
 }
 
 type AppToolButtonProps = {
@@ -87,11 +89,7 @@ export const BUTTONS: AppToolButtonProps[] = [
     icon: FeltTipPenIcon,
     pointer: FreehandShape.feltTipPen,
     titleKey: 'toolbar.pen',
-  },
-  {
-    icon: EraseIcon,
-    pointer: FreehandShape.eraser,
-    titleKey: 'toolbar.eraser',
+    key: PopupKey.freehand,
   },
   {
     icon: StraightArrowLineIcon,
@@ -136,9 +134,20 @@ export const CreationToolbar = () => {
   const setPointer = useSetPointer();
   const container = PlaitBoard.getBoardContainer(board);
 
+  const [freehandOpen, setFreehandOpen] = useState(false);
   const [arrowOpen, setArrowOpen] = useState(false);
-
   const [shapeOpen, setShapeOpen] = useState(false);
+
+  const getCurrentFreehandIcon = () => {
+    const currentPointer = board.pointer;
+    if (currentPointer === FreehandShape.eraser) {
+      return EraseIcon;
+    }
+    if (currentPointer === FreehandShape.feltTipPen) {
+      return FeltTipPenIcon;
+    }
+    return FeltTipPenIcon;
+  };
 
   const onPointerDown = (pointer: DrawnixPointerType) => {
     setCreationMode(board, BoardCreationMode.dnd);
@@ -152,7 +161,7 @@ export const CreationToolbar = () => {
 
   const isChecked = (button: AppToolButtonProps) => {
     return (
-      PlaitBoard.isPointer(board, button.pointer) && !arrowOpen && !shapeOpen
+      PlaitBoard.isPointer(board, button.pointer) && !arrowOpen && !shapeOpen && !freehandOpen
     );
   };
 
@@ -165,6 +174,43 @@ export const CreationToolbar = () => {
         {BUTTONS.map((button, index) => {
           if (appState.isMobile && button.pointer === PlaitPointerType.hand) {
             return <></>;
+          }
+          if (button.key === PopupKey.freehand) {
+            return (
+              <Popover
+                key={index}
+                open={freehandOpen}
+                sideOffset={12}
+                onOpenChange={(open) => {
+                  setFreehandOpen(open);
+                }}
+              >
+                <PopoverTrigger asChild>
+                  <ToolButton
+                    type="icon"
+                    visible={true}
+                    selected={
+                      freehandOpen ||
+                      PlaitBoard.isInPointer(board, [FreehandShape.feltTipPen, FreehandShape.eraser])
+                    }
+                    icon={getCurrentFreehandIcon()}
+                    title={button.titleKey ? t(button.titleKey) : 'Freehand'}
+                    aria-label={button.titleKey ? t(button.titleKey) : 'Freehand'}
+                    onPointerDown={() => {
+                      setFreehandOpen(!freehandOpen);
+                    }}
+                  />
+                </PopoverTrigger>
+                <PopoverContent container={container}>
+                  <FreehandPicker
+                    onPointerUp={(pointer: DrawnixPointerType) => {
+                      setFreehandOpen(false);
+                      setPointer(pointer);
+                    }}
+                  ></FreehandPicker>
+                </PopoverContent>
+              </Popover>
+            );
           }
           if (button.key === PopupKey.shape) {
             return (
@@ -223,7 +269,7 @@ export const CreationToolbar = () => {
                     title={button.titleKey ? t(button.titleKey) : ''}
                     aria-label={button.titleKey ? t(button.titleKey) : ''}
                     onPointerDown={() => {
-                      setArrowOpen(!shapeOpen);
+                      setArrowOpen(!arrowOpen);
                     }}
                   />
                 </PopoverTrigger>
