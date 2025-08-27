@@ -41,7 +41,7 @@ export type FreehandPickerProps = {
   onPointerUp: (pointer: DrawnixPointerType) => void;
 };
 
-export const FreehandPicker: React.FC<FreehandPickerProps> = ({
+export const FreehandPanel: React.FC<FreehandPickerProps> = ({
   onPointerUp,
 }) => {
   const board = useBoard();

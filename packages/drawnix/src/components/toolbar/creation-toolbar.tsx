@@ -29,7 +29,7 @@ import {
   DrawPointerType,
   FlowchartSymbols,
 } from '@plait/draw';
-import { FreehandPicker } from './freehand-toolbar/freehand-toolbar';
+import { FreehandPanel } from './freehand-toolbar/freehand-toolbar';
 import { ShapePicker } from '../shape-picker';
 import { ArrowPicker } from '../arrow-picker';
 import { useState } from 'react';
@@ -202,12 +202,12 @@ export const CreationToolbar = () => {
                   />
                 </PopoverTrigger>
                 <PopoverContent container={container}>
-                  <FreehandPicker
+                  <FreehandPanel
                     onPointerUp={(pointer: DrawnixPointerType) => {
                       setFreehandOpen(false);
                       setPointer(pointer);
                     }}
-                  ></FreehandPicker>
+                  ></FreehandPanel>
                 </PopoverContent>
               </Popover>
             );
