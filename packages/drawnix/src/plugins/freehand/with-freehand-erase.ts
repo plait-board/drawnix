@@ -1,5 +1,6 @@
 import {
     PlaitBoard,
+    PlaitElement,
     Point,
     throttleRAF,
     toHostPoint,
@@ -25,6 +26,7 @@ export const withFreehandErase = (board: PlaitBoard) => {
 
         freehandElements.forEach((element) => {
             if (!elementsToDelete.has(element.id) && isHitFreehand(board, element, viewBoxPoint)) {
+                PlaitElement.getElementG(element).style.opacity = '0.2';
                 elementsToDelete.add(element.id);
             }
         });
