@@ -1,7 +1,7 @@
 import { useBoard } from '@plait-board/react-board';
 import Stack from '../stack';
 import { ToolButton } from '../tool-button';
-import { compressIcon, expandIcon, ZoomInIcon, ZoomOutIcon } from '../icons';
+import {  ZoomInIcon, ZoomOutIcon } from '../icons';
 import classNames from 'classnames';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
@@ -14,8 +14,6 @@ import { useEffect, useState } from 'react';
 import Menu from '../menu/menu';
 import MenuItem from '../menu/menu-item';
 import { useI18n } from '../../i18n';
-import { useDrawnix } from '../../hooks/use-drawnix';
-import screenfull from 'screenfull';
 
 export const ZoomToolbar = () => {
   const board = useBoard();
@@ -85,7 +83,7 @@ export const ZoomToolbar = () => {
                 aria-label={t('zoom.100')}
                 shortcut={`Cmd+0`}
               >{t('zoom.100')}</MenuItem>
-              <FullScreen/>
+             
             </Menu>
           </PopoverContent>
         </Popover>
@@ -105,47 +103,4 @@ export const ZoomToolbar = () => {
     </Island>
   );
 };
-// FullScreen and Reset 
-export const FullScreen = () => {
-  const { appState, setAppState } = useDrawnix();
-  const [isFullEnabled, setFullscreen] = useState(screenfull.isFullscreen);
-  const { t } = useI18n();
-  useEffect(() => {
-    if (screenfull.isEnabled) {
-      const handler = () => {
-        setFullscreen(screenfull.isFullscreen); 
-      };
-      screenfull.on("change", handler);
-      return () => {
-        screenfull.off("change", handler);
-      };
-    }
-  }, []);
 
-  const enterFullscreen = () => {
-    if (screenfull.isEnabled) {
-      if (!screenfull.isFullscreen) {
-        screenfull.request();
-      } else {
-        screenfull.exit(); 
-      }
-    } else {
-      alert("Fullscreen API Not supported in this browser");
-    }
-
-    setAppState({ ...appState });
-  };
-
-  return (
-    <MenuItem
-      icon={isFullEnabled ? compressIcon : expandIcon}
-      data-testid="FullScreen-button"
-      onSelect={enterFullscreen}
-        // shortcut={`Cmd+Shift+0`} Requires user interaction
-      aria-label={t(`zoom.reset.screen`)}
-    >
-      { isFullEnabled?t(`zoom.reset.screen`) :t(`zoom.full.screen`)}
-    </MenuItem>
-  );
-};
-FullScreen.displayName = 'Fullscreen';
