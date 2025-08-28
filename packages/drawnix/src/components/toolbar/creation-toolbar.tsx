@@ -143,16 +143,6 @@ export const CreationToolbar = () => {
       BUTTONS.find((button) => button.key === PopupKey.freehand)!
     );
 
-  const getFreehandIcon = (pointer) => {
-    if (pointer === FreehandShape.eraser) {
-      return EraseIcon;
-    }
-    if (pointer === FreehandShape.feltTipPen) {
-      return FeltTipPenIcon;
-    }
-    return lastFreehandButton.icon;
-  };
-
   const onPointerDown = (pointer: DrawnixPointerType) => {
     setCreationMode(board, BoardCreationMode.dnd);
     BoardTransforms.updatePointerType(board, pointer);
