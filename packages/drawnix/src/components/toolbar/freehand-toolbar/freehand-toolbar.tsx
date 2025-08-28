@@ -58,6 +58,7 @@ export const FreehandPanel: React.FC<FreehandPickerProps> = ({
                   <ToolButton
                     key={index}
                     className={classNames({ fillable: false })}
+                    selected={board.pointer === freehand.pointer}
                     type="icon"
                     size={'small'}
                     visible={true}
