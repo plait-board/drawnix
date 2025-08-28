@@ -43,6 +43,7 @@ import {
 import { ExtraToolsButton } from './extra-tools/extra-tools-button';
 import { addImage } from '../../utils/image';
 import { useI18n } from '../../i18n';
+import { FREEHANDS } from './freehand-toolbar/freehand-toolbar';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -137,12 +138,10 @@ export const CreationToolbar = () => {
   const [freehandOpen, setFreehandOpen] = useState(false);
   const [arrowOpen, setArrowOpen] = useState(false);
   const [shapeOpen, setShapeOpen] = useState(false);
-  const [lastFreehandPointer, setLastFreehandPointer] = useState<DrawnixPointerType>(
-    FreehandShape.feltTipPen
-  );
-  const [lastFreehandIcon, setLastFreehandIcon] = useState<React.ReactNode>(
-    FeltTipPenIcon
-  );
+  const [lastFreehandButton, setLastFreehandButton] =
+    useState<AppToolButtonProps>(
+      BUTTONS.find((button) => button.key === PopupKey.freehand)!
+    );
 
   const getFreehandIcon = (pointer) => {
     if (pointer === FreehandShape.eraser) {
@@ -151,7 +150,7 @@ export const CreationToolbar = () => {
     if (pointer === FreehandShape.feltTipPen) {
       return FeltTipPenIcon;
     }
-    return lastFreehandIcon;
+    return lastFreehandButton.icon;
   };
 
   const onPointerDown = (pointer: DrawnixPointerType) => {
@@ -206,12 +205,12 @@ export const CreationToolbar = () => {
                       freehandOpen ||
                       checkCurrentPointerIsFreehand(board)
                     }
-                    icon={lastFreehandIcon}
-                    title={button.titleKey ? t(button.titleKey) : 'Freehand'}
-                    aria-label={button.titleKey ? t(button.titleKey) : 'Freehand'}
+                    icon={lastFreehandButton.icon}
+                    title={lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'}
+                    aria-label={lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'}
                     onPointerDown={() => {
                       setFreehandOpen(!freehandOpen);
-                      onPointerDown(lastFreehandPointer);
+                      onPointerDown(lastFreehandButton.pointer!);
                     }}
                     onPointerUp={() => {
                       onPointerUp();
@@ -222,8 +221,9 @@ export const CreationToolbar = () => {
                   <FreehandPanel
                     onPointerUp={(pointer: DrawnixPointerType) => {
                       setPointer(pointer);
-                      setLastFreehandPointer(pointer);
-                      setLastFreehandIcon(getFreehandIcon(pointer));
+                      setLastFreehandButton(
+                        FREEHANDS.find((button) => button.pointer === pointer)!
+                      );
                     }}
                   ></FreehandPanel>
                 </PopoverContent>
