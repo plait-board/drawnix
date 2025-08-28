@@ -15,23 +15,24 @@ import { splitRows } from '../../../utils/common';
 import {
     DrawnixPointerType,
 } from '../../../hooks/use-drawnix';
+import { useI18n } from '../../../i18n';
 
 export interface FreehandProps {
-    title: string;
+    titleKey: string;
     icon: React.ReactNode;
     pointer: DrawnixPointerType;
 }
 
-const FREEHANDS: FreehandProps[] = [
+export const FREEHANDS: FreehandProps[] = [
   {
       icon: FeltTipPenIcon,
       pointer: FreehandShape.feltTipPen,
-      title: 'toolbar.pen',
+      titleKey: 'toolbar.pen',
     },
     {
       icon: EraseIcon,
       pointer: FreehandShape.eraser,
-      title: 'toolbar.eraser',
+      titleKey: 'toolbar.eraser',
     },
 ];
 
@@ -44,6 +45,7 @@ export type FreehandPickerProps = {
 export const FreehandPanel: React.FC<FreehandPickerProps> = ({
   onPointerUp,
 }) => {
+  const { t } = useI18n();
   const board = useBoard();
   return (
     <Island padding={1}>
@@ -56,12 +58,13 @@ export const FreehandPanel: React.FC<FreehandPickerProps> = ({
                   <ToolButton
                     key={index}
                     className={classNames({ fillable: false })}
+                    selected={board.pointer === freehand.pointer}
                     type="icon"
                     size={'small'}
                     visible={true}
                     icon={freehand.icon}
-                    title={freehand.title}
-                    aria-label={freehand.title}
+                    title={t(freehand.titleKey)}
+                    aria-label={t(freehand.titleKey)}
                     onPointerDown={() => {
                       setCreationMode(board, BoardCreationMode.dnd);
                       BoardTransforms.updatePointerType(board, freehand.pointer);

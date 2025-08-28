@@ -29,7 +29,7 @@ import {
   DrawPointerType,
   FlowchartSymbols,
 } from '@plait/draw';
-import { FreehandPanel } from './freehand-toolbar/freehand-toolbar';
+import { FreehandPanel , FREEHANDS } from './freehand-panel/freehand-panel';
 import { ShapePicker } from '../shape-picker';
 import { ArrowPicker } from '../arrow-picker';
 import { useState } from 'react';
@@ -137,17 +137,10 @@ export const CreationToolbar = () => {
   const [freehandOpen, setFreehandOpen] = useState(false);
   const [arrowOpen, setArrowOpen] = useState(false);
   const [shapeOpen, setShapeOpen] = useState(false);
-
-  const getCurrentFreehandIcon = () => {
-    const currentPointer = board.pointer;
-    if (currentPointer === FreehandShape.eraser) {
-      return EraseIcon;
-    }
-    if (currentPointer === FreehandShape.feltTipPen) {
-      return FeltTipPenIcon;
-    }
-    return FeltTipPenIcon;
-  };
+  const [lastFreehandButton, setLastFreehandButton] =
+    useState<AppToolButtonProps>(
+      BUTTONS.find((button) => button.key === PopupKey.freehand)!
+    );
 
   const onPointerDown = (pointer: DrawnixPointerType) => {
     setCreationMode(board, BoardCreationMode.dnd);
@@ -165,6 +158,14 @@ export const CreationToolbar = () => {
     );
   };
 
+  const checkCurrentPointerIsFreehand = (board: PlaitBoard) => {
+    return PlaitBoard.isInPointer(board, [
+      FreehandShape.feltTipPen, 
+      FreehandShape.eraser,
+    ]);
+  };
+
+
   return (
     <Island
       padding={1}
@@ -179,7 +180,7 @@ export const CreationToolbar = () => {
             return (
               <Popover
                 key={index}
-                open={freehandOpen}
+                open={freehandOpen || checkCurrentPointerIsFreehand(board)}
                 sideOffset={12}
                 onOpenChange={(open) => {
                   setFreehandOpen(open);
@@ -191,21 +192,27 @@ export const CreationToolbar = () => {
                     visible={true}
                     selected={
                       freehandOpen ||
-                      PlaitBoard.isInPointer(board, [FreehandShape.feltTipPen, FreehandShape.eraser])
+                      checkCurrentPointerIsFreehand(board)
                     }
-                    icon={getCurrentFreehandIcon()}
-                    title={button.titleKey ? t(button.titleKey) : 'Freehand'}
-                    aria-label={button.titleKey ? t(button.titleKey) : 'Freehand'}
+                    icon={lastFreehandButton.icon}
+                    title={lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'}
+                    aria-label={lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'}
                     onPointerDown={() => {
                       setFreehandOpen(!freehandOpen);
+                      onPointerDown(lastFreehandButton.pointer!);
+                    }}
+                    onPointerUp={() => {
+                      onPointerUp();
                     }}
                   />
                 </PopoverTrigger>
                 <PopoverContent container={container}>
                   <FreehandPanel
                     onPointerUp={(pointer: DrawnixPointerType) => {
-                      setFreehandOpen(false);
                       setPointer(pointer);
+                      setLastFreehandButton(
+                        FREEHANDS.find((button) => button.pointer === pointer)!
+                      );
                     }}
                   ></FreehandPanel>
                 </PopoverContent>
