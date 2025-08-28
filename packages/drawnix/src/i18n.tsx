@@ -315,7 +315,14 @@ const translations: Record<Language, Translations> = {
 
     // Extra tools menu items
     "extraTools.mermaidToDrawnix": "من Mermaid إلى Drawnix",
-    "extraTools.markdownToDrawnix": "من Markdown إلى Drawnix"
+    "extraTools.markdownToDrawnix": "من Markdown إلى Drawnix",
+
+    // Clean confirm dialog
+    'cleanConfirm.title': 'مسح اللوحة',
+    'cleanConfirm.description': 'سيؤدي هذا إلى مسح اللوحة بالكامل. هل تريد المتابعة؟',
+    'cleanConfirm.cancel': 'إلغاء',
+    'cleanConfirm.ok': 'موافق',
+
   },
 };
 
