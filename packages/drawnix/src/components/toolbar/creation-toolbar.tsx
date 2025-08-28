@@ -29,7 +29,7 @@ import {
   DrawPointerType,
   FlowchartSymbols,
 } from '@plait/draw';
-import { FreehandPanel } from './freehand-toolbar/freehand-toolbar';
+import { FreehandPanel , FREEHANDS } from './freehand-panel/freehand-panel';
 import { ShapePicker } from '../shape-picker';
 import { ArrowPicker } from '../arrow-picker';
 import { useState } from 'react';
@@ -43,7 +43,6 @@ import {
 import { ExtraToolsButton } from './extra-tools/extra-tools-button';
 import { addImage } from '../../utils/image';
 import { useI18n } from '../../i18n';
-import { FREEHANDS } from './freehand-toolbar/freehand-toolbar';
 
 export enum PopupKey {
   'shape' = 'shape',
