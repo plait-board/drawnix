@@ -29,6 +29,7 @@ import {
   DrawPointerType,
   FlowchartSymbols,
 } from '@plait/draw';
+import { FreehandPanel , FREEHANDS } from './freehand-panel/freehand-panel';
 import { ShapePicker } from '../shape-picker';
 import { ArrowPicker } from '../arrow-picker';
 import { useState } from 'react';
@@ -46,6 +47,7 @@ import { useI18n } from '../../i18n';
 export enum PopupKey {
   'shape' = 'shape',
   'arrow' = 'arrow',
+  'freehand' = 'freehand',
 }
 
 type AppToolButtonProps = {
@@ -87,11 +89,7 @@ export const BUTTONS: AppToolButtonProps[] = [
     icon: FeltTipPenIcon,
     pointer: FreehandShape.feltTipPen,
     titleKey: 'toolbar.pen',
-  },
-  {
-    icon: EraseIcon,
-    pointer: FreehandShape.eraser,
-    titleKey: 'toolbar.eraser',
+    key: PopupKey.freehand,
   },
   {
     icon: StraightArrowLineIcon,
@@ -136,9 +134,13 @@ export const CreationToolbar = () => {
   const setPointer = useSetPointer();
   const container = PlaitBoard.getBoardContainer(board);
 
+  const [freehandOpen, setFreehandOpen] = useState(false);
   const [arrowOpen, setArrowOpen] = useState(false);
-
   const [shapeOpen, setShapeOpen] = useState(false);
+  const [lastFreehandButton, setLastFreehandButton] =
+    useState<AppToolButtonProps>(
+      BUTTONS.find((button) => button.key === PopupKey.freehand)!
+    );
 
   const onPointerDown = (pointer: DrawnixPointerType) => {
     setCreationMode(board, BoardCreationMode.dnd);
@@ -152,9 +154,17 @@ export const CreationToolbar = () => {
 
   const isChecked = (button: AppToolButtonProps) => {
     return (
-      PlaitBoard.isPointer(board, button.pointer) && !arrowOpen && !shapeOpen
+      PlaitBoard.isPointer(board, button.pointer) && !arrowOpen && !shapeOpen && !freehandOpen
     );
   };
+
+  const checkCurrentPointerIsFreehand = (board: PlaitBoard) => {
+    return PlaitBoard.isInPointer(board, [
+      FreehandShape.feltTipPen, 
+      FreehandShape.eraser,
+    ]);
+  };
+
 
   return (
     <Island
@@ -165,6 +175,49 @@ export const CreationToolbar = () => {
         {BUTTONS.map((button, index) => {
           if (appState.isMobile && button.pointer === PlaitPointerType.hand) {
             return <></>;
+          }
+          if (button.key === PopupKey.freehand) {
+            return (
+              <Popover
+                key={index}
+                open={freehandOpen || checkCurrentPointerIsFreehand(board)}
+                sideOffset={12}
+                onOpenChange={(open) => {
+                  setFreehandOpen(open);
+                }}
+              >
+                <PopoverTrigger asChild>
+                  <ToolButton
+                    type="icon"
+                    visible={true}
+                    selected={
+                      freehandOpen ||
+                      checkCurrentPointerIsFreehand(board)
+                    }
+                    icon={lastFreehandButton.icon}
+                    title={lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'}
+                    aria-label={lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'}
+                    onPointerDown={() => {
+                      setFreehandOpen(!freehandOpen);
+                      onPointerDown(lastFreehandButton.pointer!);
+                    }}
+                    onPointerUp={() => {
+                      onPointerUp();
+                    }}
+                  />
+                </PopoverTrigger>
+                <PopoverContent container={container}>
+                  <FreehandPanel
+                    onPointerUp={(pointer: DrawnixPointerType) => {
+                      setPointer(pointer);
+                      setLastFreehandButton(
+                        FREEHANDS.find((button) => button.pointer === pointer)!
+                      );
+                    }}
+                  ></FreehandPanel>
+                </PopoverContent>
+              </Popover>
+            );
           }
           if (button.key === PopupKey.shape) {
             return (
@@ -223,7 +276,7 @@ export const CreationToolbar = () => {
                     title={button.titleKey ? t(button.titleKey) : ''}
                     aria-label={button.titleKey ? t(button.titleKey) : ''}
                     onPointerDown={() => {
-                      setArrowOpen(!shapeOpen);
+                      setArrowOpen(!arrowOpen);
                     }}
                   />
                 </PopoverTrigger>

@@ -76,6 +76,12 @@ export interface Translations {
   // Extra tools menu items
   'extraTools.mermaidToDrawnix': string;
   'extraTools.markdownToDrawnix': string;
+
+  // Clean confirm dialog
+  'cleanConfirm.title': string;
+  'cleanConfirm.description': string;
+  'cleanConfirm.cancel': string;
+  'cleanConfirm.ok': string;
 }
 
 // Translation data
@@ -152,6 +158,12 @@ const translations: Record<Language, Translations> = {
     // Extra tools menu items
     'extraTools.mermaidToDrawnix': 'Mermaid 到 Drawnix',
     'extraTools.markdownToDrawnix': 'Markdown 到 Drawnix',
+
+    // Clean confirm dialog
+    'cleanConfirm.title': '清除画布',
+    'cleanConfirm.description': '这将会清除整个画布。你是否要继续?',
+    'cleanConfirm.cancel': '取消',
+    'cleanConfirm.ok': '确认',
   },
   en: {
     // Toolbar items
@@ -225,6 +237,12 @@ const translations: Record<Language, Translations> = {
     // Extra tools menu items
     'extraTools.mermaidToDrawnix': 'Mermaid to Drawnix',
     'extraTools.markdownToDrawnix': 'Markdown to Drawnix',
+
+    // Clean confirm dialog
+    'cleanConfirm.title': 'Clear Board',
+    'cleanConfirm.description': 'This will clear the entire board. Do you want to continue?',
+    'cleanConfirm.cancel': 'Cancel',
+    'cleanConfirm.ok': 'OK',
   },
   ar: {
     // Toolbar items
