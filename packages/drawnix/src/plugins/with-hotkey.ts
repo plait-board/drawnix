@@ -51,6 +51,7 @@ export const buildDrawnixHotkeyPlugin = (
         if (isHotkey(['mod+z'], { byKey: true })(event)) {
           board.undo();
           event.preventDefault();
+          return;
         }
         if (event.key === 'h') {
           BoardTransforms.updatePointerType(board, PlaitPointerType.hand);
