@@ -17,7 +17,7 @@ export const buildDrawnixHotkeyPlugin = (
   updateAppState: (appState: Partial<DrawnixState>) => void
 ) => {
   const withDrawnixHotkey = (board: PlaitBoard) => {
-    const { globalKeyDown } = board;
+    const { globalKeyDown, keyDown } = board;
     board.globalKeyDown = (event: KeyboardEvent) => {
       const isTypingNormal =
         event.target instanceof HTMLInputElement ||
@@ -45,11 +45,6 @@ export const buildDrawnixHotkeyPlugin = (
           updateAppState({
             openCleanConfirm: true,
           });
-          event.preventDefault();
-          return;
-        }
-        if (isHotkey(['mod+z'], { byKey: true })(event)) {
-          board.undo();
           event.preventDefault();
           return;
         }
@@ -103,6 +98,22 @@ export const buildDrawnixHotkeyPlugin = (
         }
       }
       globalKeyDown(event);
+    };
+
+    board.keyDown = (event: KeyboardEvent) => {
+      if (isHotkey(['mod+z'], { byKey: true })(event)) {
+        board.undo();
+        event.preventDefault();
+        return;
+      }
+
+      if (isHotkey(['mod+shift+z'], { byKey: true })(event)) {
+        board.redo();
+        event.preventDefault();
+        return;
+      }
+
+      keyDown(event);
     };
 
     return board;
