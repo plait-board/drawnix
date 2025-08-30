@@ -45,9 +45,18 @@ export const TextIcon = createIcon(
 );
 
 export const EraseIcon = createIcon(
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path stroke="none" d="M0 0h24v24H0z"/>
-    <path d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3" /><path d="M18 13.3l-6.3 -6.3" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" />
+    <path d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3" />
+    <path d="M18 13.3l-6.3 -6.3" />
   </svg>
 );
 
@@ -517,5 +526,29 @@ export const LinkIcon = createIcon(
         transform="rotate(46 8.253 8.13)"
       ></path>
     </g>
+  </svg>
+);
+
+export const ArrowIcon = createIcon(
+  <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 40 20">
+    <g transform="" stroke="currentColor" stroke-width="2" fill="none">
+      <path d="M34 10H6M34 10L27 5M34 10L27 15"></path>
+      <path d="M27.5 5L34.5 10L27.5 15"></path>
+    </g>
+  </svg>
+);
+
+export const StraightLineIcon = createIcon(
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    role="img"
+    viewBox="0 0 20 20"
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M4.167 10h11.666" stroke-width="1.5"></path>
   </svg>
 );

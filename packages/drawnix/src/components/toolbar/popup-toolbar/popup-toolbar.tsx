@@ -24,6 +24,7 @@ import {
 } from '@plait/mind';
 import './popup-toolbar.scss';
 import {
+  ArrowLineHandle,
   getStrokeColorByElement as getStrokeColorByDrawElement,
   isClosedCustomGeometry,
   isClosedDrawElement,
@@ -39,6 +40,7 @@ import { isWhite, removeHexAlpha } from '../../../utils/color';
 import { NO_COLOR } from '../../../constants/color';
 import { Freehand } from '../../../plugins/freehand/type';
 import { PopupLinkButton } from './link-button';
+import { PopupArrowButton } from './line-arrow-button';
 
 export const PopupToolbar = () => {
   const board = useBoard();
@@ -64,6 +66,10 @@ export const PopupToolbar = () => {
     hasStroke?: boolean;
     hasStrokeStyle?: boolean;
     marks?: Omit<CustomText, 'text'>;
+    // Line state
+    isLine?: boolean;
+    source?: ArrowLineHandle;
+    target?: ArrowLineHandle;
   } = {
     fill: 'red',
   };
@@ -80,6 +86,9 @@ export const PopupToolbar = () => {
     const hasStrokeStyle =
       selectedElements.some((value) => hasStrokeStyleProperty(board, value)) &&
       !PlaitBoard.hasBeenTextEditing(board);
+    const isLine = selectedElements.every((value) =>
+      PlaitDrawElement.isArrowLine(value)
+    );
     state = {
       ...getElementState(board),
       hasFill,
@@ -87,6 +96,7 @@ export const PopupToolbar = () => {
       hasStroke,
       hasStrokeStyle,
       hasText,
+      isLine,
     };
   }
   useEffect(() => {
@@ -215,6 +225,15 @@ export const PopupToolbar = () => {
                 title={`Link`}
               ></PopupLinkButton>
             )}
+            {state.isLine && (
+              <PopupArrowButton
+                board={board}
+                key={4}
+                source={state.source}
+                target={state.target}
+                title={`Arrow`}
+              />
+            )}
           </Stack.Row>
         </Island>
       )}
@@ -243,6 +262,8 @@ export const getDrawElementState = (
     fill: element.fill,
     strokeColor: getStrokeColorByDrawElement(board, element),
     marks,
+    source: element?.source||{},
+    target: element?.target||{},
   };
 };
 
