@@ -8,14 +8,14 @@ import { ArrowLineHandle } from '@plait/draw';
 import { ArrowMarkerPicker } from '../../arrow-mark-picker';
 import { useI18n } from '../../../i18n';
 
-export type PopupFillButtonProps = {
+export type ArrowMarkButtonProps = {
   board: PlaitBoard;
   endProperty?: ArrowLineHandle;
   children?: React.ReactNode;
   end: 'source' | 'target';
 };
 
-export const ArrowMarkButton: React.FC<PopupFillButtonProps> = ({
+export const ArrowMarkButton: React.FC<ArrowMarkButtonProps> = ({
   board,
   end,
   endProperty,

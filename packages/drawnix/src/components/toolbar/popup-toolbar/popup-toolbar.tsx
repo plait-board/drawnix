@@ -40,7 +40,7 @@ import { isWhite, removeHexAlpha } from '../../../utils/color';
 import { NO_COLOR } from '../../../constants/color';
 import { Freehand } from '../../../plugins/freehand/type';
 import { PopupLinkButton } from './link-button';
-import { ArrowMarkButton } from './line-arrow-button';
+import { ArrowMarkButton } from './arrow-mark-button';
 import { useI18n } from '../../../i18n';
 
 export const PopupToolbar = () => {
