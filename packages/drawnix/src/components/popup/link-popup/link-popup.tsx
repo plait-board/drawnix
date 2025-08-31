@@ -162,8 +162,8 @@ export const LinkPopup = () => {
                 type="icon"
                 visible={true}
                 icon={TrashIcon}
-                title={t('linkPopup.delLink')}
-                aria-label={t('linkPopup.delLink')}
+                title={t('popupLink.delLink')}
+                aria-label={t('popupLink.delLink')}
                 onPointerDown={() => {
                   const editor = linkState!.editor;
                   const targetElement = linkState!.targetElement;
@@ -210,8 +210,8 @@ export const LinkPopup = () => {
                 type="icon"
                 visible={true}
                 icon={TrashIcon}
-                title={t('linkPopup.delLink')}
-                aria-label={t('linkPopup.delLink')}
+                title={t('popupLink.delLink')}
+                aria-label={t('popupLink.delLink')}
                 onPointerDown={() => {
                   const editor = linkState!.editor;
                   const targetElement = linkState!.targetElement;

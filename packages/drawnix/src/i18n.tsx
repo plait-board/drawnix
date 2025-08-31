@@ -486,14 +486,18 @@ const translations: Record<Language, Translations> = {
     'dialog.mermaid.flowchart': 'блок-схемы',
     'dialog.mermaid.sequence': 'диаграммы последовательностей', 
     'dialog.mermaid.class': 'диаграммы классов',
-    'dialog.mermaid.otherTypes': ' и другие диаграммы (преобразуются в изображения).',
+    'dialog.mermaid.otherTypes':
+      ' и другие диаграммы (преобразуются в изображения).',
     'dialog.mermaid.syntax': 'Синтаксис Mermaid',
-    'dialog.mermaid.placeholder': 'Введите сюда описание вашей Mermaid-диаграммы…',
+    'dialog.mermaid.placeholder':
+      'Введите сюда описание вашей Mermaid-диаграммы…',
     'dialog.mermaid.preview': 'Предпросмотр',
     'dialog.mermaid.insert': 'Вставить',
-    'dialog.markdown.description': 'Поддерживается автоматическое преобразование синтаксиса Markdown в mind-карты.',
+    'dialog.markdown.description':
+      'Поддерживается автоматическое преобразование синтаксиса Markdown в mind-карты.',
     'dialog.markdown.syntax': 'Синтаксис Markdown',
-    'dialog.markdown.placeholder': 'Введите сюда описание вашего текста Markdown…',
+    'dialog.markdown.placeholder':
+      'Введите сюда описание вашего текста Markdown…',
     'dialog.markdown.preview': 'Предпросмотр',
     'dialog.markdown.insert': 'Вставить',
     'dialog.error.loadMermaid': 'Не удалось загрузить библотеку Mermaid',
@@ -504,7 +508,8 @@ const translations: Record<Language, Translations> = {
 
     // Clean confirm dialog
     'cleanConfirm.title': 'Очистить доску',
-    'cleanConfirm.description': 'Это удалит всё содержимое доски. Вы хотите продолжить?',
+    'cleanConfirm.description':
+      'Это удалит всё содержимое доски. Вы хотите продолжить?',
     'cleanConfirm.cancel': 'Отмена',
     'cleanConfirm.ok': 'ОК',
 
@@ -522,10 +527,10 @@ const translations: Record<Language, Translations> = {
     'textPlaceholders.text': 'Текст',
 
     // Line tool
-    'line.source': 'Start',
-    'line.target': 'End',
-    'line.arrow': 'Arrow',
-    'line.none': 'None',
+    'line.source': 'Начало',
+    'line.target': 'Конец',
+    'line.arrow': 'Стрелка',
+    'line.none': 'Нет',
   },
 };
 

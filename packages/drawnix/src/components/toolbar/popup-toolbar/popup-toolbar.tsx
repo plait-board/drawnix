@@ -42,7 +42,6 @@ import { NO_COLOR } from '../../../constants/color';
 import { Freehand } from '../../../plugins/freehand/type';
 import { PopupLinkButton } from './link-button';
 import { ArrowMarkButton } from './arrow-mark-button';
-import { useI18n } from '../../../i18n';
 
 export const PopupToolbar = () => {
   const board = useBoard();
@@ -102,7 +101,6 @@ export const PopupToolbar = () => {
       isLine,
     };
   }
-  const { t } = useI18n();
   useEffect(() => {
     if (open) {
       const hasSelected = selectedElements.length > 0;
