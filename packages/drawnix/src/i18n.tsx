@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useMemo,
+} from 'react';
 
 // Define supported languages
 export type Language = 'zh' | 'en' | 'ru';
@@ -29,13 +35,13 @@ export interface Translations {
   'toolbar.shape.diamond': string,
   'toolbar.shape.parallelogram': string,
   'toolbar.shape.roundRectangle': string,
-  
+
   // Zoom controls
   'zoom.in': string;
   'zoom.out': string;
   'zoom.fit': string;
   'zoom.100': string;
-  
+
   // Themes
   'theme.default': string;
   'theme.colorful': string;
@@ -61,20 +67,20 @@ export interface Translations {
   'color.brown': string,
   'color.forestGreen': string,
   'color.lightGray': string,
-  
+
   // General
   'general.undo': string;
   'general.redo': string;
   'general.menu': string;
   'general.duplicate': string;
   'general.delete': string;
-  
+
   // Language
   'language.switcher': string;
   'language.chinese': string;
   'language.english': string;
   'language.russian': string;
-  
+
   // Menu items
   'menu.open': string;
   'menu.saveFile': string;
@@ -83,7 +89,7 @@ export interface Translations {
   'menu.exportImage.jpg': string;
   'menu.cleanBoard': string;
   'menu.github': string;
-  
+
   // Dialog translations
   'dialog.mermaid.title': string;
   'dialog.mermaid.description': string;
@@ -101,7 +107,7 @@ export interface Translations {
   'dialog.markdown.preview': string;
   'dialog.markdown.insert': string;
   'dialog.error.loadMermaid': string;
-  
+
   // Extra tools menu items
   'extraTools.mermaidToDrawnix': string;
   'extraTools.markdownToDrawnix': string;
@@ -112,18 +118,24 @@ export interface Translations {
   'cleanConfirm.cancel': string;
   'cleanConfirm.ok': string;
 
+  // Link popup items
+  'popupLink.delLink': string,
+
+  // Tool popup items
+  'popupToolbar.fillColor': string;
+  'popupToolbar.fontColor': string;
+  'popupToolbar.link': string;
+  'popupToolbar.stroke': string;
+
   // Text placeholders
   'textPlaceholders.link': string,
   'textPlaceholders.text': string,
 
-  // Link popup items
-  'linkPopup.delLink': string,
-
-  // Tool popup items
-  'toolPopup.fillColor': string,
-  'toolPopup.fontColor': string,
-  'toolPopup.link': string,
-  'toolPopup.stroke': string,
+  // Line tool
+  'line.source': string;
+  'line.target': string;
+  'line.arrow': string;
+  'line.none': string;
 }
 
 // Translation data
@@ -153,13 +165,13 @@ const translations: Record<Language, Translations> = {
     'toolbar.shape.diamond': 'Diamond',
     'toolbar.shape.parallelogram': 'Parallelogram',
     'toolbar.shape.roundRectangle': 'Round Rectangle',
-    
+
     // Zoom controls
     'zoom.in': '放大 — Cmd++',
     'zoom.out': '缩小 — Cmd+-',
     'zoom.fit': '自适应',
     'zoom.100': '缩放至 100%',
-    
+
     // Themes
     'theme.default': '默认',
     'theme.colorful': '缤纷',
@@ -192,7 +204,7 @@ const translations: Record<Language, Translations> = {
     'general.menu': '应用菜单',
     'general.duplicate': '复制',
     'general.delete': '删除',
-    
+
     // Language
     'language.switcher': 'Language',
     'language.chinese': '中文',
@@ -207,7 +219,7 @@ const translations: Record<Language, Translations> = {
     'menu.exportImage.jpg': 'JPG',
     'menu.cleanBoard': '清除画布',
     'menu.github': 'GitHub',
-    
+
     // Dialog translations
     'dialog.mermaid.title': 'Mermaid 转 Drawnix',
     'dialog.mermaid.description': '目前仅支持',
@@ -225,7 +237,7 @@ const translations: Record<Language, Translations> = {
     'dialog.markdown.preview': '预览',
     'dialog.markdown.insert': '插入',
     'dialog.error.loadMermaid': '加载 Mermaid 库失败',
-    
+
     // Extra tools menu items
     'extraTools.mermaidToDrawnix': 'Mermaid 到 Drawnix',
     'extraTools.markdownToDrawnix': 'Markdown 到 Drawnix',
@@ -236,19 +248,26 @@ const translations: Record<Language, Translations> = {
     'cleanConfirm.cancel': '取消',
     'cleanConfirm.ok': '确认',
 
-    // Text tool placeholders
+    // Link popup items
+    'popupLink.delLink': 'Delete Link',
+
+    // Tool popup items
+    'popupToolbar.fillColor': '填充颜色',
+    'popupToolbar.fontColor': '字体颜色',
+    'popupToolbar.link': '链接',
+    'popupToolbar.stroke': '边框',
+    
+    // Text placeholders
     'textPlaceholders.link': '链接',
     'textPlaceholders.text': '文本',
 
-    // Link popup
-    'linkPopup.delLink': 'Delete Link',
-
-    // Tool popup
-    'toolPopup.fillColor': 'Fill Color',
-    'toolPopup.fontColor': 'Font Color',
-    'toolPopup.link': 'Insert Link',
-    'toolPopup.stroke': 'Stroke',
+    // Line tool
+    'line.source': '起点',
+    'line.target': '终点',
+    'line.arrow': '箭头',
+    'line.none': '无',
   },
+
   en: {
     // Toolbar items
     'toolbar.hand': 'Hand — H',
@@ -259,7 +278,7 @@ const translations: Record<Language, Translations> = {
     'toolbar.shape': 'Shape',
     'toolbar.image': 'Image — Cmd+U',
     'toolbar.extraTools': 'Extra Tools',
-    
+
     'toolbar.pen': 'Pen — P',
     'toolbar.eraser': 'Eraser — E',
 
@@ -280,7 +299,7 @@ const translations: Record<Language, Translations> = {
     'zoom.out': 'Zoom Out — Cmd+-',
     'zoom.fit': 'Fit to Screen',
     'zoom.100': 'Zoom to 100%',
-    
+
     // Themes
     'theme.default': 'Default',
     'theme.colorful': 'Colorful',
@@ -313,13 +332,13 @@ const translations: Record<Language, Translations> = {
     'general.menu': 'App Menu',
     'general.duplicate': 'Duplicate',
     'general.delete': 'Delete',
-    
+
     // Language
     'language.switcher': 'Language',
     'language.chinese': '中文',
     'language.english': 'English',
     'language.russian': 'Русский',
-    
+
     // Menu items
     'menu.open': 'Open',
     'menu.saveFile': 'Save File',
@@ -328,48 +347,59 @@ const translations: Record<Language, Translations> = {
     'menu.exportImage.jpg': 'JPG',
     'menu.cleanBoard': 'Clear Board',
     'menu.github': 'GitHub',
-    
+
     // Dialog translations
     'dialog.mermaid.title': 'Mermaid to Drawnix',
     'dialog.mermaid.description': 'Currently supports',
     'dialog.mermaid.flowchart': 'flowcharts',
-    'dialog.mermaid.sequence': 'sequence diagrams', 
+    'dialog.mermaid.sequence': 'sequence diagrams',
     'dialog.mermaid.class': 'class diagrams',
-    'dialog.mermaid.otherTypes': ', and other diagram types (rendered as images).',
+    'dialog.mermaid.otherTypes':
+      ', and other diagram types (rendered as images).',
     'dialog.mermaid.syntax': 'Mermaid Syntax',
     'dialog.mermaid.placeholder': 'Write your Mermaid chart definition here…',
     'dialog.mermaid.preview': 'Preview',
     'dialog.mermaid.insert': 'Insert',
-    'dialog.markdown.description': 'Supports automatic conversion of Markdown syntax to mind map.',
+    'dialog.markdown.description':
+      'Supports automatic conversion of Markdown syntax to mind map.',
     'dialog.markdown.syntax': 'Markdown Syntax',
-    'dialog.markdown.placeholder': 'Write your Markdown text definition here…',
+    'dialog.markdown.placeholder':
+      'Write your Markdown text definition here...',
     'dialog.markdown.preview': 'Preview',
     'dialog.markdown.insert': 'Insert',
     'dialog.error.loadMermaid': 'Failed to load Mermaid library',
-    
+
     // Extra tools menu items
     'extraTools.mermaidToDrawnix': 'Mermaid to Drawnix',
     'extraTools.markdownToDrawnix': 'Markdown to Drawnix',
 
     // Clean confirm dialog
     'cleanConfirm.title': 'Clear Board',
-    'cleanConfirm.description': 'This will clear the entire board. Do you want to continue?',
+    'cleanConfirm.description':
+      'This will clear the entire board. Do you want to continue?',
     'cleanConfirm.cancel': 'Cancel',
     'cleanConfirm.ok': 'OK',
 
+    // Link popup items
+    'popupLink.delLink': 'Delete Link',
+
+    // Tool popup items
+    'popupToolbar.fillColor': 'Fill Color',
+    'popupToolbar.fontColor': 'Font Color',
+    'popupToolbar.link': 'Insert Link',
+    'popupToolbar.stroke': 'Stroke',
+    
     // Text placeholders
     'textPlaceholders.link': 'Link',
     'textPlaceholders.text': 'Text',
 
-    // Link popup
-    'linkPopup.delLink': 'Delete Link',
-
-    // Tool popup
-    'toolPopup.fillColor': 'Fill Color',
-    'toolPopup.fontColor': 'Font Color',
-    'toolPopup.link': 'Insert Link',
-    'toolPopup.stroke': 'Stroke',
+    // Line tool
+    'line.source': 'Start',
+    'line.target': 'End',
+    'line.arrow': 'Arrow',
+    'line.none': 'None',
   },
+
   ru: {
     // Toolbar items
     'toolbar.hand': 'Рука — H',
@@ -478,18 +508,24 @@ const translations: Record<Language, Translations> = {
     'cleanConfirm.cancel': 'Отмена',
     'cleanConfirm.ok': 'ОК',
 
+    // Link popup items
+    'popupLink.delLink': 'Удалить ссылку',
+
+    // Tool popup items
+    'popupToolbar.fillColor': 'Цвет заливки',
+    'popupToolbar.fontColor': 'Цвет текста',
+    'popupToolbar.link': 'Вставить ссылку',
+    'popupToolbar.stroke': 'Контур',
+    
     // Text placeholders
     'textPlaceholders.link': 'Ссылка',
     'textPlaceholders.text': 'Текст',
 
-    // Link popup
-    'linkPopup.delLink': 'Удалить ссылку',
-
-    // Tool popup
-    'toolPopup.fillColor': 'Цвет заливки',
-    'toolPopup.fontColor': 'Цвет текста',
-    'toolPopup.link': 'Вставить ссылку',
-    'toolPopup.stroke': 'Контур',
+    // Line tool
+    'line.source': 'Start',
+    'line.target': 'End',
+    'line.arrow': 'Arrow',
+    'line.none': 'None',
   },
 };
 
@@ -510,9 +546,9 @@ interface I18nProviderProps {
 }
 
 // I18nProvider component
-export const I18nProvider: React.FC<I18nProviderProps> = ({ 
-  children, 
-  defaultLanguage = 'zh' 
+export const I18nProvider: React.FC<I18nProviderProps> = ({
+  children,
+  defaultLanguage = 'zh',
 }) => {
   const [language, setLanguage] = useState<Language>(defaultLanguage);
 
@@ -520,27 +556,26 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
     return translations[language][key] || key;
   };
 
-  const value: I18nContextType = useMemo(() => ({
-    language,
-    setLanguage,
-    t,
-  }), [language]);
-
-  return (
-    <I18nContext.Provider value={value}>
-      {children}
-    </I18nContext.Provider>
+  const value: I18nContextType = useMemo(
+    () => ({
+      language,
+      setLanguage,
+      t,
+    }),
+    [language]
   );
+
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 };
 
 // useI18n hook
 export const useI18n = (): I18nContextType => {
   const context = useContext(I18nContext);
-  
+
   if (!context) {
     throw new Error('useI18n must be used within I18nProvider');
   }
-  
+
   return context;
 };
 
