@@ -453,7 +453,7 @@ const translations: Record<Language, Translations> = {
     // Dialog translations
     'dialog.mermaid.title': 'Mermaid в Drawnix',
     'dialog.mermaid.description': 'Поддерживаются',
-    'dialog.mermaid.flowchart': 'flow-карты',
+    'dialog.mermaid.flowchart': 'блок-схемы',
     'dialog.mermaid.sequence': 'диаграммы последовательностей', 
     'dialog.mermaid.class': 'диаграммы классов',
     'dialog.mermaid.otherTypes': ' и другие диаграммы (преобразуются в изображения).',
