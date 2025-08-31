@@ -41,6 +41,7 @@ import { NO_COLOR } from '../../../constants/color';
 import { Freehand } from '../../../plugins/freehand/type';
 import { PopupLinkButton } from './link-button';
 import { PopupArrowButton } from './line-arrow-button';
+import { useI18n } from '../../../i18n';
 
 export const PopupToolbar = () => {
   const board = useBoard();
@@ -99,6 +100,7 @@ export const PopupToolbar = () => {
       isLine,
     };
   }
+  const { t } = useI18n();
   useEffect(() => {
     if (open) {
       const hasSelected = selectedElements.length > 0;
@@ -182,7 +184,7 @@ export const PopupToolbar = () => {
                 board={board}
                 key={0}
                 currentColor={state.marks?.color}
-                title={`Font Color`}
+                title={t('popupToolbar.fontColor')}
                 fontColorIcon={
                   <FontColorIcon currentColor={state.marks?.color} />
                 }
@@ -193,7 +195,7 @@ export const PopupToolbar = () => {
                 board={board}
                 key={1}
                 currentColor={state.strokeColor}
-                title={`Stroke`}
+                title={t('popupToolbar.stroke')}
                 hasStrokeStyle={state.hasStrokeStyle || false}
               >
                 <label
@@ -207,7 +209,7 @@ export const PopupToolbar = () => {
                 board={board}
                 key={2}
                 currentColor={state.fill}
-                title={`Fill Color`}
+                title={t('popupToolbar.fillColor')}
               >
                 <label
                   className={classNames('fill-label', 'color-label', {
@@ -222,7 +224,7 @@ export const PopupToolbar = () => {
               <PopupLinkButton
                 board={board}
                 key={3}
-                title={`Link`}
+                title={t('popupToolbar.link')}
               ></PopupLinkButton>
             )}
             {state.isLine && (
@@ -231,7 +233,7 @@ export const PopupToolbar = () => {
                 key={4}
                 source={state.source}
                 target={state.target}
-                title={`Arrow`}
+                title={t('popupToolbar.arrow')}
               />
             )}
           </Stack.Row>
@@ -262,8 +264,8 @@ export const getDrawElementState = (
     fill: element.fill,
     strokeColor: getStrokeColorByDrawElement(board, element),
     marks,
-    source: element?.source||{},
-    target: element?.target||{},
+    source: element?.source || {},
+    target: element?.target || {},
   };
 };
 

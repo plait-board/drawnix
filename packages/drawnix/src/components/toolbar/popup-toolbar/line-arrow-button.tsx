@@ -3,23 +3,12 @@ import { ToolButton } from '../../tool-button';
 import classNames from 'classnames';
 import { ATTACHED_ELEMENT_CLASS_NAME, PlaitBoard } from '@plait/core';
 import { Island } from '../../island';
-import { ColorPicker } from '../../color-picker';
+
 import {
-  hexAlphaToOpacity,
-  isFullyTransparent,
-  removeHexAlpha,
-} from '../../../utils/color';
-import {
-  ArrowIcon,
-  BackgroundColorIcon,
-  StraightArrowLineIcon,
-  StraightLineIcon,
+ArrowIcon,
+  LineIcon,
 } from '../../icons';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
-import {
-  setFillColor,
-  setFillColorOpacity,
-} from '../../../transforms/property';
 import Stack from '../../stack';
 import { PropertyTransforms } from '@plait/common';
 import { ArrowLineHandle } from '@plait/draw';
@@ -74,9 +63,9 @@ export const PopupArrowButton: React.FC<PopupFillButtonProps> = ({
       >
         <PopoverTrigger asChild>
           <ToolButton
-            className={classNames(`property-button`)}
+            className={classNames(`property-button  source-arrow-button`)}
             visible={true}
-            icon={sourceMarker === 'none' ? StraightLineIcon : ArrowIcon}
+            icon={sourceMarker === 'none' ? LineIcon : ArrowIcon}
             type="button"
             title={title}
             aria-label={title}
@@ -88,13 +77,13 @@ export const PopupArrowButton: React.FC<PopupFillButtonProps> = ({
         <PopoverContent container={container}>
           <Island
             padding={2}
-            className={classNames(`${ATTACHED_ELEMENT_CLASS_NAME}`)}
+            className={classNames(`${ATTACHED_ELEMENT_CLASS_NAME} source-arrow-island`)}
           >
             <Stack.Row gap={1}>
               <ToolButton
                 className={classNames(`property-button`)}
                 visible={true}
-                icon={StraightLineIcon}
+                icon={LineIcon}
                 type="button"
                 title={title}
                 aria-label={title}
@@ -132,7 +121,7 @@ export const PopupArrowButton: React.FC<PopupFillButtonProps> = ({
           <ToolButton
             className={classNames(`property-button`)}
             visible={true}
-            icon={targetMarker === 'none' ? StraightLineIcon : ArrowIcon}
+            icon={targetMarker === 'none' ? LineIcon : ArrowIcon}
             type="button"
             title={title}
             aria-label={title}
@@ -150,7 +139,7 @@ export const PopupArrowButton: React.FC<PopupFillButtonProps> = ({
               <ToolButton
                 className={classNames(`property-button`)}
                 visible={true}
-                icon={StraightLineIcon}
+                icon={LineIcon}
                 type="button"
                 title={title}
                 aria-label={title}

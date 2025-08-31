@@ -530,25 +530,25 @@ export const LinkIcon = createIcon(
 );
 
 export const ArrowIcon = createIcon(
-  <svg aria-hidden="true" focusable="false" role="img" viewBox="0 0 40 20">
-    <g transform="" stroke="currentColor" stroke-width="2" fill="none">
-      <path d="M34 10H6M34 10L27 5M34 10L27 15"></path>
-      <path d="M27.5 5L34.5 10L27.5 15"></path>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <g strokeWidth="1" fillRule="evenodd">
+      <path d="M8.44521878,4.21103025 C8.58299906,3.97171622 8.8886944,3.88940684 9.12800843,4.02718711 L15.242109,7.54725833 C15.3194119,7.59176394 15.3834015,7.65613893 15.4274422,7.73370766 C15.5637831,7.97384463 15.4796398,8.27904026 15.2395028,8.41538118 L9.12748155,11.8855614 C9.0176214,11.947936 8.88822223,11.9664118 8.76529593,11.9372749 C8.4965984,11.8735862 8.33040588,11.604134 8.39409456,11.3354364 L9.018,8.69941945 L1.5,8.7 C1.22385763,8.7 1,8.47614237 1,8.2 L1,8 C1,7.72385763 1.22385763,7.5 1.5,7.5 L9.075,7.49941945 L8.39165922,4.57430951 C8.3700078,4.48168206 8.37536432,4.38547957 8.40609313,4.29679626 Z"></path>
+    </g>
+  </svg>
+);
+
+export const LineIcon = createIcon(
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <g strokeWidth="1" fillRule="evenodd">
+      <rect x="1" y="7.5" width="14" height="1.2" rx=".5"></rect>
     </g>
   </svg>
 );
 
 export const StraightLineIcon = createIcon(
-  <svg
-    aria-hidden="true"
-    focusable="false"
-    role="img"
-    viewBox="0 0 20 20"
-    fill="none"
-    stroke="currentColor"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <path d="M4.167 10h11.666" stroke-width="1.5"></path>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <g strokeWidth="1" fillRule="evenodd">
+      <path d="M14.701408,3.54812055 C14.9888311,3.38321272 15.3555178,3.48253099 15.5204256,3.76995411 C15.6853334,4.05737723 15.5860152,4.42406391 15.298592,4.58897174 L1.29859203,12.6214138 C1.01116891,12.7863216 0.644482231,12.6870034 0.479574406,12.3995802 C0.314666581,12.1121571 0.41398485,11.7454704 0.701407969,11.5805626 L14.701408,3.54812055 Z"></path>
+    </g>
   </svg>
 );
