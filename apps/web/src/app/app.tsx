@@ -52,12 +52,14 @@ export function App() {
       }}
       afterInit={(board) => {
         console.log('board initialized');
+        /*
         console.log(
           `add __drawnix__web__debug_log to window, so you can call add log anywhere, like: window.__drawnix__web__console('some thing')`
         );
         (window as any)['__drawnix__web__console'] = (value: string) => {
           addDebugLog(board, value);
         };
+        */
       }}
     ></Drawnix>
   );
