@@ -91,7 +91,12 @@ export interface Translations {
   'popupToolbar.stroke': string;
   'popupToolbar.fillColor': string;
   'popupToolbar.link': string;
-  'popupToolbar.arrow': string;
+
+  //line 
+  'line.source': string;
+  'line.target': string;
+  'line.arrow': string;
+  'line.none': string;
 }
 
 // Translation data
@@ -177,7 +182,12 @@ const translations: Record<Language, Translations> = {
     'popupToolbar.stroke': '边框',
     'popupToolbar.fillColor': '填充颜色',
     'popupToolbar.link': '链接',
-    'popupToolbar.arrow': '箭头',
+
+    //
+    'line.source': '起点',
+    'line.target': '终点',
+    'line.arrow': '箭头',
+    'line.none': '无',
   },
   en: {
     // Toolbar items
@@ -259,12 +269,17 @@ const translations: Record<Language, Translations> = {
     'cleanConfirm.cancel': 'Cancel',
     'cleanConfirm.ok': 'OK',
 
-        // popup toolbar
+    // popup toolbar
     'popupToolbar.fontColor': 'Font Color',
     'popupToolbar.stroke': 'Stroke',
     'popupToolbar.fillColor': 'Fill Color',
     'popupToolbar.link': 'Link',
-    'popupToolbar.arrow': 'Arrow',
+
+    //line
+    'line.source': 'Start',
+    'line.target': 'End',
+    'line.arrow': 'Arrow',
+    'line.none': 'None',
   },
 };
 

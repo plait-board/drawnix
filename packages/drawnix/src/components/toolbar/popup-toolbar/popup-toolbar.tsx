@@ -40,7 +40,7 @@ import { isWhite, removeHexAlpha } from '../../../utils/color';
 import { NO_COLOR } from '../../../constants/color';
 import { Freehand } from '../../../plugins/freehand/type';
 import { PopupLinkButton } from './link-button';
-import { PopupArrowButton } from './line-arrow-button';
+import { ArrowMarkButton } from './line-arrow-button';
 import { useI18n } from '../../../i18n';
 
 export const PopupToolbar = () => {
@@ -228,13 +228,21 @@ export const PopupToolbar = () => {
               ></PopupLinkButton>
             )}
             {state.isLine && (
-              <PopupArrowButton
-                board={board}
-                key={4}
-                source={state.source}
-                target={state.target}
-                title={t('popupToolbar.arrow')}
-              />
+              <>
+                <ArrowMarkButton
+                  board={board}
+                  key={4}
+                  end={'source'}
+                  endProperty={state.source}
+
+                />
+                <ArrowMarkButton
+                  board={board}
+                  key={5}
+                  end={'target'}
+                  endProperty={state.target}
+                />
+              </>
             )}
           </Stack.Row>
         </Island>
