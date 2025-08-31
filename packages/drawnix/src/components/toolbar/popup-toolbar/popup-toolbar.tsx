@@ -24,6 +24,7 @@ import {
 } from '@plait/mind';
 import './popup-toolbar.scss';
 import {
+  ArrowLineHandle,
   getStrokeColorByElement as getStrokeColorByDrawElement,
   isClosedCustomGeometry,
   isClosedDrawElement,
@@ -39,6 +40,8 @@ import { isWhite, removeHexAlpha } from '../../../utils/color';
 import { NO_COLOR } from '../../../constants/color';
 import { Freehand } from '../../../plugins/freehand/type';
 import { PopupLinkButton } from './link-button';
+import { ArrowMarkButton } from './arrow-mark-button';
+import { useI18n } from '../../../i18n';
 
 export const PopupToolbar = () => {
   const board = useBoard();
@@ -64,6 +67,10 @@ export const PopupToolbar = () => {
     hasStroke?: boolean;
     hasStrokeStyle?: boolean;
     marks?: Omit<CustomText, 'text'>;
+    // Line state
+    isLine?: boolean;
+    source?: ArrowLineHandle;
+    target?: ArrowLineHandle;
   } = {
     fill: 'red',
   };
@@ -80,6 +87,9 @@ export const PopupToolbar = () => {
     const hasStrokeStyle =
       selectedElements.some((value) => hasStrokeStyleProperty(board, value)) &&
       !PlaitBoard.hasBeenTextEditing(board);
+    const isLine = selectedElements.every((value) =>
+      PlaitDrawElement.isArrowLine(value)
+    );
     state = {
       ...getElementState(board),
       hasFill,
@@ -87,8 +97,10 @@ export const PopupToolbar = () => {
       hasStroke,
       hasStrokeStyle,
       hasText,
+      isLine,
     };
   }
+  const { t } = useI18n();
   useEffect(() => {
     if (open) {
       const hasSelected = selectedElements.length > 0;
@@ -172,7 +184,7 @@ export const PopupToolbar = () => {
                 board={board}
                 key={0}
                 currentColor={state.marks?.color}
-                title={`Font Color`}
+                title={t('popupToolbar.fontColor')}
                 fontColorIcon={
                   <FontColorIcon currentColor={state.marks?.color} />
                 }
@@ -183,7 +195,7 @@ export const PopupToolbar = () => {
                 board={board}
                 key={1}
                 currentColor={state.strokeColor}
-                title={`Stroke`}
+                title={t('popupToolbar.stroke')}
                 hasStrokeStyle={state.hasStrokeStyle || false}
               >
                 <label
@@ -197,7 +209,7 @@ export const PopupToolbar = () => {
                 board={board}
                 key={2}
                 currentColor={state.fill}
-                title={`Fill Color`}
+                title={t('popupToolbar.fillColor')}
               >
                 <label
                   className={classNames('fill-label', 'color-label', {
@@ -212,8 +224,25 @@ export const PopupToolbar = () => {
               <PopupLinkButton
                 board={board}
                 key={3}
-                title={`Link`}
+                title={t('popupToolbar.link')}
               ></PopupLinkButton>
+            )}
+            {state.isLine && (
+              <>
+                <ArrowMarkButton
+                  board={board}
+                  key={4}
+                  end={'source'}
+                  endProperty={state.source}
+
+                />
+                <ArrowMarkButton
+                  board={board}
+                  key={5}
+                  end={'target'}
+                  endProperty={state.target}
+                />
+              </>
             )}
           </Stack.Row>
         </Island>
@@ -243,6 +272,8 @@ export const getDrawElementState = (
     fill: element.fill,
     strokeColor: getStrokeColorByDrawElement(board, element),
     marks,
+    source: element?.source || {},
+    target: element?.target || {},
   };
 };
 

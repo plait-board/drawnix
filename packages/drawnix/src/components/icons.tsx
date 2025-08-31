@@ -45,9 +45,18 @@ export const TextIcon = createIcon(
 );
 
 export const EraseIcon = createIcon(
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path stroke="none" d="M0 0h24v24H0z"/>
-    <path d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3" /><path d="M18 13.3l-6.3 -6.3" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" />
+    <path d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3" />
+    <path d="M18 13.3l-6.3 -6.3" />
   </svg>
 );
 
@@ -516,6 +525,30 @@ export const LinkIcon = createIcon(
         d="M12.253 4.13h-1.2v-1a2.8 2.8 0 0 0-5.6 0v4a2.8 2.8 0 0 0 2.8 2.8v1.2a4 4 0 0 1-4-4v-4a4 4 0 0 1 8 0v1zm-8 8h1.2v1a2.8 2.8 0 0 0 5.6 0v-4a2.8 2.8 0 0 0-2.8-2.8v-1.2a4 4 0 0 1 4 4v4a4 4 0 0 1-8 0v-1z"
         transform="rotate(46 8.253 8.13)"
       ></path>
+    </g>
+  </svg>
+);
+
+export const ArrowIcon = createIcon(
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <g  stroke="none">
+      <path d="M8.44521878,4.21103025 C8.58299906,3.97171622 8.8886944,3.88940684 9.12800843,4.02718711 L15.242109,7.54725833 C15.3194119,7.59176394 15.3834015,7.65613893 15.4274422,7.73370766 C15.5637831,7.97384463 15.4796398,8.27904026 15.2395028,8.41538118 L9.12748155,11.8855614 C9.0176214,11.947936 8.88822223,11.9664118 8.76529593,11.9372749 C8.4965984,11.8735862 8.33040588,11.604134 8.39409456,11.3354364 L9.018,8.69941945 L1.5,8.7 C1.22385763,8.7 1,8.47614237 1,8.2 L1,8 C1,7.72385763 1.22385763,7.5 1.5,7.5 L9.075,7.49941945 L8.39165922,4.57430951 C8.3700078,4.48168206 8.37536432,4.38547957 8.40609313,4.29679626 Z"></path>
+    </g>
+  </svg>
+);
+
+export const LineIcon = createIcon(
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <g stroke="none">
+      <rect x="1" y="7.5" width="14" height="1.2" rx=".5"></rect>
+    </g>
+  </svg>
+);
+
+export const StraightLineIcon = createIcon(
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <g stroke="none">
+      <path d="M14.701408,3.54812055 C14.9888311,3.38321272 15.3555178,3.48253099 15.5204256,3.76995411 C15.6853334,4.05737723 15.5860152,4.42406391 15.298592,4.58897174 L1.29859203,12.6214138 C1.01116891,12.7863216 0.644482231,12.6870034 0.479574406,12.3995802 C0.314666581,12.1121571 0.41398485,11.7454704 0.701407969,11.5805626 L14.701408,3.54812055 Z"></path>
     </g>
   </svg>
 );
