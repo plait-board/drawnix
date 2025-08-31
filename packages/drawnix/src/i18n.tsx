@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
 
 // Define supported languages
-export type Language = 'zh' | 'en';
+export type Language = 'zh' | 'en' | 'ru';
 
 // Define translation keys and their corresponding values
 export interface Translations {
@@ -10,12 +10,25 @@ export interface Translations {
   'toolbar.selection': string;
   'toolbar.mind': string;
   'toolbar.text': string;
-  'toolbar.pen': string;
-  'toolbar.eraser': string;
   'toolbar.arrow': string;
   'toolbar.shape': string;
   'toolbar.image': string;
   'toolbar.extraTools': string;
+
+  'toolbar.pen': string;
+  'toolbar.eraser': string;
+  
+  'toolbar.arrow.straight': string,
+  'toolbar.arrow.elbow': string,
+  'toolbar.arrow.curve': string,
+
+  'toolbar.shape.rectangle': string,
+  'toolbar.shape.ellipse': string,
+  'toolbar.shape.triangle': string,
+  'toolbar.shape.terminal': string,
+  'toolbar.shape.diamond': string,
+  'toolbar.shape.parallelogram': string,
+  'toolbar.shape.roundRectangle': string,
   
   // Zoom controls
   'zoom.in': string;
@@ -30,6 +43,24 @@ export interface Translations {
   'theme.retro': string;
   'theme.dark': string;
   'theme.starry': string;
+
+  // Colors
+  'color.none': string,
+  'color.unknown': string,
+  'color.default': string,
+  'color.white': string,
+  'color.gray': string,
+  'color.deepBlue': string,
+  'color.red': string,
+  'color.green': string,
+  'color.yellow': string,
+  'color.purple': string,
+  'color.orange': string,
+  'color.pastelPink': string,
+  'color.cyan': string,
+  'color.brown': string,
+  'color.forestGreen': string,
+  'color.lightGray': string,
   
   // General
   'general.undo': string;
@@ -42,6 +73,7 @@ export interface Translations {
   'language.switcher': string;
   'language.chinese': string;
   'language.english': string;
+  'language.russian': string;
   
   // Menu items
   'menu.open': string;
@@ -79,6 +111,19 @@ export interface Translations {
   'cleanConfirm.description': string;
   'cleanConfirm.cancel': string;
   'cleanConfirm.ok': string;
+
+  // Text placeholders
+  'textPlaceholders.link': string,
+  'textPlaceholders.text': string,
+
+  // Link popup items
+  'linkPopup.delLink': string,
+
+  // Tool popup items
+  'toolPopup.fillColor': string,
+  'toolPopup.fontColor': string,
+  'toolPopup.link': string,
+  'toolPopup.stroke': string,
 }
 
 // Translation data
@@ -89,12 +134,25 @@ const translations: Record<Language, Translations> = {
     'toolbar.selection': '选择 — V',
     'toolbar.mind': '思维导图 — M',
     'toolbar.text': '文本 — T',
-    'toolbar.pen': '画笔 — P',
-    'toolbar.eraser': '橡皮擦 — E',
     'toolbar.arrow': '箭头 — A',
     'toolbar.shape': '形状',
     'toolbar.image': '图片 — Cmd+U',
     'toolbar.extraTools': '更多工具',
+
+    'toolbar.pen': '画笔 — P',
+    'toolbar.eraser': '橡皮擦 — E',
+
+    'toolbar.arrow.straight': 'Straight Arrow Line',
+    'toolbar.arrow.elbow': 'Elbow Arrow Line',
+    'toolbar.arrow.curve': 'Curve Arrow Line',
+
+    'toolbar.shape.rectangle': 'Rectangle — R',
+    'toolbar.shape.ellipse': 'Ellipse — O',
+    'toolbar.shape.triangle': 'Triangle',
+    'toolbar.shape.terminal': 'Terminal',
+    'toolbar.shape.diamond': 'Diamond',
+    'toolbar.shape.parallelogram': 'Parallelogram',
+    'toolbar.shape.roundRectangle': 'Round Rectangle',
     
     // Zoom controls
     'zoom.in': '放大 — Cmd++',
@@ -109,7 +167,25 @@ const translations: Record<Language, Translations> = {
     'theme.retro': '复古',
     'theme.dark': '暗夜',
     'theme.starry': '星空',
-    
+
+    // Colors
+    'color.none': 'Topic Color',
+    'color.unknown': 'Other Color',
+    'color.default': 'Basic Black',
+    'color.white': 'White',
+    'color.gray': 'Grey',
+    'color.deepBlue': 'Deep Blue',
+    'color.red': 'Red',
+    'color.green': 'Green',
+    'color.yellow': 'Yellow',
+    'color.purple': 'Purple',
+    'color.orange': 'Orange',
+    'color.pastelPink': 'Paster Pink',
+    'color.cyan': 'Cyan',
+    'color.brown': 'Brown',
+    'color.forestGreen': 'Forest Green',
+    'color.lightGray': 'Light Grey',
+
     // General
     'general.undo': '撤销',
     'general.redo': '重做',
@@ -118,9 +194,10 @@ const translations: Record<Language, Translations> = {
     'general.delete': '删除',
     
     // Language
-    'language.switcher': '语言',
+    'language.switcher': 'Language',
     'language.chinese': '中文',
     'language.english': 'English',
+    'language.russian': 'Русский',
     
     // Menu items
     'menu.open': '打开',
@@ -139,12 +216,12 @@ const translations: Record<Language, Translations> = {
     'dialog.mermaid.class': '类图',
     'dialog.mermaid.otherTypes': '。其他类型在 Drawnix 中将以图片呈现。',
     'dialog.mermaid.syntax': 'Mermaid 语法',
-    'dialog.mermaid.placeholder': '在此处编写 Mermaid 图表定义...',
+    'dialog.mermaid.placeholder': '在此处编写 Mermaid 图表定义…',
     'dialog.mermaid.preview': '预览',
     'dialog.mermaid.insert': '插入',
     'dialog.markdown.description': '支持 Markdown 语法自动转换为思维导图。',
     'dialog.markdown.syntax': 'Markdown 语法',
-    'dialog.markdown.placeholder': '在此处编写 Markdown 文本定义...',
+    'dialog.markdown.placeholder': '在此处编写 Markdown 文本定义…',
     'dialog.markdown.preview': '预览',
     'dialog.markdown.insert': '插入',
     'dialog.error.loadMermaid': '加载 Mermaid 库失败',
@@ -158,6 +235,19 @@ const translations: Record<Language, Translations> = {
     'cleanConfirm.description': '这将会清除整个画布。你是否要继续?',
     'cleanConfirm.cancel': '取消',
     'cleanConfirm.ok': '确认',
+
+    // Text tool placeholders
+    'textPlaceholders.link': '链接',
+    'textPlaceholders.text': '文本',
+
+    // Link popup
+    'linkPopup.delLink': 'Delete Link',
+
+    // Tool popup
+    'toolPopup.fillColor': 'Fill Color',
+    'toolPopup.fontColor': 'Font Color',
+    'toolPopup.link': 'Insert Link',
+    'toolPopup.stroke': 'Stroke',
   },
   en: {
     // Toolbar items
@@ -165,13 +255,26 @@ const translations: Record<Language, Translations> = {
     'toolbar.selection': 'Selection — V',
     'toolbar.mind': 'Mind — M',
     'toolbar.text': 'Text — T',
-    'toolbar.pen': 'Pen — P',
-    'toolbar.eraser': 'Eraser — E',
     'toolbar.arrow': 'Arrow — A',
     'toolbar.shape': 'Shape',
     'toolbar.image': 'Image — Cmd+U',
     'toolbar.extraTools': 'Extra Tools',
     
+    'toolbar.pen': 'Pen — P',
+    'toolbar.eraser': 'Eraser — E',
+
+    'toolbar.arrow.straight': 'Straight Arrow Line',
+    'toolbar.arrow.elbow': 'Elbow Arrow Line',
+    'toolbar.arrow.curve': 'Curve Arrow Line',
+
+    'toolbar.shape.rectangle': 'Rectangle — R',
+    'toolbar.shape.ellipse': 'Ellipse — O',
+    'toolbar.shape.triangle': 'Triangle',
+    'toolbar.shape.terminal': 'Terminal',
+    'toolbar.shape.diamond': 'Diamond',
+    'toolbar.shape.parallelogram': 'Parallelogram',
+    'toolbar.shape.roundRectangle': 'Round Rectangle',
+
     // Zoom controls
     'zoom.in': 'Zoom In — Cmd++',
     'zoom.out': 'Zoom Out — Cmd+-',
@@ -185,7 +288,25 @@ const translations: Record<Language, Translations> = {
     'theme.retro': 'Retro',
     'theme.dark': 'Dark',
     'theme.starry': 'Starry',
-    
+
+    // Colors
+    'color.none': 'Topic Color',
+    'color.unknown': 'Other Color',
+    'color.default': 'Basic Black',
+    'color.white': 'White',
+    'color.gray': 'Grey',
+    'color.deepBlue': 'Deep Blue',
+    'color.red': 'Red',
+    'color.green': 'Green',
+    'color.yellow': 'Yellow',
+    'color.purple': 'Purple',
+    'color.orange': 'Orange',
+    'color.pastelPink': 'Paster Pink',
+    'color.cyan': 'Cyan',
+    'color.brown': 'Brown',
+    'color.forestGreen': 'Forest Green',
+    'color.lightGray': 'Light Grey',
+
     // General
     'general.undo': 'Undo',
     'general.redo': 'Redo',
@@ -197,6 +318,7 @@ const translations: Record<Language, Translations> = {
     'language.switcher': 'Language',
     'language.chinese': '中文',
     'language.english': 'English',
+    'language.russian': 'Русский',
     
     // Menu items
     'menu.open': 'Open',
@@ -215,12 +337,12 @@ const translations: Record<Language, Translations> = {
     'dialog.mermaid.class': 'class diagrams',
     'dialog.mermaid.otherTypes': ', and other diagram types (rendered as images).',
     'dialog.mermaid.syntax': 'Mermaid Syntax',
-    'dialog.mermaid.placeholder': 'Write your Mermaid chart definition here...',
+    'dialog.mermaid.placeholder': 'Write your Mermaid chart definition here…',
     'dialog.mermaid.preview': 'Preview',
     'dialog.mermaid.insert': 'Insert',
     'dialog.markdown.description': 'Supports automatic conversion of Markdown syntax to mind map.',
     'dialog.markdown.syntax': 'Markdown Syntax',
-    'dialog.markdown.placeholder': 'Write your Markdown text definition here...',
+    'dialog.markdown.placeholder': 'Write your Markdown text definition here…',
     'dialog.markdown.preview': 'Preview',
     'dialog.markdown.insert': 'Insert',
     'dialog.error.loadMermaid': 'Failed to load Mermaid library',
@@ -234,6 +356,140 @@ const translations: Record<Language, Translations> = {
     'cleanConfirm.description': 'This will clear the entire board. Do you want to continue?',
     'cleanConfirm.cancel': 'Cancel',
     'cleanConfirm.ok': 'OK',
+
+    // Text placeholders
+    'textPlaceholders.link': 'Link',
+    'textPlaceholders.text': 'Text',
+
+    // Link popup
+    'linkPopup.delLink': 'Delete Link',
+
+    // Tool popup
+    'toolPopup.fillColor': 'Fill Color',
+    'toolPopup.fontColor': 'Font Color',
+    'toolPopup.link': 'Insert Link',
+    'toolPopup.stroke': 'Stroke',
+  },
+  ru: {
+    // Toolbar items
+    'toolbar.hand': 'Рука — H',
+    'toolbar.selection': 'Выделение — V',
+    'toolbar.mind': 'Mind-карта — M',
+    'toolbar.text': 'Текст — T',
+    'toolbar.arrow': 'Стрелка — A',
+    'toolbar.shape': 'Фигуры',
+    'toolbar.image': 'Изображение — Cmd+U',
+    'toolbar.extraTools': 'Дополнительно',
+
+    'toolbar.pen': 'Карандаш — P',
+    'toolbar.eraser': 'Ластик — E',
+
+    'toolbar.arrow.straight': 'Прямая стрелка',
+    'toolbar.arrow.elbow': 'Ломаная стрелка',
+    'toolbar.arrow.curve': 'Кривая стрелка',
+
+    'toolbar.shape.rectangle': 'Прямоугольник — R',
+    'toolbar.shape.ellipse': 'Эллипс — O',
+    'toolbar.shape.triangle': 'Треугольник',
+    'toolbar.shape.terminal': 'Останов',
+    'toolbar.shape.diamond': 'Ромб',
+    'toolbar.shape.parallelogram': 'Параллелограмм',
+    'toolbar.shape.roundRectangle': 'Скруглённый прямоугольник',
+
+    // Zoom controls
+    'zoom.in': 'Увеличить — Cmd++',
+    'zoom.out': 'Уменьшить — Cmd+-',
+    'zoom.fit': 'По размеру экрана',
+    'zoom.100': 'Сбросить к 100%',
+    
+    // Themes
+    'theme.default': 'Стандартная',
+    'theme.colorful': 'Красочная',
+    'theme.soft': 'Мягкая',
+    'theme.retro': 'Старинная',
+    'theme.dark': 'Тёмная',
+    'theme.starry': 'Звёздная',
+
+    // Colors
+    'color.none': 'Автоматически',
+    'color.unknown': 'Другой цвет',
+    'color.default': 'Чёрный',
+    'color.white': 'Белый',
+    'color.gray': 'Серый',
+    'color.deepBlue': 'Голубой',
+    'color.red': 'Красный',
+    'color.green': 'Зелёный',
+    'color.yellow': 'Жёлтый',
+    'color.purple': 'Фиолетовый',
+    'color.orange': 'Оранжевый',
+    'color.pastelPink': 'Розовый',
+    'color.cyan': 'Лиловый',
+    'color.brown': 'Коричневый',
+    'color.forestGreen': 'Сосновный',
+    'color.lightGray': 'Светло-серый',
+
+    // General
+    'general.undo': 'Отменить',
+    'general.redo': 'Вернуть',
+    'general.menu': 'Меню приложения',
+    'general.duplicate': 'Дублировать',
+    'general.delete': 'Удалить',
+    
+    // Language
+    'language.switcher': 'Language',
+    'language.chinese': '中文',
+    'language.english': 'English',
+    'language.russian': 'Русский',
+    
+    // Menu items
+    'menu.open': 'Открыть',
+    'menu.saveFile': 'Сохранить',
+    'menu.exportImage': 'Экспортировать',
+    'menu.exportImage.png': 'PNG',
+    'menu.exportImage.jpg': 'JPG',
+    'menu.cleanBoard': 'Очистить доску',
+    'menu.github': 'GitHub',
+    
+    // Dialog translations
+    'dialog.mermaid.title': 'Mermaid в Drawnix',
+    'dialog.mermaid.description': 'Поддерживаются',
+    'dialog.mermaid.flowchart': 'flow-карты',
+    'dialog.mermaid.sequence': 'диаграммы последовательностей', 
+    'dialog.mermaid.class': 'диаграммы классов',
+    'dialog.mermaid.otherTypes': ' и другие диаграммы (преобразуются в изображения).',
+    'dialog.mermaid.syntax': 'Синтаксис Mermaid',
+    'dialog.mermaid.placeholder': 'Введите сюда описание вашей Mermaid-диаграммы…',
+    'dialog.mermaid.preview': 'Предпросмотр',
+    'dialog.mermaid.insert': 'Вставить',
+    'dialog.markdown.description': 'Поддерживается автоматическое преобразование синтаксиса Markdown в mind-карты.',
+    'dialog.markdown.syntax': 'Синтаксис Markdown',
+    'dialog.markdown.placeholder': 'Введите сюда описание вашего текста Markdown…',
+    'dialog.markdown.preview': 'Предпросмотр',
+    'dialog.markdown.insert': 'Вставить',
+    'dialog.error.loadMermaid': 'Не удалось загрузить библотеку Mermaid',
+    
+    // Extra tools menu items
+    'extraTools.mermaidToDrawnix': 'Mermaid в Drawnix',
+    'extraTools.markdownToDrawnix': 'Markdown в Drawnix',
+
+    // Clean confirm dialog
+    'cleanConfirm.title': 'Очистить доску',
+    'cleanConfirm.description': 'Это удалит всё содержимое доски. Вы хотите продолжить?',
+    'cleanConfirm.cancel': 'Отмена',
+    'cleanConfirm.ok': 'ОК',
+
+    // Text placeholders
+    'textPlaceholders.link': 'Ссылка',
+    'textPlaceholders.text': 'Текст',
+
+    // Link popup
+    'linkPopup.delLink': 'Удалить ссылку',
+
+    // Tool popup
+    'toolPopup.fillColor': 'Цвет заливки',
+    'toolPopup.fontColor': 'Цвет текста',
+    'toolPopup.link': 'Вставить ссылку',
+    'toolPopup.stroke': 'Контур',
   },
 };
 

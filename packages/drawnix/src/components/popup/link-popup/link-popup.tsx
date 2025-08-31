@@ -12,8 +12,10 @@ import { ReactEditor } from 'slate-react';
 import { LinkEditor } from '@plait/text-plugins';
 import { LinkElement } from '@plait/common';
 import { useBoard } from '@plait-board/react-board';
+import { useI18n } from '../../../i18n';
 
 export const LinkPopup = () => {
+  const { t } = useI18n();
   const [url, setUrl] = useState('');
 
   const { appState, setAppState } = useDrawnix();
@@ -160,8 +162,8 @@ export const LinkPopup = () => {
                 type="icon"
                 visible={true}
                 icon={TrashIcon}
-                title={`Delete link`}
-                aria-label={`Delete link`}
+                title={t('linkPopup.delLink')}
+                aria-label={t('linkPopup.delLink')}
                 onPointerDown={() => {
                   const editor = linkState!.editor;
                   const targetElement = linkState!.targetElement;
@@ -208,8 +210,8 @@ export const LinkPopup = () => {
                 type="icon"
                 visible={true}
                 icon={TrashIcon}
-                title={`Delete link`}
-                aria-label={`Delete link`}
+                title={t('linkPopup.delLink')}
+                aria-label={t('linkPopup.delLink')}
                 onPointerDown={() => {
                   const editor = linkState!.editor;
                   const targetElement = linkState!.targetElement;

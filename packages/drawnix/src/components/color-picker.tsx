@@ -24,6 +24,7 @@ import {
   WHITE,
 } from '../constants/color';
 import { useBoard } from '@plait-board/react-board';
+import { Translations, useI18n } from '../i18n';
 
 const ROWS_CLASSIC_COLORS = splitRows(CLASSIC_COLORS, 4);
 
@@ -35,6 +36,7 @@ export type ColorPickerProps = {
 
 export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
   const board = useBoard();
+  const { t } = useI18n();
   const { currentColor, onColorChange, onOpacityChange } = props;
   const [selectedColor, setSelectedColor] = useState(
     (currentColor && removeHexAlpha(currentColor)) ||
@@ -87,7 +89,8 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
                       }
                       onColorChange(color.value);
                     }}
-                    title={color.name}
+                    title={t((color.name || 'color.unknown') as keyof Translations)}
+                    aria-label={t((color.name || 'color.unknown') as keyof Translations)}
                   >
                     {isNoColor(color.value) && NoColorIcon}
                     {selectedColor === color.value && Check}

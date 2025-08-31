@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ToolButton } from '../../tool-button';
 import classNames from 'classnames';
+import { useI18n } from '../../../i18n';
 import { getSelectedElements, PlaitBoard } from '@plait/core';
 import { LinkIcon } from '../../icons';
 import { useDrawnix } from '../../../hooks/use-drawnix';
@@ -17,6 +18,7 @@ export const PopupLinkButton: React.FC<PopupLinkButtonProps> = ({
   board,
   title,
 }) => {
+  const { t } = useI18n();
   const { appState, setAppState } = useDrawnix();
   return (
     <ToolButton
@@ -31,7 +33,7 @@ export const PopupLinkButton: React.FC<PopupLinkButtonProps> = ({
         const editor = getFirstTextEditor(pbElement);
         const linkElementEntry = LinkEditor.getLinkElement(editor);
         if (!linkElementEntry) {
-          LinkEditor.wrapLink(editor, '链接', '');
+          LinkEditor.wrapLink(editor, t('textPlaceholders.link'), '');
         }
         setTimeout(() => {
           const linkElementEntry = LinkEditor.getLinkElement(editor);

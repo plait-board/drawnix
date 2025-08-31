@@ -18,6 +18,7 @@ import { useBoard } from '@plait-board/react-board';
 import { flip, offset, useFloating } from '@floating-ui/react';
 import { Island } from '../../island';
 import classNames from 'classnames';
+import { useI18n } from '../../../i18n';
 import {
   getStrokeColorByElement as getStrokeColorByMindElement,
   MindElement,
@@ -42,6 +43,7 @@ import { PopupLinkButton } from './link-button';
 
 export const PopupToolbar = () => {
   const board = useBoard();
+  const { t } = useI18n();
   const selectedElements = getSelectedElements(board);
   const [movingOrDragging, setMovingOrDragging] = useState(false);
   const movingOrDraggingRef = useRef(movingOrDragging);
@@ -172,7 +174,7 @@ export const PopupToolbar = () => {
                 board={board}
                 key={0}
                 currentColor={state.marks?.color}
-                title={`Font Color`}
+                title={t('toolPopup.fontColor')}
                 fontColorIcon={
                   <FontColorIcon currentColor={state.marks?.color} />
                 }
@@ -183,7 +185,7 @@ export const PopupToolbar = () => {
                 board={board}
                 key={1}
                 currentColor={state.strokeColor}
-                title={`Stroke`}
+                title={t('toolPopup.stroke')}
                 hasStrokeStyle={state.hasStrokeStyle || false}
               >
                 <label
@@ -197,7 +199,7 @@ export const PopupToolbar = () => {
                 board={board}
                 key={2}
                 currentColor={state.fill}
-                title={`Fill Color`}
+                title={t('toolPopup.fillColor')}
               >
                 <label
                   className={classNames('fill-label', 'color-label', {
@@ -212,7 +214,7 @@ export const PopupToolbar = () => {
               <PopupLinkButton
                 board={board}
                 key={3}
-                title={`Link`}
+                title={t('toolPopup.link')}
               ></PopupLinkButton>
             )}
           </Stack.Row>
