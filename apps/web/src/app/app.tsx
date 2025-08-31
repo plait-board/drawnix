@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { initializeData } from './initialize-data';
 import { Drawnix } from '@drawnix/drawnix';
 import { PlaitBoard, PlaitElement, PlaitTheme, Viewport } from '@plait/core';
@@ -13,6 +13,33 @@ localforage.config({
   storeName: 'drawnix_store',
   driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE],
 });
+const useDebugLogger = () => {
+  const boardRef = useRef<PlaitBoard | null>(null);
+  
+  const setBoard = useCallback((board: PlaitBoard) => {
+    boardRef.current = board;
+  }, []);
+  
+  const logDebug = useCallback((value: string) => {
+    if (!boardRef.current) return;
+    
+    const board = boardRef.current;
+    const container = PlaitBoard.getBoardContainer(board).closest(
+      '.drawnix'
+    ) as HTMLElement;
+    let consoleContainer = container.querySelector('.drawnix-console');
+    if (!consoleContainer) {
+      consoleContainer = document.createElement('div');
+      consoleContainer.classList.add('drawnix-console');
+      container.append(consoleContainer);
+    }
+    const div = document.createElement('div');
+    div.textContent = value;
+    consoleContainer.append(div);
+  }, []);
+  
+  return { setBoard, logDebug };
+};
 
 export function App() {
   const [value, setValue] = useState<{
@@ -20,6 +47,7 @@ export function App() {
     viewport?: Viewport;
     theme?: PlaitTheme;
   }>({ children: [] });
+  const debugLogger = useDebugLogger();
 
   useEffect(() => {
     const loadData = async () => {
@@ -41,6 +69,7 @@ export function App() {
 
     loadData();
   }, []);
+  
   return (
     <Drawnix
       value={value.children}
@@ -52,30 +81,10 @@ export function App() {
       }}
       afterInit={(board) => {
         console.log('board initialized');
-        console.log(
-          `add __drawnix__web__debug_log to window, so you can call add log anywhere, like: window.__drawnix__web__console('some thing')`
-        );
-        (window as any)['__drawnix__web__console'] = (value: string) => {
-          addDebugLog(board, value);
-        };
+        debugLogger.setBoard(board);
       }}
     ></Drawnix>
   );
 }
-
-const addDebugLog = (board: PlaitBoard, value: string) => {
-  const container = PlaitBoard.getBoardContainer(board).closest(
-    '.drawnix'
-  ) as HTMLElement;
-  let consoleContainer = container.querySelector('.drawnix-console');
-  if (!consoleContainer) {
-    consoleContainer = document.createElement('div');
-    consoleContainer.classList.add('drawnix-console');
-    container.append(consoleContainer);
-  }
-  const div = document.createElement('div');
-  div.innerHTML = value;
-  consoleContainer.append(div);
-};
 
 export default App;
