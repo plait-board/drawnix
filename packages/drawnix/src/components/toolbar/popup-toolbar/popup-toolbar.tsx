@@ -261,6 +261,7 @@ export const getMindElementState = (
   return {
     fill: element.fill,
     strokeColor: getStrokeColorByMindElement(board, element),
+    strokeStyle:getStrokeStyleByElement(board, element),
     marks,
   };
 };
