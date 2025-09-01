@@ -137,7 +137,7 @@ export interface Translations {
   'line.arrow': string;
   'line.none': string;
 
-  // stroke stype
+  // Stroke style
   'stroke.solid': string;
   'stroke.dashed': string;
   'stroke.dotted': string;
@@ -272,7 +272,7 @@ const translations: Record<Language, Translations> = {
     'line.arrow': '箭头',
     'line.none': '无',
 
-    // stroke stype
+    // Stroke style
     'stroke.solid': '实线',
     'stroke.dashed': '虚线',
     'stroke.dotted': '点线',
@@ -409,7 +409,7 @@ const translations: Record<Language, Translations> = {
     'line.arrow': 'Arrow',
     'line.none': 'None',
 
-    // stroke stype
+    // Stroke style
     'stroke.solid': 'Solid',
     'stroke.dashed': 'Dashed',
     'stroke.dotted': 'Dotted',
@@ -546,6 +546,11 @@ const translations: Record<Language, Translations> = {
     'line.target': 'Конец',
     'line.arrow': 'Стрелка',
     'line.none': 'Нет',
+
+    // Stroke style
+    'stroke.solid': 'Сплошной',
+    'stroke.dashed': 'Штриховой',
+    'stroke.dotted': 'Пунктирный',
   },
 };
 

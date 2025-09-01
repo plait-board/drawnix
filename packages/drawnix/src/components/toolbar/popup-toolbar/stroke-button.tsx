@@ -103,8 +103,8 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
                   }
                   icon={StrokeStyleNormalIcon}
                   type="button"
-                  title={`${title}—${t('stroke.solid')}`}
-                  aria-label={`${title}—${t('stroke.solid')}`}
+                  title={`${title} — ${t('stroke.solid')}`}
+                  aria-label={`${title} — ${t('stroke.solid')}`}
                   onPointerUp={() => {
                     setStrokeStyle(StrokeStyle.solid);
                   }}
@@ -114,8 +114,8 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
                   selected={currentStyle === StrokeStyle.dashed}
                   icon={StrokeStyleDashedIcon}
                   type="button"
-                  title={`${title}—${t('stroke.dashed')}`}
-                  aria-label={`${title}—${t('stroke.dashed')}`}
+                  title={`${title} — ${t('stroke.dashed')}`}
+                  aria-label={`${title} — ${t('stroke.dashed')}`}
                   onPointerUp={() => {
                     setStrokeStyle(StrokeStyle.dashed);
                   }}
@@ -125,8 +125,8 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
                   selected={currentStyle === StrokeStyle.dotted}
                   icon={StrokeStyleDotedIcon}
                   type="button"
-                  title={`${title}—${t('stroke.dotted')}`}
-                  aria-label={`${title}—${t('stroke.dotted')}`}
+                  title={`${title} — ${t('stroke.dotted')}`}
+                  aria-label={`${title} — ${t('stroke.dotted')}`}
                   onPointerUp={() => {
                     setStrokeStyle(StrokeStyle.dotted);
                   }}
