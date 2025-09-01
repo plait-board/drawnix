@@ -25,10 +25,12 @@ import {
   setStrokeColor,
   setStrokeColorOpacity,
 } from '../../../transforms/property';
+import { useI18n } from '../../../i18n';
 
 export type PopupStrokeButtonProps = {
   board: PlaitBoard;
   currentColor: string | undefined;
+  currentStyle?: StrokeStyle;
   title: string;
   hasStrokeStyle: boolean;
   children?: React.ReactNode;
@@ -37,6 +39,7 @@ export type PopupStrokeButtonProps = {
 export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
   board,
   currentColor,
+  currentStyle,
   title,
   hasStrokeStyle,
   children,
@@ -45,6 +48,7 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
   const hexColor = currentColor && removeHexAlpha(currentColor);
   const opacity = currentColor ? hexAlphaToOpacity(currentColor) : 100;
   const container = PlaitBoard.getBoardContainer(board);
+  const { t } = useI18n();
 
   const icon = isFullyTransparent(opacity)
     ? StrokeIcon
@@ -94,30 +98,35 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
               <Stack.Row className={classNames('stroke-style-picker')}>
                 <ToolButton
                   visible={true}
+                  selected={
+                    !currentStyle || currentStyle === StrokeStyle.solid
+                  }
                   icon={StrokeStyleNormalIcon}
                   type="button"
-                  title={title}
-                  aria-label={title}
+                  title={`${title}—${t('stroke.solid')}`}
+                  aria-label={`${title}—${t('stroke.solid')}`}
                   onPointerUp={() => {
                     setStrokeStyle(StrokeStyle.solid);
                   }}
                 ></ToolButton>
                 <ToolButton
                   visible={true}
+                  selected={currentStyle === StrokeStyle.dashed}
                   icon={StrokeStyleDashedIcon}
                   type="button"
-                  title={title}
-                  aria-label={title}
+                  title={`${title}—${t('stroke.dashed')}`}
+                  aria-label={`${title}—${t('stroke.dashed')}`}
                   onPointerUp={() => {
                     setStrokeStyle(StrokeStyle.dashed);
                   }}
                 ></ToolButton>
                 <ToolButton
                   visible={true}
+                  selected={currentStyle === StrokeStyle.dotted}
                   icon={StrokeStyleDotedIcon}
                   type="button"
-                  title={title}
-                  aria-label={title}
+                  title={`${title}—${t('stroke.dotted')}`}
+                  aria-label={`${title}—${t('stroke.dotted')}`}
                   onPointerUp={() => {
                     setStrokeStyle(StrokeStyle.dotted);
                   }}

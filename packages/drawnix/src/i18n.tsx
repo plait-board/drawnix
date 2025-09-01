@@ -92,11 +92,16 @@ export interface Translations {
   'popupToolbar.fillColor': string;
   'popupToolbar.link': string;
 
-  //line 
+  //line
   'line.source': string;
   'line.target': string;
   'line.arrow': string;
   'line.none': string;
+
+  // stroke stype
+  'stroke.solid': string;
+  'stroke.dashed': string;
+  'stroke.dotted': string;
 }
 
 // Translation data
@@ -188,6 +193,11 @@ const translations: Record<Language, Translations> = {
     'line.target': '终点',
     'line.arrow': '箭头',
     'line.none': '无',
+
+    // stroke stype
+    'stroke.solid': '实线',
+    'stroke.dashed': '虚线',
+    'stroke.dotted': '点线',
   },
   en: {
     // Toolbar items
@@ -280,6 +290,11 @@ const translations: Record<Language, Translations> = {
     'line.target': 'End',
     'line.arrow': 'Arrow',
     'line.none': 'None',
+
+    // stroke stype
+    'stroke.solid': 'Solid',
+    'stroke.dashed': 'Dashed',
+    'stroke.dotted': 'Dotted',
   },
 };
 
