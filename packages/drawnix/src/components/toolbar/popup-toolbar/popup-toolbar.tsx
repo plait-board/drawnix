@@ -27,12 +27,13 @@ import './popup-toolbar.scss';
 import {
   ArrowLineHandle,
   getStrokeColorByElement as getStrokeColorByDrawElement,
+  getStrokeStyleByElement,
   isClosedCustomGeometry,
   isClosedDrawElement,
   isDrawElementsIncludeText,
   PlaitDrawElement,
 } from '@plait/draw';
-import { CustomText } from '@plait/common';
+import { CustomText, StrokeStyle } from '@plait/common';
 import { getTextMarksByElement } from '@plait/text-plugins';
 import { PopupFontColorButton } from './font-color-button';
 import { PopupStrokeButton } from './stroke-button';
@@ -61,6 +62,7 @@ export const PopupToolbar = () => {
   let state: {
     fill: string | undefined;
     strokeColor?: string;
+    strokeStyle?: StrokeStyle;
     hasFill?: boolean;
     hasText?: boolean;
     fontColor?: string;
@@ -195,6 +197,7 @@ export const PopupToolbar = () => {
                 board={board}
                 key={1}
                 currentColor={state.strokeColor}
+                currentStyle={state.strokeStyle}
                 title={t('popupToolbar.stroke')}
                 hasStrokeStyle={state.hasStrokeStyle || false}
               >
@@ -234,7 +237,6 @@ export const PopupToolbar = () => {
                   key={4}
                   end={'source'}
                   endProperty={state.source}
-
                 />
                 <ArrowMarkButton
                   board={board}
@@ -259,6 +261,7 @@ export const getMindElementState = (
   return {
     fill: element.fill,
     strokeColor: getStrokeColorByMindElement(board, element),
+    strokeStyle:getStrokeStyleByElement(board, element),
     marks,
   };
 };
@@ -271,6 +274,7 @@ export const getDrawElementState = (
   return {
     fill: element.fill,
     strokeColor: getStrokeColorByDrawElement(board, element),
+    strokeStyle: getStrokeStyleByElement(board, element),
     marks,
     source: element?.source || {},
     target: element?.target || {},
