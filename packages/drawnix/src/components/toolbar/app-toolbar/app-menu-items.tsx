@@ -24,6 +24,7 @@ import Menu from '../../menu/menu';
 import { useContext } from 'react';
 import { MenuContentPropsContext } from '../../menu/common';
 import { EVENT } from '../../../constants';
+import { getShortcutKey } from '../../../utils/common';
 
 export const SaveToFile = () => {
   const board = useBoard();
@@ -36,7 +37,7 @@ export const SaveToFile = () => {
       }}
       icon={SaveFileIcon}
       aria-label={t('menu.saveFile')}
-      shortcut={`Cmd+S`}
+      shortcut={getShortcutKey('CtrlOrCmd+S')}
     >{t('menu.saveFile')}</MenuItem>
   );
 };
@@ -113,7 +114,7 @@ export const SaveAsImage = () => {
           </MenuItem>
         </Menu>
       }
-      shortcut={`Cmd+Shift+E`}
+      shortcut={getShortcutKey('CtrlOrCmd+Shift+E')}
       aria-label={t('menu.exportImage')}
     >
       {t('menu.exportImage')}
@@ -135,7 +136,7 @@ export const CleanBoard = () => {
           openCleanConfirm: true,
         });
       }}
-      shortcut={`Cmd+Backspace`}
+      shortcut={getShortcutKey('CtrlOrCmd+Backspace')}
       aria-label={t('menu.cleanBoard')}
     >
       {t('menu.cleanBoard')}
