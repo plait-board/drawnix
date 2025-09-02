@@ -131,6 +131,27 @@ const zhTranslations: Translations = {
   'stroke.solid': '实线',
   'stroke.dashed': '虚线',
   'stroke.dotted': '点线',
+
+  //markdown example
+  'markdown.example': `# 我开始了
+  
+  - 让我看看是谁搞出了这个 bug 🕵️ ♂️ 🔍
+    - 😯 💣
+      - 原来是我 👈 🎯 💘
+  
+  - 竟然不可以运行，为什么呢 🚫 ⚙️ ❓
+    - 竟然可以运行了，为什么呢？🎢 ✨
+      - 🤯 ⚡ ➡️ 🎉
+  
+  - 能运行起来的 🐞 🚀
+    - 就不要去动它 🛑 ✋
+      - 👾 💥 🏹 🎯
+      
+  ## 男孩还是女孩 👶 ❓ 🤷 ♂️ ♀️
+  
+  ### Hello world 👋 🌍 ✨ 💻
+  
+  #### 哇 是个程序员 🤯 ⌨️ 💡 👩 💻`,
 };
 
 export default zhTranslations;

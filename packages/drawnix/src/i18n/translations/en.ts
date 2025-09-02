@@ -135,6 +135,27 @@ const enTranslations: Translations = {
   'stroke.solid': 'Solid',
   'stroke.dashed': 'Dashed',
   'stroke.dotted': 'Dotted',
+
+  //markdown example
+  'markdown.example': `# I have started
+
+  - Let me see who made this bug 🕵️ ♂️ 🔍
+    - 😯 💣
+      - Turns out it was me 👈 🎯 💘
+
+  - Unexpectedly, it cannot run; why is that 🚫 ⚙️ ❓
+    - Unexpectedly, it can run now; why is that? 🎢 ✨
+      - 🤯 ⚡ ➡️ 🎉
+
+  - What can run 🐞 🚀
+    - then do not touch it 🛑 ✋
+      - 👾 💥 🏹 🎯
+    
+  ## Boy or girl 👶 ❓ 🤷 ♂️ ♀️
+
+  ### Hello world 👋 🌍 ✨ 💻
+
+  #### Wow, a programmer 🤯 ⌨️ 💡 👩 💻`,
 };
 
 export default enTranslations;
