@@ -12,30 +12,37 @@ const translations: Record<Language, Translations> = {
 // Create the context
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
-// I18nProvider component
 export const I18nProvider: React.FC<I18nProviderProps> = ({
-  children,
-  defaultLanguage = 'zh',
+    children,
+    defaultLanguage = 'zh',
 }) => {
-  const [language, setLanguage] = useState<Language>(defaultLanguage);
 
-  const t = (key: keyof Translations): string => {
-    return translations[language][key] || key;
-  };
+    const [language, setLanguageState] = useState<Language>(() => {
+        const storedLanguage = localStorage.getItem('language') as Language;
+        return storedLanguage || defaultLanguage;
+    });
 
-  const value: I18nContextType = useMemo(
-    () => ({
-      language,
-      setLanguage,
-      t,
-    }),
-    [language]
-  );
+    const setLanguage = (newLanguage: Language) => {
+        localStorage.setItem('language', newLanguage);
+        setLanguageState(newLanguage);
+    };
 
-  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
+    const t = (key: keyof Translations): string => {
+        return translations[language][key] || key;
+    };
+
+    const value: I18nContextType = useMemo(
+        () => ({
+            language,
+            setLanguage,
+            t,
+        }),
+        [language]
+    );
+
+    return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 };
 
-// useI18n hook
 export const useI18n = (): I18nContextType => {
   const context = useContext(I18nContext);
 
@@ -45,5 +52,18 @@ export const useI18n = (): I18nContextType => {
 
   return context;
 };
+
+export const useI18nInsideHook = () => {
+
+    const i18n = {
+        t: (key: keyof Translations): string => {  
+            const currentLang = localStorage.getItem('language') as Language || 'zh';
+            return translations[currentLang][key] || key;
+        },
+        language: localStorage.getItem('language') as Language || 'zh',
+    };
+
+    return i18n;
+}
 
 export type { Language, Translations, I18nContextType };
