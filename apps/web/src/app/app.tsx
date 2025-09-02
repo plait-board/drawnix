@@ -4,8 +4,6 @@ import { Drawnix } from '@drawnix/drawnix';
 import { PlaitBoard, PlaitElement, PlaitTheme, Viewport } from '@plait/core';
 import localforage from 'localforage';
 
-// 1个月后移出删除兼容
-const OLD_DRAWNIX_LOCAL_DATA_KEY = 'drawnix-local-data';
 const MAIN_BOARD_CONTENT_KEY = 'main_board_content';
 
 localforage.config({
@@ -28,14 +26,6 @@ export function App() {
         setValue(storedData as any);
         return;
       }
-      const localData = localStorage.getItem(OLD_DRAWNIX_LOCAL_DATA_KEY);
-      if (localData) {
-        const parsedData = JSON.parse(localData);
-        setValue(parsedData);
-        await localforage.setItem(MAIN_BOARD_CONTENT_KEY, parsedData);
-        localStorage.removeItem(OLD_DRAWNIX_LOCAL_DATA_KEY);
-        return;
-      }
       setValue({ children: initializeData });
     };
 
@@ -52,12 +42,14 @@ export function App() {
       }}
       afterInit={(board) => {
         console.log('board initialized');
+        /*
         console.log(
           `add __drawnix__web__debug_log to window, so you can call add log anywhere, like: window.__drawnix__web__console('some thing')`
         );
         (window as any)['__drawnix__web__console'] = (value: string) => {
           addDebugLog(board, value);
         };
+        */
       }}
     ></Drawnix>
   );
