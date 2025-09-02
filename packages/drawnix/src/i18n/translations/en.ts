@@ -5,7 +5,7 @@ const enTranslations: Translations = {
   'toolbar.hand': 'Hand — H',
   'toolbar.selection': 'Selection — V',
   'toolbar.mind': 'Mind — M',
-  'toolbar.text': 'Te xt — T',
+  'toolbar.text': 'Text — T',
   'toolbar.arrow': 'Arrow — A',
   'toolbar.shape': 'Shape',
   'toolbar.image': 'Image — Cmd+U',
