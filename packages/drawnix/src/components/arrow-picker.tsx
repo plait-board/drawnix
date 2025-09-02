@@ -4,6 +4,7 @@ import Stack from './stack';
 import { ToolButton } from './tool-button';
 import { StraightArrowIcon, ElbowArrowIcon, CurveArrowIcon } from './icons';
 import { useBoard } from '@plait-board/react-board';
+import { Translations, useI18n } from '../i18n';
 import { BoardTransforms } from '@plait/core';
 import React from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
@@ -18,17 +19,17 @@ export interface ArrowProps {
 const ARROWS: ArrowProps[] = [
   {
     icon: StraightArrowIcon,
-    title: 'Straight Arrow Line',
+    title: 'toolbar.arrow.straight',
     pointer: ArrowLineShape.straight,
   },
   {
     icon: ElbowArrowIcon,
-    title: 'Elbow Arrow Line',
+    title: 'toolbar.arrow.elbow',
     pointer: ArrowLineShape.elbow,
   },
   {
     icon: CurveArrowIcon,
-    title: 'Curve Arrow Line',
+    title: 'toolbar.arrow.curve',
     pointer: ArrowLineShape.curve,
   },
 ];
@@ -39,6 +40,7 @@ export type ArrowPickerProps = {
 
 export const ArrowPicker: React.FC<ArrowPickerProps> = ({ onPointerUp }) => {
   const board = useBoard();
+  const { t } = useI18n();
   return (
     <Island padding={1}>
       <Stack.Row gap={1}>
@@ -51,8 +53,8 @@ export const ArrowPicker: React.FC<ArrowPickerProps> = ({ onPointerUp }) => {
               size={'small'}
               visible={true}
               icon={arrow.icon}
-              title={arrow.title}
-              aria-label={arrow.title}
+              title={t(arrow.title as keyof Translations)}
+              aria-label={t(arrow.title as keyof Translations)}
               onPointerDown={() => {
                 setCreationMode(board, BoardCreationMode.drawing);
                 BoardTransforms.updatePointerType(board, arrow.pointer);

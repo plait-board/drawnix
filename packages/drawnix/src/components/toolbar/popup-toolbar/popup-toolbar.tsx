@@ -18,6 +18,7 @@ import { useBoard } from '@plait-board/react-board';
 import { flip, offset, useFloating } from '@floating-ui/react';
 import { Island } from '../../island';
 import classNames from 'classnames';
+import { useI18n } from '../../../i18n';
 import {
   getStrokeColorByElement as getStrokeColorByMindElement,
   MindElement,
@@ -42,10 +43,10 @@ import { NO_COLOR } from '../../../constants/color';
 import { Freehand } from '../../../plugins/freehand/type';
 import { PopupLinkButton } from './link-button';
 import { ArrowMarkButton } from './arrow-mark-button';
-import { useI18n } from '../../../i18n';
 
 export const PopupToolbar = () => {
   const board = useBoard();
+  const { t } = useI18n();
   const selectedElements = getSelectedElements(board);
   const [movingOrDragging, setMovingOrDragging] = useState(false);
   const movingOrDraggingRef = useRef(movingOrDragging);
@@ -102,7 +103,6 @@ export const PopupToolbar = () => {
       isLine,
     };
   }
-  const { t } = useI18n();
   useEffect(() => {
     if (open) {
       const hasSelected = selectedElements.length > 0;
