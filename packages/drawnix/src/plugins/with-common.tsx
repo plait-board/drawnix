@@ -9,7 +9,7 @@ import { Image } from './components/image';
 import { withImagePlugin } from './with-image';
 import { DrawI18nKey } from '@plait/draw';
 import { MindI18nKey } from '@plait/mind';
-import { I18nInsideHook } from '../i18n';
+import { i18nInsidePlaitHook } from '../i18n';
 export const withCommonPlugin = (board: PlaitBoard) => {
   const newBoard = board as PlaitBoard & PlaitImageBoard & PlaitI18nBoard;
 
@@ -34,7 +34,7 @@ export const withCommonPlugin = (board: PlaitBoard) => {
     return ref;
   };
 
-  const { t } = I18nInsideHook();
+  const { t } = i18nInsidePlaitHook();
 
   newBoard.getI18nValue = (key: string) => {
     if (key === DrawI18nKey.lineText) {
