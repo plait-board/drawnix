@@ -7,7 +7,7 @@ import { TTDDialogInput } from './ttd-dialog-input';
 import { TTDDialogOutput } from './ttd-dialog-output';
 import { TTDDialogSubmitShortcut } from './ttd-dialog-submit-shortcut';
 import { useDrawnix } from '../../hooks/use-drawnix';
-import { useI18n , getMarkdownExample } from '../../i18n';
+import { useI18n } from '../../i18n';
 import { useBoard } from '@plait-board/react-board';
 import {
   getViewportOrigination,
@@ -54,15 +54,15 @@ const MarkdownToDrawnix = () => {
     };
     loadLib();
   }, []);
-  const [text, setText] = useState(() => getMarkdownExample(language));
+  const [text, setText] = useState(() => t('markdown.example'));
   const [value, setValue] = useState<PlaitElement[]>(() => []);
   const deferredText = useDeferredValue(text.trim());
   const [error, setError] = useState<Error | null>(null);
   const board = useBoard();
-
+   
   // Update markdown example when language changes
   useEffect(() => {
-    setText(getMarkdownExample(language));
+    setText(t('markdown.example'));
   }, [language]);
 
   useEffect(() => {

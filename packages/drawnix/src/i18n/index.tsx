@@ -46,14 +46,4 @@ export const useI18n = (): I18nContextType => {
   return context;
 };
 
-export const getMarkdownExample = (language: 'zh' | 'en') => {
-    if (language === 'zh') {
-      return zhTranslations['markdown.example'];
-    } else if (language === 'en') {
-      return enTranslations['markdown.example'];
-    } else {
-      return enTranslations['markdown.example'];
-    }
-  };
-
 export type { Language, Translations, I18nContextType };
