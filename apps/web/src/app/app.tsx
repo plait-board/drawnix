@@ -4,8 +4,6 @@ import { Drawnix } from '@drawnix/drawnix';
 import { PlaitBoard, PlaitElement, PlaitTheme, Viewport } from '@plait/core';
 import localforage from 'localforage';
 
-// 1个月后移出删除兼容
-const OLD_DRAWNIX_LOCAL_DATA_KEY = 'drawnix-local-data';
 const MAIN_BOARD_CONTENT_KEY = 'main_board_content';
 
 localforage.config({
@@ -26,14 +24,6 @@ export function App() {
       const storedData = await localforage.getItem(MAIN_BOARD_CONTENT_KEY);
       if (storedData) {
         setValue(storedData as any);
-        return;
-      }
-      const localData = localStorage.getItem(OLD_DRAWNIX_LOCAL_DATA_KEY);
-      if (localData) {
-        const parsedData = JSON.parse(localData);
-        setValue(parsedData);
-        await localforage.setItem(MAIN_BOARD_CONTENT_KEY, parsedData);
-        localStorage.removeItem(OLD_DRAWNIX_LOCAL_DATA_KEY);
         return;
       }
       setValue({ children: initializeData });
