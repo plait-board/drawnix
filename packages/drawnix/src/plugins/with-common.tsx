@@ -9,7 +9,7 @@ import { Image } from './components/image';
 import { withImagePlugin } from './with-image';
 import { DrawI18nKey } from '@plait/draw';
 import { MindI18nKey } from '@plait/mind';
-import { useI18nInsideHook } from '../i18n';
+import { I18nInsideHook } from '../i18n';
 export const withCommonPlugin = (board: PlaitBoard) => {
   const newBoard = board as PlaitBoard & PlaitImageBoard & PlaitI18nBoard;
 
