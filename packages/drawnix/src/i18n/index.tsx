@@ -51,7 +51,9 @@ export const getMarkdownExample = (language: 'zh' | 'en') => {
       return zhTranslations['markdown.example'];
     } else if (language === 'en') {
       return enTranslations['markdown.example'];
-    } 
+    } else {
+      return enTranslations['markdown.example'];
+    }
   };
 
 export type { Language, Translations, I18nContextType };
