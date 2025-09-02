@@ -135,6 +135,17 @@ export interface Translations {
   'stroke.solid': string;
   'stroke.dashed': string;
   'stroke.dotted': string;
+
+  //markdown example
+  'markdown.example': string;
+
+  // Draw elements text
+  'draw.lineText': string;
+  'draw.geometryText': string;
+  
+  // Mind map elements text
+  'mind.centralText': string;
+  'mind.abstractNodeText': string;
 }
 
 // I18n context interface

@@ -136,6 +136,35 @@ const ruTranslations: Translations = {
   'stroke.solid': 'Сплошной',
   'stroke.dashed': 'Штриховой',
   'stroke.dotted': 'Пунктирный',
+
+  //markdown example
+  'markdown.example': `# I have started
+
+  - Let me see who made this bug 🕵️ ♂️ 🔍
+    - 😯 💣
+      - Turns out it was me 👈 🎯 💘
+
+  - Unexpectedly, it cannot run; why is that 🚫 ⚙️ ❓
+    - Unexpectedly, it can run now; why is that? 🎢 ✨
+      - 🤯 ⚡ ➡️ 🎉
+
+  - What can run 🐞 🚀
+    - then do not touch it 🛑 ✋
+      - 👾 💥 🏹 🎯
+    
+  ## Boy or girl 👶 ❓ 🤷 ♂️ ♀️
+
+  ### Hello world 👋 🌍 ✨ 💻
+
+  #### Wow, a programmer 🤯 ⌨️ 💡 👩 💻`,
+
+  // Draw elements text
+  'draw.lineText': 'Текст',
+  'draw.geometryText': 'Текст',
+  
+  // Mind map elements text
+  'mind.centralText': 'Центральная тема',
+  'mind.abstractNodeText': 'Резюме',
 };
 
 export default ruTranslations;

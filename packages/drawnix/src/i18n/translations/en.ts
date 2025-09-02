@@ -156,6 +156,14 @@ const enTranslations: Translations = {
   ### Hello world 👋 🌍 ✨ 💻
 
   #### Wow, a programmer 🤯 ⌨️ 💡 👩 💻`,
+
+  // Draw elements text
+  'draw.lineText': 'Text',
+  'draw.geometryText': 'Text',
+  
+  // Mind map elements text
+  'mind.centralText': 'Central Topic',
+  'mind.abstractNodeText': 'Summary',
 };
 
 export default enTranslations;

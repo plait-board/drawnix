@@ -132,6 +132,14 @@ const zhTranslations: Translations = {
   'stroke.dashed': '虚线',
   'stroke.dotted': '点线',
 
+  // Draw elements text
+  'draw.lineText': '文本',
+  'draw.geometryText': '文本',
+  
+  // Mind map elements text
+  'mind.centralText': '中心主题',
+  'mind.abstractNodeText': '摘要',
+
   //markdown example
   'markdown.example': `# 我开始了
   
