@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useMemo } from 'react';
-import { zhTranslations, enTranslations, ruTranslations } from './translations';
+import { zhTranslations, enTranslations, ruTranslations,arTranslations } from './translations';
 import { Language, Translations, I18nContextType, I18nProviderProps } from './types';
 
 // Translation data
@@ -7,6 +7,7 @@ const translations: Record<Language, Translations> = {
   zh: zhTranslations,
   en: enTranslations,
   ru: ruTranslations,
+  ar:arTranslations
 };
 
 // Create the context
