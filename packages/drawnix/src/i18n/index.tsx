@@ -53,7 +53,7 @@ export const useI18n = (): I18nContextType => {
   return context;
 };
 
-export const useI18nInsideHook = () => {
+export const I18nInsideHook = () => {
 
     const i18n = {
         t: (key: keyof Translations): string => {  
