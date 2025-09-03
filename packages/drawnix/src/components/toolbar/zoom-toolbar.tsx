@@ -10,7 +10,7 @@ import {
 } from '@plait/core';
 import { Island } from '../island';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Menu from '../menu/menu';
 import MenuItem from '../menu/menu-item';
 import { useI18n } from '../../i18n';
