@@ -160,6 +160,19 @@ const enTranslations: Translations = {
   // Mind map elements text
   'mind.centralText': 'Central Topic',
   'mind.abstractNodeText': 'Summary',
+
+  'tutorial.title': 'Drawnix',
+  'tutorial.description': 'A minimalist canvas for visualizing your thoughts and ideas with elegance and simplicity.',
+  'tutorial.importExport': 'Import & Export',
+  'tutorial.importExportDesc': 'Import your images or export your creations here',
+  'tutorial.language': 'Language Settings',
+  'tutorial.tools': 'Canvas Tools',
+  'tutorial.toolsDesc': 'Select objects, move canvas, draw shapes, add text, create mind maps, and utilize markdown or mermaid diagrams',
+  'tutorial.zoom': 'Canvas Zoom',
+  'tutorial.zoomDesc': 'Adjust your canvas view',
+  'tutorial.theme': 'Theme Switch',
+  'tutorial.themeDesc': 'Change between light and dark themes',
+
 };
 
 export default enTranslations;

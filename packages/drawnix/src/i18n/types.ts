@@ -148,6 +148,19 @@ export interface Translations {
   // Mind map elements text
   'mind.centralText': string;
   'mind.abstractNodeText': string;
+
+  'tutorial.title': string;
+  'tutorial.description': string;
+  'tutorial.importExport': string;
+  'tutorial.importExportDesc': string;
+  'tutorial.language': string;
+  'tutorial.tools': string;
+  'tutorial.toolsDesc': string;
+  'tutorial.zoom': string;
+  'tutorial.zoomDesc': string;
+  'tutorial.theme': string;
+  'tutorial.themeDesc': string;
+
 }
 
 // I18n context interface

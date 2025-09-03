@@ -161,6 +161,19 @@ const zhTranslations: Translations = {
   ### Hello world 👋 🌍 ✨ 💻
   
   #### 哇 是个程序员 🤯 ⌨️ 💡 👩 💻`,
+
+  'tutorial.title': 'Drawnix',
+  'tutorial.description': '一个极简画布，以优雅与简约可视化您的思想和创意。',
+  'tutorial.importExport': '导入与导出',
+  'tutorial.importExportDesc': '在此导入图片或导出您的创作',
+  'tutorial.language': '语言设置',
+  'tutorial.tools': '画布工具',
+  'tutorial.toolsDesc': '选择对象、移动画布、绘制图形、添加文本、创建思维导图，以及使用 markdown 或 mermaid 图表',
+  'tutorial.zoom': '画布缩放',
+  'tutorial.zoomDesc': '调整您的画布视图',
+  'tutorial.theme': '主题切换',
+  'tutorial.themeDesc': '在明亮和黑暗主题之间切换',
+
 };
 
 export default zhTranslations;
