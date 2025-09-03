@@ -529,6 +529,7 @@ export const LinkIcon = createIcon(
   </svg>
 );
 
+
 export const ArrowIcon = createIcon(
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
     <g  stroke="none">

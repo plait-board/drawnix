@@ -70,7 +70,7 @@ const enTranslations: Translations = {
   'language.chinese': '中文',
   'language.english': 'English',
   'language.russian': 'Русский',
-
+  'language.arabic': 'عربي',
   // Menu items
   'menu.open': 'Open',
   'menu.saveFile': 'Save File',
@@ -86,17 +86,14 @@ const enTranslations: Translations = {
   'dialog.mermaid.flowchart': 'flowcharts',
   'dialog.mermaid.sequence': 'sequence diagrams',
   'dialog.mermaid.class': 'class diagrams',
-  'dialog.mermaid.otherTypes':
-    ', and other diagram types (rendered as images).',
+  'dialog.mermaid.otherTypes': ', and other diagram types (rendered as images).',
   'dialog.mermaid.syntax': 'Mermaid Syntax',
   'dialog.mermaid.placeholder': 'Write your Mermaid chart definition here…',
   'dialog.mermaid.preview': 'Preview',
   'dialog.mermaid.insert': 'Insert',
-  'dialog.markdown.description':
-    'Supports automatic conversion of Markdown syntax to mind map.',
+  'dialog.markdown.description': 'Supports automatic conversion of Markdown syntax to mind map.',
   'dialog.markdown.syntax': 'Markdown Syntax',
-  'dialog.markdown.placeholder':
-    'Write your Markdown text definition here...',
+  'dialog.markdown.placeholder': 'Write your Markdown text definition here...',
   'dialog.markdown.preview': 'Preview',
   'dialog.markdown.insert': 'Insert',
   'dialog.error.loadMermaid': 'Failed to load Mermaid library',
@@ -107,8 +104,7 @@ const enTranslations: Translations = {
 
   // Clean confirm dialog
   'cleanConfirm.title': 'Clear Board',
-  'cleanConfirm.description':
-    'This will clear the entire board. Do you want to continue?',
+  'cleanConfirm.description': 'This will clear the entire board. Do you want to continue?',
   'cleanConfirm.cancel': 'Cancel',
   'cleanConfirm.ok': 'OK',
 
@@ -120,7 +116,7 @@ const enTranslations: Translations = {
   'popupToolbar.fontColor': 'Font Color',
   'popupToolbar.link': 'Insert Link',
   'popupToolbar.stroke': 'Stroke',
-  
+
   // Text placeholders
   'textPlaceholders.link': 'Link',
   'textPlaceholders.text': 'Text',
@@ -160,7 +156,7 @@ const enTranslations: Translations = {
   // Draw elements text
   'draw.lineText': 'Text',
   'draw.geometryText': 'Text',
-  
+
   // Mind map elements text
   'mind.centralText': 'Central Topic',
   'mind.abstractNodeText': 'Summary',
@@ -177,6 +173,7 @@ const enTranslations: Translations = {
   'tutorial.previous': 'Previous',
   'tutorial.skip': 'Skip',
   'tutorial.finish': 'Finish',
+
 };
 
 export default enTranslations;
