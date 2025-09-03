@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { initializeData } from './initialize-data';
 import { Drawnix } from '@drawnix/drawnix';
 import { PlaitBoard, PlaitElement, PlaitTheme, Viewport } from '@plait/core';
 import localforage from 'localforage';
@@ -26,7 +25,6 @@ export function App() {
         setValue(storedData as any);
         return;
       }
-      setValue({ children: initializeData });
     };
 
     loadData();
