@@ -70,6 +70,7 @@ const ruTranslations: Translations = {
   'language.chinese': '中文',
   'language.english': 'English',
   'language.russian': 'Русский',
+  'language.arabic': 'عربي',
   
   // Menu items
   'menu.open': 'Открыть',

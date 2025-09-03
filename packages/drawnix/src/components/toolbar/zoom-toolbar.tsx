@@ -1,7 +1,7 @@
 import { useBoard } from '@plait-board/react-board';
 import Stack from '../stack';
 import { ToolButton } from '../tool-button';
-import { ZoomInIcon, ZoomOutIcon } from '../icons';
+import {  ZoomInIcon, ZoomOutIcon } from '../icons';
 import classNames from 'classnames';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
@@ -83,6 +83,7 @@ export const ZoomToolbar = () => {
                 aria-label={t('zoom.100')}
                 shortcut={`Cmd+0`}
               >{t('zoom.100')}</MenuItem>
+             
             </Menu>
           </PopoverContent>
         </Popover>
@@ -102,3 +103,4 @@ export const ZoomToolbar = () => {
     </Island>
   );
 };
+
