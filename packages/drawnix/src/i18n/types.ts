@@ -154,7 +154,7 @@ export interface Translations {
   'tutorial.mind': string;
   'tutorial.text': string;
   'tutorial.arrow': string;
-  'tutorial.language': string;
+  'tutorial.menu': string;
   'tutorial.next': string;
   'tutorial.previous': string;
   'tutorial.skip': string;

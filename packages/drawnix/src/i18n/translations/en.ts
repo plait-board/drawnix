@@ -172,7 +172,7 @@ const enTranslations: Translations = {
   'tutorial.mind': 'Create mind maps to organize your ideas and concepts visually.',
   'tutorial.text': 'Add text annotations to your diagrams with the Text tool.',
   'tutorial.arrow': 'Connect ideas with arrows and lines.',
-  'tutorial.language': 'Change the application language here.',
+  'tutorial.menu': 'Import/Export the images, Change the application language here.',
   'tutorial.next': 'Next',
   'tutorial.previous': 'Previous',
   'tutorial.skip': 'Skip',
