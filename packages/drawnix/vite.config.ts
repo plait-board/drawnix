@@ -43,7 +43,7 @@ export default defineConfig({
     },
     rollupOptions: {
       // External packages that should not be bundled into your library.
-      external: ['react', 'react-dom', 'react/jsx-runtime', '@plait-board/react-board', '@plait-board/mermaid-to-drawnix', 'classnames', 'open-color', 'mobile-detect', '@floating-ui/react', '@plait/core', '@plait/common', '@plait/draw', '@plait/mind', '@plait/mind', 'roughjs/bin/core', '@plait/text-plugins', 'lodash'],
+      external: ['react', 'react-dom', 'react/jsx-runtime', '@plait-board/react-board', '@plait-board/mermaid-to-drawnix', '@plait-board/markdown-to-drawnix', 'classnames', 'open-color', 'mobile-detect', '@floating-ui/react', '@plait/core', '@plait/common', '@plait/draw', '@plait/mind', '@plait/mind', 'roughjs/bin/core', '@plait/text-plugins', 'lodash'],
     },
   },
 });
