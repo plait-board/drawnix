@@ -243,7 +243,7 @@ export const initializeData: PlaitElement[] = [
     strokeWidth: 2,
   },
   {
-    type: 'mindmap',
+    type: 'mind',
     id: 'rzdDJ',
     rightNodeCount: 4,
     data: {
@@ -258,6 +258,7 @@ export const initializeData: PlaitElement[] = [
     children: [
       {
         id: 'WKQyj',
+        type: 'mind_child',
         data: {
           topic: {
             children: [
@@ -270,6 +271,7 @@ export const initializeData: PlaitElement[] = [
         children: [
           {
             id: 'RYSRd',
+            type: 'mind_child',
             data: {
               topic: {
                 children: [
@@ -282,6 +284,7 @@ export const initializeData: PlaitElement[] = [
             children: [
               {
                 id: 'nDBRj',
+                type: 'mind_child',
                 data: {
                   topic: {
                     children: [
@@ -292,19 +295,14 @@ export const initializeData: PlaitElement[] = [
                   },
                 },
                 children: [],
-                width: 14,
-                height: 20,
               },
             ],
-            width: 14,
-            height: 20,
           },
         ],
-        width: 42,
-        height: 20,
       },
       {
         id: 'PWzAD',
+        type: 'mind_child',
         data: {
           topic: {
             children: [
@@ -317,6 +315,7 @@ export const initializeData: PlaitElement[] = [
         children: [
           {
             id: 'bTRmh',
+            type: 'mind_child',
             data: {
               topic: {
                 children: [
@@ -329,6 +328,7 @@ export const initializeData: PlaitElement[] = [
             children: [
               {
                 id: 'bnZEJ',
+                type: 'mind_child',
                 data: {
                   topic: {
                     children: [
@@ -339,19 +339,14 @@ export const initializeData: PlaitElement[] = [
                   },
                 },
                 children: [],
-                width: 14,
-                height: 20,
               },
             ],
-            width: 14,
-            height: 20,
           },
         ],
-        width: 42,
-        height: 20,
       },
       {
         id: 'nJTYp',
+        type: 'mind_child',
         data: {
           topic: {
             children: [
@@ -364,6 +359,7 @@ export const initializeData: PlaitElement[] = [
         children: [
           {
             id: 'GtyaH',
+            type: 'mind_child',
             data: {
               topic: {
                 children: [
@@ -376,6 +372,7 @@ export const initializeData: PlaitElement[] = [
             children: [
               {
                 id: 'JsPEN',
+                type: 'mind_child',
                 data: {
                   topic: {
                     children: [
@@ -386,19 +383,14 @@ export const initializeData: PlaitElement[] = [
                   },
                 },
                 children: [],
-                width: 14,
-                height: 20,
               },
             ],
-            width: 14,
-            height: 20,
           },
         ],
-        width: 42,
-        height: 20,
       },
       {
         id: 'aCpyY',
+        type: 'mind_child',
         data: {
           topic: {
             children: [
@@ -441,12 +433,8 @@ export const initializeData: PlaitElement[] = [
             height: 20,
           },
         ],
-        width: 42,
-        height: 20,
       },
     ],
-    width: 72,
-    height: 25,
     isRoot: true,
     points: [[248.24308817248368, 470.83369157012714]],
   },
