@@ -37,8 +37,7 @@ import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
 import { CleanConfirm } from './components/clean-confirm/clean-confirm';
 import { buildTextLinkPlugin } from './plugins/with-text-link';
 import { LinkPopup } from './components/popup/link-popup/link-popup';
-import { I18nProvider } from './i18n';
-import { DrawnixTutorial } from './components/tutorial';
+import { useI18n, I18nProvider } from './i18n';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -50,7 +49,6 @@ export type DrawnixProps = {
   onViewportChange?: (value: Viewport) => void;
   onThemeChange?: (value: ThemeColorMode) => void;
   afterInit?: (board: PlaitBoard) => void;
-  tutorial?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export const Drawnix: React.FC<DrawnixProps> = ({
@@ -63,7 +61,6 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   onThemeChange,
   onValueChange,
   afterInit,
-  tutorial,
 }) => {
   const options: PlaitBoardOptions = {
     readonly: false,
@@ -151,7 +148,6 @@ export const Drawnix: React.FC<DrawnixProps> = ({
             <CleanConfirm container={containerRef.current}></CleanConfirm>
           </Wrapper>
         </div>
-        {tutorial && <DrawnixTutorial></DrawnixTutorial>}
       </DrawnixContext.Provider>
     </I18nProvider>
   );

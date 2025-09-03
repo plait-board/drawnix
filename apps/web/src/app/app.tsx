@@ -18,8 +18,6 @@ export function App() {
     theme?: PlaitTheme;
   }>({ children: [] });
 
-  const [tutorial, setTutorial] = useState(false);
-
   useEffect(() => {
     const loadData = async () => {
       const storedData = await localforage.getItem(MAIN_BOARD_CONTENT_KEY);
@@ -27,7 +25,6 @@ export function App() {
         setValue(storedData as any);
         return;
       }
-      setTutorial(true);
     };
 
     loadData();
@@ -52,7 +49,6 @@ export function App() {
         };
         */
       }}
-      tutorial={tutorial}
     ></Drawnix>
   );
 }
