@@ -164,6 +164,19 @@ const enTranslations: Translations = {
   // Mind map elements text
   'mind.centralText': 'Central Topic',
   'mind.abstractNodeText': 'Summary',
+
+  // Tutorial texts
+  'tutorial.title': 'Drawnix Tutorial',
+  'tutorial.hand': 'Use the Hand tool to pan around the canvas.',
+  'tutorial.selection': 'The Selection tool lets you select, move, and edit objects on your canvas.',
+  'tutorial.mind': 'Create mind maps to organize your ideas and concepts visually.',
+  'tutorial.text': 'Add text annotations to your diagrams with the Text tool.',
+  'tutorial.arrow': 'Connect ideas with arrows and lines.',
+  'tutorial.language': 'Change the application language here.',
+  'tutorial.next': 'Next',
+  'tutorial.previous': 'Previous',
+  'tutorial.skip': 'Skip',
+  'tutorial.finish': 'Finish',
 };
 
 export default enTranslations;

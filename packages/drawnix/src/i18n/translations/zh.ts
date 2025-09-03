@@ -160,6 +160,19 @@ const zhTranslations: Translations = {
   ### Hello world 👋 🌍 ✨ 💻
   
   #### 哇 是个程序员 🤯 ⌨️ 💡 👩 💻`,
+
+  // Tutorial texts
+  'tutorial.title': 'Drawnix 教程',
+  'tutorial.hand': '使用手形工具来平移画布。',
+  'tutorial.selection': '选择工具让你可以选择、移动和编辑画布上的对象。',
+  'tutorial.mind': '创建思维导图来可视化地组织你的想法和概念。',
+  'tutorial.text': '使用文本工具为你的图表添加文字注释。',
+  'tutorial.arrow': '使用箭头和线条连接想法。',
+  'tutorial.menu': '在这里汇入/储存图片，更改应用程序语言。',
+  'tutorial.next': '下一步',
+  'tutorial.previous': '上一步',
+  'tutorial.skip': '跳过',
+  'tutorial.finish': '完成',
 };
 
 export default zhTranslations;
