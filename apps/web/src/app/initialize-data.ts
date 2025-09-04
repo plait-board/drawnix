@@ -403,6 +403,7 @@ export const initializeData: PlaitElement[] = [
         children: [
           {
             id: 'iHynm',
+            type: 'mind_child',
             data: {
               topic: {
                 children: [
@@ -415,6 +416,7 @@ export const initializeData: PlaitElement[] = [
             children: [
               {
                 id: 'TiZGR',
+                type: 'mind_child',
                 data: {
                   topic: {
                     children: [
@@ -424,18 +426,13 @@ export const initializeData: PlaitElement[] = [
                     ],
                   },
                 },
-                children: [],
-                width: 14,
-                height: 20,
+                children: []
               },
-            ],
-            width: 14,
-            height: 20,
+            ]
           },
         ],
       },
     ],
-    isRoot: true,
     points: [[248.24308817248368, 470.83369157012714]],
   },
   {
