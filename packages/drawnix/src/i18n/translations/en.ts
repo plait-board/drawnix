@@ -167,9 +167,7 @@ const enTranslations: Translations = {
   'tutorial.importExportDesc': 'Import your images or export your creations here',
   'tutorial.language': 'Language Settings',
   'tutorial.tools': 'Canvas Tools',
-  'tutorial.toolsDesc': 'Select objects, move canvas, draw shapes, add text, create mind maps, and utilize markdown or mermaid diagrams',
-  'tutorial.zoom': 'Canvas Zoom',
-  'tutorial.zoomDesc': 'Adjust your canvas view',
+  'tutorial.toolsDesc': 'Select a tool to enter special drawing modes',
   'tutorial.theme': 'Theme Switch',
   'tutorial.themeDesc': 'Change between light and dark themes',
 

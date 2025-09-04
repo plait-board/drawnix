@@ -156,8 +156,6 @@ export interface Translations {
   'tutorial.language': string;
   'tutorial.tools': string;
   'tutorial.toolsDesc': string;
-  'tutorial.zoom': string;
-  'tutorial.zoomDesc': string;
   'tutorial.theme': string;
   'tutorial.themeDesc': string;
 

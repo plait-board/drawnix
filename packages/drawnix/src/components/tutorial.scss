@@ -76,8 +76,8 @@
 }
 
 .top-left {
-  top: 15%;
-  left: 5%;
+  top: 10%;
+  left: -5%;
 }
 
 .top-center {
@@ -96,29 +96,9 @@
   right: 5%;
 }
 
-.pointer-arrow {
+.bottom-right .pointer-arrow-svg {
   position: absolute;
-  width: 60px;
-  height: 1px;
-  background-color: #aaa;
-}
-
-.top-left .pointer-arrow {
-  transform: rotate(-45deg);
-}
-
-.top-center .pointer-arrow {
-  transform: rotate(-90deg);
-}
-
-.top-right .pointer-arrow {
-  right: 0;
-  transform: rotate(-135deg);
-}
-
-.bottom-right .pointer-arrow {
-  right: 0;
-  transform: rotate(135deg);
+  left: 100%;
   top: 100%;
 }
 
@@ -134,7 +114,7 @@
 
 .pointer-content {
   margin: 15px;
-  margin-top: 45px;
+  margin-top: -30px;
 }
 
 .top-right .pointer-content,
@@ -142,6 +122,21 @@
   text-align: right;
   padding-right: 10px;
   padding-left: 0;
+}
+
+.top-center .pointer-content {
+  position: absolute;
+  left: 25%;
+  width: 200px;
+  top: 60%;
+}
+
+.top-center .pointer-content h3 {
+  text-align: center;
+}
+
+.top-center .pointer-content p {
+  text-align: center;
 }
 
 .pointer-content h3 {
