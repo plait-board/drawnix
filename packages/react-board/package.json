@@ -12,8 +12,7 @@
     "@plait/mind": "^0.82.0",
     "@plait/text-plugins": "^0.82.0",
     "ahooks": "^3.8.0",
-    "classnames": "^2.5.1",
-    "rxjs": "~7.8.0"
+    "classnames": "^2.5.1"
   },
   "exports": {
     ".": {
