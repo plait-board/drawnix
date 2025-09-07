@@ -17,18 +17,18 @@ export interface Translations {
 
   'toolbar.pen': string;
   'toolbar.eraser': string;
-  
-  'toolbar.arrow.straight': string,
-  'toolbar.arrow.elbow': string,
-  'toolbar.arrow.curve': string,
 
-  'toolbar.shape.rectangle': string,
-  'toolbar.shape.ellipse': string,
-  'toolbar.shape.triangle': string,
-  'toolbar.shape.terminal': string,
-  'toolbar.shape.diamond': string,
-  'toolbar.shape.parallelogram': string,
-  'toolbar.shape.roundRectangle': string,
+  'toolbar.arrow.straight': string;
+  'toolbar.arrow.elbow': string;
+  'toolbar.arrow.curve': string;
+
+  'toolbar.shape.rectangle': string;
+  'toolbar.shape.ellipse': string;
+  'toolbar.shape.triangle': string;
+  'toolbar.shape.terminal': string;
+  'toolbar.shape.diamond': string;
+  'toolbar.shape.parallelogram': string;
+  'toolbar.shape.roundRectangle': string;
 
   // Zoom controls
   'zoom.in': string;
@@ -45,22 +45,22 @@ export interface Translations {
   'theme.starry': string;
 
   // Colors
-  'color.none': string,
-  'color.unknown': string,
-  'color.default': string,
-  'color.white': string,
-  'color.gray': string,
-  'color.deepBlue': string,
-  'color.red': string,
-  'color.green': string,
-  'color.yellow': string,
-  'color.purple': string,
-  'color.orange': string,
-  'color.pastelPink': string,
-  'color.cyan': string,
-  'color.brown': string,
-  'color.forestGreen': string,
-  'color.lightGray': string,
+  'color.none': string;
+  'color.unknown': string;
+  'color.default': string;
+  'color.white': string;
+  'color.gray': string;
+  'color.deepBlue': string;
+  'color.red': string;
+  'color.green': string;
+  'color.yellow': string;
+  'color.purple': string;
+  'color.orange': string;
+  'color.pastelPink': string;
+  'color.cyan': string;
+  'color.brown': string;
+  'color.forestGreen': string;
+  'color.lightGray': string;
 
   // General
   'general.undo': string;
@@ -75,7 +75,6 @@ export interface Translations {
   'language.english': string;
   'language.russian': string;
   'language.arabic': string;
-  
 
   // Menu items
   'menu.open': string;
@@ -115,7 +114,7 @@ export interface Translations {
   'cleanConfirm.ok': string;
 
   // Link popup items
-  'popupLink.delLink': string,
+  'popupLink.delLink': string;
 
   // Tool popup items
   'popupToolbar.fillColor': string;
@@ -124,8 +123,8 @@ export interface Translations {
   'popupToolbar.stroke': string;
 
   // Text placeholders
-  'textPlaceholders.link': string,
-  'textPlaceholders.text': string,
+  'textPlaceholders.link': string;
+  'textPlaceholders.text': string;
 
   // Line tool
   'line.source': string;
@@ -144,21 +143,17 @@ export interface Translations {
   // Draw elements text
   'draw.lineText': string;
   'draw.geometryText': string;
-  
+
   // Mind map elements text
   'mind.centralText': string;
   'mind.abstractNodeText': string;
 
   'tutorial.title': string;
   'tutorial.description': string;
-  'tutorial.importExport': string;
-  'tutorial.importExportDesc': string;
-  'tutorial.language': string;
-  'tutorial.tools': string;
-  'tutorial.toolsDesc': string;
-  'tutorial.theme': string;
-  'tutorial.themeDesc': string;
-
+  'tutorial.dataDescription': string;
+  'tutorial.appToolbar': string;
+  'tutorial.creationToolbar': string;
+  'tutorial.themeDescription': string;
 }
 
 // I18n context interface

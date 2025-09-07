@@ -12,6 +12,7 @@ export const Tutorial: React.FC = () => {
           
           <h1 className="brand-title">{t('tutorial.title')}</h1>
           <p className="brand-description">{t('tutorial.description')}</p>
+          <p className="brand-tooltip">{t('tutorial.dataDescription')}</p>
           
           <div className="feature-pointer top-left">
             <svg className="pointer-arrow-svg" width="130" height="100" viewBox="0 0 130 100">
@@ -23,9 +24,7 @@ export const Tutorial: React.FC = () => {
               <path d="M 80,70 Q 35,60 15,15" fill="none" stroke="#aaa" strokeWidth="1.5" markerEnd="url(#arrow-left)" />
             </svg>
             <div className="pointer-content">
-              <h3>{t('tutorial.importExport')}</h3>
-              <p>{t('tutorial.importExportDesc')}</p>
-              <p>{t('tutorial.language')}</p>
+              <p>{t('tutorial.appToolbar')}</p>
             </div>
           </div>
           
@@ -39,8 +38,7 @@ export const Tutorial: React.FC = () => {
               <path d="M 45,90 Q 20,50 45,10" fill="none" stroke="#aaa" strokeWidth="1.5" markerEnd="url(#arrow-top)" />
             </svg>
             <div className="pointer-content">
-              <h3>{t('tutorial.tools')}</h3>
-              <p>{t('tutorial.toolsDesc')}</p>
+              <p>{t('tutorial.creationToolbar')}</p>
             </div>
           </div>
           
@@ -54,8 +52,7 @@ export const Tutorial: React.FC = () => {
               <path d="M 20,25 Q 75,20 105,70" fill="none" stroke="#aaa" strokeWidth="1.5" markerEnd="url(#arrow-right)" />
             </svg>
             <div className="pointer-content">
-              <h3>{t('tutorial.theme')}</h3>
-              <p>{t('tutorial.themeDesc')}</p>
+              <p>{t('tutorial.themeDescription')}</p>
             </div>
           </div>
           

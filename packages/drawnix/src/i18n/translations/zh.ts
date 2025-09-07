@@ -163,14 +163,11 @@ const zhTranslations: Translations = {
   #### 哇 是个程序员 🤯 ⌨️ 💡 👩 💻`,
 
   'tutorial.title': 'Drawnix',
-  'tutorial.description': '一个极简画布，以优雅与简约可视化您的思想和创意。',
-  'tutorial.importExport': '导入与导出',
-  'tutorial.importExportDesc': '在此导入图片或导出您的创作',
-  'tutorial.language': '语言设置',
-  'tutorial.tools': '画布工具',
-  'tutorial.toolsDesc': '使用不同的绘图工具来编辑画布',
-  'tutorial.theme': '主题切换',
-  'tutorial.themeDesc': '在明亮和黑暗主题之间切换',
+  'tutorial.description': 'All-in-one 白板，包含思维导图、流程图、自由画笔等',
+  'tutorial.dataDescription': '所有数据被存在你的浏览器本地',
+  'tutorial.appToolbar': '导出，语言设置，...',
+  'tutorial.creationToolbar': '选择一个工具开始你的创作',
+  'tutorial.themeDescription': '在明亮和黑暗主题之间切换',
 
 };
 
