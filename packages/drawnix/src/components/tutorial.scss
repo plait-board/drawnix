@@ -21,10 +21,8 @@
 
 .tutorial-content {
   position: relative;
-  width: 90%;
-  max-width: 1500px;
-  height: 80%;
-  max-height: 900px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -76,24 +74,20 @@
 }
 
 .top-left {
-  top: 10%;
-  left: -5%;
+  position: absolute;
+  top: 150px;
+  left: 150px;
 }
 
 .top-center {
-  top: 10%;
+  top: 125px;
   left: 50%;
   transform: translateX(-50%);
 }
 
-.top-right {
-  top: 15%;
-  right: 5%;
-}
-
 .bottom-right {
-  bottom: 15%;
-  right: 5%;
+  bottom: 225px;
+  right: 225px;
 }
 
 .bottom-right .pointer-arrow-svg {
@@ -155,21 +149,48 @@
   margin-bottom: 5px;
 }
 
-.close-button {
-  position: absolute;
-  bottom: 40px;
-  padding: 12px 30px;
-  background-color: rgba(200, 200, 200, 0.2);
-  border: 1px solid rgba(150, 150, 150, 0.2);
-  border-radius: 25px;
-  color: #666;
-  font-family: 'Garamond', 'Times New Roman', serif;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.drawnix--mobile{
+  .pointer-content, .pointer-arrow-svg {
+    display: none;
+  }
 }
 
-.close-button:hover {
-  background-color: rgba(200, 200, 200, 0.4);
-  transform: translateY(-2px);
+@media screen and (max-width: 768px){
+  .tutorial-content {
+    width: 95%;
+    height: 95%;
+  }
+  
+  .brand-title {
+    font-size: 42px;
+    margin-top: 20px;
+  }
+  
+  .brand-description {
+    font-size: 14px;
+    max-width: 300px;
+    margin-bottom: 30px;
+  }
+  
+  .feature-pointer {
+    width: 180px;
+  }
+  
+  .feature-pointer.mobile {
+    position: relative;
+    margin: 15px 0;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .pointer-content, .pointer-arrow-svg {
+    display: none;
+  }
+
 }
