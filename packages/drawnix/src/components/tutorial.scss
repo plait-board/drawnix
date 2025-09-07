@@ -44,7 +44,6 @@
   font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
-  pointer-events: auto;
 }
 
 .language-switcher:hover {
@@ -58,7 +57,6 @@
   color: #333;
   margin-bottom: 10px;
   letter-spacing: 2px;
-  text-align: center;
 }
 
 .brand-description {
@@ -79,7 +77,7 @@
 
 .top-left {
   top: 10%;
-  left: 5%;
+  left: -5%;
 }
 
 .top-center {
@@ -95,14 +93,13 @@
 
 .bottom-right {
   bottom: 15%;
-  right: 7%;
+  right: 5%;
 }
 
 .bottom-right .pointer-arrow-svg {
   position: absolute;
   left: 100%;
   top: 100%;
-  transform-origin: top left;
 }
 
 .pointer-arrow:after {
@@ -170,154 +167,9 @@
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
-  pointer-events: auto;
 }
 
 .close-button:hover {
   background-color: rgba(200, 200, 200, 0.4);
   transform: translateY(-2px);
-}
-
-.tablet-adjusted-left {
-  top: 12%;
-  left: -2%;
-}
-
-.tablet-adjusted-center {
-  top: 12%;
-}
-
-.tablet-adjusted-right {
-  bottom: 18%;
-  right: 10%;
-}
-
-@media screen and (max-width: 1200px) {
-  .brand-title {
-    font-size: 56px;
-  }
-  
-  .brand-description {
-    font-size: 16px;
-    max-width: 500px;
-    margin-bottom: 40px;
-  }
-  
-  .feature-pointer.top-left {
-    top: 12%;
-    left: 0%;
-  }
-  
-  .feature-pointer.top-center {
-    top: 12%;
-  }
-  
-  .feature-pointer.bottom-right {
-    bottom: 18%;
-    right: 10%;
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  .brand-title {
-    font-size: 56px;
-  }
-  
-  .brand-description {
-    font-size: 16px;
-    max-width: 500px;
-    margin-bottom: 40px;
-  }
-  
-  .top-left {
-    top: 12%;
-    left: 0%;
-  }
-  
-  .top-center {
-    top: 12%;
-  }
-  
-  .bottom-right {
-    bottom: 18%;
-    right: 2%;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .tutorial-content {
-    width: 95%;
-    height: 95%;
-  }
-  
-  .brand-title {
-    font-size: 42px;
-    margin-top: 20px;
-  }
-  
-  .brand-description {
-    font-size: 14px;
-    max-width: 300px;
-    margin-bottom: 30px;
-  }
-  
-  .feature-pointer {
-    width: 180px;
-  }
-  
-  .feature-pointer.mobile {
-    position: relative;
-    margin: 15px 0;
-    top: auto;
-    left: auto;
-    right: auto;
-    bottom: auto;
-    transform: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .top-center.mobile .pointer-content,
-  .top-left.mobile .pointer-content,
-  .bottom-right.mobile .pointer-content {
-    position: static;
-    text-align: center;
-    width: 100%;
-    margin-top: 10px;
-  }
-  
-  .pointer-arrow-svg {
-    display: none;
-  }
-  
-  .close-button {
-    position: relative;
-    bottom: auto;
-    margin-top: 30px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .brand-title {
-    font-size: 32px;
-  }
-  
-  .brand-description {
-    font-size: 12px;
-    max-width: 250px;
-  }
-  
-  .feature-pointer {
-    width: 160px;
-  }
-  
-  .pointer-content p {
-    font-size: 12px;
-  }
-  
-  .close-button {
-    padding: 10px 20px;
-    font-size: 14px;
-  }
 }
