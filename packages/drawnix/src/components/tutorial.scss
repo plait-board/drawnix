@@ -1,0 +1,196 @@
+.drawnix-tutorial {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: none;
+  background-color: transparent;
+}
+
+.tutorial-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tutorial-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.language-switcher {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 15px;
+  background-color: rgba(200, 200, 200, 0.2);
+  border: 1px solid rgba(150, 150, 150, 0.2);
+  border-radius: 20px;
+  color: #666;
+  font-family: 'Times New Roman', serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.language-switcher:hover {
+  background-color: rgba(200, 200, 200, 0.4);
+}
+
+.brand-title {
+  font-family: 'Garamond', 'Times New Roman', serif;
+  font-size: 72px;
+  font-weight: 400;
+  color: #333;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.brand-description {
+  font-family: 'Garamond', 'Times New Roman', serif;
+  font-size: 18px;
+  color: #777;
+  text-align: center;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 60px;
+  font-style: italic;
+}
+
+.feature-pointer {
+  position: absolute;
+  width: 220px;
+}
+
+.top-left {
+  position: absolute;
+  top: 150px;
+  left: 150px;
+}
+
+.top-center {
+  top: 125px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bottom-right {
+  bottom: 225px;
+  right: 225px;
+}
+
+.bottom-right .pointer-arrow-svg {
+  position: absolute;
+  left: 100%;
+  top: 100%;
+}
+
+.pointer-arrow:after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #888;
+  transform: translate(-4px, -4px);
+}
+
+.pointer-content {
+  margin: 15px;
+  margin-top: -30px;
+}
+
+.top-right .pointer-content,
+.bottom-right .pointer-content {
+  text-align: right;
+  padding-right: 10px;
+  padding-left: 0;
+}
+
+.top-center .pointer-content {
+  position: absolute;
+  left: 25%;
+  width: 200px;
+  top: 60%;
+}
+
+.top-center .pointer-content h3 {
+  text-align: center;
+}
+
+.top-center .pointer-content p {
+  text-align: center;
+}
+
+.pointer-content h3 {
+  font-family: 'Garamond', 'Times New Roman', serif;
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 8px;
+  font-weight: normal;
+}
+
+.pointer-content p {
+  font-family: 'Garamond', 'Times New Roman', serif;
+  font-size: 14px;
+  color: #888;
+  line-height: 1.5;
+  margin-bottom: 5px;
+}
+
+.drawnix--mobile{
+  .pointer-content, .pointer-arrow-svg {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .tutorial-content {
+    width: 95%;
+    height: 95%;
+  }
+  
+  .brand-title {
+    font-size: 42px;
+    margin-top: 20px;
+  }
+  
+  .brand-description {
+    font-size: 14px;
+    max-width: 300px;
+    margin-bottom: 30px;
+  }
+  
+  .feature-pointer {
+    width: 180px;
+  }
+  
+  .feature-pointer.mobile {
+    position: relative;
+    margin: 15px 0;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .pointer-content, .pointer-arrow-svg {
+    display: none;
+  }
+
+}

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { initializeData } from './initialize-data';
 import { Drawnix } from '@drawnix/drawnix';
 import { PlaitBoard, PlaitElement, PlaitTheme, Viewport } from '@plait/core';
 import localforage from 'localforage';
@@ -19,6 +18,8 @@ export function App() {
     theme?: PlaitTheme;
   }>({ children: [] });
 
+  const [tutorial, setTutorial] = useState(false);
+
   useEffect(() => {
     const loadData = async () => {
       const storedData = await localforage.getItem(MAIN_BOARD_CONTENT_KEY);
@@ -26,7 +27,7 @@ export function App() {
         setValue(storedData as any);
         return;
       }
-      setValue({ children: initializeData });
+      setTutorial(true);
     };
 
     loadData();
@@ -40,6 +41,7 @@ export function App() {
         localforage.setItem(MAIN_BOARD_CONTENT_KEY, value);
         setValue(value);
       }}
+      tutorial={tutorial}
       afterInit={(board) => {
         console.log('board initialized');
         /*

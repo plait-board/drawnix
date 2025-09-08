@@ -161,6 +161,14 @@ const zhTranslations: Translations = {
   ### Hello world 👋 🌍 ✨ 💻
   
   #### 哇 是个程序员 🤯 ⌨️ 💡 👩 💻`,
+
+  'tutorial.title': 'Drawnix',
+  'tutorial.description': 'All-in-one 白板，包含思维导图、流程图、自由画笔等',
+  'tutorial.dataDescription': '所有数据被存在你的浏览器本地',
+  'tutorial.appToolbar': '导出，语言设置，...',
+  'tutorial.creationToolbar': '选择一个工具开始你的创作',
+  'tutorial.themeDescription': '在明亮和黑暗主题之间切换',
+
 };
 
 export default zhTranslations;
