@@ -139,7 +139,13 @@ export const Drawnix: React.FC<DrawnixProps> = ({
                 setBoard(board as DrawnixBoard);
                 afterInit && afterInit(board);
               }}
-            ></Board>
+            >
+              {tutorial &&
+                board &&
+                PlaitBoard.isPointer(board, PlaitPointerType.selection) && (
+                  <Tutorial />
+                )}
+            </Board>
             <AppToolbar></AppToolbar>
             <CreationToolbar></CreationToolbar>
             <ZoomToolbar></ZoomToolbar>
@@ -151,7 +157,6 @@ export const Drawnix: React.FC<DrawnixProps> = ({
             <CleanConfirm container={containerRef.current}></CleanConfirm>
           </Wrapper>
         </div>
-        {tutorial && !value.length && <Tutorial/>}
       </DrawnixContext.Provider>
     </I18nProvider>
   );
