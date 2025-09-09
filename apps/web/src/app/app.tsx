@@ -3,6 +3,12 @@ import { Drawnix } from '@drawnix/drawnix';
 import { PlaitBoard, PlaitElement, PlaitTheme, Viewport } from '@plait/core';
 import localforage from 'localforage';
 
+type AppValue = {
+  children: PlaitElement[];
+  viewport?: Viewport;
+  theme?: PlaitTheme;
+};
+
 const MAIN_BOARD_CONTENT_KEY = 'main_board_content';
 
 localforage.config({
@@ -12,24 +18,24 @@ localforage.config({
 });
 
 export function App() {
-  const [value, setValue] = useState<{
-    children: PlaitElement[];
-    viewport?: Viewport;
-    theme?: PlaitTheme;
-  }>({ children: [] });
+  const [value, setValue] = useState<AppValue>({ children: [] });
 
   const [tutorial, setTutorial] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
-      const storedData = await localforage.getItem(MAIN_BOARD_CONTENT_KEY);
+      const storedData = (await localforage.getItem(
+        MAIN_BOARD_CONTENT_KEY
+      )) as AppValue;
       if (storedData) {
-        setValue(storedData as any);
+        setValue(storedData);
+        if (storedData.children && storedData.children.length === 0) {
+          setTutorial(true);
+        }
         return;
       }
       setTutorial(true);
     };
-
     loadData();
   }, []);
   return (
@@ -38,8 +44,12 @@ export function App() {
       viewport={value.viewport}
       theme={value.theme}
       onChange={(value) => {
-        localforage.setItem(MAIN_BOARD_CONTENT_KEY, value);
-        setValue(value);
+        const newValue = value as AppValue;
+        localforage.setItem(MAIN_BOARD_CONTENT_KEY, newValue);
+        setValue(newValue);
+        if (newValue.children && newValue.children.length > 0) {
+          setTutorial(false);
+        }
       }}
       tutorial={tutorial}
       afterInit={(board) => {
