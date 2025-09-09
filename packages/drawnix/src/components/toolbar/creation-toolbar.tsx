@@ -243,6 +243,11 @@ export const CreationToolbar = () => {
                     aria-label={button.titleKey ? t(button.titleKey) : 'Shape'}
                     onPointerDown={() => {
                       setShapeOpen(!shapeOpen);
+                      if (isShapePointer(board)) {
+                        BoardTransforms.updatePointerType(board, board.pointer);
+                      } else {
+                        BoardTransforms.updatePointerType(board, button.pointer!);
+                      }
                     }}
                   />
                 </PopoverTrigger>
@@ -277,6 +282,11 @@ export const CreationToolbar = () => {
                     aria-label={button.titleKey ? t(button.titleKey) : ''}
                     onPointerDown={() => {
                       setArrowOpen(!arrowOpen);
+                      if (isArrowLinePointer(board)) {
+                        BoardTransforms.updatePointerType(board, board.pointer);
+                      } else {
+                        BoardTransforms.updatePointerType(board, button.pointer!);
+                      }
                     }}
                   />
                 </PopoverTrigger>

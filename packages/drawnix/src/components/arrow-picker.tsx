@@ -5,7 +5,7 @@ import { ToolButton } from './tool-button';
 import { StraightArrowIcon, ElbowArrowIcon, CurveArrowIcon } from './icons';
 import { useBoard } from '@plait-board/react-board';
 import { Translations, useI18n } from '../i18n';
-import { BoardTransforms } from '@plait/core';
+import { BoardTransforms , PlaitBoard } from '@plait/core';
 import React from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { ArrowLineShape, DrawPointerType } from '@plait/draw';
@@ -52,6 +52,7 @@ export const ArrowPicker: React.FC<ArrowPickerProps> = ({ onPointerUp }) => {
               type="icon"
               size={'small'}
               visible={true}
+              selected={PlaitBoard.isPointer(board, arrow.pointer)}
               icon={arrow.icon}
               title={t(arrow.title as keyof Translations)}
               aria-label={t(arrow.title as keyof Translations)}

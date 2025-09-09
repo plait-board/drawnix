@@ -11,7 +11,7 @@ import {
   RoundRectangleIcon,
   TerminalIcon,
 } from './icons';
-import { BoardTransforms } from '@plait/core';
+import { BoardTransforms , PlaitBoard } from '@plait/core';
 import React from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { BasicShapes, DrawPointerType, FlowchartSymbols } from '@plait/draw';
@@ -88,6 +88,7 @@ export const ShapePicker: React.FC<ShapePickerProps> = ({
                     type="icon"
                     size={'small'}
                     visible={true}
+                    selected={PlaitBoard.isPointer(board, shape.pointer)}
                     icon={shape.icon}
                     title={t((shape.title || 'toolbar.shape') as keyof Translations)}
                     aria-label={t((shape.title || 'toolbar.shape') as keyof Translations)}
