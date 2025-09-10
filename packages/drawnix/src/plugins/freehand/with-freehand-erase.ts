@@ -10,9 +10,12 @@ import { isDrawingMode } from '@plait/common';
 import { isHitFreehand } from './utils';
 import { Freehand, FreehandShape } from './type';
 import { CoreTransforms } from '@plait/core';
+import { LASER_POINTER_ID, LaserPointer } from '../../utils/laser-pointer';
 
 export const withFreehandErase = (board: PlaitBoard) => {
     const { pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
+
+    const laserPointer = new LaserPointer();
 
     let isErasing = false;
     const elementsToDelete = new Set<string>();
@@ -49,6 +52,7 @@ export const withFreehandErase = (board: PlaitBoard) => {
             deleteMarkedElements();
             isErasing = false;
             elementsToDelete.clear();
+            laserPointer.destroy();
         }
     };
 
@@ -60,6 +64,7 @@ export const withFreehandErase = (board: PlaitBoard) => {
             elementsToDelete.clear();
             const currentPoint: Point = [event.x, event.y];
             checkAndMarkFreehandElementsForDeletion(currentPoint);
+            laserPointer.init(document.querySelector(`#${LASER_POINTER_ID}`) as HTMLCanvasElement);
             return;
         }
 
