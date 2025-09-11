@@ -31,7 +31,7 @@ export class LaserPointer {
   private cvsDom: HTMLCanvasElement | null = null;
   private ctx: CanvasRenderingContext2D | null = null;
   private canvasPos: DOMRect | null = null;
-  private drawing: boolean = false;
+  private drawing = false;
 
   public init(dom: HTMLCanvasElement): void {
     this.cvsDom = dom;
