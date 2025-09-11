@@ -1,3 +1,4 @@
+import { PlaitBoard } from '@plait/core';
 import {
   drainPoints,
   drawLaserPen,
@@ -10,7 +11,7 @@ import {
   setRoundCap,
 } from 'laser-pen';
 
-export const LASER_POINTER_ID = 'laser-pointer';
+export const LASER_POINTER_CLASS_NAME = 'laser-pointer';
 
 const calculateRatio = (context: any): number => {
   const backingStore =
@@ -32,12 +33,18 @@ export class LaserPointer {
   private ctx: CanvasRenderingContext2D | null = null;
   private canvasPos: DOMRect | null = null;
   private drawing = false;
+  private container: HTMLElement | null = null;
 
-  public init(dom: HTMLCanvasElement): void {
-    this.cvsDom = dom;
+  public init(board: PlaitBoard): void {
+    this.container = PlaitBoard.getBoardContainer(board).closest(
+      '.drawnix'
+    ) as HTMLElement;
+    this.cvsDom = this.container.querySelector(
+      `.${LASER_POINTER_CLASS_NAME}`
+    ) as HTMLCanvasElement;
     this.ctx = this.cvsDom.getContext('2d') as CanvasRenderingContext2D;
     this.canvasPos = this.cvsDom.getBoundingClientRect();
-    
+
     this.mouseMoveHandler = (event: MouseEvent) => {
       if (!this.canvasPos) return;
       const relativeX = event.clientX - this.canvasPos.x;
@@ -49,29 +56,29 @@ export class LaserPointer {
       });
       this.ctx && this.startDraw();
     };
-    
+
     this.resizeHandler = () => this.setCanvasSize();
-    document.addEventListener('mousemove', this.mouseMoveHandler);
+    this.container.addEventListener('pointermove', this.mouseMoveHandler);
     window.addEventListener('resize', this.resizeHandler);
-    
+
     this.setCanvasSize();
   }
 
   public destroy(): void {
-    if (this.mouseMoveHandler) {
-      document.removeEventListener('mousemove', this.mouseMoveHandler);
+    if (this.mouseMoveHandler && this.container) {
+      this.container.removeEventListener('pointermove', this.mouseMoveHandler);
       this.mouseMoveHandler = null;
     }
-    
+
     if (this.resizeHandler) {
       window.removeEventListener('resize', this.resizeHandler);
       this.resizeHandler = null;
     }
-    
+
     if (this.ctx && this.cvsDom) {
       this.ctx.clearRect(0, 0, this.cvsDom.width, this.cvsDom.height);
     }
-    
+
     this.cvsDom = null;
     this.ctx = null;
     this.canvasPos = null;
@@ -87,10 +94,10 @@ export class LaserPointer {
 
   private draw(): void {
     if (!this.ctx || !this.cvsDom) return;
-    
+
     this.ctx.clearRect(0, 0, this.cvsDom.width, this.cvsDom.height);
     let needDrawInNextFrame = false;
-    
+
     this.mouseTrack = drainPoints(this.mouseTrack);
     if (this.mouseTrack.length >= 3) {
       setColor(211, 211, 211);
@@ -104,7 +111,7 @@ export class LaserPointer {
     } else {
       const centerPoint = this.mouseTrack[this.mouseTrack.length - 1];
       if (!centerPoint) return;
-      
+
       this.ctx.save();
       this.ctx.beginPath();
       this.ctx.fillStyle = `rgba(211, 211, 211)`;
@@ -113,7 +120,7 @@ export class LaserPointer {
       this.ctx.fill();
       this.ctx.restore();
     }
-    
+
     if (needDrawInNextFrame) {
       requestAnimationFrame(() => this.draw());
     } else {
@@ -123,14 +130,14 @@ export class LaserPointer {
 
   private setCanvasSize(): void {
     if (!this.cvsDom || !this.ctx) return;
-    
+
     const rect = this.cvsDom.getBoundingClientRect();
     const ratio = calculateRatio(this.ctx);
-    
+
     this.cvsDom.setAttribute('width', `${rect.width * ratio}px`);
     this.cvsDom.setAttribute('height', `${rect.height * ratio}px`);
     this.ctx.scale(ratio, ratio);
-    
+
     this.canvasPos = this.cvsDom.getBoundingClientRect();
   }
 }
