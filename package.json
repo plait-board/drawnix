@@ -5,6 +5,7 @@
   "scripts": {
     "start": "nx serve web --host=0.0.0.0",
     "build": "nx run-many -t=build",
+    "lint": "nx run-many --target=lint --all --fix",
     "build:web": "nx build web",
     "test": "nx run-many -t=test",
     "release": "node scripts/release-version.js",
@@ -24,6 +25,7 @@
     "ahooks": "^3.8.0",
     "browser-fs-access": "^0.35.0",
     "classnames": "^2.5.1",
+    "laser-pen": "^1.0.1",
     "localforage": "^1.10.0",
     "mobile-detect": "^1.4.5",
     "open-color": "^1.9.1",

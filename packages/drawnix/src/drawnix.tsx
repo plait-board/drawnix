@@ -39,6 +39,7 @@ import { buildTextLinkPlugin } from './plugins/with-text-link';
 import { LinkPopup } from './components/popup/link-popup/link-popup';
 import { I18nProvider } from './i18n';
 import { Tutorial } from './components/tutorial';
+import { LASER_POINTER_CLASS_NAME } from './utils/laser-pointer';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -156,6 +157,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
             <TTDDialog container={containerRef.current}></TTDDialog>
             <CleanConfirm container={containerRef.current}></CleanConfirm>
           </Wrapper>
+          <canvas className={`${LASER_POINTER_CLASS_NAME} mouse-course-hidden`}></canvas>
         </div>
       </DrawnixContext.Provider>
     </I18nProvider>
