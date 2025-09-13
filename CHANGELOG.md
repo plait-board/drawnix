@@ -1,3 +1,45 @@
+## 0.3.0 (2025-09-13)
+
+
+### 🚀 Features
+
+- **arrow:** support set arrow mark ([#258](https://github.com/plait-board/drawnix/pull/258))
+- **eraser:** implement eraser feature ([#221](https://github.com/plait-board/drawnix/pull/221))
+- **eraser:** adding i18n for eraser ([427a730](https://github.com/plait-board/drawnix/commit/427a730))
+- **eraser:** Improving all the eraser feature mentioned in #247 ([#249](https://github.com/plait-board/drawnix/pull/249), [#247](https://github.com/plait-board/drawnix/issues/247))
+- **eraser:** drawing erasing trail animation effect ([#295](https://github.com/plait-board/drawnix/pull/295))
+- **i18n:** added i18n tool for multi-Language support ([#232](https://github.com/plait-board/drawnix/pull/232))
+- **i18n:** adding i18n for clean confirm ([7bdf543](https://github.com/plait-board/drawnix/commit/7bdf543))
+- **i18n:** refactor the structure of i18n, adding with-common getI18n for plait objects, complete the translation of zh,en,ru ([#276](https://github.com/plait-board/drawnix/pull/276))
+- **i18n:** add Arabic language ([#280](https://github.com/plait-board/drawnix/pull/280))
+- **popup-toolbar:** add stroke select state, add stroke type text ([#272](https://github.com/plait-board/drawnix/pull/272))
+
+### 🩹 Fixes
+
+- fix dockerfile build logic ([#201](https://github.com/plait-board/drawnix/pull/201))
+- **cursor:** set mind element css to always be inherit ([#260](https://github.com/plait-board/drawnix/pull/260))
+- **freehand&i18n:** fix i18n of freehand toolbar and make secondary toolbar always exist while using freehand element ([#255](https://github.com/plait-board/drawnix/pull/255))
+- **frontend:** comment addDebugLog to prevent potential XSS security issue ([#269](https://github.com/plait-board/drawnix/pull/269))
+- **hotkey:** prevent switch arrow creation mode when mod+a #195 ([#200](https://github.com/plait-board/drawnix/pull/200), [#195](https://github.com/plait-board/drawnix/issues/195))
+- **hotkey:** prevent enter arrow creation mode when press a and there are some selected elements ([#205](https://github.com/plait-board/drawnix/pull/205))
+- **hotkey:** Prevent Arc browser undo on Cmd+Z in Drawnix ([#254](https://github.com/plait-board/drawnix/pull/254))
+- **hotkey:** skip creation hotkey when use press special key and the among of alt, meta and ctrl ([#262](https://github.com/plait-board/drawnix/pull/262))
+- **menu:** Adding margin for the menu components ([c9ecd09](https://github.com/plait-board/drawnix/commit/c9ecd09))
+- **menu:** fix hotkey instruction for every OS ([#274](https://github.com/plait-board/drawnix/pull/274))
+- **mind:** bump plait into 0.84.0 to fix text can not show completely mentioned in #208 ([#261](https://github.com/plait-board/drawnix/pull/261), [#208](https://github.com/plait-board/drawnix/issues/208))
+- **toolbar:** fix issue mentioned in #290 ([#291](https://github.com/plait-board/drawnix/pull/291), [#290](https://github.com/plait-board/drawnix/issues/290))
+- **tutorial:** fix tutorial instruction issues and update styles ([#289](https://github.com/plait-board/drawnix/pull/289))
+
+### ❤️  Thank You
+
+- Andy Lu (Lu, Yu-An) @NaoCoding
+- coderwei @coderwei99
+- MalikAli @MalikAliQassem
+- Peter Chen
+- pubuzhixing8 @pubuzhixing8
+- Six
+- vishwak @PATTASWAMY-VISHWAK-YASASHREE
+
 ## 0.2.1 (2025-08-06)
 
 
