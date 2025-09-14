@@ -56,7 +56,7 @@ export const fileSave = (
       description: opts.description,
       extensions: [`.${opts.extension}`],
     },
-    opts.fileHandle as any
+    opts.fileHandle as FileSystemFileHandle
   );
 };
 

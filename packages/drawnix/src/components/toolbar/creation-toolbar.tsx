@@ -42,6 +42,7 @@ import {
 import { ExtraToolsButton } from './extra-tools/extra-tools-button';
 import { addImage } from '../../utils/image';
 import { useI18n } from '../../i18n';
+import type { Translations } from '../../i18n/types';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -50,7 +51,7 @@ export enum PopupKey {
 }
 
 type AppToolButtonProps = {
-  titleKey?: keyof typeof import('../../i18n').Translations;
+  titleKey?: keyof Translations;
   name?: string;
   icon: React.ReactNode;
   pointer?: DrawnixPointerType;

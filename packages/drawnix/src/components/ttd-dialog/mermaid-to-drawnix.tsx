@@ -59,7 +59,7 @@ const MermaidToDrawnix = () => {
       }
     };
     loadLib();
-  }, []);
+  }, [t]);
   const [text, setText] = useState(() => MERMAID_EXAMPLE);
   const [value, setValue] = useState<PlaitElement[]>(() => []);
   const deferredText = useDeferredValue(text.trim());

@@ -36,12 +36,17 @@ export const loadFromJSON = async (board: PlaitBoard) => {
   return loadFromBlob(board, await normalizeFile(file));
 };
 
-export const isValidDrawnixData = (data?: any): data is DrawnixExportedData => {
-  return (
+export const isValidDrawnixData = (data?: unknown): data is DrawnixExportedData => {
+  return !!(
     data &&
-    data.type === DrawnixExportedType.drawnix &&
-    Array.isArray(data.elements) &&
-    typeof data.viewport === 'object'
+    typeof data === 'object' &&
+    data !== null &&
+    'type' in data &&
+    (data as any).type === DrawnixExportedType.drawnix &&
+    'elements' in data &&
+    Array.isArray((data as any).elements) &&
+    'viewport' in data &&
+    typeof (data as any).viewport === 'object'
   );
 };
 

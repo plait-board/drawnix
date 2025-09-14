@@ -38,7 +38,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
             setLanguage,
             t,
         }),
-        [language]
+        [language, t]
     );
 
     return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

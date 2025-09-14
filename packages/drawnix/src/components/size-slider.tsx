@@ -85,7 +85,7 @@ export const SizeSlider: React.FC<SliderProps> = ({
 
     document.addEventListener('pointermove', handleMouseMove);
     document.addEventListener('pointerup', handleMouseUp);
-  }, [handleSliderChange]);
+  }, [handleSliderChange, afterEnd]);
 
   let percentage = ((value - min) / (max - min)) * 100;
   if (percentage >= 100 - thumbPercentageRef.current) {

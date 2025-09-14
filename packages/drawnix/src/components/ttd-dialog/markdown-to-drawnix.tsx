@@ -53,7 +53,7 @@ const MarkdownToDrawnix = () => {
       }
     };
     loadLib();
-  }, []);
+  }, [t]);
   const [text, setText] = useState(() => t('markdown.example'));
   const [value, setValue] = useState<PlaitElement[]>(() => []);
   const deferredText = useDeferredValue(text.trim());
@@ -63,7 +63,7 @@ const MarkdownToDrawnix = () => {
   // Update markdown example when language changes
   useEffect(() => {
     setText(t('markdown.example'));
-  }, [language]);
+  }, [language, t]);
 
   useEffect(() => {
     const convertMarkdown = async () => {

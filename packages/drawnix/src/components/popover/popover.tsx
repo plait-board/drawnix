@@ -131,7 +131,7 @@ export const PopoverTrigger = React.forwardRef<
   React.HTMLProps<HTMLElement> & PopoverTriggerProps
 >(function PopoverTrigger({ children, asChild = false, ...props }, propRef) {
   const context = usePopoverContext();
-  const childrenRef = (children as any).ref;
+  const childrenRef = React.isValidElement(children) ? (children as any).ref : null;
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
 
   // `asChild` allows the user to pass any element as the anchor

@@ -106,7 +106,7 @@ export const DialogTrigger = React.forwardRef<
   React.HTMLProps<HTMLElement> & DialogTriggerProps
 >(function DialogTrigger({ children, asChild = false, ...props }, propRef) {
   const context = useDialogContext();
-  const childrenRef = (children as any).ref;
+  const childrenRef = React.isValidElement(children) ? (children as any).ref : null;
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
 
   // `asChild` allows the user to pass any element as the anchor
