@@ -36,7 +36,7 @@
   <a href="https://trendshift.io/repositories/13979" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13979" alt="plait-board%2Fdrawnix | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 </div>
 
-[*English README*](https://github.com/plait-board/drawnix/blob/develop/README_en.md) | [*Русский README*](https://github.com/plait-board/drawnix/blob/develop/README_ru.md) | [*العربية README*](https://github.com/plait-board/drawnix/blob/develop/README_ar.md)
+[*English README*](https://github.com/plait-board/drawnix/blob/read_me/README_en.md) | [*Русский README*](https://github.com/plait-board/drawnix/blob/read_me/README_ru.md) | [*العربية README*](https://github.com/plait-board/drawnix/blob/read_me/README_ar.md)
 
 ## 特性
 
@@ -45,7 +45,7 @@
 - 🖌 画笔
 - 😀 插入图片
 - 🚀 基于插件机制
-- 🖼️ 📃 导出为 PNG, JSON(`.drawnix`)
+- 🖼️ 📃 导出为 PNG, JPG, SVG, JSON(`.drawnix`)
 - 💾 自动保存（浏览器缓存）
 - ⚡ 编辑特性：撤销、重做、复制、粘贴等
 - 🌌 无限画布：缩放、滚动
