@@ -1,7 +1,7 @@
 import { getSelectedElements, PlaitBoard } from '@plait/core';
 import { base64ToBlob, boardToImage, download } from './common';
 import { fileOpen } from '../data/filesystem';
-import { IMAGE_MIME_TYPES, MIME_TYPES } from '../constants';
+import { IMAGE_MIME_TYPES } from '../constants';
 import { insertImage } from '../data/image';
 
 export const saveAsImage = (board: PlaitBoard, isTransparent: boolean) => {
@@ -41,7 +41,6 @@ export const saveAsSVG = (board: PlaitBoard) => {
     // Clone the SVG to avoid modifying the original
     const svgClone = hostSVG.cloneNode(true) as SVGSVGElement;
     
-    // If only selected elements, we could filter the content, but for now export the whole board
     // This ensures all visual elements including Mermaid diagrams are included
     
     // Get the current viewBox to ensure proper sizing
@@ -61,7 +60,7 @@ export const saveAsSVG = (board: PlaitBoard) => {
     const svgString = serializer.serializeToString(svgClone);
     
     // Create blob and download
-    const blob = new Blob([svgString], { type: 'image/svg+xml' });
+    const blob = new Blob([svgString], { type: IMAGE_MIME_TYPES.svg });
     const svgName = `drawnix-${new Date().getTime()}.svg`;
     download(blob, svgName);
   } catch (error) {

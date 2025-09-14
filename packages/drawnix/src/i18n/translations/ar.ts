@@ -162,7 +162,15 @@ const arTranslations: Translations = {
 
     // Mind map elements text
     "mind.centralText": "الموضوع المركزي",
-    "mind.abstractNodeText": "ملخص"
+    "mind.abstractNodeText": "ملخص",
+
+    // Tutorial
+    'tutorial.title': 'Drawnix',
+    'tutorial.description': 'لوحة بيضاء شاملة تتضمن الخرائط الذهنية والمخططات التدفقية والرسم الحر والمزيد',
+    'tutorial.dataDescription': 'يتم تخزين جميع البيانات محليًا في متصفحك',
+    'tutorial.appToolbar': 'التصدير وإعدادات اللغة و...',
+    'tutorial.creationToolbar': 'اختر أداة لبدء إبداعك',
+    'tutorial.themeDescription': 'التبديل بين السمات الفاتحة والداكنة'
 };
 
 export default arTranslations;

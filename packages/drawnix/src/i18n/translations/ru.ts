@@ -167,6 +167,14 @@ const ruTranslations: Translations = {
   // Mind map elements text
   'mind.centralText': 'Центральная тема',
   'mind.abstractNodeText': 'Резюме',
+
+  // Tutorial
+  'tutorial.title': 'Drawnix',
+  'tutorial.description': 'Универсальная доска для создания интеллект-карт, блок-схем, свободного рисования и многого другого',
+  'tutorial.dataDescription': 'Все данные хранятся локально в вашем браузере',
+  'tutorial.appToolbar': 'Экспорт, настройки языка, ...',
+  'tutorial.creationToolbar': 'Выберите инструмент для начала творчества',
+  'tutorial.themeDescription': 'Переключение между светлой и темной темами'
 };
 
 export default ruTranslations;
