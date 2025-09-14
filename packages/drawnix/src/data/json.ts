@@ -37,16 +37,18 @@ export const loadFromJSON = async (board: PlaitBoard) => {
 };
 
 export const isValidDrawnixData = (data?: unknown): data is DrawnixExportedData => {
+  if (!data || typeof data !== 'object' || data === null) {
+    return false;
+  }
+  
+  const obj = data as Record<string, unknown>;
   return !!(
-    data &&
-    typeof data === 'object' &&
-    data !== null &&
-    'type' in data &&
-    (data as any).type === DrawnixExportedType.drawnix &&
-    'elements' in data &&
-    Array.isArray((data as any).elements) &&
-    'viewport' in data &&
-    typeof (data as any).viewport === 'object'
+    'type' in obj &&
+    obj.type === DrawnixExportedType.drawnix &&
+    'elements' in obj &&
+    Array.isArray(obj.elements) &&
+    'viewport' in obj &&
+    typeof obj.viewport === 'object'
   );
 };
 

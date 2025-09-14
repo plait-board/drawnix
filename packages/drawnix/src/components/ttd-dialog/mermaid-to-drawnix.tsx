@@ -73,7 +73,7 @@ const MermaidToDrawnix = () => {
         let ret;
         try {
           ret = await api.parseMermaidToDrawnix(deferredText);
-        } catch (err: any) {
+        } catch (err: unknown) {
           ret = await api.parseMermaidToDrawnix(
             deferredText.replace(/"/g, "'")
           );
@@ -81,8 +81,8 @@ const MermaidToDrawnix = () => {
         const { elements } = ret;
         setValue(elements);
         setError(null);
-      } catch (err: any) {
-        setError(err);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err : new Error(String(err)));
       }
     };
     convertMermaid();
