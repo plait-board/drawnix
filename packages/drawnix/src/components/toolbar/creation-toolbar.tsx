@@ -8,7 +8,6 @@ import {
   SelectionIcon,
   ShapeIcon,
   TextIcon,
-  EraseIcon,
   StraightArrowLineIcon,
   FeltTipPenIcon,
   ImageIcon,
@@ -174,7 +173,7 @@ export const CreationToolbar = () => {
       <Stack.Row gap={1}>
         {BUTTONS.map((button, index) => {
           if (appState.isMobile && button.pointer === PlaitPointerType.hand) {
-            return <></>;
+            return null;
           }
           if (button.key === PopupKey.freehand) {
             return (

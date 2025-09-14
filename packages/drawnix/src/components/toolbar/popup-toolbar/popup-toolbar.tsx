@@ -171,86 +171,82 @@ export const PopupToolbar = () => {
     };
   }, [board]);
 
-  return (
-    <>
-      {open && !movingOrDragging && (
-        <Island
-          padding={1}
-          className={classNames('popup-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
-          ref={refs.setFloating}
-          style={floatingStyles}
-        >
-          <Stack.Row gap={1}>
-            {state.hasFontColor && (
-              <PopupFontColorButton
-                board={board}
-                key={0}
-                currentColor={state.marks?.color}
-                title={t('popupToolbar.fontColor')}
-                fontColorIcon={
-                  <FontColorIcon currentColor={state.marks?.color} />
-                }
-              ></PopupFontColorButton>
-            )}
-            {state.hasStroke && (
-              <PopupStrokeButton
-                board={board}
-                key={1}
-                currentColor={state.strokeColor}
-                currentStyle={state.strokeStyle}
-                title={t('popupToolbar.stroke')}
-                hasStrokeStyle={state.hasStrokeStyle || false}
-              >
-                <label
-                  className={classNames('stroke-label', 'color-label')}
-                  style={{ borderColor: state.strokeColor }}
-                ></label>
-              </PopupStrokeButton>
-            )}
-            {state.hasFill && (
-              <PopupFillButton
-                board={board}
-                key={2}
-                currentColor={state.fill}
-                title={t('popupToolbar.fillColor')}
-              >
-                <label
-                  className={classNames('fill-label', 'color-label', {
-                    'color-white':
-                      state.fill && isWhite(removeHexAlpha(state.fill)),
-                  })}
-                  style={{ backgroundColor: state.fill }}
-                ></label>
-              </PopupFillButton>
-            )}
-            {state.hasText && (
-              <PopupLinkButton
-                board={board}
-                key={3}
-                title={t('popupToolbar.link')}
-              ></PopupLinkButton>
-            )}
-            {state.isLine && (
-              <>
-                <ArrowMarkButton
-                  board={board}
-                  key={4}
-                  end={'source'}
-                  endProperty={state.source}
-                />
-                <ArrowMarkButton
-                  board={board}
-                  key={5}
-                  end={'target'}
-                  endProperty={state.target}
-                />
-              </>
-            )}
-          </Stack.Row>
-        </Island>
-      )}
-    </>
-  );
+  return open && !movingOrDragging ? (
+    <Island
+      padding={1}
+      className={classNames('popup-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
+      ref={refs.setFloating}
+      style={floatingStyles}
+    >
+      <Stack.Row gap={1}>
+        {state.hasFontColor && (
+          <PopupFontColorButton
+            board={board}
+            key={0}
+            currentColor={state.marks?.color}
+            title={t('popupToolbar.fontColor')}
+            fontColorIcon={
+              <FontColorIcon currentColor={state.marks?.color} />
+            }
+          ></PopupFontColorButton>
+        )}
+        {state.hasStroke && (
+          <PopupStrokeButton
+            board={board}
+            key={1}
+            currentColor={state.strokeColor}
+            currentStyle={state.strokeStyle}
+            title={t('popupToolbar.stroke')}
+            hasStrokeStyle={state.hasStrokeStyle || false}
+          >
+            <label
+              className={classNames('stroke-label', 'color-label')}
+              style={{ borderColor: state.strokeColor }}
+            ></label>
+          </PopupStrokeButton>
+        )}
+        {state.hasFill && (
+          <PopupFillButton
+            board={board}
+            key={2}
+            currentColor={state.fill}
+            title={t('popupToolbar.fillColor')}
+          >
+            <label
+              className={classNames('fill-label', 'color-label', {
+                'color-white':
+                  state.fill && isWhite(removeHexAlpha(state.fill)),
+              })}
+              style={{ backgroundColor: state.fill }}
+            ></label>
+          </PopupFillButton>
+        )}
+        {state.hasText && (
+          <PopupLinkButton
+            board={board}
+            key={3}
+            title={t('popupToolbar.link')}
+          ></PopupLinkButton>
+        )}
+        {state.isLine && (
+          <>
+            <ArrowMarkButton
+              board={board}
+              key={4}
+              end={'source'}
+              endProperty={state.source}
+            />
+            <ArrowMarkButton
+              board={board}
+              key={5}
+              end={'target'}
+              endProperty={state.target}
+            />
+          </>
+        )}
+      </Stack.Row>
+    </Island>
+  ) : null;
 };
 
 export const getMindElementState = (

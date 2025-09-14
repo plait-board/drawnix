@@ -1,4 +1,4 @@
-import { PlaitBoard, PlaitElement } from '@plait/core';
+import { PlaitBoard } from '@plait/core';
 import { MIME_TYPES, VERSIONS } from '../constants';
 import { fileOpen, fileSave } from './filesystem';
 import { DrawnixExportedData, DrawnixExportedType } from './types';
