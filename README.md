@@ -36,7 +36,7 @@
   <a href="https://trendshift.io/repositories/13979" target="_blank"><img src="https://trendshift.io/api/badge/repositories/13979" alt="plait-board%2Fdrawnix | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 </div>
 
-[*English README*](https://github.com/plait-board/drawnix/blob/read_me/README_en.md) | [*Русский README*](https://github.com/plait-board/drawnix/blob/read_me/README_ru.md) | [*العربية README*](https://github.com/plait-board/drawnix/blob/read_me/README_ar.md)
+[*English README*](https://github.com/plait-board/drawnix/blob/develop/README_en.md) | [*Русский README*](https://github.com/plait-board/drawnix/blob/develop/README_ru.md) | [*العربية README*](https://github.com/plait-board/drawnix/blob/develop/README_ar.md)
 
 ## 特性
 
