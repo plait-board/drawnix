@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  drawnix:
+    build: .
+    container_name: drawnix-app
+    ports:
+      - "3456:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - drawnix-network
+
+  # Alternative: using pre-built image
+  # drawnix:
+  #   image: pubuzhixing/drawnix:latest
+  #   container_name: drawnix-app
+  #   ports:
+  #     - "3456:80"
+  #   restart: unless-stopped
+  #   networks:
+  #     - drawnix-network
+
+networks:
+  drawnix-network:
+    driver: bridge
+
+volumes:
+  # Add persistent volumes if needed in the future
+  # drawnix-data:

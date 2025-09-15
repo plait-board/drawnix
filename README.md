@@ -110,8 +110,51 @@ npm run start
 
 ## Docker
 
+### 使用 Docker Compose（推荐）
+
+**1. 创建 docker-compose.yml 文件：**
+
+```yaml
+version: '3.8'
+
+services:
+  drawnix:
+    image: pubuzhixing/drawnix:latest  # 使用预构建镜像
+    # build: .                          # 或者从源码构建，需要先下载源码
+    container_name: drawnix-app
+    ports:
+      - "3456:80"                       # 映射到端口 3456，可按需修改
+    restart: unless-stopped
+    networks:
+      - drawnix-network
+
+networks:
+  drawnix-network:
+    driver: bridge
 ```
+
+**2. 运行服务：**
+
+```bash
+# 使用预构建镜像直接部署
+docker-compose up -d
+
+# 或者从源码构建（需要先下载源码）
+git clone https://github.com/plait-board/drawnix.git
+cd drawnix
+# 修改 docker-compose.yml，将 image 行注释，启用 build 行
+docker-compose up -d --build
+```
+
+**3. 访问应用：**
+
+[http://localhost:3456](http://localhost:3456)
+
+### 直接使用 Docker 运行
+
+```bash
 docker pull pubuzhixing/drawnix:latest
+docker run -d -p 3456:80 --name drawnix pubuzhixing/drawnix:latest
 ```
 
 ## 依赖
