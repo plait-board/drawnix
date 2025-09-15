@@ -57,6 +57,7 @@
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@testing-library/react": "15.0.6",
+    "@types/is-hotkey": "^0.1.10",
     "@types/jest": "^29.4.0",
     "@types/node": "18.16.9",
     "@types/react": "18.3.1",
