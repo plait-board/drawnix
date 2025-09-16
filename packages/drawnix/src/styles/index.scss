@@ -134,6 +134,19 @@
             cursor: zoom-in;
         }
     }
+
+    .laser-pointer {
+        background: transparent;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 2022;
+        width: 100vw;
+        height: 100vh;
+        &.mouse-course-hidden {
+            pointer-events: none;
+        }
+    }
 }
 
 .plait-board-container {
