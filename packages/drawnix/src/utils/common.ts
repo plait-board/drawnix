@@ -2,7 +2,7 @@ import { IS_APPLE, IS_MAC, PlaitBoard, toImage, ToImageOptions } from '@plait/co
 import type { ResolutionType } from './utility-types';
 
 export const isPromiseLike = (
-  value: any
+  value: unknown
 ): value is Promise<ResolutionType<typeof value>> => {
   return (
     !!value &&

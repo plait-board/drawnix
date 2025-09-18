@@ -16,9 +16,10 @@ import {
     DrawnixPointerType,
 } from '../../../hooks/use-drawnix';
 import { useI18n } from '../../../i18n';
+import type { Translations } from '../../../i18n/types';
 
 export interface FreehandProps {
-    titleKey: string;
+    titleKey: keyof Translations;
     icon: React.ReactNode;
     pointer: DrawnixPointerType;
 }

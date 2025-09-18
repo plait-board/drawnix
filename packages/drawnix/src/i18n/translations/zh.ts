@@ -78,6 +78,7 @@ const zhTranslations: Translations = {
   'menu.exportImage': '导出图片',
   'menu.exportImage.png': 'PNG',
   'menu.exportImage.jpg': 'JPG',
+  'menu.exportImage.svg': 'SVG',
   'menu.cleanBoard': '清除画布',
   'menu.github': 'GitHub',
 

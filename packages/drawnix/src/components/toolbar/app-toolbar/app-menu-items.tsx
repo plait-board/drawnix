@@ -17,7 +17,7 @@ import {
 import { loadFromJSON, saveAsJSON } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
-import { saveAsImage } from '../../../utils/image';
+import { saveAsImage, saveAsSVG } from '../../../utils/image';
 import { useDrawnix } from '../../../hooks/use-drawnix';
 import { useI18n } from '../../../i18n';
 import Menu from '../../menu/menu';
@@ -111,6 +111,14 @@ export const SaveAsImage = () => {
             aria-label={t('menu.exportImage.jpg')}
           >
             {t('menu.exportImage.jpg')}
+          </MenuItem>
+          <MenuItem
+            onSelect={() => {
+              saveAsSVG(board);
+            }}
+            aria-label={t('menu.exportImage.svg')}
+          >
+            {t('menu.exportImage.svg')}
           </MenuItem>
         </Menu>
       }

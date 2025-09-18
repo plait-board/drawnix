@@ -1,7 +1,7 @@
-export type ResolutionType<T extends (...args: any) => any> = T extends (
-  ...args: any
+export type ResolutionType<T extends (...args: unknown[]) => unknown> = T extends (
+  ...args: unknown[]
 ) => Promise<infer R>
   ? R
-  : any;
+  : unknown;
 
 export type ValueOf<T> = T[keyof T];

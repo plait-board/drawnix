@@ -3,7 +3,6 @@ import {
   PlaitPluginElementContext,
   OnContextChanged,
   RectangleClient,
-  isSelectionMoving,
   ACTIVE_STROKE_WIDTH,
 } from '@plait/core';
 import {
@@ -19,10 +18,6 @@ export class FreehandComponent
   extends CommonElementFlavour<Freehand, PlaitBoard>
   implements OnContextChanged<Freehand, PlaitBoard>
 {
-  constructor() {
-    super();
-  }
-
   activeGenerator!: ActiveGenerator<Freehand>;
 
   generator!: FreehandGenerator;

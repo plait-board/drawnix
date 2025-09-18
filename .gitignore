@@ -40,3 +40,10 @@ Thumbs.db
 
 .nx/cache
 .nx/workspace-data
+
+# AI Instructions and Test Files
+.github/copilot-instructions.md
+**/*.spec.ts
+**/*.test.ts
+**/*.spec.tsx
+**/*.test.tsx

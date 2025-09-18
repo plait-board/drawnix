@@ -13,7 +13,7 @@ export const loadFromBlob = async (board: PlaitBoard, blob: Blob | File) => {
       return data;
     }
     throw new Error('Error: invalid file');
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw new Error('Error: invalid file');
   }
 };

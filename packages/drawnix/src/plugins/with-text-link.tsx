@@ -38,7 +38,7 @@ export const buildTextLinkPlugin = (
 
     let target: HTMLElement | null = null;
 
-    let timeoutId: any | null = null;
+    let timeoutId: NodeJS.Timeout | null = null;
 
     board.pointerMove = (event: PointerEvent) => {
       if (
