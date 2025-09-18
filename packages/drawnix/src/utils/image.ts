@@ -90,10 +90,30 @@ const extractCSSRules = (): string[] => {
 };
 
 /**
- * Applies inline styles to SVG elements to preserve text appearance in exported SVG
- * @param svgClone - The cloned SVG element that will be exported
- * @param hostSVG - The original SVG element from the board (for computed style reference)
+ * Finds the corresponding element in the original DOM for a cloned element
+ * @param element - The element from the cloned SVG
+ * @param hostSVG - The original SVG element
+ * @returns The corresponding element in the original DOM or null if not found
  */
+const findCorrespondingElement = (element: Element, hostSVG: SVGSVGElement): Element | null => {
+  // Try to find by data-testid first (most reliable)
+  const testId = element.getAttribute('data-testid');
+  if (testId) {
+    return hostSVG.querySelector(`[data-testid="${testId}"]`);
+  }
+
+  // Fallback: find by tag name and position in parent
+  if (element.parentNode) {
+    const siblings = Array.from(element.parentNode.children);
+    const index = siblings.indexOf(element);
+    if (index !== -1) {
+      const selector = `${element.tagName.toLowerCase()}:nth-child(${index + 1})`;
+      return hostSVG.querySelector(selector);
+    }
+  }
+
+  return null;
+};
 const applyInlineStyles = (svgClone: SVGSVGElement, hostSVG: SVGSVGElement) => {
   const allElements = svgClone.querySelectorAll('*');
   
@@ -103,10 +123,7 @@ const applyInlineStyles = (svgClone: SVGSVGElement, hostSVG: SVGSVGElement) => {
         element.hasAttribute('class')) {
       
       // Find corresponding element in original DOM
-      const testId = element.getAttribute('data-testid');
-      const originalElement = testId 
-        ? hostSVG.querySelector(`[data-testid="${testId}"]`)
-        : hostSVG.querySelector(element.tagName.toLowerCase() + `:nth-child(${Array.from(element.parentNode?.children || []).indexOf(element) + 1})`);
+      const originalElement = findCorrespondingElement(element, hostSVG);
       
       if (originalElement) {
         const computedStyle = window.getComputedStyle(originalElement);
