@@ -1,31 +1,23 @@
 version: '3.8'
 
 services:
-  drawnix:
-    build: .
-    container_name: drawnix-app
-    ports:
-      - "3456:80"
-    restart: unless-stopped
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_SYNC_LABEL: ${VITE_SYNC_LABEL:-${SYNC_LABEL:-}}
+        VITE_SYNC_POLL_MS: ${VITE_SYNC_POLL_MS:-5000}
     environment:
-      - NODE_ENV=production
-    networks:
-      - drawnix-network
-
-  # Alternative: using pre-built image
-  # drawnix:
-  #   image: pubuzhixing/drawnix:latest
-  #   container_name: drawnix-app
-  #   ports:
-  #     - "3456:80"
-  #   restart: unless-stopped
-  #   networks:
-  #     - drawnix-network
-
-networks:
-  drawnix-network:
-    driver: bridge
-
-volumes:
-  # Add persistent volumes if needed in the future
-  # drawnix-data:
+      - PORT=38080
+      - SYNC_PASSWORD_HASH=${SYNC_PASSWORD_HASH}
+      - SYNC_JWT_SECRET=${SYNC_JWT_SECRET:-drawnix-sync-secret}
+      - SYNC_LABEL=${SYNC_LABEL:-}
+      - WEBDAV_URL=${WEBDAV_URL}
+      - WEBDAV_USERNAME=${WEBDAV_USERNAME:-}
+      - WEBDAV_PASSWORD=${WEBDAV_PASSWORD:-}
+      - WEBDAV_BASE_PATH=${WEBDAV_BASE_PATH:-/drawnix}
+      - WEBDAV_MAIN_FILE=${WEBDAV_MAIN_FILE:-main-board.json}
+      - WEBDAV_TIMEOUT=${WEBDAV_TIMEOUT:-10000}
+    ports:
+      - "38080:38080"

@@ -4,6 +4,7 @@ import {
   OpenFileIcon,
   SaveFileIcon,
   TrashIcon,
+  SyncIcon,
 } from '../../icons';
 import { useBoard, useListRender } from '@plait-board/react-board';
 import {
@@ -25,6 +26,40 @@ import { useContext } from 'react';
 import { MenuContentPropsContext } from '../../menu/common';
 import { EVENT } from '../../../constants';
 import { getShortcutKey } from '../../../utils/common';
+import { DrawnixSyncInfo } from '../../../types/sync';
+
+export const SyncMenuItem = ({
+  syncInfo,
+}: {
+  syncInfo?: DrawnixSyncInfo;
+}) => {
+  const { t } = useI18n();
+  const statusKey = syncInfo ? syncInfo.status : 'idle';
+  const statusLabel = t(`sync.status.${statusKey}`);
+  const showError = syncInfo?.status === 'error';
+  return (
+    <MenuItem
+      icon={SyncIcon}
+      onSelect={() => {
+        syncInfo?.onOpenSettings();
+      }}
+      aria-label={t('menu.sync')}
+      disabled={!syncInfo}
+      data-status={syncInfo?.status || 'idle'}
+      data-error={showError ? 'true' : 'false'}
+    >
+      <span className="sync-menu-item__label">{t('menu.sync')}</span>
+      <span
+        className="sync-menu-item__status"
+        aria-hidden="true"
+        data-error={showError ? 'true' : 'false'}
+      >
+        {statusLabel}
+      </span>
+    </MenuItem>
+  );
+};
+SyncMenuItem.displayName = 'SyncMenuItem';
 
 export const SaveToFile = () => {
   const board = useBoard();

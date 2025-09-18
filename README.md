@@ -157,6 +157,44 @@ docker pull pubuzhixing/drawnix:latest
 docker run -d -p 3456:80 --name drawnix pubuzhixing/drawnix:latest
 ```
 
+### Docker Compose
+
+仓库内提供了 `docker-compose.yml`，可同时构建并启动静态站点与同步服务：
+
+1. 复制示例配置，并依据实际 WebDAV 信息进行修改：
+
+   ```bash
+   cp .env.example .env
+   # 编辑 .env，填写 WebDAV 地址、凭据以及同步密码哈希
+   ```
+
+2. 构建并启动：
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+   - Web 端：<http://localhost:38080>
+   - 请确保 `.env` 中配置的 WebDAV 服务可被容器访问（前端不再直接请求 WebDAV）。
+
+常用环境变量说明如下：
+
+| 变量 | 说明 |
+| --- | --- |
+| `SYNC_PASSWORD_HASH` | 同步密码的 SHA-256 哈希值。 |
+| `SYNC_JWT_SECRET` | 同步网关签发令牌的秘钥。 |
+| `WEBDAV_URL` | WebDAV 服务基础地址（容器需可访问）。 |
+| `WEBDAV_USERNAME` / `WEBDAV_PASSWORD` | WebDAV 凭据（可选）。 |
+| `WEBDAV_BASE_PATH` | 用于存放 Drawnix 文件的目录（默认 `/drawnix`）。 |
+| `WEBDAV_MAIN_FILE` | 主同步文件名（默认 `main-board.json`）。 |
+| `WEBDAV_TIMEOUT` | WebDAV 请求超时时间（毫秒，默认 `10000`）。 |
+| `SYNC_LABEL` / `VITE_SYNC_LABEL` | （可选）前端显示的同步来源标签。 |
+| `VITE_SYNC_POLL_MS` | （可选）前端轮询间隔（毫秒，默认 `5000`）。 |
+
+> 更多升级说明和使用指引，请参考 `docs/sync-guide.zh.md`。
+
+镜像内置了轻量级同步网关，负责代理全部 WebDAV 请求，浏览器无需直接暴露凭据或处理 CORS 问题。
+
 ## 依赖
 
 - [plait](https://github.com/worktile/plait) - 开源画图框架

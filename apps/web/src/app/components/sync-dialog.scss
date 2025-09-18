@@ -1,0 +1,319 @@
+.sync-dialog {
+  width: min(520px, 92vw);
+  background: var(--island-bg-color, #ffffff);
+  border-radius: var(--border-radius-lg, 12px);
+  padding: 20px;
+  color: var(--color-on-surface, #1c1c1c);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-island, 0 12px 32px rgba(15, 23, 42, 0.18));
+
+  .sync-dialog__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .sync-dialog__close {
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+  }
+
+  .sync-dialog__status {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.875rem;
+  }
+
+  .sync-dialog__status-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .sync-dialog__status-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: var(--oc-gray-6, #868e96);
+  }
+
+  .sync-dialog__status-label {
+    font-weight: 500;
+  }
+
+  .sync-dialog__status-meta {
+    color: var(--oc-gray-6, #868e96);
+  }
+
+  .sync-dialog__status-error {
+    color: var(--oc-red-6, #f03e3e);
+    font-size: 0.85rem;
+  }
+
+  .sync-dialog__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sync-dialog__label {
+    font-size: 0.85rem;
+    color: var(--oc-gray-7, #495057);
+  }
+
+  .sync-dialog__input {
+    border: 1px solid var(--default-border-color, #d0d5dd);
+    border-radius: var(--border-radius-md, 10px);
+    padding: 8px 10px;
+    font-size: 0.95rem;
+    background: var(--color-surface-secondary-container, #f8f9fa);
+    color: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary, #4263eb);
+      background: var(--color-surface-primary-container, #edf2ff);
+    }
+  }
+
+  .sync-dialog__form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .sync-dialog__button {
+    border: 1px solid var(--default-border-color, #d0d5dd);
+    border-radius: var(--border-radius-md, 10px);
+    background: var(--color-surface-secondary-container, #f8f9fa);
+    color: inherit;
+    padding: 8px 16px;
+    min-width: 120px;
+    height: auto;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      background: var(--color-surface-primary-container, #edf2ff);
+      border-color: var(--color-primary, #4263eb);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  .sync-dialog__button--secondary {
+    background: var(--island-bg-color, #ffffff);
+    border-color: transparent;
+
+    &:hover {
+      background: var(--color-surface-primary-container, #edf2ff);
+      border-color: var(--color-surface-primary-container, #edf2ff);
+    }
+  }
+
+  .sync-dialog__error {
+    color: var(--oc-red-6, #f03e3e);
+    font-size: 0.85rem;
+  }
+
+  .sync-dialog__section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sync-dialog__section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .sync-dialog__section-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .sync-dialog__save {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    .sync-dialog__input {
+      flex: 1 1 200px;
+    }
+  }
+
+  .sync-dialog__file-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sync-dialog__file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--border-radius-md, 10px);
+    background: var(--color-surface-secondary-container, #f8f9fa);
+    flex-wrap: wrap;
+  }
+
+  .sync-dialog__file-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .sync-dialog__file-name {
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 240px;
+  }
+
+  .sync-dialog__file-meta {
+    font-size: 0.75rem;
+    color: var(--oc-gray-6, #868e96);
+  }
+
+  .sync-dialog__empty {
+    font-size: 0.85rem;
+    color: var(--oc-gray-6, #868e96);
+  }
+
+  .sync-dialog__file-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .sync-dialog__file-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .sync-dialog__page-size {
+    width: auto;
+    min-width: 80px;
+  }
+
+  .sync-dialog__file-actions button {
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--color-primary, #4263eb);
+    padding: 6px 10px;
+    border-radius: var(--border-radius-md, 8px);
+    font-size: 0.85rem;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--color-surface-primary-container, #edf2ff);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .sync-dialog__danger {
+    color: var(--oc-red-6, #f03e3e);
+
+    &:hover {
+      background: rgba(240, 62, 62, 0.12);
+    }
+  }
+
+  .sync-dialog__settings {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sync-dialog__settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+
+  .sync-dialog__settings-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .sync-dialog__settings-hint {
+    font-size: 0.75rem;
+    color: var(--oc-gray-6, #868e96);
+  }
+
+  label.sync-dialog__settings-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  .sync-dialog__settings-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .sync-dialog__settings-message {
+    font-size: 0.85rem;
+    color: var(--oc-green-6, #2f9e44);
+  }
+
+  .sync-dialog__settings-error {
+    font-size: 0.85rem;
+    color: var(--oc-red-6, #f03e3e);
+  }
+
+  .sync-dialog__pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    justify-content: flex-end;
+  }
+
+  .sync-dialog__pagination-info {
+    font-size: 0.85rem;
+    color: var(--oc-gray-6, #868e96);
+  }
+
+  .sync-dialog__settings-toggle {
+    align-self: flex-start;
+  }
+}

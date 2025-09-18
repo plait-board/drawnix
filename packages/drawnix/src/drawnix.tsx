@@ -40,6 +40,7 @@ import { LinkPopup } from './components/popup/link-popup/link-popup';
 import { I18nProvider } from './i18n';
 import { Tutorial } from './components/tutorial';
 import { LASER_POINTER_CLASS_NAME } from './utils/laser-pointer';
+import { DrawnixSyncInfo } from './types/sync';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -52,6 +53,8 @@ export type DrawnixProps = {
   onThemeChange?: (value: ThemeColorMode) => void;
   afterInit?: (board: PlaitBoard) => void;
   tutorial?: boolean;
+  syncInfo?: DrawnixSyncInfo;
+  renderSyncDialog?: (container: HTMLElement | null, board: DrawnixBoard | null) => React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export const Drawnix: React.FC<DrawnixProps> = ({
@@ -65,6 +68,8 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   onValueChange,
   afterInit,
   tutorial = false,
+  syncInfo,
+  renderSyncDialog,
 }) => {
   const options: PlaitBoardOptions = {
     readonly: false,
@@ -147,7 +152,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
                   <Tutorial />
                 )}
             </Board>
-            <AppToolbar></AppToolbar>
+            <AppToolbar syncInfo={syncInfo}></AppToolbar>
             <CreationToolbar></CreationToolbar>
             <ZoomToolbar></ZoomToolbar>
             <ThemeToolbar></ThemeToolbar>
@@ -156,6 +161,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
             <ClosePencilToolbar></ClosePencilToolbar>
             <TTDDialog container={containerRef.current}></TTDDialog>
             <CleanConfirm container={containerRef.current}></CleanConfirm>
+            {renderSyncDialog && renderSyncDialog(containerRef.current, board)}
           </Wrapper>
           <canvas className={`${LASER_POINTER_CLASS_NAME} mouse-course-hidden`}></canvas>
         </div>

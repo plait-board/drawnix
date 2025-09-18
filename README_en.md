@@ -155,6 +155,44 @@ docker pull pubuzhixing/drawnix:latest
 docker run -d -p 3456:80 --name drawnix pubuzhixing/drawnix:latest
 ```
 
+### Docker Compose
+
+The repository includes a `docker-compose.yml` that builds the static web app and the sync server.
+
+1. Copy the sample environment file and adjust the values:
+
+   ```bash
+   cp .env.example .env
+   # edit .env to configure your WebDAV endpoint and sync password hash
+   ```
+
+2. Build and start the web container:
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+   - Web UI: <http://localhost:38080>
+   - Ensure the configured WebDAV server is reachable from the container (the gateway forwards all requests; the browser no longer calls WebDAV directly).
+
+Required environment variables:
+
+| Variable | Description |
+| --- | --- |
+| `SYNC_PASSWORD_HASH` | SHA-256 hash of the password users must enter to enable sync. |
+| `SYNC_JWT_SECRET` | Secret used by the sync gateway to sign access tokens. |
+| `WEBDAV_URL` | Base URL of the upstream WebDAV endpoint (reachable from the container). |
+| `WEBDAV_USERNAME` / `WEBDAV_PASSWORD` | WebDAV credentials (optional). |
+| `WEBDAV_BASE_PATH` | Directory used to store Drawnix files (default `/drawnix`). |
+| `WEBDAV_MAIN_FILE` | File name for the primary synced board (default `main-board.json`). |
+| `WEBDAV_TIMEOUT` | WebDAV request timeout in milliseconds (default `10000`). |
+| `SYNC_LABEL` / `VITE_SYNC_LABEL` | (Optional) label shown in the UI for the sync target. |
+| `VITE_SYNC_POLL_MS` | (Optional) client-side poll interval in milliseconds (default `5000`). |
+
+> A Chinese-language walkthrough of the new sync workflow is available at `docs/sync-guide.zh.md`.
+
+The container bundles a lightweight sync gateway that proxies all WebDAV requests, so the browser never exposes your credentials or deals with CORS.
+
 ## Dependencies
 
 - [plait](https://github.com/worktile/plait) - Open source drawing framework

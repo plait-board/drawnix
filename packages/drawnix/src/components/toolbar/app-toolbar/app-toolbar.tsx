@@ -19,13 +19,25 @@ import {
 import { Island } from '../../island';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import { useState } from 'react';
-import { CleanBoard, OpenFile, SaveAsImage, SaveToFile, Socials } from './app-menu-items';
+import {
+  CleanBoard,
+  OpenFile,
+  SaveAsImage,
+  SaveToFile,
+  Socials,
+  SyncMenuItem,
+} from './app-menu-items';
 import { LanguageSwitcherMenu } from './language-switcher-menu';
 import Menu from '../../menu/menu';
 import MenuSeparator from '../../menu/menu-separator';
 import { useI18n } from '../../../i18n';
+import { DrawnixSyncInfo } from '../../../types/sync';
 
-export const AppToolbar = () => {
+export interface AppToolbarProps {
+  syncInfo?: DrawnixSyncInfo;
+}
+
+export const AppToolbar: React.FC<AppToolbarProps> = ({ syncInfo }) => {
   const board = useBoard();
   const { t } = useI18n();
   const container = PlaitBoard.getBoardContainer(board);
@@ -67,6 +79,8 @@ export const AppToolbar = () => {
                 setAppMenuOpen(false);
               }}
             >
+              <SyncMenuItem syncInfo={syncInfo}></SyncMenuItem>
+              <MenuSeparator />
               <OpenFile></OpenFile>
               <SaveToFile></SaveToFile>
               <SaveAsImage></SaveAsImage>
