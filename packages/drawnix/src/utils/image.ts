@@ -90,6 +90,100 @@ const extractCSSRules = (): string[] => {
 };
 
 /**
+ * Calculates the bounding box of all visible elements in the SVG
+ * @param svgElement - The SVG element to analyze
+ * @returns The bounding box {x, y, width, height} or null if no content
+ */
+const getContentBounds = (svgElement: SVGSVGElement): {x: number, y: number, width: number, height: number} | null => {
+  const elements = svgElement.querySelectorAll('*');
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  let hasContent = false;
+
+  elements.forEach((element) => {
+    if (element instanceof SVGGraphicsElement && element.getBBox) {
+      try {
+        const bbox = element.getBBox();
+        if (bbox.width > 0 && bbox.height > 0) {
+          minX = Math.min(minX, bbox.x);
+          minY = Math.min(minY, bbox.y);
+          maxX = Math.max(maxX, bbox.x + bbox.width);
+          maxY = Math.max(maxY, bbox.y + bbox.height);
+          hasContent = true;
+        }
+      } catch (e) {
+        // Skip elements that can't get bbox (like <defs>)
+      }
+    }
+  });
+
+  if (!hasContent) return null;
+
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY
+  };
+};
+
+/**
+ * Filters SVG content to include only selected elements
+ * @param svgClone - The cloned SVG element
+ * @param selectedElements - Array of selected Plait elements
+ * @returns Filtered SVG with only selected content
+ */
+const filterSelectedElements = (svgClone: SVGSVGElement, selectedElements: any[]): SVGSVGElement => {
+  if (!selectedElements || selectedElements.length === 0) {
+    return svgClone;
+  }
+
+  // Create a new SVG with only selected elements
+  const filteredSVG = svgClone.cloneNode(false) as SVGSVGElement;
+
+  // Copy attributes
+  Array.from(svgClone.attributes).forEach(attr => {
+    filteredSVG.setAttribute(attr.name, attr.value);
+  });
+
+  // Find and copy selected elements
+  selectedElements.forEach(selectedElement => {
+    const elementId = selectedElement.id;
+    if (elementId) {
+      const originalElement = svgClone.querySelector(`[data-element-id="${elementId}"]`) ||
+                             svgClone.querySelector(`#${elementId}`);
+      if (originalElement) {
+        filteredSVG.appendChild(originalElement.cloneNode(true));
+      }
+    }
+  });
+
+  return filteredSVG;
+};
+
+/**
+ * Fixes text line breaks by ensuring proper tspan handling
+ * @param svgElement - The SVG element to process
+ */
+const fixTextLineBreaks = (svgElement: SVGSVGElement) => {
+  const textElements = svgElement.querySelectorAll('text');
+
+  textElements.forEach((textElement) => {
+    const tspans = textElement.querySelectorAll('tspan');
+    if (tspans.length > 0) {
+      // Ensure tspans have proper dy attributes for line breaks
+      tspans.forEach((tspan, index) => {
+        if (index > 0 && !tspan.getAttribute('dy')) {
+          tspan.setAttribute('dy', '1.2em');
+        }
+        if (!tspan.getAttribute('x') && textElement.getAttribute('x')) {
+          tspan.setAttribute('x', textElement.getAttribute('x')!);
+        }
+      });
+    }
+  });
+};
+
+/**
  * Finds the corresponding element in the original DOM for a cloned element
  * @param element - The element from the cloned SVG
  * @param hostSVG - The original SVG element
@@ -151,15 +245,16 @@ const applyInlineStyles = (svgClone: SVGSVGElement, hostSVG: SVGSVGElement) => {
 
 /**
  * Exports the current board content as an SVG file with preserved styling
- * 
+ *
  * This function performs the following operations:
  * 1. Retrieves the SVG element from the board
- * 2. Clones the SVG to avoid modifying the original
- * 3. Ensures proper viewBox and namespace attributes
- * 4. Extracts and embeds relevant CSS rules
- * 5. Applies inline styles for better text preservation
- * 6. Serializes the SVG and initiates download
- * 
+ * 2. Filters to selected elements if any are selected
+ * 3. Clones the SVG to avoid modifying the original
+ * 4. Fixes text line breaks for proper display
+ * 5. Calculates content bounds and adjusts viewBox to remove margins
+ * 6. Applies inline styles for better text preservation (no <style> element)
+ * 7. Serializes the SVG and initiates download
+ *
  * @param board - The PlaitBoard instance to export as SVG
  */
 export const saveAsSVG = (board: PlaitBoard) => {
@@ -175,13 +270,35 @@ export const saveAsSVG = (board: PlaitBoard) => {
       return;
     }
 
+    // Get selected elements to determine export scope
+    const selectedElements = getSelectedElements(board);
+
     // Clone the SVG to avoid modifying the original
-    const svgClone = hostSVG.cloneNode(true) as SVGSVGElement;
-    
-    // Get the current viewBox to ensure proper sizing
-    const viewBox = svgClone.getAttribute('viewBox');
-    if (!viewBox) {
-      // Fallback: set viewBox based on SVG dimensions
+    let svgClone = hostSVG.cloneNode(true) as SVGSVGElement;
+
+    // Filter to selected elements if any are selected
+    if (selectedElements && selectedElements.length > 0) {
+      svgClone = filterSelectedElements(svgClone, selectedElements);
+    }
+
+    // Fix text line breaks
+    fixTextLineBreaks(svgClone);
+
+    // Calculate content bounds for tight cropping
+    const contentBounds = getContentBounds(svgClone);
+    if (contentBounds) {
+      // Set viewBox to content bounds to remove unnecessary margins
+      const padding = 10; // Small padding around content
+      const viewBoxX = Math.max(0, contentBounds.x - padding);
+      const viewBoxY = Math.max(0, contentBounds.y - padding);
+      const viewBoxWidth = contentBounds.width + (padding * 2);
+      const viewBoxHeight = contentBounds.height + (padding * 2);
+
+      svgClone.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
+      svgClone.setAttribute('width', viewBoxWidth.toString());
+      svgClone.setAttribute('height', viewBoxHeight.toString());
+    } else {
+      // Fallback: use original dimensions if bounds calculation fails
       const rect = hostSVG.getBoundingClientRect();
       if (rect.width < 0.01 || rect.height < 0.01) {
         console.error('SVG element has invalid dimensions');
@@ -196,26 +313,18 @@ export const saveAsSVG = (board: PlaitBoard) => {
     svgClone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     svgClone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
 
-    // Extract and apply CSS styles
-    const cssRules = extractCSSRules();
-    if (cssRules.length > 0) {
-      const styleElement = document.createElementNS('http://www.w3.org/2000/svg', 'style');
-      styleElement.textContent = cssRules.join('\n');
-      svgClone.insertBefore(styleElement, svgClone.firstChild);
-    }
-
-    // Apply inline styles for better text preservation
+    // Apply inline styles for better text preservation (no <style> element)
     applyInlineStyles(svgClone, hostSVG);
 
     // Get SVG as string
     const serializer = new XMLSerializer();
     const svgString = serializer.serializeToString(svgClone);
-    
+
     if (!svgString || svgString.length === 0) {
       console.error('Failed to serialize SVG to string');
       return;
     }
-    
+
     // Create blob and download
     const blob = new Blob([svgString], { type: 'image/svg+xml' });
     const svgName = `drawnix-${new Date().getTime()}.svg`;
