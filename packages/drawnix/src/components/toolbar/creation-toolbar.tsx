@@ -8,7 +8,6 @@ import {
   SelectionIcon,
   ShapeIcon,
   TextIcon,
-  EraseIcon,
   StraightArrowLineIcon,
   FeltTipPenIcon,
   ImageIcon,
@@ -43,6 +42,7 @@ import {
 import { ExtraToolsButton } from './extra-tools/extra-tools-button';
 import { addImage } from '../../utils/image';
 import { useI18n } from '../../i18n';
+import type { Translations } from '../../i18n/types';
 
 export enum PopupKey {
   'shape' = 'shape',
@@ -51,7 +51,7 @@ export enum PopupKey {
 }
 
 type AppToolButtonProps = {
-  titleKey?: keyof typeof import('../../i18n').Translations;
+  titleKey?: keyof Translations;
   name?: string;
   icon: React.ReactNode;
   pointer?: DrawnixPointerType;
@@ -174,7 +174,7 @@ export const CreationToolbar = () => {
       <Stack.Row gap={1}>
         {BUTTONS.map((button, index) => {
           if (appState.isMobile && button.pointer === PlaitPointerType.hand) {
-            return <></>;
+            return null;
           }
           if (button.key === PopupKey.freehand) {
             return (

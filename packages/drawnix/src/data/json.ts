@@ -1,4 +1,4 @@
-import { PlaitBoard, PlaitElement } from '@plait/core';
+import { PlaitBoard } from '@plait/core';
 import { MIME_TYPES, VERSIONS } from '../constants';
 import { fileOpen, fileSave } from './filesystem';
 import { DrawnixExportedData, DrawnixExportedType } from './types';
@@ -36,12 +36,19 @@ export const loadFromJSON = async (board: PlaitBoard) => {
   return loadFromBlob(board, await normalizeFile(file));
 };
 
-export const isValidDrawnixData = (data?: any): data is DrawnixExportedData => {
-  return (
-    data &&
-    data.type === DrawnixExportedType.drawnix &&
-    Array.isArray(data.elements) &&
-    typeof data.viewport === 'object'
+export const isValidDrawnixData = (data?: unknown): data is DrawnixExportedData => {
+  if (!data || typeof data !== 'object' || data === null) {
+    return false;
+  }
+  
+  const obj = data as Record<string, unknown>;
+  return !!(
+    'type' in obj &&
+    obj.type === DrawnixExportedType.drawnix &&
+    'elements' in obj &&
+    Array.isArray(obj.elements) &&
+    'viewport' in obj &&
+    typeof obj.viewport === 'object'
   );
 };
 

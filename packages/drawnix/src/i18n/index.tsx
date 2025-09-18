@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo, useCallback } from 'react';
 import { zhTranslations, enTranslations, ruTranslations,arTranslations } from './translations';
 import { Language, Translations, I18nContextType, I18nProviderProps } from './types';
 
@@ -23,14 +23,14 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
         return storedLanguage || defaultLanguage;
     });
 
-    const setLanguage = (newLanguage: Language) => {
+    const setLanguage = useCallback((newLanguage: Language) => {
         localStorage.setItem('language', newLanguage);
         setLanguageState(newLanguage);
-    };
+    }, []);
 
-    const t = (key: keyof Translations): string => {
+    const t = useCallback((key: keyof Translations): string => {
         return translations[language][key] || key;
-    };
+    }, [language]);
 
     const value: I18nContextType = useMemo(
         () => ({
@@ -38,7 +38,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
             setLanguage,
             t,
         }),
-        [language]
+        [language, setLanguage, t]
     );
 
     return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

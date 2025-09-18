@@ -11,6 +11,7 @@ export const Image: React.FC<ImageProps> = (props: ImageProps) => {
     <div>
       <img
         {...imgProps}
+        alt="Uploaded content"
         className={classNames('image-origin', {
           'image-origin--focus': props.isFocus,
         })}

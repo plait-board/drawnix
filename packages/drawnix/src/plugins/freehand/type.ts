@@ -1,4 +1,4 @@
-import { DEFAULT_COLOR, Point, ThemeColorMode } from '@plait/core';
+import { DEFAULT_COLOR, ThemeColorMode } from '@plait/core';
 import { PlaitCustomGeometry } from '@plait/draw';
 
 export const FreehandThemeColors = {
@@ -44,7 +44,7 @@ export interface Freehand extends PlaitCustomGeometry {
 }
 
 export const Freehand = {
-  isFreehand: (value: any): value is Freehand => {
-    return value.type === FREEHAND_TYPE;
+  isFreehand: (value: unknown): value is Freehand => {
+    return typeof value === 'object' && value !== null && 'type' in value && (value as { type: unknown }).type === FREEHAND_TYPE;
   },
 };

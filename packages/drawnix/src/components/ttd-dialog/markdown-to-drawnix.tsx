@@ -35,7 +35,7 @@ const MarkdownToDrawnix = () => {
       loaded: false,
       api: Promise.resolve({
         parseMarkdownToDrawnix: (definition: string, mainTopic?: string) =>
-          null as any as MindElement,
+          null as unknown as MindElement,
       }),
     });
 
@@ -53,7 +53,7 @@ const MarkdownToDrawnix = () => {
       }
     };
     loadLib();
-  }, []);
+  }, [t]);
   const [text, setText] = useState(() => t('markdown.example'));
   const [value, setValue] = useState<PlaitElement[]>(() => []);
   const deferredText = useDeferredValue(text.trim());
@@ -63,7 +63,7 @@ const MarkdownToDrawnix = () => {
   // Update markdown example when language changes
   useEffect(() => {
     setText(t('markdown.example'));
-  }, [language]);
+  }, [language, t]);
 
   useEffect(() => {
     const convertMarkdown = async () => {
@@ -72,7 +72,7 @@ const MarkdownToDrawnix = () => {
         let ret;
         try {
           ret = await api.parseMarkdownToDrawnix(deferredText);
-        } catch (err: any) {
+        } catch (err: unknown) {
           ret = await api.parseMarkdownToDrawnix(
             deferredText.replace(/"/g, "'")
           );
@@ -83,8 +83,8 @@ const MarkdownToDrawnix = () => {
           setValue([mind]);
           setError(null);
         }
-      } catch (err: any) {
-        setError(err);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err : new Error(String(err)));
       }
     };
     convertMarkdown();
