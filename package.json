@@ -25,6 +25,9 @@
     "ahooks": "^3.8.0",
     "browser-fs-access": "^0.35.0",
     "classnames": "^2.5.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "laser-pen": "^1.0.1",
     "localforage": "^1.10.0",
     "mobile-detect": "^1.4.5",
@@ -35,7 +38,8 @@
     "slate-dom": "^0.116.0",
     "slate-history": "^0.115.0",
     "slate-react": "^0.116.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "webdav": "^5.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",

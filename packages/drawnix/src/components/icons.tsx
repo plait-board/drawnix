@@ -180,6 +180,23 @@ export const MenuIcon = createIcon(
   </svg>
 );
 
+export const SyncIcon = createIcon(
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M5 9a7 7 0 0 1 13.04-3.11"></path>
+    <path d="M14 6h4V2"></path>
+    <path d="M19 15a7 7 0 0 1-13.04 3.11"></path>
+    <path d="M10 18H6v4"></path>
+  </svg>
+);
+
 export const GithubIcon = createIcon(
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
     <path

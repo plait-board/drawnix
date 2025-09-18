@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_SYNC_LABEL: ${VITE_SYNC_LABEL:-${SYNC_LABEL:-}}
+        VITE_SYNC_POLL_MS: ${VITE_SYNC_POLL_MS:-5000}
+    environment:
+      - PORT=38080
+      - SYNC_PASSWORD_HASH=${SYNC_PASSWORD_HASH}
+      - SYNC_JWT_SECRET=${SYNC_JWT_SECRET:-drawnix-sync-secret}
+      - SYNC_LABEL=${SYNC_LABEL:-}
+      - WEBDAV_URL=${WEBDAV_URL}
+      - WEBDAV_USERNAME=${WEBDAV_USERNAME:-}
+      - WEBDAV_PASSWORD=${WEBDAV_PASSWORD:-}
+      - WEBDAV_BASE_PATH=${WEBDAV_BASE_PATH:-/drawnix}
+      - WEBDAV_MAIN_FILE=${WEBDAV_MAIN_FILE:-main-board.json}
+      - WEBDAV_TIMEOUT=${WEBDAV_TIMEOUT:-10000}
+    ports:
+      - "38080:38080"

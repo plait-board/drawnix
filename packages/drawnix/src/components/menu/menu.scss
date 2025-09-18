@@ -68,6 +68,24 @@
         gap: 0.75rem;
       }
 
+      .sync-menu-item__label {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .sync-menu-item__status {
+        margin-left: auto;
+        font-size: 0.75rem;
+        opacity: 0.7;
+        color: var(--oc-gray-6);
+
+        &[data-error='true'] {
+          color: var(--oc-red-6);
+          opacity: 1;
+        }
+      }
+
       &__shortcut {
         margin-inline-start: auto;
         opacity: 0.5;
