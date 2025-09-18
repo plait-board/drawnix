@@ -131,7 +131,13 @@ export const PopoverTrigger = React.forwardRef<
   React.HTMLProps<HTMLElement> & PopoverTriggerProps
 >(function PopoverTrigger({ children, asChild = false, ...props }, propRef) {
   const context = usePopoverContext();
-  const childrenRef = React.isValidElement(children) ? (children as React.ReactElement & { ref?: React.Ref<HTMLElement> }).ref : null;
+  function getElementRef(node: React.ReactNode): React.Ref<HTMLElement> | null {
+    if (React.isValidElement(node) && 'ref' in node) {
+      return (node as React.ReactElement & { ref?: React.Ref<HTMLElement> }).ref ?? null;
+    }
+    return null;
+  }
+  const childrenRef = getElementRef(children);
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
 
   // `asChild` allows the user to pass any element as the anchor
