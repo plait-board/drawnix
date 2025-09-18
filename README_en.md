@@ -45,7 +45,7 @@
 - 🖌 Freehand
 - 😀 Image Support
 - 🚀 Plugin-based Architecture - Extensible
-- 🖼️ 📃 Export to PNG, JPG, JSON(.drawnix)
+- 🖼️ 📃 Export to PNG, JPG, SVG, JSON(.drawnix)
 - 💾 Auto-save (Browser Storage)
 - ⚡ Edit Features: Undo, Redo, Copy, Paste, etc.
 - 🌌 Infinite Canvas: Zoom, Pan
