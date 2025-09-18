@@ -183,7 +183,7 @@ export const saveAsSVG = (board: PlaitBoard) => {
     if (!viewBox) {
       // Fallback: set viewBox based on SVG dimensions
       const rect = hostSVG.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) {
+      if (rect.width < 0.01 || rect.height < 0.01) {
         console.error('SVG element has invalid dimensions');
         return;
       }
