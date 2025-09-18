@@ -170,13 +170,13 @@ export const saveAsSVG = (board: PlaitBoard) => {
       console.error('Could not find board SVG element - board may not be properly initialized');
       return;
     }
+    if (!(hostSVG instanceof SVGSVGElement)) {
+      console.error('Board host element is not an SVGSVGElement');
+      return;
+    }
 
     // Clone the SVG to avoid modifying the original
     const svgClone = hostSVG.cloneNode(true) as SVGSVGElement;
-    if (!svgClone) {
-      console.error('Failed to clone SVG element');
-      return;
-    }
     
     // Get the current viewBox to ensure proper sizing
     const viewBox = svgClone.getAttribute('viewBox');
