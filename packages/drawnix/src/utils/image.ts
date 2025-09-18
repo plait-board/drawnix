@@ -217,7 +217,7 @@ export const saveAsSVG = (board: PlaitBoard) => {
     }
     
     // Create blob and download
-    const blob = new Blob([svgString], { type: IMAGE_MIME_TYPES.svg });
+    const blob = new Blob([svgString], { type: 'image/svg+xml' });
     const svgName = `drawnix-${new Date().getTime()}.svg`;
     download(blob, svgName);
   } catch (error) {
