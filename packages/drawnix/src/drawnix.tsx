@@ -92,10 +92,10 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   }
 
   const updateAppState = (newAppState: Partial<DrawnixState>) => {
-    setAppState({
-      ...appState,
+    setAppState((prevState) => ({
+      ...prevState,
       ...newAppState,
-    });
+    }));
   };
 
   const plugins: PlaitPlugin[] = [
