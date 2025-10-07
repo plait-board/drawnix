@@ -55,6 +55,8 @@ export const buildDrawnixHotkeyPlugin = (
           if (event.key === 'h') {
             BoardTransforms.updatePointerType(board, PlaitPointerType.hand);
             updateAppState({ pointer: PlaitPointerType.hand });
+            event.preventDefault();
+            return;
           }
           if (event.key === 'v') {
             BoardTransforms.updatePointerType(
@@ -62,21 +64,29 @@ export const buildDrawnixHotkeyPlugin = (
               PlaitPointerType.selection
             );
             updateAppState({ pointer: PlaitPointerType.selection });
+            event.preventDefault();
+            return;
           }
           if (event.key === 'm') {
             setCreationMode(board, BoardCreationMode.dnd);
             BoardTransforms.updatePointerType(board, MindPointerType.mind);
             updateAppState({ pointer: MindPointerType.mind });
+            event.preventDefault();
+            return;
           }
           if (event.key === 'e') {
             setCreationMode(board, BoardCreationMode.drawing);
             BoardTransforms.updatePointerType(board, FreehandShape.eraser);
             updateAppState({ pointer: FreehandShape.eraser });
+            event.preventDefault();
+            return;
           }
           if (event.key === 'p') {
             setCreationMode(board, BoardCreationMode.drawing);
             BoardTransforms.updatePointerType(board, FreehandShape.feltTipPen);
             updateAppState({ pointer: FreehandShape.feltTipPen });
+            event.preventDefault();
+            return;
           }
           if (event.key === 'a' && !isHotkey(['mod+a'])(event)) {
             // will trigger editing text
@@ -84,6 +94,8 @@ export const buildDrawnixHotkeyPlugin = (
               setCreationMode(board, BoardCreationMode.drawing);
               BoardTransforms.updatePointerType(board, ArrowLineShape.straight);
               updateAppState({ pointer: ArrowLineShape.straight });
+              event.preventDefault();
+              return;
             }
           }
           if (event.key === 'r' || event.key === 'o' || event.key === 't') {
@@ -99,9 +111,9 @@ export const buildDrawnixHotkeyPlugin = (
             }
             BoardTransforms.updatePointerType(board, keyToPointer[event.key]);
             updateAppState({ pointer: keyToPointer[event.key] });
+            event.preventDefault();
+            return;
           }
-          event.preventDefault();
-          return;
         }
       }
       globalKeyDown(event);
