@@ -232,8 +232,8 @@ export const saveAsSVG = (board: PlaitBoard) => {
       const padding = 10; // Small padding around content
       const viewBoxX = contentBounds.x - padding;
       const viewBoxY = contentBounds.y - padding;
-      const viewBoxWidth = Math.max(1, contentBounds.width + (padding * 2));
-      const viewBoxHeight = Math.max(1, contentBounds.height + (padding * 2));
+      const viewBoxWidth = Math.max(1, contentBounds.width + (padding * 1));
+      const viewBoxHeight = Math.max(1, contentBounds.height + (padding * 1));
 
       svgClone.setAttribute('viewBox', `${viewBoxX} ${viewBoxY} ${viewBoxWidth} ${viewBoxHeight}`);
       svgClone.setAttribute('width', viewBoxWidth.toString());
