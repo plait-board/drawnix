@@ -229,7 +229,7 @@ export const saveAsSVG = (board: PlaitBoard) => {
     const contentBounds = getContentBounds(svgClone);
     if (contentBounds) {
       // Set viewBox to content bounds to remove unnecessary margins
-      const padding = 10; // Small padding around content
+      const padding = 1; // Small padding around content
       const viewBoxX = contentBounds.x - padding;
       const viewBoxY = contentBounds.y - padding;
       const viewBoxWidth = Math.max(1, contentBounds.width + (padding * -2));
