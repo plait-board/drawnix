@@ -8,7 +8,7 @@ export const Image: React.FC<ImageProps> = (props: ImageProps) => {
     width: '100%',
   };
   return (
-    <div>
+    <div style={{ display: 'flex' }}>
       <img
         {...imgProps}
         className={classNames('image-origin', {
