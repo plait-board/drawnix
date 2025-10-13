@@ -37,7 +37,7 @@ export const SizeSlider: React.FC<SliderProps> = ({
   const [value, setValue] = useState(defaultValue);
   const sliderRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
-   const percentage = ((value - min) / (max - min)) * 100;
+  const percentage = ((value - min) / (max - min)) * 100;
 
   const handleSliderChange = useCallback(
     throttle(
