@@ -121,6 +121,7 @@ export interface Translations {
   'popupToolbar.fontColor': string;
   'popupToolbar.link': string;
   'popupToolbar.stroke': string;
+  'popupToolbar.opacity': string;
 
   // Text placeholders
   'textPlaceholders.link': string;

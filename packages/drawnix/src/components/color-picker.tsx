@@ -49,6 +49,7 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
   return (
     <Stack.Col gap={3}>
         <SizeSlider
+          title={t('popupToolbar.opacity')}
           step={5}
           defaultValue={opacity}
           onChange={(value) => {

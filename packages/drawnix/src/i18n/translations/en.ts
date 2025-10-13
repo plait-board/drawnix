@@ -119,6 +119,7 @@ const enTranslations: Translations = {
   'popupToolbar.fontColor': 'Font Color',
   'popupToolbar.link': 'Insert Link',
   'popupToolbar.stroke': 'Stroke',
+  'popupToolbar.opacity': 'Opacity',
 
   // Text placeholders
   'textPlaceholders.link': 'Link',
@@ -165,7 +166,8 @@ const enTranslations: Translations = {
   'mind.abstractNodeText': 'Summary',
 
   'tutorial.title': 'Drawnix',
-  'tutorial.description': 'All-in-one whiteboard, including mind maps, flowcharts, free drawing, and more',
+  'tutorial.description':
+    'All-in-one whiteboard, including mind maps, flowcharts, free drawing, and more',
   'tutorial.dataDescription': 'All data is stored locally in your browser',
   'tutorial.appToolbar': 'Export, language settings, ...',
   'tutorial.creationToolbar': 'Select a tool to start your creation',

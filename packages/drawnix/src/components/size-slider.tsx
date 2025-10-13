@@ -1,4 +1,10 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
 import { toFixed } from '@plait/core';
 import './size-slider.scss';
 import classNames from 'classnames';
@@ -10,6 +16,7 @@ interface SliderProps {
   step?: number;
   defaultValue?: number;
   disabled?: boolean;
+  title?: string;
   onChange?: (value: number) => void;
   beforeStart?: () => void;
   afterEnd?: () => void;
@@ -24,22 +31,20 @@ export const SizeSlider: React.FC<SliderProps> = ({
   onChange,
   beforeStart,
   afterEnd,
+  title,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [value, setValue] = useState(defaultValue);
-  const thumbPercentageRef = useRef(0);
   const sliderRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
+  const thumbPercentage = useMemo(() => {
     if (sliderRef.current && thumbRef.current) {
       const sliderRect = sliderRef.current.getBoundingClientRect();
       const thumbRect = thumbRef.current.getBoundingClientRect();
-      thumbPercentageRef.current = toFixed(
-        (thumbRect.width / 2 / sliderRect.width) * 100
-      );
+      return toFixed((thumbRect.width / 2 / sliderRect.width) * 100);
     }
-  }, [thumbRef, sliderRef]);
+    return 0;
+  }, [sliderRef, thumbRef]);
 
   useEffect(() => {
     setValue(defaultValue);
@@ -52,9 +57,9 @@ export const SizeSlider: React.FC<SliderProps> = ({
           const sliderRect = sliderRef.current.getBoundingClientRect();
           const x = event.clientX - sliderRect.left;
           let percentage = Math.min(Math.max(x / sliderRect.width, 0), 1);
-          if (percentage >= (100 - thumbPercentageRef.current) / 100) {
+          if (percentage >= (100 - thumbPercentage) / 100) {
             percentage = 1;
-          } else if (percentage <= thumbPercentageRef.current / 100) {
+          } else if (percentage <= thumbPercentage / 100) {
             percentage = 0;
           }
           const newValue =
@@ -66,7 +71,7 @@ export const SizeSlider: React.FC<SliderProps> = ({
       50,
       { leading: true, trailing: true }
     ),
-    [min, max, step, onChange]
+    [min, max, step, thumbPercentage, onChange]
   );
 
   const handlePointerDown = useCallback(() => {
@@ -88,15 +93,19 @@ export const SizeSlider: React.FC<SliderProps> = ({
   }, [handleSliderChange]);
 
   let percentage = ((value - min) / (max - min)) * 100;
-  if (percentage >= 100 - thumbPercentageRef.current) {
-    percentage = 100 - thumbPercentageRef.current;
+  if (percentage >= 100 - thumbPercentage) {
+    percentage = 100 - thumbPercentage;
   }
-  if (percentage <= thumbPercentageRef.current) {
-    percentage = thumbPercentageRef.current;
+  if (percentage <= thumbPercentage) {
+    percentage = thumbPercentage;
   }
 
   return (
-    <div className={classNames('slider-container', { disabled: disabled })}>
+    <div
+      data-tooltip
+      title={title}
+      className={classNames('slider-container', { disabled: disabled })}
+    >
       <div
         ref={sliderRef}
         className="slider-track"
