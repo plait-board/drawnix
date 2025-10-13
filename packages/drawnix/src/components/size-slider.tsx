@@ -45,7 +45,7 @@ export const SizeSlider: React.FC<SliderProps> = ({
         if (sliderRef.current && thumbRef.current) {
           const sliderRect = sliderRef.current.getBoundingClientRect();
           const thumbRect = thumbRef.current.getBoundingClientRect();
-          const x = event.clientX - sliderRect.left;  
+          const x = event.clientX - sliderRect.left;
           const thumbPercentage = toFixed(
             (thumbRect.width / 2 / sliderRect.width) * 100
           );
@@ -84,6 +84,10 @@ export const SizeSlider: React.FC<SliderProps> = ({
     document.addEventListener('pointermove', handleMouseMove);
     document.addEventListener('pointerup', handleMouseUp);
   }, [handleSliderChange]);
+
+  useEffect(()=>{
+    setValue(defaultValue)
+  },[defaultValue])
 
   return (
     <div
