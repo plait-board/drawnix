@@ -37,25 +37,18 @@ export const SizeSlider: React.FC<SliderProps> = ({
   const [value, setValue] = useState(defaultValue);
   const sliderRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
-  const thumbPercentage = useMemo(() => {
-    if (sliderRef.current && thumbRef.current) {
-      const sliderRect = sliderRef.current.getBoundingClientRect();
-      const thumbRect = thumbRef.current.getBoundingClientRect();
-      return toFixed((thumbRect.width / 2 / sliderRect.width) * 100);
-    }
-    return 0;
-  }, [sliderRef, thumbRef]);
-
-  useEffect(() => {
-    setValue(defaultValue);
-  }, [defaultValue]);
+   const percentage = ((value - min) / (max - min)) * 100;
 
   const handleSliderChange = useCallback(
     throttle(
       (event: React.MouseEvent<HTMLDivElement> | MouseEvent) => {
         if (sliderRef.current && thumbRef.current) {
           const sliderRect = sliderRef.current.getBoundingClientRect();
-          const x = event.clientX - sliderRect.left;
+          const thumbRect = thumbRef.current.getBoundingClientRect();
+          const x = event.clientX - sliderRect.left;  
+          const thumbPercentage = toFixed(
+            (thumbRect.width / 2 / sliderRect.width) * 100
+          );
           let percentage = Math.min(Math.max(x / sliderRect.width, 0), 1);
           if (percentage >= (100 - thumbPercentage) / 100) {
             percentage = 1;
@@ -71,7 +64,7 @@ export const SizeSlider: React.FC<SliderProps> = ({
       50,
       { leading: true, trailing: true }
     ),
-    [min, max, step, thumbPercentage, onChange]
+    [min, max, step, onChange]
   );
 
   const handlePointerDown = useCallback(() => {
@@ -91,14 +84,6 @@ export const SizeSlider: React.FC<SliderProps> = ({
     document.addEventListener('pointermove', handleMouseMove);
     document.addEventListener('pointerup', handleMouseUp);
   }, [handleSliderChange]);
-
-  let percentage = ((value - min) / (max - min)) * 100;
-  if (percentage >= 100 - thumbPercentage) {
-    percentage = 100 - thumbPercentage;
-  }
-  if (percentage <= thumbPercentage) {
-    percentage = thumbPercentage;
-  }
 
   return (
     <div
