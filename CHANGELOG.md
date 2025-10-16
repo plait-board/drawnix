@@ -1,3 +1,15 @@
+## 0.3.1 (2025-10-16)
+
+
+### 🩹 Fixes
+
+- correct @plait-board/markdown-to-drawnix version ([9ff924e](https://github.com/plait-board/drawnix/commit/9ff924e))
+- **hotkey:** move preventDefault() into specific conditional branching ([#303](https://github.com/plait-board/drawnix/pull/303))
+
+### ❤️  Thank You
+
+- pubuzhixing8 @pubuzhixing8
+
 ## 0.3.0 (2025-09-13)
 
 
