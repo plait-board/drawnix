@@ -9,7 +9,7 @@
     "mobile-detect": "^1.4.5",
     "open-color": "^1.9.1",
     "@plait-board/mermaid-to-drawnix": "^0.0.7",
-    "@plait-board/markdown-to-drawnix": "^0.0.6"
+    "@plait-board/markdown-to-drawnix": "^0.0.7"
   },
   "exports": {
     ".": {
