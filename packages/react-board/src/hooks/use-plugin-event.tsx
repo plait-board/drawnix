@@ -52,6 +52,30 @@ const useBoardPluginEvent = (
   );
 
   useEventListener(
+    'touchstart',
+    (event) => {
+      board.touchStart(event);
+    },
+    { target: viewportContainerRef }
+  );
+
+  useEventListener(
+    'touchmove',
+    (event) => {
+      board.touchMove(event);
+    },
+    { target: viewportContainerRef }
+  );
+
+  useEventListener(
+    'touchend',
+    (event) => {
+      board.touchEnd(event);
+    },
+    { target: viewportContainerRef }
+  );
+
+  useEventListener(
     'dblclick',
     (event) => {
       if (PlaitBoard.isFocus(board) && !PlaitBoard.hasBeenTextEditing(board)) {
