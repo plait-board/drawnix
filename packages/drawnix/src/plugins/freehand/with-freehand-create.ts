@@ -13,7 +13,8 @@ import { FreehandGenerator } from './freehand.generator';
 import { FreehandSmoother } from './smoother';
 
 export const withFreehandCreate = (board: PlaitBoard) => {
-  const { pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
+  const { pointerDown, pointerMove, pointerUp, globalPointerUp, touchStart } =
+    board;
 
   let isDrawing = false;
 
@@ -48,6 +49,15 @@ export const withFreehandCreate = (board: PlaitBoard) => {
     isDrawing = false;
     points = [];
     smoother.reset();
+  };
+
+  board.touchStart = (event: TouchEvent) => {
+    const freehandPointers = getFreehandPointers();
+    const isFreehandPointer = PlaitBoard.isInPointer(board, freehandPointers);
+    if (isFreehandPointer && isDrawingMode(board)) {
+      return event.preventDefault();
+    }
+    touchStart(event);
   };
 
   board.pointerDown = (event: PointerEvent) => {

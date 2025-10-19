@@ -17,14 +17,30 @@ interface PointerRecord {
 }
 
 export const withPinchZoom = (board: PlaitBoard) => {
-  const { pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
+  const {
+    pointerDown,
+    pointerMove,
+    pointerUp,
+    globalPointerUp,
+    touchStart,
+    touchMove,
+  } = board;
 
   const pointerRecords: PointerRecord[] = [];
   let initializeZoom = 0;
   let isPinching = false;
 
+  board.touchStart = (event: TouchEvent) => {
+    if (event.touches.length >= 2) {
+      event.preventDefault();
+      return;
+    }
+    touchStart(event);
+  };
+
   board.pointerDown = (event: PointerEvent) => {
     const point: Point = [event.clientX, event.clientY];
+    (window as any)['__drawnix__web__console'](`pointerId${event.pointerId}`);
 
     if (pointerRecords.length < 2) {
       initializeZoom = board.viewport.zoom;
