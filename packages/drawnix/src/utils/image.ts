@@ -19,11 +19,27 @@ export const saveAsImage = (board: PlaitBoard, isTransparent: boolean) => {
   });
 };
 
+export const copyAsImage = (board: PlaitBoard, isTransparent: boolean) => {
+  const selectedElements = getSelectedElements(board);
+  boardToImage(board, {
+    elements: selectedElements.length > 0 ? selectedElements : undefined,
+    fillStyle: isTransparent ? 'transparent' : 'white',
+  }).then(async (image) => {
+    if (image) {
+      const pngImage = base64ToBlob(image);
+      const item = new ClipboardItem({ 'image/png': pngImage });
+
+      if (!item) return;
+      await navigator.clipboard.write([item]);
+    }
+  });
+};
+
 export const addImage = async (board: PlaitBoard) => {
   const imageFile = await fileOpen({
     description: 'Image',
     extensions: Object.keys(
-      IMAGE_MIME_TYPES
+      IMAGE_MIME_TYPES,
     ) as (keyof typeof IMAGE_MIME_TYPES)[],
   });
   insertImage(board, imageFile);

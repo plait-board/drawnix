@@ -5,7 +5,7 @@ import {
   PlaitPointerType,
 } from '@plait/core';
 import { isHotkey } from 'is-hotkey';
-import { addImage, saveAsImage } from '../utils/image';
+import { addImage, copyAsImage, saveAsImage } from '../utils/image';
 import { saveAsJSON } from '../data/json';
 import { DrawnixState } from '../hooks/use-drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
@@ -14,7 +14,7 @@ import { FreehandShape } from './freehand/type';
 import { ArrowLineShape, BasicShapes } from '@plait/draw';
 
 export const buildDrawnixHotkeyPlugin = (
-  updateAppState: (appState: Partial<DrawnixState>) => void
+  updateAppState: (appState: Partial<DrawnixState>) => void,
 ) => {
   const withDrawnixHotkey = (board: PlaitBoard) => {
     const { globalKeyDown, keyDown } = board;
@@ -30,6 +30,11 @@ export const buildDrawnixHotkeyPlugin = (
       ) {
         if (isHotkey(['mod+shift+e'], { byKey: true })(event)) {
           saveAsImage(board, true);
+          event.preventDefault();
+          return;
+        }
+        if (isHotkey(['mod+shift+c'], { byKey: true })(event)) {
+          copyAsImage(board, true);
           event.preventDefault();
           return;
         }
@@ -63,7 +68,7 @@ export const buildDrawnixHotkeyPlugin = (
           if (event.key === 'v') {
             BoardTransforms.updatePointerType(
               board,
-              PlaitPointerType.selection
+              PlaitPointerType.selection,
             );
             updateAppState({ pointer: PlaitPointerType.selection });
             event.preventDefault();

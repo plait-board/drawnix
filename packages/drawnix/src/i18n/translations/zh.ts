@@ -71,11 +71,12 @@ const zhTranslations: Translations = {
   'language.english': 'English',
   'language.russian': 'Русский',
   'language.arabic': 'عربي',
-  
+
   // Menu items
   'menu.open': '打开',
   'menu.saveFile': '保存文件',
   'menu.exportImage': '导出图片',
+  'menu.copyImage': '复制图片',
   'menu.exportImage.png': 'PNG',
   'menu.exportImage.jpg': 'JPG',
   'menu.cleanBoard': '清除画布',
@@ -117,7 +118,7 @@ const zhTranslations: Translations = {
   'popupToolbar.fontColor': '字体颜色',
   'popupToolbar.link': '链接',
   'popupToolbar.stroke': '边框',
-  
+
   // Text placeholders
   'textPlaceholders.link': '链接',
   'textPlaceholders.text': '文本',
@@ -136,7 +137,7 @@ const zhTranslations: Translations = {
   // Draw elements text
   'draw.lineText': '文本',
   'draw.geometryText': '文本',
-  
+
   // Mind map elements text
   'mind.centralText': '中心主题',
   'mind.abstractNodeText': '摘要',
@@ -168,7 +169,6 @@ const zhTranslations: Translations = {
   'tutorial.appToolbar': '导出，语言设置，...',
   'tutorial.creationToolbar': '选择一个工具开始你的创作',
   'tutorial.themeDescription': '在明亮和黑暗主题之间切换',
-
 };
 
 export default zhTranslations;

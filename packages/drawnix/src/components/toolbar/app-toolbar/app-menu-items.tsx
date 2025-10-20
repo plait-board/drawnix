@@ -1,4 +1,5 @@
 import {
+  DuplicateIcon,
   ExportImageIcon,
   GithubIcon,
   OpenFileIcon,
@@ -17,7 +18,7 @@ import {
 import { loadFromJSON, saveAsJSON } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
-import { saveAsImage } from '../../../utils/image';
+import { copyAsImage, saveAsImage } from '../../../utils/image';
 import { useDrawnix } from '../../../hooks/use-drawnix';
 import { useI18n } from '../../../i18n';
 import Menu from '../../menu/menu';
@@ -38,7 +39,9 @@ export const SaveToFile = () => {
       icon={SaveFileIcon}
       aria-label={t('menu.saveFile')}
       shortcut={getShortcutKey('CtrlOrCmd+S')}
-    >{t('menu.saveFile')}</MenuItem>
+    >
+      {t('menu.saveFile')}
+    </MenuItem>
   );
 };
 SaveToFile.displayName = 'SaveToFile';
@@ -50,7 +53,7 @@ export const OpenFile = () => {
   const clearAndLoad = (
     value: PlaitElement[],
     viewport?: Viewport,
-    theme?: PlaitTheme
+    theme?: PlaitTheme,
   ) => {
     board.children = value;
     board.viewport = viewport || { zoom: 1 };
@@ -72,7 +75,9 @@ export const OpenFile = () => {
       }}
       icon={OpenFileIcon}
       aria-label={t('menu.open')}
-    >{t('menu.open')}</MenuItem>
+    >
+      {t('menu.open')}
+    </MenuItem>
   );
 };
 OpenFile.displayName = 'OpenFile';
@@ -89,13 +94,15 @@ export const SaveAsImage = () => {
         saveAsImage(board, true);
       }}
       submenu={
-        <Menu onSelect={() => {
-          const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
-            bubbles: true,
-            cancelable: true,
-          });
-          menuContentProps.onSelect?.(itemSelectEvent);
-        }}>
+        <Menu
+          onSelect={() => {
+            const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
+              bubbles: true,
+              cancelable: true,
+            });
+            menuContentProps.onSelect?.(itemSelectEvent);
+          }}
+        >
           <MenuItem
             onSelect={() => {
               saveAsImage(board, true);
@@ -145,6 +152,53 @@ export const CleanBoard = () => {
 };
 CleanBoard.displayName = 'CleanBoard';
 
+export const CopyAsImage = () => {
+  const board = useBoard();
+  const menuContentProps = useContext(MenuContentPropsContext);
+  const { t } = useI18n();
+  return (
+    <MenuItem
+      icon={DuplicateIcon}
+      data-testid="image-export-button"
+      onSelect={() => {
+        copyAsImage(board, true);
+      }}
+      submenu={
+        <Menu
+          onSelect={() => {
+            const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
+              bubbles: true,
+              cancelable: true,
+            });
+            menuContentProps.onSelect?.(itemSelectEvent);
+          }}
+        >
+          <MenuItem
+            onSelect={() => {
+              copyAsImage(board, true);
+            }}
+            aria-label={t('menu.exportImage.png')}
+          >
+            {t('menu.exportImage.png')}
+          </MenuItem>
+          <MenuItem
+            onSelect={() => {
+              copyAsImage(board, false);
+            }}
+            aria-label={t('menu.exportImage.jpg')}
+          >
+            {t('menu.exportImage.jpg')}
+          </MenuItem>
+        </Menu>
+      }
+      shortcut={getShortcutKey('CtrlOrCmd+Shift+C')}
+      aria-label={t('menu.copyImage')}
+    >
+      {t('menu.copyImage')}
+    </MenuItem>
+  );
+};
+CopyAsImage.displayName = 'CopyAsImage';
 export const Socials = () => {
   return (
     <MenuItemLink
