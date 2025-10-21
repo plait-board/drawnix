@@ -47,6 +47,15 @@ const MenuItem = ({
     }, 100);
   };
 
+  const handleMenuItemClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (submenu) {
+      setIsOpen(!isOpen);
+      rest.onClick?.(event as any);
+    } else {
+      handleClick(event as any);
+    }
+  };
+
   if (submenu) {
     return (
       <Popover 
@@ -60,7 +69,7 @@ const MenuItem = ({
             type="button"
             className={getMenuItemClassName(className, selected || isOpen)}
             title={rest.title ?? rest['aria-label']}
-            onClick={handleClick}
+            onClick={handleMenuItemClick}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
