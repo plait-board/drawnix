@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  push:
+    branches: [ "develop", "electron" ]
+  pull_request:
+    branches: [ "develop", "electron" ]
+  workflow_dispatch: 
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 20
+        cache: 'npm'
+    
+    - name: npm install
+      run: npm install
+
+    - name: electron build
+      run: npm run electron:build
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.6.2
+      with:
+        name: drawnix-windows-installer
+        path: dist/electron/*.exe
