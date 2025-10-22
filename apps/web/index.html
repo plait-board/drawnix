@@ -66,7 +66,19 @@
           "license": "https://github.com/plait-board/drawnix/blob/master/LICENSE"
         }
     </script>
-    <base href="/" />
+    <script>
+      // 在 Electron 中设置为当前目录
+      if (window.location.protocol === 'file:') {
+        const base = document.createElement('base');
+        base.href = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+        document.head.appendChild(base);
+      } else {
+        // 在浏览器中使用根路径
+        const base = document.createElement('base');
+        base.href = '/';
+        document.head.appendChild(base);
+      }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/src/styles.scss" />

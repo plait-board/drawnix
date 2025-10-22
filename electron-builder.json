@@ -1,0 +1,29 @@
+{
+  "appId": "com.drawnix.app",
+  "productName": "Drawnix",
+  "directories": {
+    "output": "dist/electron"
+  },
+  "files": [
+    "dist/apps/web/**/*",
+    "electron-main.js",
+    "electron-preload.js",
+    "package.json"
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      }
+    ],
+    "icon": "apps/web/public/favicon.ico"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "Drawnix"
+  }
+}

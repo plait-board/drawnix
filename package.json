@@ -2,6 +2,7 @@
   "name": "@drawnix/source",
   "version": "0.0.2",
   "license": "MIT",
+  "main": "electron-main.js",
   "scripts": {
     "start": "nx serve web --host=0.0.0.0",
     "build": "nx run-many -t=build",
@@ -9,7 +10,9 @@
     "build:web": "nx build web",
     "test": "nx run-many -t=test",
     "release": "node scripts/release-version.js",
-    "pub": "npm run build && node scripts/publish.js"
+    "pub": "npm run build && node scripts/publish.js",
+    "electron:dev": "set NODE_ENV=development&& electron .",
+    "electron:build": "npm run build:web && electron-builder --config electron-builder.json"
   },
   "private": true,
   "dependencies": {
@@ -67,6 +70,8 @@
     "@vitejs/plugin-react": "^4.2.0",
     "@vitest/ui": "^3.0.8",
     "babel-jest": "^29.4.1",
+    "electron": "^38.4.0",
+    "electron-builder": "^26.0.12",
     "eslint": "~8.57.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "2.27.5",
