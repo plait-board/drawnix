@@ -16,6 +16,13 @@ interface PointerRecord {
   hasMoved: boolean;
 }
 
+export const TOUCH_RECORDS = new WeakMap<PlaitBoard, PointerRecord[]>();
+
+export const isTwoFingerMode = (board: PlaitBoard) => {
+  const pointerRecords = TOUCH_RECORDS.get(board);
+  return pointerRecords?.length === 2;
+};
+
 export const withPinchZoom = (board: PlaitBoard) => {
   const { touchStart, touchMove, touchEnd } = board;
 
@@ -30,6 +37,7 @@ export const withPinchZoom = (board: PlaitBoard) => {
       currentPoint: [touch.clientX, touch.clientY],
       hasMoved: false,
     }));
+    TOUCH_RECORDS.set(board, pointerRecords);
     if (pointerRecords.length >= 2) {
       initializeZoom = board.viewport.zoom;
     }
@@ -150,7 +158,7 @@ export const withPinchZoom = (board: PlaitBoard) => {
     if (index !== -1) {
       pointerRecords.splice(index, 1);
     }
-
+    TOUCH_RECORDS.set(board, pointerRecords);
     touchEnd(event);
   };
 
