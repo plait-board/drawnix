@@ -11,6 +11,7 @@ import { isHitFreehand } from './utils';
 import { Freehand, FreehandShape } from './type';
 import { CoreTransforms } from '@plait/core';
 import { LaserPointer } from '../../utils/laser-pointer';
+import { isTwoFingerMode } from '@plait-board/react-board';
 
 export const withFreehandErase = (board: PlaitBoard) => {
   const { pointerDown, pointerMove, pointerUp, globalPointerUp, touchStart } =
@@ -91,14 +92,17 @@ export const withFreehandErase = (board: PlaitBoard) => {
   };
 
   board.pointerMove = (event: PointerEvent) => {
-    if (isErasing) {
+    if (isErasing && !isTwoFingerMode(board)) {
       throttleRAF(board, 'with-freehand-erase', () => {
         const currentPoint: Point = [event.x, event.y];
         checkAndMarkFreehandElementsForDeletion(currentPoint);
       });
       return;
     }
-
+    if (isErasing && isTwoFingerMode(board)) {
+      complete();
+      return;
+    }
     pointerMove(event);
   };
 
