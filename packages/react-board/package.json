@@ -5,12 +5,12 @@
   "types": "./index.d.ts",
   "private": false,
   "dependencies": {
-    "@plait/common": "^0.82.0",
-    "@plait/core": "^0.82.0",
-    "@plait/draw": "^0.82.0",
-    "@plait/layouts": "^0.82.0",
-    "@plait/mind": "^0.82.0",
-    "@plait/text-plugins": "^0.82.0",
+    "@plait/common": "^0.89.2",
+    "@plait/core": "^0.89.2",
+    "@plait/draw": "^0.89.2",
+    "@plait/layouts": "^0.89.2",
+    "@plait/mind": "^0.89.2",
+    "@plait/text-plugins": "^0.89.2",
     "ahooks": "^3.8.0",
     "classnames": "^2.5.1"
   },
