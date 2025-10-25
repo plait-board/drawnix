@@ -112,7 +112,9 @@ export const withFreehandCreate = (board: PlaitBoard) => {
     }
     if (isTwoFingerMode(board) && isDrawing) {
       complete(true);
+      return;
     }
+    pointerMove(event);
   };
 
   board.pointerUp = (event: PointerEvent) => {
