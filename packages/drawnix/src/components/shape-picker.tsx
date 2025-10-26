@@ -25,7 +25,7 @@ export interface ShapeProps {
   pointer: DrawPointerType;
 }
 
-const SHAPES: ShapeProps[] = [
+export const SHAPES: ShapeProps[] = [
   {
     icon: RectangleIcon,
     title: 'toolbar.shape.rectangle',
