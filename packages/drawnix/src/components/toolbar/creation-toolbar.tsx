@@ -304,6 +304,7 @@ export const CreationToolbar = () => {
                     onPointerUp={(pointer: DrawPointerType) => {
                       setArrowOpen(false);
                       setPointer(pointer);
+                      setLastArrowPointer(pointer);
                     }}
                   ></ArrowPicker>
                 </PopoverContent>
