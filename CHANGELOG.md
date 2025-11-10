@@ -1,3 +1,14 @@
+## 0.4.0-0 (2025-11-10)
+
+
+### 🩹 Fixes
+
+- **mind:** fix image scaling issue ([44dd360](https://github.com/plait-board/drawnix/commit/44dd360))
+
+### ❤️  Thank You
+
+- seepine @seepine
+
 ## 0.3.3 (2025-10-26)
 
 
