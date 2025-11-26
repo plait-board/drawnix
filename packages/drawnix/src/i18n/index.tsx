@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useMemo } from 'react';
-import { zhTranslations, enTranslations, ruTranslations,arTranslations } from './translations';
+import { zhTranslations, enTranslations, ruTranslations, arTranslations, viTranslations } from './translations';
 import { Language, Translations, I18nContextType, I18nProviderProps } from './types';
 
 // Translation data
