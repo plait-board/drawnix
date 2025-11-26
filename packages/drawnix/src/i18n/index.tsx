@@ -7,7 +7,8 @@ const translations: Record<Language, Translations> = {
   zh: zhTranslations,
   en: enTranslations,
   ru: ruTranslations,
-  ar:arTranslations
+  ar: arTranslations,
+  vi: viTranslations
 };
 
 // Create the context
