@@ -60,6 +60,14 @@ export const LanguageSwitcherMenu = () => {
             selected={language === 'ar'}
           >{t('language.arabic')} 
             </MenuItem>
+          <MenuItem
+            onSelect={() => {
+              setLanguage('vi');
+            }}
+            aria-label={t('language.vietnamese')}
+            selected={language === 'vi'}
+          >{t('language.vietnamese')}
+          </MenuItem>
         </Menu>
       }
       aria-label={t('language.switcher')}
