@@ -71,6 +71,7 @@ const ruTranslations: Translations = {
   'language.english': 'English',
   'language.russian': 'Русский',
   'language.arabic': 'عربي',
+  'language.vietnamese': 'Tiếng Việt',
   
   // Menu items
   'menu.open': 'Открыть',
