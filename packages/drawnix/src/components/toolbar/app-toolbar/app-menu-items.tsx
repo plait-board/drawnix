@@ -106,6 +106,14 @@ export const SaveAsImage = () => {
           </MenuItem>
           <MenuItem
             onSelect={() => {
+              saveAsImage(board, true);
+            }}
+            aria-label={t('menu.exportImage.png')}
+          >
+            {t('menu.exportImage.png')}
+          </MenuItem>
+          <MenuItem
+            onSelect={() => {
               saveAsImage(board, false);
             }}
             aria-label={t('menu.exportImage.jpg')}
