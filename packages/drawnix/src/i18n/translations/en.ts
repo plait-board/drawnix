@@ -76,6 +76,7 @@ const enTranslations: Translations = {
   'menu.open': 'Open',
   'menu.saveFile': 'Save File',
   'menu.exportImage': 'Export Image',
+  'menu.exportImage.svg': 'SVG',
   'menu.exportImage.png': 'PNG',
   'menu.exportImage.jpg': 'JPG',
   'menu.cleanBoard': 'Clear Board',

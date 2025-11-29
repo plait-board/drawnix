@@ -77,6 +77,7 @@ const viTranslations: Translations = {
     'menu.open': 'Mở',
     'menu.saveFile': 'Lưu tệp',
     'menu.exportImage': 'Xuất hình ảnh',
+    'menu.exportImage.svg': 'SVG',
     'menu.exportImage.png': 'PNG',
     'menu.exportImage.jpg': 'JPG',
     'menu.cleanBoard': 'Xóa bảng',

@@ -77,6 +77,7 @@ const ruTranslations: Translations = {
   'menu.open': 'Открыть',
   'menu.saveFile': 'Сохранить',
   'menu.exportImage': 'Экспортировать',
+  'menu.exportImage.svg': 'SVG',
   'menu.exportImage.png': 'PNG',
   'menu.exportImage.jpg': 'JPG',
   'menu.cleanBoard': 'Очистить доску',
