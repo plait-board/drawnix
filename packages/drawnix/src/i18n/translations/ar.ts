@@ -77,6 +77,7 @@ const arTranslations: Translations = {
     "menu.open": "فتح",
     "menu.saveFile": "حفظ الملف",
     "menu.exportImage": "تصدير صورة",
+    "menu.exportImage.svg": "SVG",
     "menu.exportImage.png": "PNG",
     "menu.exportImage.jpg": "JPG",
     "menu.cleanBoard": "مسح اللوحة",

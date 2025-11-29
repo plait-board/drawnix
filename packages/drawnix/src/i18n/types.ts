@@ -81,6 +81,7 @@ export interface Translations {
   'menu.open': string;
   'menu.saveFile': string;
   'menu.exportImage': string;
+  'menu.exportImage.svg': string;
   'menu.exportImage.png': string;
   'menu.exportImage.jpg': string;
   'menu.cleanBoard': string;
