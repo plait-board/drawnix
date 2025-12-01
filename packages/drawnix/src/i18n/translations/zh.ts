@@ -71,11 +71,13 @@ const zhTranslations: Translations = {
   'language.english': 'English',
   'language.russian': 'Русский',
   'language.arabic': 'عربي',
+  'language.vietnamese': 'Tiếng Việt',
   
   // Menu items
   'menu.open': '打开',
   'menu.saveFile': '保存文件',
   'menu.exportImage': '导出图片',
+  'menu.exportImage.svg': 'SVG',
   'menu.exportImage.png': 'PNG',
   'menu.exportImage.jpg': 'JPG',
   'menu.cleanBoard': '清除画布',

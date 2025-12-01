@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 // Define supported languages
-export type Language = 'zh' | 'en' | 'ru' | 'ar';
+export type Language = 'zh' | 'en' | 'ru' | 'ar' | 'vi';
 
 // Define translation keys and their corresponding values
 export interface Translations {
@@ -75,11 +75,13 @@ export interface Translations {
   'language.english': string;
   'language.russian': string;
   'language.arabic': string;
+  'language.vietnamese': string;
 
   // Menu items
   'menu.open': string;
   'menu.saveFile': string;
   'menu.exportImage': string;
+  'menu.exportImage.svg': string;
   'menu.exportImage.png': string;
   'menu.exportImage.jpg': string;
   'menu.cleanBoard': string;

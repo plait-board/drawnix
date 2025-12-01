@@ -16,12 +16,12 @@
     "@floating-ui/react": "^0.26.24",
     "@plait-board/markdown-to-drawnix": "^0.0.7",
     "@plait-board/mermaid-to-drawnix": "^0.0.7",
-    "@plait/common": "^0.89.2",
-    "@plait/core": "^0.89.2",
-    "@plait/draw": "^0.89.2",
-    "@plait/layouts": "^0.89.2",
-    "@plait/mind": "^0.89.2",
-    "@plait/text-plugins": "^0.89.2",
+    "@plait/common": "^0.92.1",
+    "@plait/core": "^0.92.1",
+    "@plait/draw": "^0.92.1",
+    "@plait/layouts": "^0.92.1",
+    "@plait/mind": "^0.92.1",
+    "@plait/text-plugins": "^0.92.1",
     "@types/lodash": "^4.17.20",
     "ahooks": "^3.9.6",
     "browser-fs-access": "^0.35.0",
@@ -89,6 +89,7 @@
     "typescript": "~5.4.2",
     "vite": "^6.2.2",
     "vite-plugin-dts": "^4.5.3",
-    "vitest": "^3.0.8"
+    "vitest": "^3.0.8",
+    "babel-plugin-macros": "^3.1.0"
   }
 }

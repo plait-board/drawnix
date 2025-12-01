@@ -71,10 +71,12 @@ const enTranslations: Translations = {
   'language.english': 'English',
   'language.russian': 'Русский',
   'language.arabic': 'عربي',
+  'language.vietnamese': 'Tiếng Việt',
   // Menu items
   'menu.open': 'Open',
   'menu.saveFile': 'Save File',
   'menu.exportImage': 'Export Image',
+  'menu.exportImage.svg': 'SVG',
   'menu.exportImage.png': 'PNG',
   'menu.exportImage.jpg': 'JPG',
   'menu.cleanBoard': 'Clear Board',
