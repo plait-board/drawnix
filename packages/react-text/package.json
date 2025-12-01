@@ -1,6 +1,6 @@
 {
   "name": "@plait-board/react-text",
-  "version": "0.3.0",
+  "version": "0.4.0-0",
   "main": "./index.js",
   "types": "./index.d.ts",
   "private": false,
@@ -9,8 +9,8 @@
     "slate-dom": "^0.116.0",
     "slate-history": "^0.115.0",
     "slate-react": "^0.116.0",
-    "@plait/text-plugins": "^0.82.0",
-    "@plait/common": "^0.82.0",
+    "@plait/text-plugins": "^0.89.2",
+    "@plait/common": "^0.89.2",
     "is-hotkey": "^0.2.0"
   },
   "exports": {

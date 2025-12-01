@@ -1,3 +1,51 @@
+## 0.4.0-0 (2025-11-10)
+
+
+### 🩹 Fixes
+
+- **mind:** fix image scaling issue ([44dd360](https://github.com/plait-board/drawnix/commit/44dd360))
+
+### ❤️  Thank You
+
+- seepine @seepine
+
+## 0.3.3 (2025-10-26)
+
+
+### 🚀 Features
+
+- handle text editing on touch device ([e4a42d0](https://github.com/plait-board/drawnix/commit/e4a42d0))
+
+### 🩹 Fixes
+
+- make menu click trigger show/hide submenu for mobile users to be able to choose the submenu ([93c9254](https://github.com/plait-board/drawnix/commit/93c9254))
+- improve withPinchZoom Maintain pointerRecords accurately, as previous schemes would cause pointerRecords to be confused(using touch events) ([f39b1c8](https://github.com/plait-board/drawnix/commit/f39b1c8))
+- fix moving and selection error since  leave out  pointerMove, some plugins don't work ([193e193](https://github.com/plait-board/drawnix/commit/193e193))
+- improve arrow ([1d111fb](https://github.com/plait-board/drawnix/commit/1d111fb))
+- **freehand:** disable freehand and erase functionalities when user is using two fingers This pr will fix the issue mentioned in #331. 1. Maintain the status of two fingers pressing 2. Prevent freehand drawing and erasing when `isTwoFingerMode` is `true`. ([#331](https://github.com/plait-board/drawnix/issues/331))
+- **toolbar:** make arrow and shape picker button automatically select the first arrow/shape if it's the first time ([451b36e](https://github.com/plait-board/drawnix/commit/451b36e))
+
+### ❤️  Thank You
+
+- Andy Lu (Lu, Yu-An)
+- pubuzhixing8 @pubuzhixing8
+
+## 0.3.2 (2025-10-19)
+
+This was a version bump only, there were no code changes.
+
+## 0.3.1 (2025-10-16)
+
+
+### 🩹 Fixes
+
+- correct @plait-board/markdown-to-drawnix version ([9ff924e](https://github.com/plait-board/drawnix/commit/9ff924e))
+- **hotkey:** move preventDefault() into specific conditional branching ([#303](https://github.com/plait-board/drawnix/pull/303))
+
+### ❤️  Thank You
+
+- pubuzhixing8 @pubuzhixing8
+
 ## 0.3.0 (2025-09-13)
 
 

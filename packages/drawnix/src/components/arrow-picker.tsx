@@ -16,7 +16,7 @@ export interface ArrowProps {
   pointer: ArrowLineShape;
 }
 
-const ARROWS: ArrowProps[] = [
+export const ARROWS: ArrowProps[] = [
   {
     icon: StraightArrowIcon,
     title: 'toolbar.arrow.straight',

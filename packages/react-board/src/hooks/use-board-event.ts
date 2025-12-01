@@ -30,11 +30,11 @@ const useBoardEvent = (
   );
 
   useEventListener(
-    'touchstart',
+    'contextmenu',
     (event) => {
       event.preventDefault();
     },
-    { target: viewportContainerRef, passive: false }
+    { target: viewportContainerRef }
   );
 
   useEventListener(

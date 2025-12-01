@@ -43,7 +43,23 @@ export default defineConfig({
     },
     rollupOptions: {
       // External packages that should not be bundled into your library.
-      external: ['react', 'react-dom', 'react/jsx-runtime', '@plait/common', '@plait/core', '@plait/draw', '@plait/layouts', '@plait/mind', '@plait/text-plugins', 'ahooks', 'classnames', '@plait-board/react-text', 'roughjs/bin/rough', 'slate-react'],
+      external: [
+        'react',
+        'react-dom',
+        'react-dom/client',
+        'react/jsx-runtime',
+        '@plait/common',
+        '@plait/core',
+        '@plait/draw',
+        '@plait/layouts',
+        '@plait/mind',
+        '@plait/text-plugins',
+        'ahooks',
+        'classnames',
+        '@plait-board/react-text',
+        'roughjs/bin/rough',
+        'slate-react',
+      ],
     },
   },
 });
