@@ -119,6 +119,7 @@ const arTranslations: Translations = {
     "popupToolbar.fontColor": "لون الخط",
     "popupToolbar.link": "إدراج رابط",
     "popupToolbar.stroke": "الحد",
+    'popupToolbar.opacity': 'مستوى شفافية',
 
     // Text placeholders
     "textPlaceholders.link": "رابط",
@@ -163,7 +164,14 @@ const arTranslations: Translations = {
 
     // Mind map elements text
     "mind.centralText": "الموضوع المركزي",
-    "mind.abstractNodeText": "ملخص"
+    "mind.abstractNodeText": "ملخص",
+    
+    'tutorial.title': 'Drawnix',
+    'tutorial.description': 'سبورة شاملة تتضمن الخرائط الذهنية والمخططات الانسيابية والرسم الحر وغير ذلك',
+    'tutorial.dataDescription': 'تُحفظ جميع البيانات محليًا في متصفحك',
+    'tutorial.appToolbar': 'تصدير، إعدادات اللغة، ...',
+    'tutorial.creationToolbar': 'اختر أداة لبدء الإنشاء',
+    'tutorial.themeDescription': 'التبديل بين السمة الفاتحة والداكنة',
 };
 
 export default arTranslations;

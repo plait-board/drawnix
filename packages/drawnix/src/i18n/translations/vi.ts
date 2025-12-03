@@ -122,6 +122,7 @@ const viTranslations: Translations = {
     'popupToolbar.fontColor': 'Màu chữ',
     'popupToolbar.link': 'Chèn liên kết',
     'popupToolbar.stroke': 'Đường viền',
+    'popupToolbar.opacity': 'Độ trong suốt',
 
     // Text placeholders
     'textPlaceholders.link': 'Liên kết',

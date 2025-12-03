@@ -124,6 +124,7 @@ const ruTranslations: Translations = {
   'popupToolbar.fontColor': 'Цвет текста',
   'popupToolbar.link': 'Вставить ссылку',
   'popupToolbar.stroke': 'Контур',
+  'popupToolbar.opacity': 'Прозрачность',
   
   // Text placeholders
   'textPlaceholders.link': 'Ссылка',
@@ -168,6 +169,14 @@ const ruTranslations: Translations = {
   // Mind map elements text
   'mind.centralText': 'Центральная тема',
   'mind.abstractNodeText': 'Резюме',
+  
+  'tutorial.title': 'Drawnix',
+  'tutorial.description':
+    'Универсальная доска: майнд-карты, блок-схемы, свободное рисование и многое другое',
+  'tutorial.dataDescription': 'Все данные хранятся локально в вашем браузере',
+  'tutorial.appToolbar': 'Экспорт, настройки языка, ...',
+  'tutorial.creationToolbar': 'Выберите инструмент, чтобы начать творить',
+  'tutorial.themeDescription': 'Переключение между светлой и тёмной темами',
 };
 
 export default ruTranslations;
