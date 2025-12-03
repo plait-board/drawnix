@@ -4,6 +4,11 @@
     padding: 10px 0px;
     &.disabled {
         opacity: 50%;
+        cursor: not-allowed;
+    
+        .slider-track,.slider-thumb {
+            cursor: not-allowed;
+        }
     }
     .slider-track {
         position: relative;
