@@ -22,15 +22,19 @@
     "@plait/layouts": "^0.92.1",
     "@plait/mind": "^0.92.1",
     "@plait/text-plugins": "^0.92.1",
+    "@types/lodash": "^4.17.21",
     "ahooks": "^3.9.6",
     "browser-fs-access": "^0.35.0",
     "classnames": "^2.5.1",
+    "is-hotkey": "^0.2.0",
     "laser-pen": "^1.0.1",
     "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "mobile-detect": "^1.4.5",
     "open-color": "^1.9.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "roughjs": "^4.6.6",
     "slate": "^0.116.0",
     "slate-dom": "^0.116.0",
     "slate-history": "^0.115.0",
@@ -67,6 +71,7 @@
     "@vitejs/plugin-react": "^4.2.0",
     "@vitest/ui": "^3.0.8",
     "babel-jest": "^29.4.1",
+    "babel-plugin-macros": "^3.1.0",
     "eslint": "~8.57.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "2.27.5",
@@ -85,7 +90,6 @@
     "typescript": "~5.4.2",
     "vite": "^6.2.2",
     "vite-plugin-dts": "^4.5.3",
-    "vitest": "^3.0.8",
-    "babel-plugin-macros": "^3.1.0"
+    "vitest": "^3.0.8"
   }
 }
