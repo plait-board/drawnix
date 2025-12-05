@@ -1,3 +1,23 @@
+## 0.4.0-1 (2025-12-05)
+
+
+### 🚀 Features
+
+- improve i18n ([4e44c7b](https://github.com/plait-board/drawnix/commit/4e44c7b))
+- **export:** support export as svg #278 This pr will support export-as-svg feature, it depend on the `toSvgData` method from `plait/core`. ([#278](https://github.com/plait-board/drawnix/issues/278))
+- **i18n:** add Vietnamese translations for UI elements ([892b627](https://github.com/plait-board/drawnix/commit/892b627))
+
+### 🩹 Fixes
+
+- add "babel-plugin-macros": "^3.1.0" to resolve `npm ci` error in ([2940a09](https://github.com/plait-board/drawnix/commit/2940a09))
+- add tooltip, fix get wrong percentage, change cursor when not allowed ([#318](https://github.com/plait-board/drawnix/pull/318))
+
+### ❤️  Thank You
+
+- Phạm Viết Nghĩa @vigstudio
+- pubuzhixing8 @pubuzhixing8
+- Six
+
 ## 0.4.0-0 (2025-11-10)
 
 
