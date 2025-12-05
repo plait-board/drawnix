@@ -14,7 +14,7 @@
   "private": true,
   "dependencies": {
     "@floating-ui/react": "^0.26.24",
-    "@plait-board/markdown-to-drawnix": "^0.0.7",
+    "@plait-board/markdown-to-drawnix": "^0.0.8",
     "@plait-board/mermaid-to-drawnix": "^0.0.7",
     "@plait/common": "^0.92.1",
     "@plait/core": "^0.92.1",
