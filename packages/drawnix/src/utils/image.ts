@@ -3,17 +3,20 @@ import { base64ToBlob, boardToImage, download } from './common';
 import { fileOpen } from '../data/filesystem';
 import { IMAGE_MIME_TYPES } from '../constants';
 import { insertImage } from '../data/image';
+import { getBackgroundColor, isWhite } from './color';
+import { TRANSPARENT } from '../constants/color';
 
 export const saveAsSvg = (board: PlaitBoard) => {
   const selectedElements = getSelectedElements(board);
+  const backgroundColor = getBackgroundColor(board);
+
   return toSvgData(board, {
-    fillStyle: 'transparent',
+    fillStyle: isWhite(backgroundColor) ? TRANSPARENT : backgroundColor,
     padding: 20,
     ratio: 4,
     elements: selectedElements.length > 0 ? selectedElements : undefined,
     inlineStyleClassNames: '.plait-text-container',
     styleNames: ['position'],
-    
   }).then((svgData) => {
     const blob = new Blob([svgData], { type: 'image/svg+xml' });
     const imageName = `drawnix-${new Date().getTime()}.svg`;
@@ -23,9 +26,10 @@ export const saveAsSvg = (board: PlaitBoard) => {
 
 export const saveAsImage = (board: PlaitBoard, isTransparent: boolean) => {
   const selectedElements = getSelectedElements(board);
+  const backgroundColor = getBackgroundColor(board) || 'white';
   boardToImage(board, {
     elements: selectedElements.length > 0 ? selectedElements : undefined,
-    fillStyle: isTransparent ? 'transparent' : 'white',
+    fillStyle: isTransparent ? 'transparent' : backgroundColor,
   }).then((image) => {
     if (image) {
       const ext = isTransparent ? 'png' : 'jpg';

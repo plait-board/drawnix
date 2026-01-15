@@ -54,7 +54,9 @@ export const OpenFile = () => {
   ) => {
     board.children = value;
     board.viewport = viewport || { zoom: 1 };
-    board.theme = theme || { themeColorMode: ThemeColorMode.default };
+    if (theme) {
+      board.theme = theme;
+    }
     listRender.update(board.children, {
       board: board,
       parent: board,
@@ -67,7 +69,7 @@ export const OpenFile = () => {
       data-testid="open-button"
       onSelect={() => {
         loadFromJSON(board).then((data) => {
-          clearAndLoad(data.elements, data.viewport);
+          clearAndLoad(data.elements, data.viewport, data.theme);
         });
       }}
       icon={OpenFileIcon}
