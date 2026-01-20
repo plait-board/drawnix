@@ -26,6 +26,8 @@ export interface Translations {
   'toolbar.shape.ellipse': string;
   'toolbar.shape.triangle': string;
   'toolbar.shape.terminal': string;
+  'toolbar.shape.noteCurlyLeft': string;
+  'toolbar.shape.noteCurlyRight': string;
   'toolbar.shape.diamond': string;
   'toolbar.shape.parallelogram': string;
   'toolbar.shape.roundRectangle': string;

@@ -22,6 +22,8 @@ const zhTranslations: Translations = {
   'toolbar.shape.ellipse': '圆 — O',
   'toolbar.shape.triangle': '三角形',
   'toolbar.shape.terminal': '椭圆角矩形',
+  'toolbar.shape.noteCurlyLeft': '左花括注释',
+  'toolbar.shape.noteCurlyRight': '右花括注释',
   'toolbar.shape.diamond': '菱形',
   'toolbar.shape.parallelogram': '平行四边形',
   'toolbar.shape.roundRectangle': '圆角矩形',

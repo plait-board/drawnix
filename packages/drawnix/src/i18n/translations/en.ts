@@ -22,6 +22,8 @@ const enTranslations: Translations = {
   'toolbar.shape.ellipse': 'Ellipse — O',
   'toolbar.shape.triangle': 'Triangle',
   'toolbar.shape.terminal': 'Terminal',
+  'toolbar.shape.noteCurlyLeft': 'Curly Note — Left',
+  'toolbar.shape.noteCurlyRight': 'Curly Note — Right',
   'toolbar.shape.diamond': 'Diamond',
   'toolbar.shape.parallelogram': 'Parallelogram',
   'toolbar.shape.roundRectangle': 'Round Rectangle',

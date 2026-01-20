@@ -22,6 +22,8 @@ const ruTranslations: Translations = {
   'toolbar.shape.ellipse': 'Эллипс — O',
   'toolbar.shape.triangle': 'Треугольник',
   'toolbar.shape.terminal': 'Останов',
+  'toolbar.shape.noteCurlyLeft': 'Фигурная заметка — слева',
+  'toolbar.shape.noteCurlyRight': 'Фигурная заметка — справа',
   'toolbar.shape.diamond': 'Ромб',
   'toolbar.shape.parallelogram': 'Параллелограмм',
   'toolbar.shape.roundRectangle': 'Скруглённый прямоугольник',

@@ -10,8 +10,10 @@ import {
   ParallelogramIcon,
   RoundRectangleIcon,
   TerminalIcon,
+  NoteCurlyLeftIcon,
+  NoteCurlyRightIcon,
 } from './icons';
-import { BoardTransforms , PlaitBoard } from '@plait/core';
+import { BoardTransforms, PlaitBoard } from '@plait/core';
 import React from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { BasicShapes, DrawPointerType, FlowchartSymbols } from '@plait/draw';
@@ -47,6 +49,16 @@ export const SHAPES: ShapeProps[] = [
     pointer: FlowchartSymbols.terminal,
   },
   {
+    icon: NoteCurlyRightIcon,
+    title: 'toolbar.shape.noteCurlyRight',
+    pointer: FlowchartSymbols.noteCurlyRight,
+  },
+  {
+    icon: NoteCurlyLeftIcon,
+    title: 'toolbar.shape.noteCurlyLeft',
+    pointer: FlowchartSymbols.noteCurlyLeft,
+  },
+  {
     icon: DiamondIcon,
     title: 'toolbar.shape.diamond',
     pointer: BasicShapes.diamond,
@@ -69,9 +81,7 @@ export type ShapePickerProps = {
   onPointerUp: (pointer: DrawPointerType) => void;
 };
 
-export const ShapePicker: React.FC<ShapePickerProps> = ({
-  onPointerUp,
-}) => {
+export const ShapePicker: React.FC<ShapePickerProps> = ({ onPointerUp }) => {
   const board = useBoard();
   const { t } = useI18n();
   return (
@@ -90,8 +100,12 @@ export const ShapePicker: React.FC<ShapePickerProps> = ({
                     visible={true}
                     selected={PlaitBoard.isPointer(board, shape.pointer)}
                     icon={shape.icon}
-                    title={t((shape.title || 'toolbar.shape') as keyof Translations)}
-                    aria-label={t((shape.title || 'toolbar.shape') as keyof Translations)}
+                    title={t(
+                      (shape.title || 'toolbar.shape') as keyof Translations
+                    )}
+                    aria-label={t(
+                      (shape.title || 'toolbar.shape') as keyof Translations
+                    )}
                     onPointerDown={() => {
                       setCreationMode(board, BoardCreationMode.dnd);
                       BoardTransforms.updatePointerType(board, shape.pointer);

@@ -21,6 +21,8 @@ const arTranslations: Translations = {
     "toolbar.shape.ellipse": "بيضاوي — O",
     "toolbar.shape.triangle": "مثلث",
     "toolbar.shape.terminal": "نهائي",
+    "toolbar.shape.noteCurlyLeft": "ملاحظة معقوفة — يسار",
+    "toolbar.shape.noteCurlyRight": "ملاحظة معقوفة — يمين",
     "toolbar.shape.diamond": "معين",
     "toolbar.shape.parallelogram": "متوازي أضلاع",
     "toolbar.shape.roundRectangle": "مستطيل دائري الحواف",
