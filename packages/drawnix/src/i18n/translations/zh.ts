@@ -117,6 +117,7 @@ const zhTranslations: Translations = {
 
   // Tool popup items
   'popupToolbar.fillColor': '填充颜色',
+  'popupToolbar.fontSize': '字号',
   'popupToolbar.fontColor': '字体颜色',
   'popupToolbar.link': '链接',
   'popupToolbar.stroke': '边框',

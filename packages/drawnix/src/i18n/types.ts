@@ -122,6 +122,7 @@ export interface Translations {
 
   // Tool popup items
   'popupToolbar.fillColor': string;
+  'popupToolbar.fontSize': string;
   'popupToolbar.fontColor': string;
   'popupToolbar.link': string;
   'popupToolbar.stroke': string;

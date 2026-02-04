@@ -118,6 +118,7 @@ const arTranslations: Translations = {
 
     // Tool popup items
     "popupToolbar.fillColor": "لون التعبئة",
+    "popupToolbar.fontSize": "حجم الخط",
     "popupToolbar.fontColor": "لون الخط",
     "popupToolbar.link": "إدراج رابط",
     "popupToolbar.stroke": "الحد",

@@ -121,6 +121,7 @@ const viTranslations: Translations = {
 
     // Tool popup items
     'popupToolbar.fillColor': 'Màu tô',
+    'popupToolbar.fontSize': 'Cỡ chữ',
     'popupToolbar.fontColor': 'Màu chữ',
     'popupToolbar.link': 'Chèn liên kết',
     'popupToolbar.stroke': 'Đường viền',

@@ -123,6 +123,7 @@ const ruTranslations: Translations = {
 
   // Tool popup items
   'popupToolbar.fillColor': 'Цвет заливки',
+  'popupToolbar.fontSize': 'Размер шрифта',
   'popupToolbar.fontColor': 'Цвет текста',
   'popupToolbar.link': 'Вставить ссылку',
   'popupToolbar.stroke': 'Контур',

@@ -120,6 +120,7 @@ const enTranslations: Translations = {
 
   // Tool popup items
   'popupToolbar.fillColor': 'Fill Color',
+  'popupToolbar.fontSize': 'Font Size',
   'popupToolbar.fontColor': 'Font Color',
   'popupToolbar.link': 'Insert Link',
   'popupToolbar.stroke': 'Stroke',
