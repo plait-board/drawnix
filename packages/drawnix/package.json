@@ -17,6 +17,8 @@
       "import": "./index.mjs",
       "require": "./index.js",
       "types": "./index.d.ts"
-    }
+    },
+    "./index.css": "./index.css"
   }
 }
+
