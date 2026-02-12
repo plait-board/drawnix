@@ -1,38 +1,103 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Modal, Input, Button, Form, Typography } from 'antd';
-import { MockAuthService, MockStorageService, BoardData, User } from '../services/mock-service';
+import {
+  Modal,
+  Input,
+  Button,
+  Form,
+  Typography,
+  message,
+  Popconfirm,
+  Empty,
+  Spin,
+  Badge,
+  Dropdown,
+} from 'antd';
+import {
+  PlusOutlined,
+  SearchOutlined,
+  DeleteOutlined,
+  LogoutOutlined,
+  MoreOutlined,
+  ClockCircleOutlined,
+  UserOutlined,
+  SettingOutlined,
+  FolderOutlined,
+  GlobalOutlined,
+  RightOutlined,
+  AppstoreOutlined,
+  UnorderedListOutlined,
+} from '@ant-design/icons';
+import {
+  boardsApi,
+  getStoredUser,
+  removeToken,
+  removeStoredUser,
+  User,
+  Board,
+} from '../../api';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 export const DashboardPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
-  const [myBoards, setMyBoards] = useState<BoardData[]>([]);
-  const [publishedBoards, setPublishedBoards] = useState<BoardData[]>([]);
+  const [myBoards, setMyBoards] = useState<Board[]>([]);
+  const [publishedBoards, setPublishedBoards] = useState<Board[]>([]);
+  const [filteredMyBoards, setFilteredMyBoards] = useState<Board[]>([]);
+  const [filteredPublishedBoards, setFilteredPublishedBoards] = useState<
+    Board[]
+  >([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   useEffect(() => {
-    const currentUser = MockAuthService.getCurrentUser();
+    const currentUser = getStoredUser();
     if (!currentUser) {
       navigate('/login');
       return;
     }
     setUser(currentUser);
-    refreshBoards(currentUser.id);
+    loadBoards();
   }, [navigate]);
 
-  const refreshBoards = (userId: string) => {
-    setMyBoards(MockStorageService.getBoards(userId));
-    setPublishedBoards(MockStorageService.getPublishedBoards().filter(b => b.ownerId !== userId));
+  useEffect(() => {
+    filterBoards();
+  }, [searchQuery, myBoards, publishedBoards]);
+
+  const loadBoards = async () => {
+    try {
+      setPageLoading(true);
+      const response = await boardsApi.getAll();
+      if (response.success && response.data) {
+        setMyBoards(response.data.myBoards);
+        setPublishedBoards(response.data.publishedBoards);
+      }
+    } catch (error: any) {
+      message.error(error.message || 'Failed to load boards');
+    } finally {
+      setPageLoading(false);
+    }
+  };
+
+  const filterBoards = () => {
+    const query = searchQuery.toLowerCase();
+    setFilteredMyBoards(
+      myBoards.filter((board) => board.title.toLowerCase().includes(query))
+    );
+    setFilteredPublishedBoards(
+      publishedBoards.filter((board) =>
+        board.title.toLowerCase().includes(query)
+      )
+    );
   };
 
   const handleCreateBoard = () => {
-    if (user) {
-      setIsModalVisible(true);
-    }
+    setIsModalVisible(true);
   };
 
   const handleModalCancel = () => {
@@ -44,403 +109,574 @@ export const DashboardPage = () => {
     try {
       setLoading(true);
       const values = await form.validateFields();
-      if (user) {
-        const newBoard = MockStorageService.createBoard(user.id, values.title);
+      const response = await boardsApi.create(values.title);
+
+      if (response.success && response.data) {
+        message.success('Board created successfully!');
         setIsModalVisible(false);
         form.resetFields();
-        navigate(`/board/${newBoard.id}`);
+        navigate(`/board/${response.data.board.id}`);
       }
-    } catch (error) {
-      // Form validation failed
+    } catch (error: any) {
+      message.error(error.message || 'Failed to create board');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleDeleteBoard = async (boardId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const response = await boardsApi.delete(boardId);
+      if (response.success) {
+        message.success('Board deleted successfully');
+        loadBoards();
+      }
+    } catch (error: any) {
+      message.error(error.message || 'Failed to delete board');
+    }
+  };
+
   const handleLogout = () => {
-    MockAuthService.logout();
+    removeToken();
+    removeStoredUser();
     navigate('/login');
   };
 
-  const formatDate = (ts: number) => new Date(ts).toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+  const formatDate = (ts: number) => {
+    const date = new Date(ts);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year:
+        date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined,
+    });
+  };
+
+  // Apple 风格 Board 卡片
+  const BoardCard = ({
+    board,
+    isOwner,
+  }: {
+    board: Board;
+    isOwner: boolean;
+  }) => (
+    <div
+      onClick={() => navigate(`/board/${board.id}`)}
+      className="group relative cursor-pointer"
+      style={{
+        background: 'linear-gradient(145deg, #FFFFFF 0%, #FAFAFA 100%)',
+        borderRadius: '20px',
+        border: '1px solid rgba(0, 0, 0, 0.06)',
+        boxShadow:
+          '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)',
+        transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+        overflow: 'hidden',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-4px)';
+        e.currentTarget.style.boxShadow =
+          '0 12px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.04)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow =
+          '0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)';
+      }}
+    >
+      {/* 预览区域 */}
+      <div
+        className="relative h-40 overflow-hidden"
+        style={{
+          background:
+            board.elements.length > 0
+              ? 'linear-gradient(135deg, #F5F5F7 0%, #E8E8ED 100%)'
+              : 'linear-gradient(135deg, #F5F5F7 0%, #EEEEF0 100%)',
+        }}
+      >
+        {/* 装饰元素 */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          {board.elements.length > 0 ? (
+            <div
+              className="w-16 h-16 rounded-2xl flex items-center justify-center"
+              style={{
+                background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',
+                boxShadow: '0 8px 24px rgba(0, 122, 255, 0.3)',
+              }}
+            >
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2"
+              >
+                <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+              </svg>
+            </div>
+          ) : (
+            <div
+              className="w-16 h-16 rounded-2xl flex items-center justify-center"
+              style={{
+                background: 'linear-gradient(135deg, #C7C7CC 0%, #8E8E93 100%)',
+                opacity: 0.3,
+              }}
+            >
+              <PlusOutlined style={{ fontSize: 24, color: 'white' }} />
+            </div>
+          )}
+        </div>
+
+        {/* 元素数量徽章 */}
+        <div
+          className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-medium"
+          style={{
+            background: 'rgba(255, 255, 255, 0.9)',
+            backdropFilter: 'blur(10px)',
+            color: '#1D1D1F',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+          }}
+        >
+          {board.elements.length} items
+        </div>
+
+        {/* 状态标签 */}
+        <div
+          className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold"
+          style={{
+            background:
+              board.status === 'published'
+                ? 'rgba(52, 199, 89, 0.15)'
+                : 'rgba(142, 142, 147, 0.15)',
+            color: board.status === 'published' ? '#34C759' : '#8E8E93',
+            backdropFilter: 'blur(10px)',
+          }}
+        >
+          {board.status === 'published' ? '● Published' : '○ Draft'}
+        </div>
+      </div>
+
+      {/* 内容区域 */}
+      <div className="p-5">
+        <h3
+          className="font-semibold text-lg mb-2 truncate"
+          style={{ color: '#1D1D1F', letterSpacing: '-0.01em' }}
+        >
+          {board.title}
+        </h3>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <ClockCircleOutlined style={{ color: '#86868B', fontSize: 14 }} />
+            <span style={{ color: '#86868B', fontSize: 14 }}>
+              {formatDate(board.last_modified)}
+            </span>
+          </div>
+
+          {isOwner && (
+            <Popconfirm
+              title="Delete Board"
+              description="Are you sure you want to delete this board?"
+              onConfirm={(e) => handleDeleteBoard(board.id, e as any)}
+              okText="Delete"
+              cancelText="Cancel"
+              okButtonProps={{ danger: true }}
+            >
+              <button
+                onClick={(e) => e.stopPropagation()}
+                className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-2 rounded-full hover:bg-red-50"
+              >
+                <DeleteOutlined style={{ color: '#FF3B30' }} />
+              </button>
+            </Popconfirm>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  if (pageLoading) {
+    return (
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: '#F5F5F7' }}
+      >
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      backgroundColor: '#f4f6f9',
-      fontFamily: "'Inter', sans-serif",
-      color: '#333'
-    }}>
-      {/* Header */}
-      <header style={{
-        backgroundColor: '#fff',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-        padding: '1rem 2rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div style={{ 
-            width: '40px', 
-            height: '40px', 
-            borderRadius: '8px', 
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontWeight: 'bold',
-            fontSize: '1.2rem'
-          }}>D</div>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: '700', margin: 0, color: '#2d3748' }}>Drawnix</h1>
-        </div>
-        
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <button 
-            onClick={() => navigate('/admin')}
-            style={{
-              padding: '0.5rem 1rem',
-              border: '1px solid #cbd5e0',
-              borderRadius: '6px',
-              backgroundColor: 'transparent',
-              color: '#4a5568',
-              cursor: 'pointer',
-              fontWeight: '500',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#edf2f7';
-              e.currentTarget.style.borderColor = '#a0aec0';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.borderColor = '#cbd5e0';
-            }}
-          >
-            Admin
-          </button>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <div style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              backgroundColor: '#e2e8f0',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#4a5568',
-              fontWeight: '600'
-            }}>
-              {user?.username.charAt(0)}
+    <div className="min-h-screen" style={{ background: '#F5F5F7' }}>
+      {/* 顶部导航 - Apple 风格 */}
+      <header
+        className="sticky top-0 z-50 px-6 py-4"
+        style={{
+          background: 'rgba(255, 255, 255, 0.72)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
+        }}
+      >
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center"
+              style={{
+                background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',
+                boxShadow: '0 4px 12px rgba(0, 122, 255, 0.25)',
+              }}
+            >
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2"
+              >
+                <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+              </svg>
             </div>
-            <span style={{ fontWeight: '500', color: '#4a5568' }}>{user?.username}</span>
+            <span
+              className="text-xl font-semibold"
+              style={{ color: '#1D1D1F', letterSpacing: '-0.02em' }}
+            >
+              Drawnix
+            </span>
           </div>
-          <button 
-            onClick={handleLogout} 
-            style={{
-              padding: '0.5rem 1rem',
-              border: '1px solid #cbd5e0',
-              borderRadius: '6px',
-              backgroundColor: 'transparent',
-              color: '#4a5568',
-              cursor: 'pointer',
-              fontWeight: '500',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#edf2f7';
-              e.currentTarget.style.borderColor = '#a0aec0';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.borderColor = '#cbd5e0';
-            }}
-          >
-            Logout
-          </button>
+
+          {/* 搜索框 */}
+          <div className="flex-1 max-w-md mx-8">
+            <div className="relative">
+              <SearchOutlined
+                className="absolute left-4 top-1/2 transform -translate-y-1/2"
+                style={{ color: '#86868B', fontSize: 18 }}
+              />
+              <Input
+                placeholder="Search boards..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  height: '44px',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(0,0,0,0.08)',
+                  backgroundColor: 'rgba(0,0,0,0.04)',
+                  paddingLeft: '44px',
+                  fontSize: '15px',
+                  transition: 'all 0.2s ease',
+                }}
+                onFocus={(e) => {
+                  e.target.style.backgroundColor = 'rgba(0,0,0,0.06)';
+                  e.target.style.borderColor = 'rgba(0,122,255,0.3)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.backgroundColor = 'rgba(0,0,0,0.04)';
+                  e.target.style.borderColor = 'rgba(0,0,0,0.08)';
+                }}
+              />
+            </div>
+          </div>
+
+          {/* 右侧用户菜单 */}
+          <div className="flex items-center gap-3">
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={handleCreateBoard}
+              style={{
+                height: '40px',
+                borderRadius: '10px',
+                fontWeight: 500,
+                background: '#007AFF',
+                border: 'none',
+                boxShadow: '0 2px 8px rgba(0, 122, 255, 0.25)',
+              }}
+            >
+              New Board
+            </Button>
+
+            <Dropdown
+              menu={{
+                items: [
+                  {
+                    key: 'admin',
+                    icon: <SettingOutlined />,
+                    label: 'Admin Panel',
+                    onClick: () => navigate('/admin'),
+                  },
+                  {
+                    key: 'logout',
+                    icon: <LogoutOutlined />,
+                    label: 'Sign Out',
+                    danger: true,
+                    onClick: handleLogout,
+                  },
+                ],
+              }}
+              placement="bottomRight"
+            >
+              <button className="flex items-center gap-2 px-3 py-2 rounded-xl transition-colors hover:bg-black/5">
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-white font-medium text-sm"
+                  style={{
+                    background:
+                      'linear-gradient(135deg, #5856D6 0%, #AF52DE 100%)',
+                  }}
+                >
+                  {user?.username.charAt(0).toUpperCase()}
+                </div>
+              </button>
+            </Dropdown>
+          </div>
         </div>
       </header>
 
-      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
-        {/* My Boards Section */}
-        <section style={{ marginBottom: '3rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#2d3748', margin: 0 }}>我的黑板</h2>
-            <button 
-              onClick={handleCreateBoard}
-              style={{ 
-                padding: '0.75rem 1.5rem', 
-                backgroundColor: '#3498db', 
-                color: 'white', 
-                border: 'none', 
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: '600',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                boxShadow: '0 4px 6px rgba(52, 152, 219, 0.25)',
-                transition: 'transform 0.1s, box-shadow 0.2s'
-              }}
-              onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.98)'}
-              onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>+</span> 创建新黑板
-            </button>
-          </div>
+      {/* 主内容区域 */}
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        {/* 欢迎区域 */}
+        <div className="mb-10">
+          <h1
+            className="text-3xl font-bold mb-2"
+            style={{ color: '#1D1D1F', letterSpacing: '-0.02em' }}
+          >
+            Good{' '}
+            {new Date().getHours() < 12
+              ? 'morning'
+              : new Date().getHours() < 18
+              ? 'afternoon'
+              : 'evening'}
+            , {user?.username}
+          </h1>
+          <p style={{ color: '#6E6E73', fontSize: '17px' }}>
+            Here's what's happening with your boards
+          </p>
+        </div>
 
-          {myBoards.length === 0 ? (
-            <div style={{ 
-              backgroundColor: 'white', 
-              borderRadius: '12px', 
-              padding: '3rem', 
-              textAlign: 'center',
-              border: '1px dashed #cbd5e0'
-            }}>
-              <p style={{ color: '#a0aec0', fontSize: '1.1rem', marginBottom: '1rem' }}>You haven't created any boards yet.</p>
-              <button 
-                onClick={handleCreateBoard}
-                style={{ color: '#3498db', fontWeight: '600', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem' }}
+        {/* 我的黑板区域 */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <h2
+                className="text-xl font-semibold"
+                style={{ color: '#1D1D1F' }}
               >
-                Create your first board
+                My Boards
+              </h2>
+              <Badge
+                count={myBoards.length}
+                style={{
+                  backgroundColor: 'rgba(0,0,0,0.06)',
+                  color: '#6E6E73',
+                  fontWeight: 500,
+                }}
+              />
+            </div>
+
+            {/* 视图切换 */}
+            <div
+              className="flex items-center p-1 rounded-lg"
+              style={{ background: 'rgba(0,0,0,0.04)' }}
+            >
+              <button
+                onClick={() => setViewMode('grid')}
+                className="p-2 rounded-md transition-all"
+                style={{
+                  background: viewMode === 'grid' ? 'white' : 'transparent',
+                  boxShadow:
+                    viewMode === 'grid' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                }}
+              >
+                <AppstoreOutlined
+                  style={{ color: viewMode === 'grid' ? '#007AFF' : '#86868B' }}
+                />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className="p-2 rounded-md transition-all"
+                style={{
+                  background: viewMode === 'list' ? 'white' : 'transparent',
+                  boxShadow:
+                    viewMode === 'list' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                }}
+              >
+                <UnorderedListOutlined
+                  style={{ color: viewMode === 'list' ? '#007AFF' : '#86868B' }}
+                />
               </button>
             </div>
-          ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
-              {myBoards.map(board => (
-                <div 
-                  key={board.id} 
-                  onClick={() => navigate(`/board/${board.id}`)}
-                  style={{ 
-                    backgroundColor: 'white',
-                    borderRadius: '12px',
-                    padding: '1.5rem',
-                    cursor: 'pointer',
-                    boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
-                    border: '1px solid transparent',
-                    transition: 'transform 0.2s, box-shadow 0.2s, border-color 0.2s',
-                    position: 'relative',
-                    overflow: 'hidden'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 8px 15px rgba(0,0,0,0.1)';
-                    e.currentTarget.style.borderColor = '#e2e8f0';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 2px 5px rgba(0,0,0,0.05)';
-                    e.currentTarget.style.borderColor = 'transparent';
+          </div>
+
+          {filteredMyBoards.length === 0 ? (
+            <Empty
+              description={
+                searchQuery
+                  ? 'No boards match your search'
+                  : 'Create your first board to get started'
+              }
+              className="py-16"
+              image={
+                <div
+                  className="w-24 h-24 mx-auto mb-4 rounded-2xl flex items-center justify-center"
+                  style={{
+                    background:
+                      'linear-gradient(135deg, #F5F5F7 0%, #E5E5E5 100%)',
                   }}
                 >
-                  <div style={{ 
-                    width: '100%', 
-                    height: '140px', 
-                    backgroundColor: '#f7fafc', 
-                    borderRadius: '8px', 
-                    marginBottom: '1rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    {/* Placeholder for thumbnail */}
-                    <div style={{ fontSize: '2rem', opacity: 0.2 }}>🎨</div>
-                  </div>
-                  
-                  <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.1rem', fontWeight: '600', color: '#2d3748', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {board.title}
-                  </h3>
-                  
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
-                    <span style={{ 
-                      fontSize: '0.75rem', 
-                      padding: '0.25rem 0.75rem', 
-                      borderRadius: '999px',
-                      fontWeight: '600',
-                      backgroundColor: board.status === 'published' ? '#def7ec' : '#fffaf0',
-                      color: board.status === 'published' ? '#03543f' : '#9c4221'
-                    }}>
-                      {board.status === 'published' ? 'Published' : 'Draft'}
-                    </span>
-                    <span style={{ fontSize: '0.8rem', color: '#a0aec0' }}>
-                      {formatDate(board.lastModified).split(',')[0]}
-                    </span>
-                  </div>
+                  <FolderOutlined style={{ fontSize: 40, color: '#C7C7CC' }} />
                 </div>
+              }
+            >
+              {!searchQuery && (
+                <Button
+                  type="primary"
+                  onClick={handleCreateBoard}
+                  style={{
+                    height: '44px',
+                    borderRadius: '12px',
+                    background: '#007AFF',
+                  }}
+                >
+                  Create your first board
+                </Button>
+              )}
+            </Empty>
+          ) : (
+            <div
+              className={`grid gap-5 ${
+                viewMode === 'grid'
+                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                  : 'grid-cols-1'
+              }`}
+            >
+              {filteredMyBoards.map((board) => (
+                <BoardCard key={board.id} board={board} isOwner={true} />
               ))}
             </div>
           )}
-        </section>
+        </div>
 
-        {/* Community Boards Section */}
-        <section>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#2d3748', marginBottom: '1.5rem' }}>社区黑板</h2>
-          
-          {publishedBoards.length === 0 ? (
-            <div style={{ 
-              backgroundColor: 'white', 
-              borderRadius: '12px', 
-              padding: '3rem', 
-              textAlign: 'center',
-              border: '1px dashed #cbd5e0'
-            }}>
-              <p style={{ color: '#a0aec0' }}>暂无其他用户发布的黑板。</p>
+        {/* 社区黑板区域 */}
+        {filteredPublishedBoards.length > 0 && (
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <h2
+                className="text-xl font-semibold"
+                style={{ color: '#1D1D1F' }}
+              >
+                Community Boards
+              </h2>
+              <Badge
+                count={filteredPublishedBoards.length}
+                style={{
+                  backgroundColor: 'rgba(0,0,0,0.06)',
+                  color: '#6E6E73',
+                  fontWeight: 500,
+                }}
+              />
             </div>
-          ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
-              {publishedBoards.map(board => (
-                <div 
-                  key={board.id} 
-                  onClick={() => navigate(`/board/${board.id}`)}
-                  style={{ 
-                    backgroundColor: 'white',
-                    borderRadius: '12px',
-                    padding: '1.5rem',
-                    cursor: 'pointer',
-                    boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
-                    border: '1px solid transparent',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 8px 15px rgba(0,0,0,0.1)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 2px 5px rgba(0,0,0,0.05)';
-                  }}
-                >
-                  <div style={{ 
-                    width: '100%', 
-                    height: '140px', 
-                    backgroundColor: '#edf2f7', 
-                    borderRadius: '8px', 
-                    marginBottom: '1rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                     <div style={{ fontSize: '2rem', opacity: 0.3 }}>🌍</div>
-                  </div>
 
-                  <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.1rem', fontWeight: '600', color: '#2d3748' }}>
-                    {board.title}
-                  </h3>
-                  
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#cbd5e0', fontSize: '0.7rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                       U
-                    </div>
-                    <span style={{ fontSize: '0.85rem', color: '#718096' }}>Owner ID: {board.ownerId.substring(0, 6)}...</span>
-                  </div>
-
-                  <div style={{ borderTop: '1px solid #edf2f7', paddingTop: '0.75rem', display: 'flex', justifyContent: 'flex-end' }}>
-                     <span style={{ fontSize: '0.8rem', color: '#a0aec0' }}>
-                      Updated {formatDate(board.lastModified).split(',')[0]}
-                    </span>
-                  </div>
-                </div>
+            <div
+              className={`grid gap-5 ${
+                viewMode === 'grid'
+                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                  : 'grid-cols-1'
+              }`}
+            >
+              {filteredPublishedBoards.map((board) => (
+                <BoardCard key={board.id} board={board} isOwner={false} />
               ))}
             </div>
-          )}
-        </section>
+          </div>
+        )}
       </main>
 
-      {/* Custom Modal for Creating New Board */}
+      {/* 创建 Board Modal - Apple 风格 */}
       <Modal
-        title={<Title level={4} style={{ margin: 0, color: '#2d3748', fontWeight: 600 }}>创建新黑板</Title>}
         open={isModalVisible}
-        onOk={handleModalOk}
         onCancel={handleModalCancel}
         footer={null}
-        width={500}
+        width={480}
         centered
-        styles={{
-          header: { borderBottom: '1px solid #f0f2f5', padding: '20px 24px' },
-          body: { padding: '24px' },
-          footer: { borderTop: '1px solid #f0f2f5', padding: '16px 24px' },
-          content: { borderRadius: '12px' },
-        }}
+        className="apple-modal"
       >
-        <Form
-          form={form}
-          layout="vertical"
-          initialValues={{ title: '' }}
-        >
-          <Form.Item
-            name="title"
-            label={<span style={{ color: '#4a5568', fontWeight: 500, fontSize: '14px' }}>黑板标题</span>}
-            rules={[
-              { required: true, message: '请输入黑板标题!' },
-              { min: 2, message: '标题必须至少包含 2 个字符!' },
-              { max: 50, message: '标题最多包含 50 个字符!' }
-            ]}
-            colon={false}
-            style={{ marginBottom: 24 }}
+        <div className="p-2">
+          <h2
+            className="text-2xl font-bold mb-2"
+            style={{ color: '#1D1D1F', letterSpacing: '-0.02em' }}
           >
-            <Input
-              placeholder="输入黑板标题..."
-              size="large"
-              style={{
-                borderRadius: '8px',
-                border: '1px solid #e2e8f0',
-                height: '44px',
-                fontSize: '16px',
-                '&:hover': {
-                  borderColor: '#cbd5e0',
-                },
-                '&:focus': {
-                  borderColor: '#667eea',
-                  boxShadow: '0 0 0 2px rgba(102, 126, 234, 0.2)',
-                },
-              }}
-            />
-          </Form.Item>
+            Create New Board
+          </h2>
+          <p className="mb-8" style={{ color: '#6E6E73' }}>
+            Start with a blank canvas and bring your ideas to life
+          </p>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: 20 }}>
-            <Button
-              onClick={handleModalCancel}
-              size="large"
-              style={{
-                borderRadius: '8px',
-                padding: '0 24px',
-                height: '44px',
-                borderColor: '#e2e8f0',
-                color: '#4a5568',
-                fontWeight: 500,
-              }}
-            >
-              取消
-            </Button>
-            <Button
-              type="primary"
-              onClick={handleModalOk}
-              loading={loading}
-              size="large"
-              style={{
-                borderRadius: '8px',
-                padding: '0 24px',
-                height: '44px',
-                backgroundColor: '#667eea',
-                borderColor: '#667eea',
-                fontWeight: 500,
-                '&:hover': {
-                  backgroundColor: '#5a67d8',
-                  borderColor: '#5a67d8',
+          <Form form={form} layout="vertical">
+            <Form.Item
+              name="title"
+              label={
+                <span style={{ color: '#1D1D1F', fontWeight: 500 }}>
+                  Board Name
+                </span>
+              }
+              rules={[
+                {
+                  required: true,
+                  message: 'Please enter a name for your board',
                 },
-              }}
+                { min: 2, message: 'Name must be at least 2 characters' },
+                { max: 50, message: 'Name must be less than 50 characters' },
+              ]}
             >
-              创建黑板
-            </Button>
-          </div>
-        </Form>
+              <Input
+                placeholder="e.g., Project Ideas, Meeting Notes..."
+                size="large"
+                style={{
+                  height: '52px',
+                  borderRadius: '12px',
+                  border: '1px solid #E5E5E5',
+                  fontSize: '16px',
+                }}
+              />
+            </Form.Item>
+
+            <div className="flex gap-3 mt-8">
+              <Button
+                onClick={handleModalCancel}
+                size="large"
+                style={{
+                  flex: 1,
+                  height: '48px',
+                  borderRadius: '12px',
+                  border: '1px solid #E5E5E5',
+                  fontWeight: 500,
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="primary"
+                onClick={handleModalOk}
+                loading={loading}
+                size="large"
+                style={{
+                  flex: 1,
+                  height: '48px',
+                  borderRadius: '12px',
+                  background: '#007AFF',
+                  fontWeight: 500,
+                  border: 'none',
+                }}
+              >
+                Create Board
+              </Button>
+            </div>
+          </Form>
+        </div>
       </Modal>
     </div>
   );

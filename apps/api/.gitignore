@@ -1,0 +1,11 @@
+node_modules/
+dist/
+data/
+*.db
+.env
+.DS_Store
+*.log
+uploads/boards/*
+!uploads/boards/.gitkeep
+uploads/avatars/*
+!uploads/avatars/.gitkeep

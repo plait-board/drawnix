@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import tailwindcss from '@tailwindcss/postcss';
 
 export default defineConfig({
   root: __dirname,
@@ -19,10 +20,11 @@ export default defineConfig({
 
   plugins: [react(), nxViteTsPaths()],
 
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
+  css: {
+    postcss: {
+      plugins: [tailwindcss()],
+    },
+  },
 
   build: {
     outDir: '../../dist/apps/web',

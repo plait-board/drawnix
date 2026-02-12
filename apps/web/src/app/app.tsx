@@ -4,10 +4,6 @@ import { LoginPage } from './pages/login-page';
 import { DashboardPage } from './pages/dashboard-page';
 import { BoardPage } from './pages/board-page';
 import { AdminPage } from './pages/admin-page';
-import { MockStorageService } from './services/mock-service';
-
-// Initialize mock data
-MockStorageService.init();
 
 export function App() {
   return (

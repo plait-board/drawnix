@@ -1,33 +1,158 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import 'tailwindcss-animated';
+@import './styles/design-system.css';
 
-/* You can add global styles to this file, and also import other style files */
-body {
-    margin: 0;
-    padding: 0;
-}
+/* 全局样式 */
 html,
 body {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: var(--font-family);
+  background-color: var(--color-bg);
 }
+
 #root {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
-.drawnix-console {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    height: 200px;
-    width: 100px;
-    overflow: auto;
-    background-color: black;
-    color: white;
-    padding: 8px;
-    opacity: 0.5;
+
+/* 覆盖 Ant Design 默认样式以匹配 Apple 风格 */
+.ant-btn {
+  font-family: var(--font-family);
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+}
+
+.ant-btn-primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.ant-btn-primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.ant-input {
+  font-family: var(--font-family);
+  border-radius: var(--radius-md);
+  border-color: var(--color-border);
+  transition: all var(--transition-fast);
+}
+
+.ant-input:focus,
+.ant-input-focused {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px var(--color-primary-light);
+}
+
+.ant-card {
+  font-family: var(--font-family);
+  border-radius: var(--radius-lg);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+.ant-table {
+  font-family: var(--font-family);
+}
+
+.ant-table-thead > tr > th {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+}
+
+.ant-message {
+  font-family: var(--font-family);
+}
+
+.ant-modal {
+  font-family: var(--font-family);
+}
+
+.ant-modal-content {
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+}
+
+.ant-select {
+  font-family: var(--font-family);
+}
+
+.ant-select-selector {
+  border-radius: var(--radius-md) !important;
+}
+
+.ant-tag {
+  font-family: var(--font-family);
+  border-radius: var(--radius-sm);
+}
+
+.ant-badge {
+  font-family: var(--font-family);
+}
+
+.ant-statistic {
+  font-family: var(--font-family);
+}
+
+.ant-statistic-title {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+.ant-statistic-content {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* 自定义动画延迟 */
+.animation-delay-1000 {
+  animation-delay: 1000ms;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2000ms;
+}
+
+.animation-delay-3000 {
+  animation-delay: 3000ms;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4000ms;
+}
+
+/* 背景模糊效果 */
+.backdrop-blur-apple {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* 渐变文字 */
+.gradient-text {
+  background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 网格背景 */
+.grid-bg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* 点状背景 */
+.dots-bg {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
 }

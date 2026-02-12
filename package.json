@@ -7,6 +7,8 @@
     "build": "nx run-many -t=build",
     "lint": "nx run-many --target=lint --all --fix",
     "build:web": "nx build web",
+    "preview:web": "nx preview web", 
+    "preview": "nx run-many -t=preview",
     "test": "nx run-many -t=test",
     "release": "node scripts/release-version.js",
     "pub": "npm run build && node scripts/publish.js"

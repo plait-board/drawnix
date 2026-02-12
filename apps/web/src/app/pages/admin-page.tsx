@@ -1,375 +1,733 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Layout, 
-  Menu, 
-  Card, 
-  Table, 
-  Button, 
-  Switch, 
-  Typography, 
-  Space, 
-  Select, 
-  Tag, 
-  Avatar, 
-  Divider, 
-  ConfigProvider
+import {
+  Layout,
+  Card,
+  Table,
+  Button,
+  Typography,
+  Tag,
+  Avatar,
+  Statistic,
+  Popconfirm,
+  message,
+  Spin,
+  Badge,
+  ConfigProvider,
+  theme,
+  Dropdown,
 } from 'antd';
-import { 
-  DashboardOutlined, 
-  UserOutlined, 
-  FileTextOutlined, 
-  LogoutOutlined, 
-  EyeOutlined, 
-  EyeInvisibleOutlined, 
-  DeleteOutlined, 
-  EditOutlined 
+import {
+  DashboardOutlined,
+  TeamOutlined,
+  AppstoreOutlined,
+  FileImageOutlined,
+  LogoutOutlined,
+  EyeOutlined,
+  DeleteOutlined,
+  ArrowLeftOutlined,
+  CrownOutlined,
+  SettingOutlined,
+  FileTextOutlined,
+  GlobalOutlined,
+  MoreOutlined,
 } from '@ant-design/icons';
-import { MockAuthService, MockStorageService, BoardData, User } from '../services/mock-service';
+import {
+  adminApi,
+  getStoredUser,
+  removeToken,
+  removeStoredUser,
+  User,
+  Board,
+} from '../../api';
 
 const { Header, Content, Sider } = Layout;
 const { Title, Text } = Typography;
-const { Option } = Select;
-
-// 布局类型
-const LayoutMode = {
-  LIST: 'list',
-  CARD: 'card'
-} as const;
 
 export const AdminPage = () => {
   const navigate = useNavigate();
-  const [collapsed, setCollapsed] = useState(false);
-  const [activeMenu, setActiveMenu] = useState('users');
-  const [users, setUsers] = useState<User[]>([]);
-  const [boards, setBoards] = useState<BoardData[]>([]);
-  const [layoutMode, setLayoutMode] = useState<'list' | 'card'>(LayoutMode.LIST);
+  const [activeMenu, setActiveMenu] = useState('dashboard');
+  const [users, setUsers] = useState<(User & { board_count: number })[]>([]);
+  const [boards, setBoards] = useState<Board[]>([]);
+  const [stats, setStats] = useState({
+    users: 0,
+    boards: 0,
+    publishedBoards: 0,
+    attachments: 0,
+  });
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // 检查认证
   useEffect(() => {
-    const user = MockAuthService.getCurrentUser();
+    const user = getStoredUser();
     if (!user) {
       navigate('/login');
       return;
     }
+    if (user.role !== 'admin') {
+      message.error('Admin access required');
+      navigate('/dashboard');
+      return;
+    }
     setCurrentUser(user);
-    loadData();
+    loadAllData();
   }, [navigate]);
 
-  // 加载数据
-  const loadData = () => {
-    // 加载用户数据
-    const usersJson = localStorage.getItem('drawnix_users');
-    const usersData = usersJson ? JSON.parse(usersJson) : [
-      { id: 'user-a', username: '123', password: '123', role: 'user' },
-      { id: 'user-b', username: 'userb', password: 'password123', role: 'user' },
-    ];
-    setUsers(usersData);
-
-    // 加载黑板数据
-    const boardsData = MockStorageService.getBoards();
-    setBoards(boardsData);
+  const loadAllData = async () => {
+    setLoading(true);
+    try {
+      await Promise.all([loadStats(), loadUsers(), loadBoards()]);
+    } catch (error: any) {
+      message.error(error.message || 'Failed to load data');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // 用户列表列定义
+  const loadStats = async () => {
+    const response = await adminApi.getStats();
+    if (response.success && response.data) {
+      setStats(response.data);
+    }
+  };
+
+  const loadUsers = async () => {
+    const response = await adminApi.getUsers();
+    if (response.success && response.data) {
+      setUsers(response.data.users);
+    }
+  };
+
+  const loadBoards = async () => {
+    const response = await adminApi.getBoards();
+    if (response.success && response.data) {
+      setBoards(response.data.boards);
+    }
+  };
+
+  const handleDeleteBoard = async (boardId: string) => {
+    try {
+      const response = await adminApi.deleteBoard(boardId);
+      if (response.success) {
+        message.success('Board deleted successfully');
+        loadBoards();
+        loadStats();
+      }
+    } catch (error: any) {
+      message.error(error.message || 'Failed to delete board');
+    }
+  };
+
+  const handleChangeRole = async (
+    userId: string,
+    newRole: 'user' | 'admin'
+  ) => {
+    try {
+      const response = await adminApi.updateUserRole(userId, newRole);
+      if (response.success) {
+        message.success('Role updated successfully');
+        loadUsers();
+      }
+    } catch (error: any) {
+      message.error(error.message || 'Failed to update role');
+    }
+  };
+
+  const handleLogout = () => {
+    removeToken();
+    removeStoredUser();
+    navigate('/login');
+  };
+
+  const formatDate = (ts: number) =>
+    new Date(ts).toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+
+  // Apple 风格统计卡片
+  const StatCard = ({
+    title,
+    value,
+    icon,
+    gradient,
+  }: {
+    title: string;
+    value: number;
+    icon: React.ReactNode;
+    gradient: string;
+  }) => (
+    <div
+      className="relative overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02]"
+      style={{
+        background: 'linear-gradient(145deg, #FFFFFF 0%, #FAFAFA 100%)',
+        border: '1px solid rgba(0, 0, 0, 0.06)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.04)',
+      }}
+    >
+      <div
+        className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-20"
+        style={{
+          background: gradient,
+          filter: 'blur(40px)',
+          transform: 'translate(20%, -20%)',
+        }}
+      />
+      <div className="relative z-10">
+        <div
+          className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+          style={{
+            background: gradient,
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+          }}
+        >
+          <span style={{ color: 'white', fontSize: 20 }}>{icon}</span>
+        </div>
+        <div
+          className="text-3xl font-bold mb-1"
+          style={{ color: '#1D1D1F', letterSpacing: '-0.02em' }}
+        >
+          {value.toLocaleString()}
+        </div>
+        <div style={{ color: '#6E6E73', fontSize: 14 }}>{title}</div>
+      </div>
+    </div>
+  );
+
   const userColumns = [
     {
-      title: 'Avatar',
-      dataIndex: 'username',
-      key: 'avatar',
-      render: (text: string) => {
-        return (
-          <Avatar size="large" style={{ backgroundColor: '#667eea' }}>
-            {text.charAt(0).toUpperCase()}
+      title: 'User',
+      key: 'user',
+      render: (_: any, record: User) => (
+        <div className="flex items-center gap-3">
+          <Avatar
+            size={44}
+            style={{
+              background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',
+              fontWeight: 600,
+            }}
+          >
+            {record.username.charAt(0).toUpperCase()}
           </Avatar>
-        );
-      },
-    },
-    {
-      title: 'Username',
-      dataIndex: 'username',
-      key: 'username',
-      render: (text: string) => {
-        return <Text strong>{text}</Text>;
-      },
+          <div>
+            <div className="font-semibold" style={{ color: '#1D1D1F' }}>
+              {record.username}
+            </div>
+            <div style={{ color: '#86868B', fontSize: 13 }}>
+              ID: {record.id.slice(0, 8)}...
+            </div>
+          </div>
+        </div>
+      ),
     },
     {
       title: 'Role',
       dataIndex: 'role',
       key: 'role',
-      render: (role: string) => {
-        return (
-          <Tag color={role === 'admin' ? 'green' : 'blue'}>
-            {role.toUpperCase()}
-          </Tag>
-        );
-      },
+      width: 120,
+      render: (role: string, record: User) => (
+        <button
+          onClick={() =>
+            handleChangeRole(record.id, role === 'admin' ? 'user' : 'admin')
+          }
+          className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
+          style={{
+            background:
+              role === 'admin'
+                ? 'linear-gradient(135deg, #FFD60A 0%, #FF9F0A 100%)'
+                : 'rgba(0,0,0,0.06)',
+            color: role === 'admin' ? '#1D1D1F' : '#6E6E73',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+        >
+          {role === 'admin' ? '👑 Admin' : '👤 User'}
+        </button>
+      ),
     },
     {
-      title: 'Actions',
-      key: 'actions',
-      render: (_, record: User) => {
-        return (
-          <Space size="middle">
-            <Button type="text" size="small" icon={<EditOutlined />}>
-              Edit
-            </Button>
-            <Button type="text" size="small" danger icon={<DeleteOutlined />}>
-              Delete
-            </Button>
-          </Space>
-        );
-      },
+      title: 'Boards',
+      dataIndex: 'board_count',
+      key: 'board_count',
+      width: 100,
+      align: 'center' as const,
+      render: (count: number) => (
+        <span
+          className="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold"
+          style={{
+            background: 'rgba(0, 122, 255, 0.1)',
+            color: '#007AFF',
+          }}
+        >
+          {count}
+        </span>
+      ),
+    },
+    {
+      title: 'Joined',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      width: 150,
+      render: (date: string) => (
+        <span style={{ color: '#6E6E73' }}>
+          {new Date(date).toLocaleDateString()}
+        </span>
+      ),
     },
   ];
 
-  // 黑板列表列定义
   const boardColumns = [
     {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
-      render: (text: string) => {
-        return <Text strong>{text}</Text>;
-      },
+      title: 'Board',
+      key: 'board',
+      render: (_: any, record: Board) => (
+        <div>
+          <div
+            className="font-semibold flex items-center gap-2"
+            style={{ color: '#1D1D1F' }}
+          >
+            <span
+              className="w-2 h-2 rounded-full"
+              style={{
+                background:
+                  record.elements.length > 0
+                    ? 'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)'
+                    : '#C7C7CC',
+              }}
+            />
+            {record.title}
+          </div>
+          <div style={{ color: '#86868B', fontSize: 13, marginTop: 4 }}>
+            ID: {record.id.slice(0, 8)}...
+          </div>
+        </div>
+      ),
     },
     {
       title: 'Owner',
-      dataIndex: 'ownerId',
       key: 'owner',
-      render: (ownerId: string) => {
-        return <Text>{ownerId.substring(0, 8)}...</Text>;
-      },
+      render: (_: any, record: Board) => (
+        <div className="flex items-center gap-2">
+          <Avatar
+            size="small"
+            style={{
+              background: 'linear-gradient(135deg, #5856D6 0%, #AF52DE 100%)',
+            }}
+          >
+            {record.owner_name?.charAt(0).toUpperCase()}
+          </Avatar>
+          <span style={{ color: '#1D1D1F' }}>{record.owner_name}</span>
+        </div>
+      ),
     },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: (status: string) => {
-        return (
-          <Tag color={status === 'published' ? 'green' : 'orange'}>
-            {status.toUpperCase()}
-          </Tag>
-        );
-      },
+      width: 120,
+      render: (status: string) => (
+        <span
+          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+          style={{
+            background:
+              status === 'published'
+                ? 'rgba(52, 199, 89, 0.1)'
+                : 'rgba(142, 142, 147, 0.1)',
+            color: status === 'published' ? '#34C759' : '#8E8E93',
+          }}
+        >
+          <span
+            className="w-1.5 h-1.5 rounded-full"
+            style={{
+              background: status === 'published' ? '#34C759' : '#8E8E93',
+            }}
+          />
+          {status.charAt(0).toUpperCase() + status.slice(1)}
+        </span>
+      ),
+    },
+    {
+      title: 'Elements',
+      dataIndex: 'elements',
+      key: 'elements',
+      width: 100,
+      align: 'center' as const,
+      render: (elements: any[]) => (
+        <span style={{ color: '#6E6E73', fontWeight: 500 }}>
+          {elements.length}
+        </span>
+      ),
     },
     {
       title: 'Last Modified',
-      dataIndex: 'lastModified',
-      key: 'lastModified',
-      render: (time: number) => {
-        return (
-          <Text type="secondary">
-            {new Date(time).toLocaleDateString()}
-          </Text>
-        );
-      },
+      dataIndex: 'last_modified',
+      key: 'last_modified',
+      width: 150,
+      render: (time: number) => (
+        <span style={{ color: '#6E6E73' }}>{formatDate(time)}</span>
+      ),
     },
     {
       title: 'Actions',
       key: 'actions',
-      render: (_, record: BoardData) => {
-        return (
-          <Space size="middle">
-            <Button 
-              type="primary" 
-              size="small" 
-              icon={<EyeOutlined />}
-              onClick={() => navigate(`/board/${record.id}`)}
-            >
-              View
-            </Button>
-            <Button type="text" size="small" icon={<EditOutlined />}>
-              Edit
-            </Button>
-            <Button type="text" size="small" danger icon={<DeleteOutlined />}>
+      width: 150,
+      render: (_: any, record: Board) => (
+        <div className="flex items-center gap-2">
+          <Button
+            type="text"
+            icon={<EyeOutlined />}
+            onClick={() => navigate(`/board/${record.id}`)}
+            style={{ color: '#007AFF' }}
+          >
+            View
+          </Button>
+          <Popconfirm
+            title="Delete Board"
+            description="Are you sure you want to delete this board?"
+            onConfirm={() => handleDeleteBoard(record.id)}
+            okText="Delete"
+            cancelText="Cancel"
+            okButtonProps={{ danger: true }}
+          >
+            <Button type="text" danger icon={<DeleteOutlined />}>
               Delete
             </Button>
-          </Space>
-        );
-      },
+          </Popconfirm>
+        </div>
+      ),
     },
   ];
 
-  // 格式化日期
-  const formatDate = (ts: number) => new Date(ts).toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+  const menuItems = [
+    { key: 'dashboard', icon: <DashboardOutlined />, label: 'Overview' },
+    { key: 'users', icon: <TeamOutlined />, label: 'Users' },
+    { key: 'boards', icon: <AppstoreOutlined />, label: 'Boards' },
+  ];
 
-  // 登出
-  const handleLogout = () => {
-    MockAuthService.logout();
-    navigate('/login');
-  };
-
-  // 切换布局模式
-  const toggleLayoutMode = () => {
-    setLayoutMode(prev => prev === LayoutMode.LIST ? LayoutMode.CARD : LayoutMode.LIST);
-  };
+  if (loading) {
+    return (
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: '#F5F5F7' }}
+      >
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: '#667eea',
-          borderRadius: 8,
-          fontSize: 14,
+          colorPrimary: '#007AFF',
+          colorBgBase: '#F5F5F7',
+          colorBgContainer: '#FFFFFF',
+          colorBorder: 'rgba(0, 0, 0, 0.06)',
+          colorText: '#1D1D1F',
+          colorTextSecondary: '#6E6E73',
+          borderRadius: 12,
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         },
       }}
     >
-      <Layout style={{ minHeight: '100vh', background: '#f5f7fa' }}>
-        {/* 侧边栏 */}
+      <Layout className="min-h-screen" style={{ background: '#F5F5F7' }}>
+        {/* Sidebar */}
         <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={setCollapsed}
+          width={280}
           style={{
-            background: '#ffffff',
-            boxShadow: '2px 0 8px rgba(0, 0, 0, 0.06)',
-            borderRight: '1px solid #f0f2f5',
+            background: 'rgba(255, 255, 255, 0.8)',
+            backdropFilter: 'blur(20px)',
+            borderRight: '1px solid rgba(0, 0, 0, 0.06)',
           }}
         >
-          <div style={{ 
-            height: 64, 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            borderBottom: '1px solid #f0f2f5',
-            fontWeight: 600,
-            color: '#667eea',
-            fontSize: 18
-          }}>
-            Admin
+          <div className="p-6 border-b border-gray-100">
+            <div className="flex items-center gap-3">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{
+                  background:
+                    'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',
+                  boxShadow: '0 4px 12px rgba(0, 122, 255, 0.25)',
+                }}
+              >
+                <CrownOutlined style={{ color: 'white', fontSize: 20 }} />
+              </div>
+              <div>
+                <Title level={4} className="!m-0 !text-gray-900">
+                  Admin
+                </Title>
+                <Text style={{ fontSize: 12, color: '#6E6E73' }}>
+                  Management
+                </Text>
+              </div>
+            </div>
           </div>
-          <Menu
-            theme="light"
-            mode="inline"
-            defaultSelectedKeys={['users']}
-            selectedKeys={[activeMenu]}
-            style={{ 
-              borderRight: 0, 
-              background: '#ffffff',
-              marginTop: 0,
-            }}
-            onSelect={(e) => setActiveMenu(e.key)}
-            items={[
-              {
-                key: 'users',
-                icon: <UserOutlined />,
-                label: '用户管理',
-              },
-              {
-                key: 'boards',
-                icon: <FileTextOutlined />,
-                label: '黑板管理',
-              },
-            ]}
-          />
+
+          <div className="p-4">
+            <div
+              className="text-xs font-semibold mb-3 px-4"
+              style={{ color: '#86868B' }}
+            >
+              MENU
+            </div>
+            {menuItems.map((item) => (
+              <button
+                key={item.key}
+                onClick={() => setActiveMenu(item.key)}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl mb-1 transition-all"
+                style={{
+                  background:
+                    activeMenu === item.key
+                      ? 'rgba(0, 122, 255, 0.1)'
+                      : 'transparent',
+                  color: activeMenu === item.key ? '#007AFF' : '#1D1D1F',
+                }}
+              >
+                <span>{item.icon}</span>
+                <span className="font-medium">{item.label}</span>
+                {item.key === 'users' && (
+                  <Badge
+                    count={users.length}
+                    style={{
+                      marginLeft: 'auto',
+                      backgroundColor: 'rgba(0,0,0,0.06)',
+                      color: '#6E6E73',
+                    }}
+                  />
+                )}
+                {item.key === 'boards' && (
+                  <Badge
+                    count={boards.length}
+                    style={{
+                      marginLeft: 'auto',
+                      backgroundColor: 'rgba(0,0,0,0.06)',
+                      color: '#6E6E73',
+                    }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+
+          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-100">
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 transition-colors"
+            >
+              <LogoutOutlined />
+              <span className="font-medium">Sign Out</span>
+            </button>
+          </div>
         </Sider>
 
         <Layout>
-          {/* 顶部导航 */}
-          <Header style={{ 
-            background: '#ffffff', 
-            padding: 0,
-            paddingLeft: 24,
-            paddingRight: 24,
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
-            borderBottom: '1px solid #f0f2f5',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Title level={4} style={{ margin: 0, color: '#2d3748', fontWeight: 600 }}>
-                {activeMenu === 'users' ? '用户管理' : '黑板管理'}
-              </Title>
-            </div>
+          {/* Header */}
+          <Header
+            className="flex items-center justify-between px-8"
+            style={{
+              background: 'rgba(255, 255, 255, 0.8)',
+              backdropFilter: 'blur(20px)',
+              borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+              height: 72,
+            }}
+          >
+            <Button
+              type="text"
+              icon={<ArrowLeftOutlined />}
+              onClick={() => navigate('/dashboard')}
+              style={{ color: '#1D1D1F' }}
+            >
+              Back to Dashboard
+            </Button>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Avatar size="small" style={{ backgroundColor: '#667eea' }}>
+            <div className="flex items-center gap-4">
+              <div
+                className="flex items-center gap-3 px-4 py-2 rounded-xl"
+                style={{ background: 'rgba(0, 0, 0, 0.03)' }}
+              >
+                <Avatar
+                  size={36}
+                  style={{
+                    background:
+                      'linear-gradient(135deg, #5856D6 0%, #AF52DE 100%)',
+                  }}
+                >
                   {currentUser?.username.charAt(0).toUpperCase()}
                 </Avatar>
-                <Text type="secondary" style={{ fontSize: 14 }}>
-                  {currentUser?.username}
-                </Text>
+                <div>
+                  <div
+                    className="text-sm font-semibold"
+                    style={{ color: '#1D1D1F' }}
+                  >
+                    {currentUser?.username}
+                  </div>
+                  <div style={{ fontSize: 12, color: '#86868B' }}>
+                    Administrator
+                  </div>
+                </div>
               </div>
-              <Divider type="vertical" style={{ margin: 0 }} />
-              <Button
-                type="text"
-                icon={<LogoutOutlined />}
-                onClick={handleLogout}
-                size="small"
-                danger
-              >
-                Logout
-              </Button>
             </div>
           </Header>
 
-          {/* 主内容区域 */}
-          <Content style={{ padding: 24, background: '#f5f7fa' }}>
-            {/* 控制面板 */}
-            {activeMenu === 'boards' && (
-              <Card 
-                style={{ 
-                  marginBottom: 24,
-                  background: '#ffffff',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
-                  border: '1px solid #f0f2f5',
-                  borderRadius: 12,
-                }}
-                styles={{ body: { padding: 16 } }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 16 }}>
-                  <Space>
-                    <Text type="secondary" style={{ fontSize: 14 }}>
-                      Layout Mode:
-                    </Text>
-                    <Button 
-                      type={layoutMode === LayoutMode.LIST ? 'primary' : 'default'}
-                      size="small"
-                      icon={<FileTextOutlined />}
-                      onClick={() => setLayoutMode(LayoutMode.LIST)}
+          {/* Content */}
+          <Content className="p-8">
+            {activeMenu === 'dashboard' && (
+              <div className="space-y-8">
+                {/* Welcome Banner */}
+                <div
+                  className="relative overflow-hidden rounded-3xl p-8"
+                  style={{
+                    background:
+                      'linear-gradient(135deg, #1D1D1F 0%, #3A3A3C 100%)',
+                  }}
+                >
+                  <div
+                    className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-30"
+                    style={{
+                      background:
+                        'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',
+                      filter: 'blur(80px)',
+                      transform: 'translate(30%, -30%)',
+                    }}
+                  />
+                  <div className="relative z-10">
+                    <Badge
+                      style={{
+                        backgroundColor: 'rgba(255,255,255,0.2)',
+                        color: 'white',
+                        marginBottom: 16,
+                      }}
                     >
-                      List
-                    </Button>
-                    <Button 
-                      type={layoutMode === LayoutMode.CARD ? 'primary' : 'default'}
-                      size="small"
-                      icon={<DashboardOutlined />}
-                      onClick={() => setLayoutMode(LayoutMode.CARD)}
+                      ✨ Admin Dashboard
+                    </Badge>
+                    <h1
+                      className="text-3xl font-bold text-white mb-2"
+                      style={{ letterSpacing: '-0.02em' }}
                     >
-                      Card
-                    </Button>
-                  </Space>
+                      System Overview
+                    </h1>
+                    <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16 }}>
+                      Monitor and manage your platform from this central hub.
+                    </p>
+                  </div>
                 </div>
-              </Card>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <StatCard
+                    title="Total Users"
+                    value={stats.users}
+                    icon={<TeamOutlined />}
+                    gradient="linear-gradient(135deg, #007AFF 0%, #5856D6 100%)"
+                  />
+                  <StatCard
+                    title="Total Boards"
+                    value={stats.boards}
+                    icon={<AppstoreOutlined />}
+                    gradient="linear-gradient(135deg, #5856D6 0%, #AF52DE 100%)"
+                  />
+                  <StatCard
+                    title="Published"
+                    value={stats.publishedBoards}
+                    icon={<FileTextOutlined />}
+                    gradient="linear-gradient(135deg, #34C759 0%, #30D158 100%)"
+                  />
+                  <StatCard
+                    title="Attachments"
+                    value={stats.attachments}
+                    icon={<FileImageOutlined />}
+                    gradient="linear-gradient(135deg, #FF9500 0%, #FF6B00 100%)"
+                  />
+                </div>
+
+                {/* Recent Tables */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <Card
+                    title="Recent Users"
+                    extra={
+                      <Button
+                        type="link"
+                        onClick={() => setActiveMenu('users')}
+                      >
+                        View All →
+                      </Button>
+                    }
+                    style={{ borderRadius: 16, border: 'none' }}
+                  >
+                    <Table
+                      dataSource={users.slice(0, 5)}
+                      columns={userColumns.slice(0, 4)}
+                      rowKey="id"
+                      pagination={false}
+                      size="small"
+                    />
+                  </Card>
+
+                  <Card
+                    title="Recent Boards"
+                    extra={
+                      <Button
+                        type="link"
+                        onClick={() => setActiveMenu('boards')}
+                      >
+                        View All →
+                      </Button>
+                    }
+                    style={{ borderRadius: 16, border: 'none' }}
+                  >
+                    <Table
+                      dataSource={boards.slice(0, 5)}
+                      columns={boardColumns.slice(0, 5)}
+                      rowKey="id"
+                      pagination={false}
+                      size="small"
+                    />
+                  </Card>
+                </div>
+              </div>
             )}
 
-            {/* 用户管理 */}
             {activeMenu === 'users' && (
-              <Card 
-                style={{ 
-                  background: '#ffffff',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
-                  border: '1px solid #f0f2f5',
-                  borderRadius: 12,
-                }}
-                styles={{ body: { padding: 24 } }}
+              <Card
+                title={
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center"
+                      style={{
+                        background:
+                          'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)',
+                      }}
+                    >
+                      <TeamOutlined style={{ color: 'white' }} />
+                    </div>
+                    <div>
+                      <h2
+                        className="text-xl font-bold"
+                        style={{ color: '#1D1D1F' }}
+                      >
+                        All Users
+                      </h2>
+                      <p style={{ color: '#6E6E73', fontSize: 14 }}>
+                        Manage user accounts
+                      </p>
+                    </div>
+                  </div>
+                }
+                extra={
+                  <span
+                    className="px-4 py-2 rounded-full text-sm font-semibold"
+                    style={{
+                      background: 'rgba(0,0,0,0.06)',
+                      color: '#1D1D1F',
+                    }}
+                  >
+                    {users.length} users
+                  </span>
+                }
+                style={{ borderRadius: 16, border: 'none' }}
               >
-                <div style={{ marginBottom: 24 }}>
-                  <Title level={5} style={{ margin: 0, color: '#4a5568', fontWeight: 600 }}>
-                    Total Users: {users.length}
-                  </Title>
-                </div>
-
                 <Table
                   columns={userColumns}
                   dataSource={users}
@@ -377,150 +735,62 @@ export const AdminPage = () => {
                   pagination={{
                     pageSize: 10,
                     showSizeChanger: true,
-                    pageSizeOptions: ['10', '20', '50', '100'],
-                    showTotal: (total) => `Total ${total} items`,
+                    pageSizeOptions: ['10', '20', '50'],
                   }}
-                  size="middle"
-                  style={{ borderRadius: 8, overflow: 'hidden' }}
                 />
               </Card>
             )}
 
-            {/* 黑板管理 */}
             {activeMenu === 'boards' && (
-              <div>
-                <Card 
-                  style={{ 
-                    background: '#ffffff',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
-                    border: '1px solid #f0f2f5',
-                    borderRadius: 12,
-                    marginBottom: 24,
-                  }}
-                  styles={{ body: { padding: 24 } }}
-                >
-                  <div style={{ marginBottom: 24 }}>
-                    <Title level={5} style={{ margin: 0, color: '#4a5568', fontWeight: 600 }}>
-                      Total Boards: {boards.length}
-                    </Title>
-                  </div>
-
-                  {/* 列表模式 */}
-                  {layoutMode === LayoutMode.LIST ? (
-                    <Table
-                      columns={boardColumns}
-                      dataSource={boards}
-                      rowKey="id"
-                      pagination={{
-                        pageSize: 10,
-                        showSizeChanger: true,
-                        pageSizeOptions: ['10', '20', '50', '100'],
-                        showTotal: (total) => `Total ${total} items`,
+              <Card
+                title={
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center"
+                      style={{
+                        background:
+                          'linear-gradient(135deg, #5856D6 0%, #AF52DE 100%)',
                       }}
-                      size="middle"
-                      style={{ borderRadius: 8, overflow: 'hidden' }}
-                    />
-                  ) : (
-                    /* 卡片模式 */
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 24 }}>
-                      {boards.map((board) => (
-                        <Card
-                          key={board.id}
-                          style={{
-                            background: '#ffffff',
-                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)',
-                            border: '1px solid #f0f2f5',
-                            borderRadius: 12,
-                            transition: 'all 0.3s ease',
-                          }}
-                          hoverable
-                          bodyStyle={{ padding: 20 }}
-                          onMouseEnter={(e) => {
-                            (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                            (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.12)';
-                          }}
-                          onMouseLeave={(e) => {
-                            (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                            (e.currentTarget as HTMLElement).style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.06)';
-                          }}
-                        >
-                          <div style={{ marginBottom: 16 }}>
-                            <Tag 
-                              color={board.status === 'published' ? 'green' : 'orange'}
-                              style={{ marginBottom: 8 }}
-                            >
-                              {board.status.toUpperCase()}
-                            </Tag>
-                            <Title level={5} style={{ margin: 0, color: '#2d3748', fontWeight: 600 }}>
-                              {board.title}
-                            </Title>
-                          </div>
-
-                          <div style={{ marginBottom: 16 }}>
-                            <Space direction="vertical" size="small" style={{ width: '100%' }}>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Text type="secondary" style={{ fontSize: 14 }}>
-                                  Owner ID:
-                                </Text>
-                                <Text style={{ fontSize: 14, fontWeight: 500 }}>
-                                  {board.ownerId.substring(0, 8)}...
-                                </Text>
-                              </div>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Text type="secondary" style={{ fontSize: 14 }}>
-                                  Last Modified:
-                                </Text>
-                                <Text style={{ fontSize: 14, fontWeight: 500 }}>
-                                  {formatDate(board.lastModified).split(',')[0]}
-                                </Text>
-                              </div>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Text type="secondary" style={{ fontSize: 14 }}>
-                                  Elements Count:
-                                </Text>
-                                <Text style={{ fontSize: 14, fontWeight: 500 }}>
-                                  {board.elements.length}
-                                </Text>
-                              </div>
-                            </Space>
-                          </div>
-
-                          <Divider orientation="horizontal" style={{ margin: '16px 0' }} />
-
-                          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-                            <Button 
-                              type="primary" 
-                              size="small" 
-                              icon={<EyeOutlined />}
-                              onClick={() => navigate(`/board/${board.id}`)}
-                              style={{ borderRadius: 6 }}
-                            >
-                              View
-                            </Button>
-                            <Button 
-                              type="default" 
-                              size="small" 
-                              icon={<EditOutlined />}
-                              style={{ borderRadius: 6 }}
-                            >
-                              Edit
-                            </Button>
-                            <Button 
-                              type="text" 
-                              size="small" 
-                              danger 
-                              icon={<DeleteOutlined />}
-                              style={{ borderRadius: 6 }}
-                            >
-                              Delete
-                            </Button>
-                          </div>
-                        </Card>
-                      ))}
+                    >
+                      <AppstoreOutlined style={{ color: 'white' }} />
                     </div>
-                  )}
-                </Card>
-              </div>
+                    <div>
+                      <h2
+                        className="text-xl font-bold"
+                        style={{ color: '#1D1D1F' }}
+                      >
+                        All Boards
+                      </h2>
+                      <p style={{ color: '#6E6E73', fontSize: 14 }}>
+                        Manage all boards
+                      </p>
+                    </div>
+                  </div>
+                }
+                extra={
+                  <span
+                    className="px-4 py-2 rounded-full text-sm font-semibold"
+                    style={{
+                      background: 'rgba(0,0,0,0.06)',
+                      color: '#1D1D1F',
+                    }}
+                  >
+                    {boards.length} boards
+                  </span>
+                }
+                style={{ borderRadius: 16, border: 'none' }}
+              >
+                <Table
+                  columns={boardColumns}
+                  dataSource={boards}
+                  rowKey="id"
+                  pagination={{
+                    pageSize: 10,
+                    showSizeChanger: true,
+                    pageSizeOptions: ['10', '20', '50'],
+                  }}
+                />
+              </Card>
             )}
           </Content>
         </Layout>
