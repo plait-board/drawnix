@@ -40,29 +40,6 @@
             height: 12px;
         }
     }
-    .popup-font-size__menu {
-        display: flex;
-        flex-direction: column;
-        min-width: 72px;
-        max-height: 260px;
-        overflow: auto;
-    }
-    .popup-font-size__option {
-        height: 32px;
-        border: 0;
-        background: transparent;
-        color: var(--color-on-surface);
-        border-radius: var(--border-radius-sm);
-        cursor: pointer;
-        text-align: center;
-        font-size: 14px;
-        &:hover {
-            background-color: var(--color-surface-primary-container);
-        }
-        &.popup-font-size__option--selected {
-            background-color: var(--color-surface-primary-container);
-        }
-    }
     .property-button {
         height: var(--lg-button-size);
         width: var(--lg-button-size);

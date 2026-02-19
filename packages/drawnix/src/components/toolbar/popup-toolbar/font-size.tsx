@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { PlaitBoard } from '@plait/core';
 import { setTextFontSize } from '../../../transforms/property';
-import { Island } from '../../island';
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '../../popover/popover';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from '../../select/select';
 
 export type PopupFontSizeControlProps = {
   board: PlaitBoard;
@@ -50,13 +50,13 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
   const container = PlaitBoard.getBoardContainer(board);
 
   return (
-    <Popover
-      sideOffset={12}
+    <Select
       open={open}
-      onOpenChange={(nextOpen) => setOpen(nextOpen)}
-      placement={'top'}
+      onOpenChange={setOpen}
+      placement={'top-start'}
+      sideOffset={12}
     >
-      <PopoverTrigger asChild>
+      <SelectTrigger asChild>
         <div
           className="popup-font-size"
           title={title}
@@ -109,43 +109,35 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
             </svg>
           </button>
         </div>
-      </PopoverTrigger>
-      <PopoverContent container={container}>
-        <Island padding={2}>
-          <div
-            className="popup-font-size__menu"
-            onPointerDown={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
-            }}
-            onPointerUp={(event) => {
-              event.stopPropagation();
-            }}
-          >
-            {options.map((size) => {
-              const value = String(size);
-              const selected = draft !== '' && Number(draft) === size;
-              return (
-                <button
-                  key={value}
-                  type="button"
-                  className={`popup-font-size__option${
-                    selected ? ' popup-font-size__option--selected' : ''
-                  }`}
-                  onPointerUp={(event) => {
-                    event.stopPropagation();
-                    setDraft(value);
-                    apply(value);
-                    setOpen(false);
-                  }}
-                >
-                  {size}
-                </button>
-              );
-            })}
-          </div>
-        </Island>
-      </PopoverContent>
-    </Popover>
+      </SelectTrigger>
+      <SelectContent
+        container={container}
+        style={{ minWidth: '4.5rem' }}
+        onPointerDown={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+        }}
+        onPointerUp={(event) => {
+          event.stopPropagation();
+        }}
+      >
+        {options.map((size) => {
+          const value = String(size);
+          return (
+            <SelectItem
+              key={value}
+              value={value}
+              textValue={value}
+              onPointerUp={() => {
+                setDraft(value);
+                apply(value);
+              }}
+            >
+              {size}
+            </SelectItem>
+          );
+        })}
+      </SelectContent>
+    </Select>
   );
 };
