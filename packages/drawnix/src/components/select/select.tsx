@@ -19,24 +19,12 @@ import {
   useRole,
   useTypeahead,
 } from '@floating-ui/react';
-
+import { ChevronDownIcon, ThickCheckIcon } from '../icons';
 import './select.scss';
 
 type SelectValueType = string;
 
-interface SelectOptions {
-  open?: boolean;
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  value?: SelectValueType;
-  defaultValue?: SelectValueType;
-  onValueChange?: (value: SelectValueType) => void;
-  placement?: Placement;
-  sideOffset?: number;
-  modal?: boolean;
-}
-
-type SelectContextType = {
+interface SelectContextType {
   open: boolean;
   setOpen: (open: boolean) => void;
   value: SelectValueType | undefined;
@@ -53,42 +41,63 @@ type SelectContextType = {
   refs: ReturnType<typeof useFloating>['refs'];
   floatingStyles: React.CSSProperties;
   floatingContext: ReturnType<typeof useFloating>['context'];
-  modal?: boolean;
-};
+  size: '1' | '2' | '3';
+  hideSelectedIndicator: boolean;
+  disableItemHoverHighlight: boolean;
+}
 
 const SelectContext = React.createContext<SelectContextType | null>(null);
 
 const useSelectContext = () => {
   const context = React.useContext(SelectContext);
   if (!context) {
-    throw new Error('Select components must be wrapped in <Select />');
+    throw new Error('Select components must be wrapped in <Select.Root />');
   }
   return context;
 };
 
-export function Select({
+interface SelectRootProps {
+  children: React.ReactNode;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  size?: '1' | '2' | '3';
+  disabled?: boolean;
+  placement?: Placement;
+  sideOffset?: number;
+  hideSelectedIndicator?: boolean;
+  disableItemHoverHighlight?: boolean;
+}
+
+const SelectRoot: React.FC<SelectRootProps> = ({
   children,
-  open: controlledOpen,
-  defaultOpen = false,
-  onOpenChange: setControlledOpen,
   value: controlledValue,
   defaultValue,
   onValueChange,
+  open: controlledOpen,
+  defaultOpen = false,
+  onOpenChange: setControlledOpen,
+  size = '2',
+  disabled = false,
   placement = 'bottom-start',
   sideOffset = 4,
-  modal = false,
-}: { children: React.ReactNode } & SelectOptions) {
+  hideSelectedIndicator = false,
+  disableItemHoverHighlight = false,
+}) => {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
   const [uncontrolledValue, setUncontrolledValue] = React.useState<
-    SelectValueType | undefined
+    string | undefined
   >(defaultValue);
   const value = controlledValue ?? uncontrolledValue;
   const setValue = React.useCallback(
-    (nextValue: SelectValueType) => {
-      if (controlledValue == null) {
+    (nextValue: string) => {
+      if (controlledValue === undefined) {
         setUncontrolledValue(nextValue);
       }
       onValueChange?.(nextValue);
@@ -109,10 +118,12 @@ export function Select({
 
   React.useEffect(() => {
     if (!open) return;
+    // When opening, if there is a selected index, highlight it.
+    // Otherwise highlight the first item.
     setActiveIndex(selectedIndex ?? 0);
   }, [open, selectedIndex]);
 
-  const data = useFloating({
+  const { refs, floatingStyles, context } = useFloating({
     placement,
     open,
     onOpenChange: setOpen,
@@ -124,13 +135,11 @@ export function Select({
     ],
   });
 
-  const click = useClick(data.context, {
-    enabled: controlledOpen == null,
-  });
-  const dismiss = useDismiss(data.context);
-  const role = useRole(data.context, { role: 'listbox' });
+  const click = useClick(context, { enabled: !disabled && controlledOpen === undefined });
+  const dismiss = useDismiss(context);
+  const role = useRole(context, { role: 'listbox' });
 
-  const listNavigation = useListNavigation(data.context, {
+  const listNavigation = useListNavigation(context, {
     listRef: elementsRef,
     activeIndex,
     selectedIndex,
@@ -138,14 +147,14 @@ export function Select({
     loop: true,
   });
 
-  const typeahead = useTypeahead(data.context, {
+  const typeahead = useTypeahead(context, {
     listRef: labelsRef,
     activeIndex,
     selectedIndex,
     onMatch: setActiveIndex,
   });
 
-  const interactions = useInteractions([
+  const { getReferenceProps, getFloatingProps, getItemProps } = useInteractions([
     click,
     dismiss,
     role,
@@ -153,7 +162,7 @@ export function Select({
     typeahead,
   ]);
 
-  const contextValue: SelectContextType = React.useMemo(
+  const contextValue = React.useMemo(
     () => ({
       open,
       setOpen,
@@ -165,13 +174,15 @@ export function Select({
       elementsRef,
       labelsRef,
       valuesRef,
-      getReferenceProps: interactions.getReferenceProps,
-      getFloatingProps: interactions.getFloatingProps,
-      getItemProps: interactions.getItemProps,
-      refs: data.refs,
-      floatingStyles: data.floatingStyles,
-      floatingContext: data.context,
-      modal,
+      getReferenceProps,
+      getFloatingProps,
+      getItemProps,
+      refs,
+      floatingStyles,
+      floatingContext: context,
+      size,
+      hideSelectedIndicator,
+      disableItemHoverHighlight,
     }),
     [
       open,
@@ -180,13 +191,15 @@ export function Select({
       setValue,
       activeIndex,
       selectedIndex,
-      interactions.getReferenceProps,
-      interactions.getFloatingProps,
-      interactions.getItemProps,
-      data.refs,
-      data.floatingStyles,
-      data.context,
-      modal,
+      getReferenceProps,
+      getFloatingProps,
+      getItemProps,
+      refs,
+      floatingStyles,
+      context,
+      size,
+      hideSelectedIndicator,
+      disableItemHoverHighlight,
     ]
   );
 
@@ -195,114 +208,128 @@ export function Select({
       {children}
     </SelectContext.Provider>
   );
-}
+};
+SelectRoot.displayName = 'Select.Root';
 
-interface SelectTriggerProps {
-  children: React.ReactNode;
+interface SelectTriggerProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'classic' | 'surface' | 'soft' | 'ghost';
+  color?: string;
+  radius?: 'none' | 'small' | 'medium' | 'large' | 'full';
+  placeholder?: string;
   asChild?: boolean;
 }
 
-export const SelectTrigger = React.forwardRef<
-  HTMLElement,
-  React.HTMLProps<HTMLElement> & SelectTriggerProps
->(function SelectTrigger({ children, asChild = false, ...props }, propRef) {
-  const context = useSelectContext();
-  const childrenRef = (children as any).ref;
-  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
-
-  if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(
+const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
+  (
+    {
       children,
-      context.getReferenceProps({
-        ref,
-        ...props,
-        ...children.props,
+      className,
+      variant = 'surface',
+      color,
+      radius,
+      placeholder,
+      asChild,
+      ...props
+    },
+    forwardedRef
+  ) => {
+    const context = useSelectContext();
+    const mergedRef = useMergeRefs([context.refs.setReference, forwardedRef]);
+
+    if (asChild && React.isValidElement(children)) {
+      return React.cloneElement(children, {
+        ref: mergedRef,
+        ...context.getReferenceProps(props),
         'data-state': context.open ? 'open' : 'closed',
-        'aria-haspopup': 'listbox',
-        'aria-expanded': context.open,
-      })
+      } as any);
+    }
+
+    // Value rendering logic
+    let content = children;
+    if (!content && context.value) {
+       // Find label for value
+       const index = context.valuesRef.current.indexOf(context.value);
+       if (index !== -1) {
+         content = context.labelsRef.current[index];
+       } else {
+         content = context.value;
+       }
+    }
+    
+    const shouldShowPlaceholder = !content && placeholder;
+    const displayContent = shouldShowPlaceholder ? placeholder : content;
+
+    return (
+      <button
+        type="button"
+        ref={mergedRef}
+        className={classNames(
+          'dx-reset',
+          'dx-SelectTrigger',
+          `dx-r-size-${context.size}`,
+          `dx-variant-${variant}`,
+          className
+        )}
+        data-state={context.open ? 'open' : 'closed'}
+        data-placeholder={shouldShowPlaceholder ? '' : undefined}
+        {...context.getReferenceProps(props)}
+      >
+        <span className="dx-SelectTriggerInner">{displayContent}</span>
+        <span className="dx-SelectIcon">
+          {ChevronDownIcon}
+        </span>
+      </button>
     );
   }
+);
+SelectTrigger.displayName = 'Select.Trigger';
 
-  return (
-    <button
-      ref={ref as any}
-      type="button"
-      data-state={context.open ? 'open' : 'closed'}
-      aria-haspopup="listbox"
-      aria-expanded={context.open}
-      {...context.getReferenceProps(props)}
-    >
-      {children}
-    </button>
-  );
-});
-
-export type SelectValueProps = {
-  placeholder?: React.ReactNode;
-  children?:
-    | React.ReactNode
-    | ((data: { value: SelectValueType | undefined }) => React.ReactNode);
-};
-
-export const SelectValue: React.FC<SelectValueProps> = ({
-  placeholder,
-  children,
-}) => {
-  const context = useSelectContext();
-  const selectedLabel =
-    context.selectedIndex != null
-      ? context.labelsRef.current[context.selectedIndex]
-      : null;
-  const content =
-    typeof children === 'function'
-      ? children({ value: context.value })
-      : children;
-
-  if (content != null) {
-    return <>{content}</>;
-  }
-
-  if (context.value == null) {
-    return <>{placeholder ?? null}</>;
-  }
-
-  return <>{selectedLabel ?? context.value}</>;
-};
-
-export type SelectContentProps = React.HTMLProps<HTMLDivElement> & {
+interface SelectContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: 'solid' | 'soft';
+  color?: string;
+  highContrast?: boolean;
   container?: HTMLElement | null;
-};
+}
 
-export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
-  function SelectContent({ container, style, ...props }, propRef) {
+const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
+  (
+    {
+      children,
+      className,
+      variant = 'solid',
+      color,
+      highContrast,
+      container,
+      style,
+      ...props
+    },
+    forwardedRef
+  ) => {
     const context = useSelectContext();
-    const ref = useMergeRefs([context.refs.setFloating, propRef]);
+    const mergedRef = useMergeRefs([context.refs.setFloating, forwardedRef]);
 
     if (!context.open) return null;
 
-    const { className, ...rest } = props;
-
     return (
       <FloatingPortal root={container}>
-        <FloatingFocusManager
-          context={context.floatingContext}
-          modal={context.modal}
-          initialFocus={-1}
-        >
+        <FloatingFocusManager context={context.floatingContext} initialFocus={-1}>
           <div
-            ref={ref}
+            ref={mergedRef}
+            className={classNames(
+              'dx-SelectContent',
+              `dx-r-size-${context.size}`,
+              `dx-variant-${variant}`,
+              className
+            )}
+            data-hide-selected-indicator={context.hideSelectedIndicator ? '' : undefined}
             style={{ ...context.floatingStyles, ...style }}
-            {...context.getFloatingProps({
-              ...rest,
-              className: classNames('select-content', className),
-            })}
+            {...context.getFloatingProps(props)}
           >
-            <FloatingList
-              elementsRef={context.elementsRef}
-              labelsRef={context.labelsRef}
-            >
-              <div className="select-viewport">{props.children}</div>
+            <FloatingList elementsRef={context.elementsRef} labelsRef={context.labelsRef}>
+              <div className="dx-SelectViewport">
+                 {children}
+              </div>
             </FloatingList>
           </div>
         </FloatingFocusManager>
@@ -310,88 +337,121 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
     );
   }
 );
+SelectContent.displayName = 'Select.Content';
 
-export type SelectItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  value: SelectValueType;
+interface SelectItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  value: string;
   textValue?: string;
-};
+}
 
-export const SelectItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
-  function SelectItem(
-    {
-      value,
-      textValue,
-      disabled,
-      onPointerUp,
-      onPointerMove,
-      className,
-      ...props
-    },
-    propRef
-  ) {
+const SelectItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
+  ({ children, className, value, textValue, disabled, ...props }, forwardedRef) => {
     const context = useSelectContext();
     const { ref: itemRef, index } = useListItem({
-      label: textValue ?? value,
+      label: textValue ?? (typeof children === 'string' ? children : value),
     });
-    const mergedRef = useMergeRefs([itemRef, propRef]);
+    const mergedRef = useMergeRefs([itemRef, forwardedRef]);
+
+    const isActive = context.activeIndex === index;
+    const isSelected = context.value === value;
 
     React.useEffect(() => {
-      if (index == null) return;
-      context.valuesRef.current[index] = value;
-      context.labelsRef.current[index] = textValue ?? value;
-    }, [context, index, value, textValue]);
+        if (index !== null) {
+            context.valuesRef.current[index] = value;
+            // Best effort to get label
+            context.labelsRef.current[index] = textValue ?? (typeof children === 'string' ? children : value);
+        }
+    }, [index, value, textValue, children, context.valuesRef, context.labelsRef]);
 
-    const selected = context.value === value;
-    const active = context.activeIndex === index;
+    const handleSelect = () => {
+      context.setValue(value);
+      context.setOpen(false);
+    };
+
+    const mergedItemProps = context.getItemProps({
+      ...props,
+      onClick: (e: React.MouseEvent<HTMLElement>) => {
+        props.onClick?.(e as React.MouseEvent<HTMLButtonElement>);
+        handleSelect();
+      },
+      onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => {
+        props.onKeyDown?.(e as React.KeyboardEvent<HTMLButtonElement>);
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleSelect();
+        }
+      },
+    });
+
+    const {
+      onPointerMove,
+      onMouseMove,
+      onMouseEnter,
+      onMouseLeave,
+      ...restMergedItemProps
+    } = mergedItemProps as React.ButtonHTMLAttributes<HTMLButtonElement>;
 
     return (
       <button
-        {...props}
         ref={mergedRef}
         type="button"
         role="option"
-        aria-selected={selected}
-        data-selected={selected ? '' : undefined}
-        data-active={active ? '' : undefined}
+        aria-selected={isSelected}
+        data-highlighted={
+          isActive && !context.hideSelectedIndicator ? '' : undefined
+        }
+        data-state={isSelected ? 'checked' : 'unchecked'}
         data-disabled={disabled ? '' : undefined}
+        tabIndex={isActive ? 0 : -1}
+        className={classNames('dx-SelectItem', className)}
         disabled={disabled}
-        tabIndex={active ? 0 : -1}
-        className={classNames('select-item', className)}
-        {...context.getItemProps({
-          onPointerMove: (event) => {
-            onPointerMove?.(
-              event as unknown as React.PointerEvent<HTMLButtonElement>
-            );
-            if (!disabled) {
-              context.setActiveIndex(index);
-            }
-          },
-          onPointerUp: (event) => {
-            onPointerUp?.(
-              event as unknown as React.PointerEvent<HTMLButtonElement>
-            );
-            if (disabled) return;
-            context.setValue(value);
-            context.setOpen(false);
-          },
-        })}
+        {...restMergedItemProps}
+        {...(context.disableItemHoverHighlight
+          ? {}
+          : { onPointerMove, onMouseMove, onMouseEnter, onMouseLeave })}
       >
-        <span className="select-item__indicator" aria-hidden="true">
-          {selected && (
-            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M13.25 4.75L6.75 11.25L3.25 7.75"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.75"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          )}
-        </span>
-        <span className="select-item__text">{props.children}</span>
+        {!context.hideSelectedIndicator && (
+          <span className="dx-SelectItemIndicator">
+            {isSelected && ThickCheckIcon}
+          </span>
+        )}
+        <span className="dx-SelectItemText">{children}</span>
       </button>
     );
   }
 );
+SelectItem.displayName = 'Select.Item';
+
+type SelectGroupProps = React.HTMLAttributes<HTMLDivElement>
+const SelectGroup = React.forwardRef<HTMLDivElement, SelectGroupProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={classNames('dx-SelectGroup', className)} {...props} />
+  )
+);
+SelectGroup.displayName = 'Select.Group';
+
+type SelectLabelProps = React.HTMLAttributes<HTMLDivElement>
+const SelectLabel = React.forwardRef<HTMLDivElement, SelectLabelProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={classNames('dx-SelectLabel', className)} {...props} />
+  )
+);
+SelectLabel.displayName = 'Select.Label';
+
+type SelectSeparatorProps = React.HTMLAttributes<HTMLDivElement>
+const SelectSeparator = React.forwardRef<HTMLDivElement, SelectSeparatorProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={classNames('dx-SelectSeparator', className)} {...props} />
+  )
+);
+SelectSeparator.displayName = 'Select.Separator';
+
+export const Select = {
+  Root: SelectRoot,
+  Trigger: SelectTrigger,
+  Content: SelectContent,
+  Item: SelectItem,
+  Group: SelectGroup,
+  Label: SelectLabel,
+  Separator: SelectSeparator,
+};

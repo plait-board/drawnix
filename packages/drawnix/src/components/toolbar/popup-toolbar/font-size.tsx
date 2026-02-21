@@ -1,11 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { PlaitBoard } from '@plait/core';
 import { setTextFontSize } from '../../../transforms/property';
 import {
   Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
 } from '../../select/select';
 
 export type PopupFontSizeControlProps = {
@@ -24,6 +21,7 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
   options = DEFAULT_OPTIONS,
 }) => {
   const [open, setOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const normalizedCurrent = useMemo(() => {
     return Number.isFinite(currentFontSize as number) &&
       (currentFontSize as number) > 0
@@ -47,16 +45,37 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
     setTextFontSize(board, next);
   };
 
+  const getBaseValue = () => {
+    const parsed = Number(draft);
+    if (Number.isFinite(parsed) && parsed > 0) {
+      return parsed;
+    }
+    if (typeof normalizedCurrent === 'number' && normalizedCurrent > 0) {
+      return normalizedCurrent;
+    }
+    return 14;
+  };
+
+  const stepBy = (delta: number) => {
+    const base = getBaseValue();
+    const next = Math.max(1, Math.round(base + delta));
+    const value = String(next);
+    setDraft(value);
+    apply(value);
+  };
+
   const container = PlaitBoard.getBoardContainer(board);
 
   return (
-    <Select
+    <Select.Root
       open={open}
       onOpenChange={setOpen}
       placement={'top-start'}
       sideOffset={12}
+      hideSelectedIndicator
+      disableItemHoverHighlight
     >
-      <SelectTrigger asChild>
+      <Select.Trigger asChild>
         <div
           className="popup-font-size"
           title={title}
@@ -69,6 +88,7 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
           }}
         >
           <input
+            ref={inputRef}
             className="popup-font-size__input"
             type="number"
             inputMode="numeric"
@@ -76,6 +96,10 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
             placeholder="14"
             onChange={(event) => setDraft(event.target.value)}
             onBlur={(event) => apply(event.target.value)}
+            onPointerUp={(event) => {
+              event.stopPropagation();
+              setOpen(true);
+            }}
             onKeyDown={(event) => {
               if (event.key === 'Enter') {
                 apply(draft);
@@ -83,34 +107,71 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
               }
             }}
           />
-          <button
-            type="button"
-            className="popup-font-size__trigger"
-            aria-label={title}
-            onPointerUp={(event) => {
-              event.stopPropagation();
-              setOpen(!open);
-            }}
-          >
-            <svg
-              viewBox="0 0 16 16"
-              xmlns="http://www.w3.org/2000/svg"
-              className="popup-font-size__chevron"
-              aria-hidden="true"
+          <div className="popup-font-size__stepper" aria-hidden="false">
+            <button
+              type="button"
+              className="popup-font-size__stepper-button"
+              aria-label={`${title} +`}
+              onPointerDown={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+              }}
+              onPointerUp={(event) => {
+                event.stopPropagation();
+                stepBy(1);
+                inputRef.current?.focus();
+              }}
             >
-              <path
-                d="M4 6.25L8 10.25L12 6.25"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+              <svg
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+                className="popup-font-size__stepper-icon"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 10L8 6L12 10"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className="popup-font-size__stepper-button"
+              aria-label={`${title} -`}
+              onPointerDown={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+              }}
+              onPointerUp={(event) => {
+                event.stopPropagation();
+                stepBy(-1);
+                inputRef.current?.focus();
+              }}
+            >
+              <svg
+                viewBox="0 0 16 16"
+                xmlns="http://www.w3.org/2000/svg"
+                className="popup-font-size__stepper-icon"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 6L8 10L12 6"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
-      </SelectTrigger>
-      <SelectContent
+      </Select.Trigger>
+      <Select.Content
         container={container}
         style={{ minWidth: '4.5rem' }}
         onPointerDown={(event) => {
@@ -124,7 +185,7 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
         {options.map((size) => {
           const value = String(size);
           return (
-            <SelectItem
+            <Select.Item
               key={value}
               value={value}
               textValue={value}
@@ -134,10 +195,10 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
               }}
             >
               {size}
-            </SelectItem>
+            </Select.Item>
           );
         })}
-      </SelectContent>
-    </Select>
+      </Select.Content>
+    </Select.Root>
   );
 };

@@ -21,10 +21,24 @@
             color: inherit;
             font-size: 13px;
             text-align: center;
+            appearance: textfield;
+            -moz-appearance: textfield;
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
         }
-        .popup-font-size__trigger {
+        .popup-font-size__stepper {
             height: 100%;
-            width: 18px;
+            width: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: stretch;
+        }
+        .popup-font-size__stepper-button {
+            flex: 1;
             border: 0;
             outline: none;
             padding: 0;
@@ -35,9 +49,16 @@
             align-items: center;
             justify-content: center;
         }
-        .popup-font-size__chevron {
+        .popup-font-size__stepper-icon {
             width: 12px;
             height: 12px;
+            display: block;
+        }
+        .popup-font-size__stepper-button:first-child .popup-font-size__stepper-icon {
+            transform: translateY(0.5px);
+        }
+        .popup-font-size__stepper-button:last-child .popup-font-size__stepper-icon {
+            transform: translateY(-0.5px);
         }
     }
     .property-button {
@@ -70,7 +91,6 @@
         }
     }
 }
-
 .stroke-setting {
     &.has-stroke-style {
         padding-top: 8px !important;
