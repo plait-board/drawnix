@@ -3,6 +3,7 @@ import { PlaitBoard } from '@plait/core';
 import { setTextFontSize } from '../../../transforms/property';
 import { FontSizeStepperDownIcon, FontSizeStepperUpIcon } from '../../icons';
 import { Select } from '../../select/select';
+import { DEFAULT_FONT_SIZE } from '@plait/text-plugins';
 
 export type PopupFontSizeControlProps = {
   board: PlaitBoard;
@@ -29,11 +30,11 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
   }, [currentFontSize]);
 
   const [draft, setDraft] = useState<string>(
-    normalizedCurrent ? String(normalizedCurrent) : ''
+    normalizedCurrent ? String(normalizedCurrent) : String(DEFAULT_FONT_SIZE)
   );
 
   useEffect(() => {
-    setDraft(normalizedCurrent ? String(normalizedCurrent) : '');
+    setDraft(normalizedCurrent ? String(normalizedCurrent) : String(DEFAULT_FONT_SIZE));
   }, [normalizedCurrent]);
 
   const apply = (value: string) => {
@@ -74,6 +75,7 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
       hideSelectedIndicator
       disableInitialHighlight
       disableItemHoverHighlight
+      disableTypeahead
     >
       <Select.Trigger asChild>
         <div
@@ -93,7 +95,7 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
             type="number"
             inputMode="numeric"
             value={draft}
-            placeholder="14"
+            placeholder={''}
             onChange={(event) => setDraft(event.target.value)}
             onBlur={(event) => apply(event.target.value)}
             onPointerUp={(event) => {
@@ -103,7 +105,6 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
             onKeyDown={(event) => {
               if (event.key === 'Enter') {
                 apply(draft);
-                (event.target as HTMLInputElement).blur();
               }
             }}
           />

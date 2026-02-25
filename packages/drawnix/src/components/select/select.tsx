@@ -71,6 +71,7 @@ interface SelectRootProps {
   hideSelectedIndicator?: boolean;
   disableItemHoverHighlight?: boolean;
   disableInitialHighlight?: boolean;
+  disableTypeahead?: boolean;
 }
 
 const SelectRoot: React.FC<SelectRootProps> = ({
@@ -88,6 +89,7 @@ const SelectRoot: React.FC<SelectRootProps> = ({
   hideSelectedIndicator = false,
   disableItemHoverHighlight = false,
   disableInitialHighlight = false,
+  disableTypeahead = false,
 }) => {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
   const open = controlledOpen ?? uncontrolledOpen;
@@ -165,7 +167,7 @@ const SelectRoot: React.FC<SelectRootProps> = ({
     dismiss,
     role,
     listNavigation,
-    typeahead,
+    disableTypeahead ? ({} as any) : typeahead,
   ]);
 
   const contextValue = React.useMemo(
