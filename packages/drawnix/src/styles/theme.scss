@@ -28,6 +28,16 @@
   }
 
   --space-factor: 0.25rem;
+  --dx-space-1: 4px;
+  --dx-space-2: 8px;
+  --dx-space-3: 12px;
+  --dx-space-4: 16px;
+  --dx-space-5: 24px;
+  --dx-radius-1: 3px;
+  --dx-radius-2: 4px;
+  --dx-radius-3: 6px;
+  --dx-radius-4: 8px;
+  --dx-radius-full: 9999px;
   --text-primary-color: var(--color-on-surface);
 
   --color-icon-white: #{$oc-white};

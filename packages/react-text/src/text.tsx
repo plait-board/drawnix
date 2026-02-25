@@ -164,15 +164,16 @@ const Leaf: React.FC<RenderLeafProps> = ({ children, leaf, attributes }) => {
   }
 
   const fontSizeValue = (leaf as CustomText)['font-size'];
-  const fontSize =
-    typeof fontSizeValue === 'number' ? fontSizeValue : Number(fontSizeValue);
   const style: CSSProperties = {
-    color: (leaf as CustomText).color,
-    ...(Number.isFinite(fontSize) && fontSize > 0 ? { fontSize } : {}),
+    color: (leaf as CustomText).color
   };
 
   return (
-    <span style={style} {...attributes}>
+    <span
+      style={style}
+      {...attributes}
+      {...({ 'plait-font-size': fontSizeValue } as any)}
+    >
       {children}
     </span>
   );

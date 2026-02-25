@@ -13,6 +13,8 @@ export type PopupFontSizeControlProps = {
 };
 
 const DEFAULT_OPTIONS = [10, 12, 14, 18, 24, 36, 48];
+const MIN_FONT_SIZE = 8;
+const MAX_FONT_SIZE = 78;
 
 export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
   board,
@@ -38,27 +40,43 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
   }, [normalizedCurrent]);
 
   const apply = (value: string) => {
-    const next = Number(value);
-    if (!Number.isFinite(next) || next <= 0) {
+    if (!value) {
+      setDraft('');
       return;
     }
-    setTextFontSize(board, next);
+    const next = Number(value);
+    if (!Number.isFinite(next)) {
+      return;
+    }
+    const clamped = Math.min(
+      MAX_FONT_SIZE,
+      Math.max(MIN_FONT_SIZE, Math.round(next))
+    );
+    const nextValue = String(clamped);
+    setDraft(nextValue);
+    setTextFontSize(board, clamped);
   };
 
   const getBaseValue = () => {
     const parsed = Number(draft);
-    if (Number.isFinite(parsed) && parsed > 0) {
-      return parsed;
+    if (Number.isFinite(parsed)) {
+      return Math.min(MAX_FONT_SIZE, Math.max(MIN_FONT_SIZE, Math.round(parsed)));
     }
     if (typeof normalizedCurrent === 'number' && normalizedCurrent > 0) {
-      return normalizedCurrent;
+      return Math.min(
+        MAX_FONT_SIZE,
+        Math.max(MIN_FONT_SIZE, Math.round(normalizedCurrent))
+      );
     }
-    return 14;
+    return DEFAULT_FONT_SIZE;
   };
 
   const stepBy = (delta: number) => {
     const base = getBaseValue();
-    const next = Math.max(1, Math.round(base + delta));
+    const next = Math.min(
+      MAX_FONT_SIZE,
+      Math.max(MIN_FONT_SIZE, Math.round(base + delta))
+    );
     const value = String(next);
     setDraft(value);
     apply(value);
@@ -94,6 +112,9 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
             className="popup-font-size__input"
             type="number"
             inputMode="numeric"
+            min={MIN_FONT_SIZE}
+            max={MAX_FONT_SIZE}
+            step={1}
             value={draft}
             placeholder={''}
             onChange={(event) => setDraft(event.target.value)}
