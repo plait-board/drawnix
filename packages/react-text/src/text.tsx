@@ -163,7 +163,7 @@ const Leaf: React.FC<RenderLeafProps> = ({ children, leaf, attributes }) => {
     children = <u>{children}</u>;
   }
 
-  const fontSizeValue = (leaf as any)?.['font-size'];
+  const fontSizeValue = (leaf as CustomText)['font-size'];
   const fontSize =
     typeof fontSizeValue === 'number' ? fontSizeValue : Number(fontSizeValue);
   const style: CSSProperties = {
