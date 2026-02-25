@@ -70,6 +70,7 @@ interface SelectRootProps {
   sideOffset?: number;
   hideSelectedIndicator?: boolean;
   disableItemHoverHighlight?: boolean;
+  disableInitialHighlight?: boolean;
 }
 
 const SelectRoot: React.FC<SelectRootProps> = ({
@@ -86,6 +87,7 @@ const SelectRoot: React.FC<SelectRootProps> = ({
   sideOffset = 4,
   hideSelectedIndicator = false,
   disableItemHoverHighlight = false,
+  disableInitialHighlight = false,
 }) => {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
   const open = controlledOpen ?? uncontrolledOpen;
@@ -116,12 +118,16 @@ const SelectRoot: React.FC<SelectRootProps> = ({
     return index >= 0 ? index : null;
   }, [value]);
 
+  const navigationSelectedIndex = disableInitialHighlight ? null : selectedIndex;
+
   React.useEffect(() => {
     if (!open) return;
-    // When opening, if there is a selected index, highlight it.
-    // Otherwise highlight the first item.
+    if (disableInitialHighlight) {
+      setActiveIndex(null);
+      return;
+    }
     setActiveIndex(selectedIndex ?? 0);
-  }, [open, selectedIndex]);
+  }, [open, selectedIndex, disableInitialHighlight]);
 
   const { refs, floatingStyles, context } = useFloating({
     placement,
@@ -142,7 +148,7 @@ const SelectRoot: React.FC<SelectRootProps> = ({
   const listNavigation = useListNavigation(context, {
     listRef: elementsRef,
     activeIndex,
-    selectedIndex,
+    selectedIndex: navigationSelectedIndex,
     onNavigate: setActiveIndex,
     loop: true,
   });
@@ -150,7 +156,7 @@ const SelectRoot: React.FC<SelectRootProps> = ({
   const typeahead = useTypeahead(context, {
     listRef: labelsRef,
     activeIndex,
-    selectedIndex,
+    selectedIndex: navigationSelectedIndex,
     onMatch: setActiveIndex,
   });
 
@@ -397,9 +403,7 @@ const SelectItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
         type="button"
         role="option"
         aria-selected={isSelected}
-        data-highlighted={
-          isActive && !context.hideSelectedIndicator ? '' : undefined
-        }
+        data-highlighted={isActive ? '' : undefined}
         data-state={isSelected ? 'checked' : 'unchecked'}
         data-disabled={disabled ? '' : undefined}
         tabIndex={isActive ? 0 : -1}

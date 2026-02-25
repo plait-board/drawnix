@@ -72,7 +72,9 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
       <PopoverTrigger asChild>
         <ToolButton
           className={classNames(`property-button`)}
+          disableHoverHighlight
           visible={true}
+          selected={isStrokePropertyOpen}
           icon={icon}
           type="button"
           title={title}

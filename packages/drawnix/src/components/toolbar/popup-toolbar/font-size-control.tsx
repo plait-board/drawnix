@@ -1,9 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { PlaitBoard } from '@plait/core';
 import { setTextFontSize } from '../../../transforms/property';
-import {
-  Select,
-} from '../../select/select';
+import { Select } from '../../select/select';
 
 export type PopupFontSizeControlProps = {
   board: PlaitBoard;
@@ -73,6 +71,7 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
       placement={'top-start'}
       sideOffset={12}
       hideSelectedIndicator
+      disableInitialHighlight
       disableItemHoverHighlight
     >
       <Select.Trigger asChild>

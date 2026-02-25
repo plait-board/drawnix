@@ -36,7 +36,7 @@ import {
 import { CustomText, StrokeStyle } from '@plait/common';
 import { getTextMarksByElement } from '@plait/text-plugins';
 import { PopupFontColorButton } from './font-color-button';
-import { PopupFontSizeControl } from './font-size';
+import { PopupFontSizeControl } from './font-size-control';
 import { PopupStrokeButton } from './stroke-button';
 import { PopupFillButton } from './fill-button';
 import { isWhite, removeHexAlpha } from '../../../utils/color';
@@ -270,7 +270,7 @@ export const getMindElementState = (
   return {
     fill: element.fill,
     strokeColor: getStrokeColorByMindElement(board, element),
-    strokeStyle:getStrokeStyleByElement(board, element),
+    strokeStyle: getStrokeStyleByElement(board, element),
     marks,
   };
 };

@@ -8,7 +8,7 @@
         border-radius: var(--border-radius-sm);
         background-color: var(--color-surface-secondary-container);
         color: var(--color-on-surface);
-        &:hover {
+        &:not([data-disable-hover]):hover {
             background-color: var(--color-surface-primary-container);
         }
         .popup-font-size__input {

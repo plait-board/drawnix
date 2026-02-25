@@ -23,6 +23,7 @@ export const PopupLinkButton: React.FC<PopupLinkButtonProps> = ({
   return (
     <ToolButton
       className={classNames(`property-button`)}
+      disableHoverHighlight
       visible={true}
       icon={LinkIcon}
       type="button"
