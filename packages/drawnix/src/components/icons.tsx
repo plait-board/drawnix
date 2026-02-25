@@ -603,3 +603,37 @@ export const ThickCheckIcon = createIcon(
     ></path>
   </svg>
 );
+
+export const FontSizeStepperUpIcon: React.FC<
+  React.SVGProps<SVGSVGElement>
+> = (props) => {
+  return (
+    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        d="M4 10L8 6L12 10"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const FontSizeStepperDownIcon: React.FC<
+  React.SVGProps<SVGSVGElement>
+> = (props) => {
+  return (
+    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        d="M4 6L8 10L12 6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};

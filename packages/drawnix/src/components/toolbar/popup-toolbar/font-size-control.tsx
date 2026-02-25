@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { PlaitBoard } from '@plait/core';
 import { setTextFontSize } from '../../../transforms/property';
+import { FontSizeStepperDownIcon, FontSizeStepperUpIcon } from '../../icons';
 import { Select } from '../../select/select';
 
 export type PopupFontSizeControlProps = {
@@ -121,21 +122,10 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
                 inputRef.current?.focus();
               }}
             >
-              <svg
-                viewBox="0 0 16 16"
-                xmlns="http://www.w3.org/2000/svg"
+              <FontSizeStepperUpIcon
                 className="popup-font-size__stepper-icon"
                 aria-hidden="true"
-              >
-                <path
-                  d="M4 10L8 6L12 10"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              />
             </button>
             <button
               type="button"
@@ -151,21 +141,10 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
                 inputRef.current?.focus();
               }}
             >
-              <svg
-                viewBox="0 0 16 16"
-                xmlns="http://www.w3.org/2000/svg"
+              <FontSizeStepperDownIcon
                 className="popup-font-size__stepper-icon"
                 aria-hidden="true"
-              >
-                <path
-                  d="M4 6L8 10L12 6"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              />
             </button>
           </div>
         </div>
