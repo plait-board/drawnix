@@ -153,6 +153,7 @@ const SelectRoot: React.FC<SelectRootProps> = ({
     selectedIndex: navigationSelectedIndex,
     onNavigate: setActiveIndex,
     loop: true,
+    focusItemOnHover: !disableItemHoverHighlight,
   });
 
   const typeahead = useTypeahead(context, {
