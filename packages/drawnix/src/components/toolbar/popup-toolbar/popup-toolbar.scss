@@ -4,7 +4,7 @@
         display: flex;
         align-items: center;
         gap: 2px;
-        padding: 0 2px 0 6px;
+        padding: 0 4px 0 4px;
         border-radius: var(--border-radius-sm);
         background-color: var(--color-surface-secondary-container);
         color: var(--color-on-surface);
@@ -19,7 +19,7 @@
             padding: 0;
             background: transparent;
             color: inherit;
-            font-size: 13px;
+            font-size: 14px;
             text-align: center;
             appearance: textfield;
             -moz-appearance: textfield;
