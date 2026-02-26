@@ -49,6 +49,7 @@ export const PopupFillButton: React.FC<PopupFillButtonProps> = ({
         <ToolButton
           className={classNames(`property-button`)}
           visible={true}
+          selected={isFillPropertyOpen}
           icon={icon}
           type="button"
           title={title}

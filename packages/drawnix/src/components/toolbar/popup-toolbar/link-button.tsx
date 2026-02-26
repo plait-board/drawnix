@@ -24,6 +24,11 @@ export const PopupLinkButton: React.FC<PopupLinkButtonProps> = ({
     <ToolButton
       className={classNames(`property-button`)}
       visible={true}
+      selected={
+        appState.linkState?.isEditing ||
+        appState.linkState?.isHovering ||
+        appState.linkState?.isHoveringOrigin
+      }
       icon={LinkIcon}
       type="button"
       title={title}
