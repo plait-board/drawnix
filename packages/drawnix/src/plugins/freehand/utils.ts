@@ -43,7 +43,8 @@ export const isHitFreehand = (
 ) => {
   const antiPoint = rotateAntiPointsByElement(board, point, element) || point;
   const points = element.points;
-  if (isClosedPoints(element.points)) {
+  const fill = getFillByElement(board, element);
+  if (isClosedPoints(element.points) && fill && fill !== 'none') {
     return (
       isPointInPolygon(antiPoint, points) || isHitPolyLine(points, antiPoint)
     );
