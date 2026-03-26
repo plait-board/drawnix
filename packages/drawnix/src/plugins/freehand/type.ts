@@ -3,7 +3,9 @@ import { PlaitCustomGeometry } from '@plait/draw';
 
 export {
   DEFAULT_FREEHAND_STROKE_WIDTH,
-  FREEHAND_STROKE_WIDTH_PRESETS,
+  FREEHAND_STROKE_WIDTH_STEP,
+  MAX_FREEHAND_STROKE_WIDTH,
+  MIN_FREEHAND_STROKE_WIDTH,
 } from './presets';
 
 export const FreehandThemeColors = {

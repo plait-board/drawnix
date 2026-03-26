@@ -8,18 +8,16 @@ import React from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import {
   DEFAULT_FREEHAND_STROKE_WIDTH,
-  FREEHAND_STROKE_WIDTH_PRESETS,
   FreehandShape,
 } from '../../../plugins/freehand/type';
 import { getFreehandDefaultStrokeColor } from '../../../plugins/freehand/utils';
 import { useBoard } from '@plait-board/react-board';
 import { splitRows } from '../../../utils/common';
-import {
-  DrawnixPointerType,
-} from '../../../hooks/use-drawnix';
+import { DrawnixPointerType } from '../../../hooks/use-drawnix';
 import { Translations, useI18n } from '../../../i18n';
 import { CLASSIC_COLORS, WHITE } from '../../../constants/color';
 import { isDefaultStroke, isNoColor } from '../../../utils/color';
+import { FreehandWidthSlider } from './freehand-width-slider';
 import './freehand-panel.scss';
 
 export interface FreehandProps {
@@ -68,6 +66,9 @@ export const FreehandPanel: React.FC<FreehandPickerProps> = ({
   );
   const normalizedStrokeWidth =
     selectedStrokeWidth || DEFAULT_FREEHAND_STROKE_WIDTH;
+  const previewStrokeColor = isNoColor(selectedStrokeColor)
+    ? themeDefaultStrokeColor
+    : selectedStrokeColor;
   return (
     <Island padding={1}>
       <Stack.Col gap={2}>
@@ -101,29 +102,11 @@ export const FreehandPanel: React.FC<FreehandPickerProps> = ({
           );
         })}
         <Stack.Row gap={1} className="freehand-width-row">
-          {FREEHAND_STROKE_WIDTH_PRESETS.map((strokeWidth) => {
-            return (
-              <button
-                key={strokeWidth}
-                type="button"
-                className={classNames('freehand-width-button', {
-                  active: normalizedStrokeWidth === strokeWidth,
-                })}
-                title={`${strokeWidth}px`}
-                aria-label={`${strokeWidth}px`}
-                onClick={() => {
-                  onStrokeWidthSelect(strokeWidth);
-                }}
-              >
-                <span
-                  className="freehand-width-preview"
-                  style={{
-                    height: `${Math.max(strokeWidth, 2)}px`,
-                  }}
-                ></span>
-              </button>
-            );
-          })}
+          <FreehandWidthSlider
+            value={normalizedStrokeWidth}
+            previewColor={previewStrokeColor}
+            onChange={onStrokeWidthSelect}
+          />
         </Stack.Row>
         <Stack.Col gap={2}>
           {ROW_FREEHAND_PRESET_COLORS.map((colors, rowIndex) => (

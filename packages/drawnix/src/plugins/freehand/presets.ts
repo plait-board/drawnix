@@ -1,6 +1,10 @@
 export const DEFAULT_FREEHAND_STROKE_WIDTH = 1;
 
-export const FREEHAND_STROKE_WIDTH_PRESETS = [1, 2, 4, 8];
+export const MIN_FREEHAND_STROKE_WIDTH = 1;
+
+export const MAX_FREEHAND_STROKE_WIDTH = 12;
+
+export const FREEHAND_STROKE_WIDTH_STEP = 0.25;
 
 export type FreehandDrawOptions = {
   strokeColor?: string;

@@ -8,11 +8,11 @@ describe('freehand utils', () => {
     expect(
       resolveFreehandDrawOptions({
         strokeColor: '#FF4500',
-        strokeWidth: 4,
+        strokeWidth: 3.25,
       })
     ).toEqual({
       strokeColor: '#FF4500',
-      strokeWidth: 4,
+      strokeWidth: 3.25,
     });
   });
 
