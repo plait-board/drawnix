@@ -21,7 +21,8 @@ export const ArrowMarkButton: React.FC<ArrowMarkButtonProps> = ({
   endProperty,
 }) => {
   const [isPopoverOpen, setIsPopoverrOpen] = useState(false);
-  const marker = endProperty?.marker;
+  const property = endProperty || ({ marker: 'none' } as ArrowLineHandle);
+  const marker = property.marker === 'none' ? 'none' : 'arrow';
   const container = PlaitBoard.getBoardContainer(board);
   const { t } = useI18n();
   const title = `${t(`line.${end}`)} — ${t(`line.${marker}`)}`;
@@ -52,7 +53,7 @@ export const ArrowMarkButton: React.FC<ArrowMarkButtonProps> = ({
         ></ToolButton>
       </PopoverTrigger>
       <PopoverContent container={container}>
-        <ArrowMarkerPicker end={end} property={endProperty} />
+        <ArrowMarkerPicker end={end} property={property} />
       </PopoverContent>
     </Popover>
   );

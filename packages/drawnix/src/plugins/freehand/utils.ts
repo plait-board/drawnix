@@ -10,7 +10,15 @@ import {
   Selection,
   ThemeColorMode,
 } from '@plait/core';
-import { Freehand, FreehandShape, FreehandThemeColors } from './type';
+import {
+  Freehand,
+  FreehandShape,
+  FreehandThemeColors,
+} from './type';
+import {
+  type FreehandDrawOptions,
+  resolveFreehandDrawOptions,
+} from './presets';
 import {
   DefaultDrawStyle,
   isClosedCustomGeometry,
@@ -19,19 +27,35 @@ import {
   isRectangleHitRotatedPoints,
 } from '@plait/draw';
 
+type FreehandAppState = {
+  freehandStrokeColor?: string;
+  freehandStrokeWidth?: number;
+};
+
 export function getFreehandPointers() {
   return [FreehandShape.feltTipPen, FreehandShape.eraser];
 }
 
+export const getFreehandDrawOptions = (board: PlaitBoard) => {
+  const appState = (board as PlaitBoard & { appState?: FreehandAppState })
+    .appState;
+  return resolveFreehandDrawOptions({
+    strokeColor: appState?.freehandStrokeColor,
+    strokeWidth: appState?.freehandStrokeWidth,
+  });
+};
+
 export const createFreehandElement = (
   shape: FreehandShape,
-  points: Point[]
+  points: Point[],
+  drawOptions: FreehandDrawOptions = {}
 ): Freehand => {
   const element: Freehand = {
     id: idCreator(),
     type: 'freehand',
     shape,
     points,
+    ...resolveFreehandDrawOptions(drawOptions),
   };
   return element;
 };

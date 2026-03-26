@@ -38,6 +38,8 @@ export type DrawnixState = {
   pointer: DrawnixPointerType;
   isMobile: boolean;
   isPencilMode: boolean;
+  freehandStrokeColor: string;
+  freehandStrokeWidth: number;
   openDialogType: DialogType | null;
   openCleanConfirm: boolean;
   linkState?: LinkState | null;

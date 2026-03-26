@@ -7,7 +7,11 @@ import {
   toViewBoxPoint,
 } from '@plait/core';
 import { isDrawingMode } from '@plait/common';
-import { createFreehandElement, getFreehandPointers } from './utils';
+import {
+  createFreehandElement,
+  getFreehandDrawOptions,
+  getFreehandPointers,
+} from './utils';
 import { Freehand, FreehandShape } from './type';
 import { FreehandGenerator } from './freehand.generator';
 import { FreehandSmoother } from './smoother';
@@ -37,10 +41,11 @@ export const withFreehandCreate = (board: PlaitBoard) => {
   const complete = (cancel?: boolean) => {
     if (isDrawing) {
       const pointer = PlaitBoard.getPointer(board) as FreehandShape;
+      const drawOptions = getFreehandDrawOptions(board);
       if (isSnappingStartAndEnd) {
         points.push(points[0]);
       }
-      temporaryElement = createFreehandElement(pointer, points);
+      temporaryElement = createFreehandElement(pointer, points, drawOptions);
     }
     if (temporaryElement && !cancel) {
       Transforms.insertNode(board, temporaryElement, [board.children.length]);
@@ -102,7 +107,11 @@ export const withFreehandCreate = (board: PlaitBoard) => {
         );
         points.push(newPoint);
         const pointer = PlaitBoard.getPointer(board) as FreehandShape;
-        temporaryElement = createFreehandElement(pointer, points);
+        temporaryElement = createFreehandElement(
+          pointer,
+          points,
+          getFreehandDrawOptions(board)
+        );
         generator.processDrawing(
           temporaryElement,
           PlaitBoard.getElementTopHost(board)
