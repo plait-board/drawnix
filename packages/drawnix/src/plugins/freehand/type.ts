@@ -1,6 +1,11 @@
 import { DEFAULT_COLOR, Point, ThemeColorMode } from '@plait/core';
 import { PlaitCustomGeometry } from '@plait/draw';
 
+export {
+  DEFAULT_FREEHAND_STROKE_WIDTH,
+  FREEHAND_STROKE_WIDTH_PRESETS,
+} from './presets';
+
 export const FreehandThemeColors = {
   [ThemeColorMode.default]: {
       strokeColor: DEFAULT_COLOR,
@@ -41,7 +46,12 @@ export const FREEHAND_TYPE = 'freehand';
 export type Freehand = PlaitCustomGeometry<typeof FREEHAND_TYPE, Point[], FreehandShape>
 
 export const Freehand = {
-  isFreehand: (value: any): value is Freehand => {
-    return value.type === FREEHAND_TYPE;
+  isFreehand: (value: unknown): value is Freehand => {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      'type' in value &&
+      value.type === FREEHAND_TYPE
+    );
   },
 };

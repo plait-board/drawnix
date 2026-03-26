@@ -10,7 +10,7 @@ import {
   ThemeColorMode,
   Viewport,
 } from '@plait/core';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { withGroup } from '@plait/common';
 import { withDraw } from '@plait/draw';
 import { MindThemeColors, withMind } from '@plait/mind';
@@ -40,6 +40,8 @@ import { LinkPopup } from './components/popup/link-popup/link-popup';
 import { I18nProvider } from './i18n';
 import { Tutorial } from './components/tutorial';
 import { LASER_POINTER_CLASS_NAME } from './utils/laser-pointer';
+import { NO_COLOR } from './constants/color';
+import { DEFAULT_FREEHAND_STROKE_WIDTH } from './plugins/freehand/type';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -76,13 +78,15 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   const [appState, setAppState] = useState<DrawnixState>(() => {
     // TODO: need to consider how to maintenance the pointer state in future
     const md = new MobileDetect(window.navigator.userAgent);
-    return {
-      pointer: PlaitPointerType.hand,
-      isMobile: md.mobile() !== null,
-      isPencilMode: false,
-      openDialogType: null,
-      openCleanConfirm: false,
-    };
+      return {
+        pointer: PlaitPointerType.hand,
+        isMobile: md.mobile() !== null,
+        isPencilMode: false,
+        freehandStrokeColor: NO_COLOR,
+        freehandStrokeWidth: DEFAULT_FREEHAND_STROKE_WIDTH,
+        openDialogType: null,
+        openCleanConfirm: false,
+      };
   });
 
   const [board, setBoard] = useState<DrawnixBoard | null>(null);

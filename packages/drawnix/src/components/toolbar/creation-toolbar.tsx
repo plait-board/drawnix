@@ -8,7 +8,6 @@ import {
   SelectionIcon,
   ShapeIcon,
   TextIcon,
-  EraseIcon,
   StraightArrowLineIcon,
   FeltTipPenIcon,
   ImageIcon,
@@ -42,7 +41,7 @@ import {
 } from '../../hooks/use-drawnix';
 import { ExtraToolsButton } from './extra-tools/extra-tools-button';
 import { addImage } from '../../utils/image';
-import { useI18n } from '../../i18n';
+import { Translations, useI18n } from '../../i18n';
 import { SHAPES } from '../shape-picker';
 import { ARROWS } from '../arrow-picker';
 
@@ -53,7 +52,7 @@ export enum PopupKey {
 }
 
 type AppToolButtonProps = {
-  titleKey?: keyof typeof import('../../i18n').Translations;
+  titleKey?: keyof Translations;
   name?: string;
   icon: React.ReactNode;
   pointer?: DrawnixPointerType;
@@ -131,7 +130,7 @@ export const isShapePointer = (board: PlaitBoard) => {
 
 export const CreationToolbar = () => {
   const board = useBoard();
-  const { appState } = useDrawnix();
+  const { appState, setAppState } = useDrawnix();
   const { t } = useI18n();
   const setPointer = useSetPointer();
   const container = PlaitBoard.getBoardContainer(board);
@@ -141,10 +140,14 @@ export const CreationToolbar = () => {
   const [shapeOpen, setShapeOpen] = useState(false);
   const [lastFreehandButton, setLastFreehandButton] =
     useState<AppToolButtonProps>(
-      BUTTONS.find((button) => button.key === PopupKey.freehand)!
+      BUTTONS.find((button) => button.key === PopupKey.freehand) || BUTTONS[4]
     );
-  const [lastShapePointer, setLastShapePointer] = useState<string | undefined>(SHAPES[0].pointer);
-  const [lastArrowPointer, setLastArrowPointer] = useState<string | undefined>(ARROWS[0].pointer);
+  const [lastShapePointer, setLastShapePointer] = useState<
+    DrawPointerType | undefined
+  >(SHAPES[0].pointer);
+  const [lastArrowPointer, setLastArrowPointer] = useState<
+    DrawPointerType | undefined
+  >(ARROWS[0].pointer);
 
   const onPointerDown = (pointer: DrawnixPointerType) => {
     setCreationMode(board, BoardCreationMode.dnd);
@@ -169,6 +172,18 @@ export const CreationToolbar = () => {
     ]);
   };
 
+  const updateFreehandSettings = (
+    nextSettings: Pick<
+      typeof appState,
+      'freehandStrokeColor' | 'freehandStrokeWidth'
+    >
+  ) => {
+    setAppState({
+      ...appState,
+      ...nextSettings,
+    });
+  };
+
 
   return (
     <Island
@@ -178,7 +193,7 @@ export const CreationToolbar = () => {
       <Stack.Row gap={1}>
         {BUTTONS.map((button, index) => {
           if (appState.isMobile && button.pointer === PlaitPointerType.hand) {
-            return <></>;
+            return null;
           }
           if (button.key === PopupKey.freehand) {
             return (
@@ -201,10 +216,12 @@ export const CreationToolbar = () => {
                     icon={lastFreehandButton.icon}
                     title={lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'}
                     aria-label={lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'}
-                    onPointerDown={() => {
-                      setFreehandOpen(!freehandOpen);
-                      onPointerDown(lastFreehandButton.pointer!);
-                    }}
+                      onPointerDown={() => {
+                        setFreehandOpen(!freehandOpen);
+                        if (lastFreehandButton.pointer) {
+                          onPointerDown(lastFreehandButton.pointer);
+                        }
+                      }}
                     onPointerUp={() => {
                       onPointerUp();
                     }}
@@ -212,11 +229,28 @@ export const CreationToolbar = () => {
                 </PopoverTrigger>
                 <PopoverContent container={container}>
                   <FreehandPanel
+                    selectedStrokeColor={appState.freehandStrokeColor}
+                    selectedStrokeWidth={appState.freehandStrokeWidth}
+                    onStrokeColorSelect={(strokeColor: string) => {
+                      updateFreehandSettings({
+                        freehandStrokeColor: strokeColor,
+                        freehandStrokeWidth: appState.freehandStrokeWidth,
+                      });
+                    }}
+                    onStrokeWidthSelect={(strokeWidth: number) => {
+                      updateFreehandSettings({
+                        freehandStrokeColor: appState.freehandStrokeColor,
+                        freehandStrokeWidth: strokeWidth,
+                      });
+                    }}
                     onPointerUp={(pointer: DrawnixPointerType) => {
                       setPointer(pointer);
-                      setLastFreehandButton(
-                        FREEHANDS.find((button) => button.pointer === pointer)!
+                      const selectedButton = FREEHANDS.find(
+                        (button) => button.pointer === pointer
                       );
+                      if (selectedButton) {
+                        setLastFreehandButton(selectedButton);
+                      }
                     }}
                   ></FreehandPanel>
                 </PopoverContent>

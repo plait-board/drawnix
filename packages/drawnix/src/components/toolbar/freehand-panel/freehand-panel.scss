@@ -1,0 +1,46 @@
+@import "open-color/open-color.scss";
+
+.freehand-width-row {
+  align-items: center;
+}
+
+.freehand-width-button {
+  width: var(--default-button-size);
+  height: var(--default-button-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-gray-30);
+  border-radius: 999px;
+  background: var(--color-surface-lowest);
+  cursor: pointer;
+  padding: 0;
+
+  &.active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
+}
+
+.freehand-width-preview {
+  width: 18px;
+  border-radius: 999px;
+  background: $oc-black;
+  pointer-events: none;
+}
+
+.freehand-theme-default-color {
+  position: relative;
+}
+
+.freehand-theme-default-indicator {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba($oc-white, 0.92);
+  box-shadow: 0 0 0 1px rgba($oc-black, 0.18);
+  pointer-events: none;
+}
