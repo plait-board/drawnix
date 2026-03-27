@@ -194,6 +194,9 @@ export const Wrapper: React.FC<WrapperProps> = ({
 
     if (value !== context.board.children && !FLUSHING.get(board)) {
       board.children = value;
+      if (theme) {
+        board.theme = theme;
+      }
       listRender.update(board.children, {
         board: board,
         parent: board,

@@ -36,6 +36,7 @@ import {
 import { CustomText, StrokeStyle } from '@plait/common';
 import { getTextMarksByElement } from '@plait/text-plugins';
 import { PopupFontColorButton } from './font-color-button';
+import { PopupFontSizeControl } from './font-size-control';
 import { PopupStrokeButton } from './stroke-button';
 import { PopupFillButton } from './fill-button';
 import { isWhite, removeHexAlpha } from '../../../utils/color';
@@ -181,6 +182,14 @@ export const PopupToolbar = () => {
           style={floatingStyles}
         >
           <Stack.Row gap={1}>
+            {state.hasText && (
+              <PopupFontSizeControl
+                board={board}
+                key={'font-size'}
+                currentFontSize={getFontSizeFromMarks(state.marks)}
+                title={t('popupToolbar.fontSize')}
+              />
+            )}
             {state.hasFontColor && (
               <PopupFontColorButton
                 board={board}
@@ -261,7 +270,7 @@ export const getMindElementState = (
   return {
     fill: element.fill,
     strokeColor: getStrokeColorByMindElement(board, element),
-    strokeStyle:getStrokeStyleByElement(board, element),
+    strokeStyle: getStrokeStyleByElement(board, element),
     marks,
   };
 };
@@ -350,4 +359,10 @@ export const getColorPropertyValue = (color: string) => {
   } else {
     return color;
   }
+};
+
+const getFontSizeFromMarks = (marks?: Omit<CustomText, 'text'>) => {
+  const value = (marks as any)?.['font-size'];
+  const size = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(size) && size > 0 ? size : undefined;
 };

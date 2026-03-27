@@ -1,4 +1,4 @@
-import { PlaitElement, Viewport } from '@plait/core';
+import { PlaitElement, PlaitTheme, Viewport } from '@plait/core';
 
 export interface DrawnixExportedData {
   type: DrawnixExportedType.drawnix;
@@ -6,6 +6,7 @@ export interface DrawnixExportedData {
   source: 'web';
   elements: PlaitElement[];
   viewport: Viewport;
+  theme?: PlaitTheme;
 }
 
 export enum DrawnixExportedType {

@@ -11,27 +11,27 @@ export {
 export const FreehandThemeColors = {
   [ThemeColorMode.default]: {
       strokeColor: DEFAULT_COLOR,
-      fill: '#FFFFFF'
+      fill: 'none'
   },
   [ThemeColorMode.colorful]: {
       strokeColor: '#06ADBF',
-      fill: '#CDEFF2'
+      fill: 'none'
   },
   [ThemeColorMode.soft]: {
       strokeColor: '#6D89C1',
-      fill: '#DADFEB'
+      fill: 'none'
   },
   [ThemeColorMode.retro]: {
       strokeColor: '#E9C358',
-      fill: '#F6EDCF'
+      fill: 'none'
   },
   [ThemeColorMode.dark]: {
       strokeColor: '#FFFFFF',
-      fill: '#434343'
+      fill: 'none'
   },
   [ThemeColorMode.starry]: {
       strokeColor: '#42ABE5',
-      fill: '#163F5A'
+      fill: 'none'
   }
 };
 

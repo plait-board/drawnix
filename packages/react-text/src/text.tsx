@@ -162,8 +162,18 @@ const Leaf: React.FC<RenderLeafProps> = ({ children, leaf, attributes }) => {
   if ((leaf as CustomText).underlined) {
     children = <u>{children}</u>;
   }
+
+  const fontSizeValue = (leaf as CustomText)['font-size'];
+  const style: CSSProperties = {
+    color: (leaf as CustomText).color
+  };
+
   return (
-    <span style={{ color: (leaf as CustomText).color }} {...attributes}>
+    <span
+      style={style}
+      {...attributes}
+      {...({ 'plait-font-size': fontSizeValue } as any)}
+    >
       {children}
     </span>
   );

@@ -20,7 +20,7 @@ import {
   getCurrentStrokeColor,
   isClosedElement,
 } from '../utils/property';
-import { TextTransforms } from '@plait/text-plugins';
+import { DEFAULT_FONT_SIZE, TextTransforms } from '@plait/text-plugins';
 
 export const setFillColorOpacity = (board: PlaitBoard, fillOpacity: number) => {
   PropertyTransforms.setFillColor(board, null, {
@@ -140,4 +140,11 @@ export const setTextColorOpacity = (
     ? currentFontColorValue
     : applyOpacityToHex(currentFontColorValue, opacity);
   TextTransforms.setTextColor(board, newFontColor);
+};
+
+export const setTextFontSize = (board: PlaitBoard, size: number) => {
+  if (!Number.isFinite(size) || size <= 0) {
+    return;
+  }
+  TextTransforms.setFontSize(board, String(size) as any, DEFAULT_FONT_SIZE);
 };

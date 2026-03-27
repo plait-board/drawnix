@@ -73,6 +73,7 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
         <ToolButton
           className={classNames(`property-button`)}
           visible={true}
+          selected={isStrokePropertyOpen}
           icon={icon}
           type="button"
           title={title}
@@ -98,9 +99,7 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
               <Stack.Row className={classNames('stroke-style-picker')}>
                 <ToolButton
                   visible={true}
-                  selected={
-                    !currentStyle || currentStyle === StrokeStyle.solid
-                  }
+                  selected={!currentStyle || currentStyle === StrokeStyle.solid}
                   icon={StrokeStyleNormalIcon}
                   type="button"
                   title={`${title} — ${t('stroke.solid')}`}

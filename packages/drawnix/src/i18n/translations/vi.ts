@@ -22,6 +22,8 @@ const viTranslations: Translations = {
     'toolbar.shape.ellipse': 'Hình elip — O',
     'toolbar.shape.triangle': 'Hình tam giác',
     'toolbar.shape.terminal': 'Terminal',
+    'toolbar.shape.noteCurlyLeft': 'Ghi chú ngoặc móc trái',
+    'toolbar.shape.noteCurlyRight': 'Ghi chú ngoặc móc phải',
     'toolbar.shape.diamond': 'Hình thoi',
     'toolbar.shape.parallelogram': 'Hình bình hành',
     'toolbar.shape.roundRectangle': 'Hình chữ nhật bo tròn',
@@ -119,6 +121,7 @@ const viTranslations: Translations = {
 
     // Tool popup items
     'popupToolbar.fillColor': 'Màu tô',
+    'popupToolbar.fontSize': 'Cỡ chữ',
     'popupToolbar.fontColor': 'Màu chữ',
     'popupToolbar.link': 'Chèn liên kết',
     'popupToolbar.stroke': 'Đường viền',

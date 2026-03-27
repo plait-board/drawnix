@@ -54,7 +54,7 @@ export const withReact = (board: PlaitBoard & PlaitTextBoard) => {
         if (readonly === true && newProps.readonly === false) {
           setTimeout(() => {
             ReactEditor.focus(currentEditor);
-          }, 0);
+          }, 100);
         } else if (readonly === false && newProps.readonly === true) {
           ReactEditor.blur(currentEditor);
           ReactEditor.deselect(currentEditor);

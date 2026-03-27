@@ -26,6 +26,8 @@ export interface Translations {
   'toolbar.shape.ellipse': string;
   'toolbar.shape.triangle': string;
   'toolbar.shape.terminal': string;
+  'toolbar.shape.noteCurlyLeft': string;
+  'toolbar.shape.noteCurlyRight': string;
   'toolbar.shape.diamond': string;
   'toolbar.shape.parallelogram': string;
   'toolbar.shape.roundRectangle': string;
@@ -120,6 +122,7 @@ export interface Translations {
 
   // Tool popup items
   'popupToolbar.fillColor': string;
+  'popupToolbar.fontSize': string;
   'popupToolbar.fontColor': string;
   'popupToolbar.link': string;
   'popupToolbar.stroke': string;

@@ -1,4 +1,4 @@
-import { DEFAULT_COLOR } from '@plait/core';
+import { DEFAULT_COLOR, PlaitBoard } from '@plait/core';
 import { TRANSPARENT, NO_COLOR, WHITE } from '../constants/color';
 
 // 将 0-100 的透明度转换为 0-255 的整数
@@ -66,7 +66,7 @@ export function isTransparent(color?: string) {
 }
 
 export function isWhite(color?: string) {
-  return color === WHITE;
+  return color === WHITE || color === WHITE.toLocaleLowerCase();
 }
 
 export function isFullyTransparent(opacity: number) {
@@ -83,4 +83,12 @@ export function isNoColor(value: string) {
 
 export function isDefaultStroke(color?: string) {
   return !color || color === DEFAULT_COLOR;
+}
+
+export function getBackgroundColor(board: PlaitBoard) {
+  const themeColors = PlaitBoard.getThemeColors(board);
+  const themeColor = themeColors.find(
+    (val) => val.mode === board.theme.themeColorMode
+  );
+  return themeColor?.boardBackground;
 }

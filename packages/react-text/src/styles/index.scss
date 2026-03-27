@@ -31,4 +31,25 @@
             user-select: text;
         }
     }
+    [plait-underlined][plait-strike] {
+        text-decoration: underline line-through;
+    }
+    [plait-strike] {
+        text-decoration: line-through;
+    }
+    [plait-underlined] {
+        text-decoration: underline;
+    }
+    [plait-italic] {
+        font-style: italic;
+    }
+    [plait-bold] {
+        font-weight: bold;
+    }
+    @for $size from 8 through 78 {
+        [plait-font-size='#{$size}'] {
+            font-size: #{$size}px;
+            line-height: 1.5;
+        }
+    }
 }

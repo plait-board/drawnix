@@ -22,6 +22,8 @@ const enTranslations: Translations = {
   'toolbar.shape.ellipse': 'Ellipse — O',
   'toolbar.shape.triangle': 'Triangle',
   'toolbar.shape.terminal': 'Terminal',
+  'toolbar.shape.noteCurlyLeft': 'Curly Note — Left',
+  'toolbar.shape.noteCurlyRight': 'Curly Note — Right',
   'toolbar.shape.diamond': 'Diamond',
   'toolbar.shape.parallelogram': 'Parallelogram',
   'toolbar.shape.roundRectangle': 'Round Rectangle',
@@ -118,6 +120,7 @@ const enTranslations: Translations = {
 
   // Tool popup items
   'popupToolbar.fillColor': 'Fill Color',
+  'popupToolbar.fontSize': 'Font Size',
   'popupToolbar.fontColor': 'Font Color',
   'popupToolbar.link': 'Insert Link',
   'popupToolbar.stroke': 'Stroke',

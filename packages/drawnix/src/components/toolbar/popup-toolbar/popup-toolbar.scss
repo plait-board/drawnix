@@ -1,4 +1,66 @@
 .popup-toolbar {
+    .popup-font-size {
+        height: var(--lg-button-size);
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        padding: 0 4px 0 4px;
+        border-radius: var(--border-radius-sm);
+        background-color: var(--color-surface-secondary-container);
+        color: var(--color-on-surface);
+        &:not([data-disable-hover]):hover {
+            background-color: var(--color-surface-primary-container);
+        }
+        .popup-font-size__input {
+            width: 36px;
+            height: 100%;
+            border: none;
+            outline: none;
+            padding: 0;
+            background: transparent;
+            color: inherit;
+            font-size: 14px;
+            text-align: center;
+            appearance: textfield;
+            -moz-appearance: textfield;
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        }
+        .popup-font-size__stepper {
+            height: 100%;
+            width: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: stretch;
+        }
+        .popup-font-size__stepper-button {
+            flex: 1;
+            border: 0;
+            outline: none;
+            padding: 0;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .popup-font-size__stepper-icon {
+            width: 12px;
+            height: 12px;
+            display: block;
+        }
+        .popup-font-size__stepper-button:first-child .popup-font-size__stepper-icon {
+            transform: translateY(0.5px);
+        }
+        .popup-font-size__stepper-button:last-child .popup-font-size__stepper-icon {
+            transform: translateY(-0.5px);
+        }
+    }
     .property-button {
         height: var(--lg-button-size);
         width: var(--lg-button-size);
@@ -29,7 +91,6 @@
         }
     }
 }
-
 .stroke-setting {
     &.has-stroke-style {
         padding-top: 8px !important;
