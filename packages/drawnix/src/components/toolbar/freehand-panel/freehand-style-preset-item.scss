@@ -1,0 +1,38 @@
+.drawnix {
+  .freehand-style-list {
+    margin-top: 0;
+  }
+
+  .freehand-style-divider {
+    width: 1px;
+    height: 20px;
+    margin: 0 calc(var(--space-factor));
+    background-color: var(--color-gray-20);
+    align-self: center;
+  }
+
+  .freehand-style-preset__preview {
+    width: var(--default-icon-size);
+    height: var(--default-icon-size);
+    border-radius: 50%;
+    border: 1px solid var(--color-gray-40);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-lowest);
+  }
+
+  .freehand-style-preset__dot {
+    border-radius: 50%;
+    display: inline-flex;
+  }
+
+  .freehand-style-setting {
+    width: auto;
+    min-width: auto;
+  }
+
+  .freehand-style-setting .slider-container {
+    width: 100%;
+  }
+}

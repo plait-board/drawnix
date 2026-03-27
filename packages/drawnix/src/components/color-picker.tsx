@@ -32,12 +32,18 @@ export type ColorPickerProps = {
   onColorChange: (color: string) => void;
   onOpacityChange: (opacity: number) => void;
   currentColor?: string;
+  hideOpacitySlider?: boolean;
 };
 
 export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
   const board = useBoard();
   const { t } = useI18n();
-  const { currentColor, onColorChange, onOpacityChange } = props;
+  const {
+    currentColor,
+    onColorChange,
+    onOpacityChange,
+    hideOpacitySlider = false,
+  } = props;
   const [selectedColor, setSelectedColor] = useState(
     (currentColor && removeHexAlpha(currentColor)) ||
       ROWS_CLASSIC_COLORS[0][0].value
@@ -48,6 +54,7 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
   });
   return (
     <Stack.Col gap={3}>
+      {!hideOpacitySlider && (
         <SizeSlider
           title={t('popupToolbar.opacity')}
           step={5}
@@ -65,7 +72,8 @@ export const ColorPicker = React.forwardRef((props: ColorPickerProps, ref) => {
           }}
           disabled={selectedColor === CLASSIC_COLORS[0]['value']}
         ></SizeSlider>
-        <Stack.Col gap={2}>
+      )}
+      <Stack.Col gap={2}>
           {ROWS_CLASSIC_COLORS.map((colors, index) => (
             <Stack.Row key={index} gap={2}>
               {colors.map((color) => {
