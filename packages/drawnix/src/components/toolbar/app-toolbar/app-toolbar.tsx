@@ -19,7 +19,16 @@ import {
 import { Island } from '../../island';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import { useState } from 'react';
-import { CleanBoard, OpenFile, SaveAsImage, SaveToFile, Socials } from './app-menu-items';
+import {
+  CleanBoard,
+  ConfigureWebDAV,
+  OpenFile,
+  OpenFromWebDAV,
+  SaveAsImage,
+  SaveToFile,
+  SaveToWebDAV,
+  Socials,
+} from './app-menu-items';
 import { LanguageSwitcherMenu } from './language-switcher-menu';
 import Menu from '../../menu/menu';
 import MenuSeparator from '../../menu/menu-separator';
@@ -71,6 +80,10 @@ export const AppToolbar = () => {
               <SaveToFile></SaveToFile>
               <SaveAsImage></SaveAsImage>
               <CleanBoard></CleanBoard>
+              <MenuSeparator />
+              <ConfigureWebDAV></ConfigureWebDAV>
+              <OpenFromWebDAV></OpenFromWebDAV>
+              <SaveToWebDAV></SaveToWebDAV>
               <MenuSeparator />
               <LanguageSwitcherMenu />
               <Socials />

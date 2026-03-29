@@ -35,6 +35,8 @@ import {
 import { ClosePencilToolbar } from './components/toolbar/pencil-mode-toolbar';
 import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
 import { CleanConfirm } from './components/clean-confirm/clean-confirm';
+import { WebDAVConfigDialog } from './components/webdav-config-dialog/webdav-config-dialog';
+import { WebDAVFileBrowser } from './components/webdav-file-browser/webdav-file-browser';
 import { buildTextLinkPlugin } from './plugins/with-text-link';
 import { LinkPopup } from './components/popup/link-popup/link-popup';
 import { I18nProvider } from './i18n';
@@ -82,6 +84,8 @@ export const Drawnix: React.FC<DrawnixProps> = ({
       isPencilMode: false,
       openDialogType: null,
       openCleanConfirm: false,
+      openWebDAVConfigDialog: false,
+      openWebDAVFileBrowser: false,
     };
   });
 
@@ -156,6 +160,8 @@ export const Drawnix: React.FC<DrawnixProps> = ({
             <ClosePencilToolbar></ClosePencilToolbar>
             <TTDDialog container={containerRef.current}></TTDDialog>
             <CleanConfirm container={containerRef.current}></CleanConfirm>
+            <WebDAVConfigDialog container={containerRef.current}></WebDAVConfigDialog>
+            <WebDAVFileBrowser container={containerRef.current}></WebDAVFileBrowser>
           </Wrapper>
           <canvas className={`${LASER_POINTER_CLASS_NAME} mouse-course-hidden`}></canvas>
         </div>

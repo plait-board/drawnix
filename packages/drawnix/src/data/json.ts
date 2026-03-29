@@ -3,6 +3,8 @@ import { MIME_TYPES, VERSIONS } from '../constants';
 import { fileOpen, fileSave } from './filesystem';
 import { DrawnixExportedData, DrawnixExportedType } from './types';
 import { loadFromBlob, normalizeFile } from './blob';
+import { saveFile as webDAVSaveFile, getCurrentConfig } from './webdav';
+import { WebDAVConfig } from './webdav-types';
 
 export const getDefaultName = () => {
   const time = new Date().getTime();
@@ -24,6 +26,15 @@ export const saveAsJSON = async (
     description: 'Drawnix file',
   });
   return { fileHandle };
+};
+
+export const saveAsJSONToWebDAV = async (
+  board: PlaitBoard,
+  filename: string = `${getDefaultName()}.drawnix`
+) => {
+  const serialized = serializeAsJSON(board);
+  const result = await webDAVSaveFile(filename, serialized);
+  return result;
 };
 
 export const loadFromJSON = async (board: PlaitBoard) => {

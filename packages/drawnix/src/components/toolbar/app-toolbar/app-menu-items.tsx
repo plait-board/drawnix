@@ -4,6 +4,7 @@ import {
   OpenFileIcon,
   SaveFileIcon,
   TrashIcon,
+  CloudIcon,
 } from '../../icons';
 import { useBoard, useListRender } from '@plait-board/react-board';
 import {
@@ -25,6 +26,8 @@ import { useContext } from 'react';
 import { MenuContentPropsContext } from '../../menu/common';
 import { EVENT } from '../../../constants';
 import { getShortcutKey } from '../../../utils/common';
+import { saveFile } from '../../../data/webdav';
+import { serializeAsJSON } from '../../../data/json';
 
 export const SaveToFile = () => {
   const board = useBoard();
@@ -167,3 +170,85 @@ export const Socials = () => {
   );
 };
 Socials.displayName = 'Socials';
+
+export const ConfigureWebDAV = () => {
+  const { appState, setAppState } = useDrawnix();
+  const { t } = useI18n();
+  return (
+    <MenuItem
+      onSelect={() => {
+        setAppState({
+          ...appState,
+          openWebDAVConfigDialog: true,
+        });
+      }}
+      aria-label={t('menu.webdavConfig')}
+    >
+      {t('menu.webdavConfig')}
+    </MenuItem>
+  );
+};
+ConfigureWebDAV.displayName = 'ConfigureWebDAV';
+
+export const OpenFromWebDAV = () => {
+  const { appState, setAppState } = useDrawnix();
+  const { t } = useI18n();
+  return (
+    <MenuItem
+      onSelect={() => {
+        if (!appState.webdavConfig) {
+          alert(t('webdav not configured'));
+          setAppState({
+            ...appState,
+            openWebDAVConfigDialog: true,
+          });
+        } else {
+          setAppState({
+            ...appState,
+            openWebDAVFileBrowser: true,
+          });
+        }
+      }}
+      aria-label={t('menu.webdavOpen')}
+    >
+      {t('menu.webdavOpen')}
+    </MenuItem>
+  );
+};
+OpenFromWebDAV.displayName = 'OpenFromWebDAV';
+
+export const SaveToWebDAV = () => {
+  const board = useBoard();
+  const { appState, setAppState } = useDrawnix();
+  const { t } = useI18n();
+  return (
+    <MenuItem
+      onSelect={async () => {
+        if (!appState.webdavConfig) {
+          alert(t('webdav not configured'));
+          setAppState({
+            ...appState,
+            openWebDAVConfigDialog: true,
+          });
+          return;
+        }
+
+        const filename = prompt(t('enter filename'), 'drawnix-001.drawnix');
+        if (!filename) return;
+
+        const serialized = serializeAsJSON(board);
+        const result = await saveFile(filename, serialized);
+
+        if (result.success) {
+          alert(t('saved successfully'));
+        } else {
+          alert(result.error || t('save failed'));
+        }
+      }}
+      aria-label={t('menu.webdavSave')}
+    >
+      {t('menu.webdavSave')}
+    </MenuItem>
+  );
+};
+SaveToWebDAV.displayName = 'SaveToWebDAV';

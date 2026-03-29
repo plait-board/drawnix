@@ -9,6 +9,7 @@ import { DrawPointerType } from '@plait/draw';
 import { FreehandShape } from '../plugins/freehand/type';
 import { Editor } from 'slate';
 import { LinkElement } from '@plait/common';
+import type { WebDAVConfig } from '../data/webdav-types';
 
 export enum DialogType {
   mermaidToDrawnix = 'mermaidToDrawnix',
@@ -41,6 +42,9 @@ export type DrawnixState = {
   openDialogType: DialogType | null;
   openCleanConfirm: boolean;
   linkState?: LinkState | null;
+  webdavConfig?: WebDAVConfig | null;
+  openWebDAVConfigDialog: boolean;
+  openWebDAVFileBrowser: boolean;
 };
 
 export const DrawnixContext = createContext<{
