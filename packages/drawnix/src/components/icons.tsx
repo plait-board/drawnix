@@ -529,10 +529,19 @@ export const LinkIcon = createIcon(
   </svg>
 );
 
+export const MoreOptionsIcon = createIcon(
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <g stroke="none" fill="currentColor">
+      <circle cx="3" cy="8" r="1.2"></circle>
+      <circle cx="8" cy="8" r="1.2"></circle>
+      <circle cx="13" cy="8" r="1.2"></circle>
+    </g>
+  </svg>
+);
 
 export const ArrowIcon = createIcon(
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-    <g  stroke="none">
+    <g stroke="none">
       <path d="M8.44521878,4.21103025 C8.58299906,3.97171622 8.8886944,3.88940684 9.12800843,4.02718711 L15.242109,7.54725833 C15.3194119,7.59176394 15.3834015,7.65613893 15.4274422,7.73370766 C15.5637831,7.97384463 15.4796398,8.27904026 15.2395028,8.41538118 L9.12748155,11.8855614 C9.0176214,11.947936 8.88822223,11.9664118 8.76529593,11.9372749 C8.4965984,11.8735862 8.33040588,11.604134 8.39409456,11.3354364 L9.018,8.69941945 L1.5,8.7 C1.22385763,8.7 1,8.47614237 1,8.2 L1,8 C1,7.72385763 1.22385763,7.5 1.5,7.5 L9.075,7.49941945 L8.39165922,4.57430951 C8.3700078,4.48168206 8.37536432,4.38547957 8.40609313,4.29679626 Z"></path>
     </g>
   </svg>
@@ -604,9 +613,9 @@ export const ThickCheckIcon = createIcon(
   </svg>
 );
 
-export const FontSizeStepperUpIcon: React.FC<
-  React.SVGProps<SVGSVGElement>
-> = (props) => {
+export const FontSizeStepperUpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
+  props
+) => {
   return (
     <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path

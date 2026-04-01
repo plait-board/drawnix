@@ -19,7 +19,7 @@ const MenuItem = ({
   icon?: React.ReactNode;
   onSelect: (event: Event) => void;
   children: React.ReactNode;
-  shortcut?: string;
+  shortcut?: React.ReactNode;
   selected?: boolean;
   className?: string;
   submenu?: React.ReactNode;
@@ -58,7 +58,7 @@ const MenuItem = ({
 
   if (submenu) {
     return (
-      <Popover 
+      <Popover
         open={isOpen}
         onOpenChange={setIsOpen}
         placement="right-start"

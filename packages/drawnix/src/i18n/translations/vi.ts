@@ -64,6 +64,7 @@ const viTranslations: Translations = {
     'general.undo': 'Hoàn tác',
     'general.redo': 'Làm lại',
     'general.menu': 'Menu ứng dụng',
+    'general.moreOptions': 'Tùy chọn khác',
     'general.duplicate': 'Nhân bản',
     'general.delete': 'Xóa',
 
@@ -144,23 +145,23 @@ const viTranslations: Translations = {
 
     //markdown example
     'markdown.example': `# Tôi đã bắt đầu
-  
+
     - Hãy xem ai đã tạo ra lỗi này 🕵️ ♂️ 🔍
       - 😯 💣
         - Hóa ra là tôi 👈 🎯 💘
-  
+
     - Bất ngờ thay, nó không chạy được; tại sao vậy 🚫 ⚙️ ❓
       - Bất ngờ thay, giờ nó chạy được rồi; tại sao vậy? 🎢 ✨
         - 🤯 ⚡ ➡️ 🎉
-  
+
     - Cái gì chạy được 🐞 🚀
       - thì đừng chạm vào nó 🛑 ✋
         - 👾 💥 🏹 🎯
-      
+
     ## Trai hay gái 👶 ❓ 🤷 ♂️ ♀️
-  
+
     ### Xin chào thế giới 👋 🌍 ✨ 💻
-  
+
     #### Wow, một lập trình viên 🤯 ⌨️ 💡 👩 💻`,
 
     // Draw elements text

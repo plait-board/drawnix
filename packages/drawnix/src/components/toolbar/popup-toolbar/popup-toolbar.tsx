@@ -44,6 +44,7 @@ import { NO_COLOR } from '../../../constants/color';
 import { Freehand } from '../../../plugins/freehand/type';
 import { PopupLinkButton } from './link-button';
 import { ArrowMarkButton } from './arrow-mark-button';
+import { MoreOptionsButton } from './more-options-button';
 
 export const PopupToolbar = () => {
   const board = useBoard();
@@ -255,6 +256,7 @@ export const PopupToolbar = () => {
                 />
               </>
             )}
+            <MoreOptionsButton board={board} key={6} />
           </Stack.Row>
         </Island>
       )}

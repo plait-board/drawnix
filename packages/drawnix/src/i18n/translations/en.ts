@@ -64,6 +64,7 @@ const enTranslations: Translations = {
   'general.undo': 'Undo',
   'general.redo': 'Redo',
   'general.menu': 'App Menu',
+  'general.moreOptions': 'More Options',
   'general.duplicate': 'Duplicate',
   'general.delete': 'Delete',
 
@@ -155,7 +156,7 @@ const enTranslations: Translations = {
   - What can run 🐞 🚀
     - then do not touch it 🛑 ✋
       - 👾 💥 🏹 🎯
-    
+
   ## Boy or girl 👶 ❓ 🤷 ♂️ ♀️
 
   ### Hello world 👋 🌍 ✨ 💻

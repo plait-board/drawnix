@@ -68,6 +68,7 @@ export interface Translations {
   'general.undo': string;
   'general.redo': string;
   'general.menu': string;
+  'general.moreOptions': string;
   'general.duplicate': string;
   'general.delete': string;
 

@@ -64,6 +64,7 @@ const zhTranslations: Translations = {
   'general.undo': '撤销',
   'general.redo': '重做',
   'general.menu': '应用菜单',
+  'general.moreOptions': '更多选项',
   'general.duplicate': '复制',
   'general.delete': '删除',
 
@@ -148,23 +149,23 @@ const zhTranslations: Translations = {
 
   //markdown example
   'markdown.example': `# 我开始了
-  
+
   - 让我看看是谁搞出了这个 bug 🕵️ ♂️ 🔍
     - 😯 💣
       - 原来是我 👈 🎯 💘
-  
+
   - 竟然不可以运行，为什么呢 🚫 ⚙️ ❓
     - 竟然可以运行了，为什么呢？🎢 ✨
       - 🤯 ⚡ ➡️ 🎉
-  
+
   - 能运行起来的 🐞 🚀
     - 就不要去动它 🛑 ✋
       - 👾 💥 🏹 🎯
-      
+
   ## 男孩还是女孩 👶 ❓ 🤷 ♂️ ♀️
-  
+
   ### Hello world 👋 🌍 ✨ 💻
-  
+
   #### 哇 是个程序员 🤯 ⌨️ 💡 👩 💻`,
 
   'tutorial.title': 'Drawnix',
