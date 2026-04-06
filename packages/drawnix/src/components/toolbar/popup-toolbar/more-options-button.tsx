@@ -46,6 +46,7 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
       </PopoverTrigger>
       <PopoverContent container={container}>
         <Menu
+          className={classNames('popup-toolbar-more-options-menu')}
           onSelect={() => {
             setMenuOpen(false);
           }}
@@ -55,11 +56,7 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
               duplicateElements(board);
             }}
             icon={DuplicateIcon}
-            shortcut={
-              <span className="popup-toolbar-shortcut">
-                {getShortcutKey('CtrlOrCmd+D')}
-              </span>
-            }
+            shortcut={getShortcutKey('CtrlOrCmd+D')}
             aria-label={t('general.duplicate')}
           >
             {t('general.duplicate')}
@@ -69,11 +66,7 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
               deleteFragment(board);
             }}
             icon={TrashIcon}
-            shortcut={
-              <span className="popup-toolbar-shortcut">
-                {getShortcutKey('Backspace')}
-              </span>
-            }
+            shortcut={getShortcutKey('Backspace')}
             aria-label={t('general.delete')}
           >
             {t('general.delete')}

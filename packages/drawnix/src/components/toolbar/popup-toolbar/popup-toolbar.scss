@@ -90,21 +90,8 @@
             }
         }
     }
-
-    .popup-toolbar-shortcut {
-        display: inline-flex;
-        align-items: center;
-        border-radius: 6px;
-        border: 1px solid var(--color-gray-30);
-        background: var(--color-surface-low);
-        padding: 1px 6px;
-        font-size: 11px;
-        line-height: 1.2;
-        color: var(--color-gray-80);
-        opacity: 1;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    }
 }
+
 .stroke-setting {
     &.has-stroke-style {
         padding-top: 8px !important;
