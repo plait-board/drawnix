@@ -14,6 +14,7 @@ import { useBoard } from '@plait-board/react-board';
 import { splitRows } from '../../../utils/common';
 import {
     DrawnixPointerType,
+    useDrawnix,
 } from '../../../hooks/use-drawnix';
 import { useI18n } from '../../../i18n';
 import { SizeSlider } from '../../size-slider';
@@ -49,12 +50,16 @@ export const FreehandPanel: React.FC<FreehandPickerProps> = ({
 }) => {
   const { t } = useI18n();
   const board = useBoard();
+  const { appState } = useDrawnix();
   const [eraserSize, setEraserSizeState] = useState(getEraserSize());
-  const [isEraserSelected, setIsEraserSelected] = useState(board.pointer === FreehandShape.eraser);
+
+  const isEraserSelected = appState.pointer === FreehandShape.eraser;
 
   useEffect(() => {
-    setIsEraserSelected(board.pointer === FreehandShape.eraser);
-  }, [board.pointer]);
+    if (isEraserSelected) {
+      setEraserSizeState(getEraserSize());
+    }
+  }, [isEraserSelected]);
 
   const handleEraserSizeChange = (size: number) => {
     setEraserSizeState(size);
@@ -72,7 +77,7 @@ export const FreehandPanel: React.FC<FreehandPickerProps> = ({
                   <ToolButton
                     key={index}
                     className={classNames({ fillable: false })}
-                    selected={board.pointer === freehand.pointer}
+                    selected={appState.pointer === freehand.pointer}
                     type="icon"
                     size={'small'}
                     visible={true}

@@ -192,36 +192,30 @@ export const withFreehandErase = (board: PlaitBoard) => {
     if (elementsToModify.size > 0) {
       const elementsToProcess = Array.from(elementsToModify.values());
       
-      elementsToProcess.sort((a, b) => {
-        const indexA = board.children.indexOf(a.element);
-        const indexB = board.children.indexOf(b.element);
-        return indexA - indexB;
-      });
-
-      let offset = 0;
-
-      elementsToProcess.forEach(({ element, intersectionIndices }) => {
+      const elementsWithIndex = elementsToProcess.map(({ element, intersectionIndices }) => {
         const originalIndex = board.children.indexOf(element);
-        if (originalIndex === -1) {
-          return;
-        }
+        return {
+          element,
+          intersectionIndices,
+          originalIndex,
+        };
+      }).filter(item => item.originalIndex !== -1);
 
-        const currentIndex = originalIndex + offset;
+      elementsWithIndex.sort((a, b) => b.originalIndex - a.originalIndex);
 
+      elementsWithIndex.forEach(({ element, intersectionIndices, originalIndex }) => {
         const segments = splitPointsAtIntersections(
           element.points,
           intersectionIndices.sort((a, b) => a - b)
         );
 
         CoreTransforms.removeElements(board, [element]);
-        offset--;
 
         if (segments.length > 0) {
-          segments.forEach((segmentPoints, i) => {
-            const newElement = createFreehandElement(element.shape, segmentPoints);
-            Transforms.insertNode(board, newElement, [currentIndex + i]);
-            offset++;
-          });
+          for (let i = segments.length - 1; i >= 0; i--) {
+            const newElement = createFreehandElement(element.shape, segments[i]);
+            Transforms.insertNode(board, newElement, [originalIndex]);
+          }
         }
       });
     }
