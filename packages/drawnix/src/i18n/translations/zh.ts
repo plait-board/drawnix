@@ -13,6 +13,7 @@ const zhTranslations: Translations = {
 
   'toolbar.pen': '画笔 — P',
   'toolbar.eraser': '橡皮擦 — E',
+  'toolbar.eraserSize': '橡皮擦大小',
 
   'toolbar.arrow.straight': '直线',
   'toolbar.arrow.elbow': '肘线',

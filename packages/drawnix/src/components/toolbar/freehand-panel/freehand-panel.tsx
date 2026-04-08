@@ -7,7 +7,7 @@ import {
   FeltTipPenIcon,
 } from '../../icons';
 import { BoardTransforms } from '@plait/core';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { FreehandShape } from '../../../plugins/freehand/type';
 import { useBoard } from '@plait-board/react-board';
@@ -16,6 +16,8 @@ import {
     DrawnixPointerType,
 } from '../../../hooks/use-drawnix';
 import { useI18n } from '../../../i18n';
+import { SizeSlider } from '../../size-slider';
+import { getEraserSize, setEraserSize } from '../../../plugins/freehand/with-freehand-erase';
 
 export interface FreehandProps {
     titleKey: string;
@@ -47,6 +49,18 @@ export const FreehandPanel: React.FC<FreehandPickerProps> = ({
 }) => {
   const { t } = useI18n();
   const board = useBoard();
+  const [eraserSize, setEraserSizeState] = useState(getEraserSize());
+  const [isEraserSelected, setIsEraserSelected] = useState(board.pointer === FreehandShape.eraser);
+
+  useEffect(() => {
+    setIsEraserSelected(board.pointer === FreehandShape.eraser);
+  }, [board.pointer]);
+
+  const handleEraserSizeChange = (size: number) => {
+    setEraserSizeState(size);
+    setEraserSize(size);
+  };
+
   return (
     <Island padding={1}>
       <Stack.Col gap={1}>
@@ -79,6 +93,21 @@ export const FreehandPanel: React.FC<FreehandPickerProps> = ({
             </Stack.Row>
           );
         })}
+        {isEraserSelected && (
+          <Stack.Col gap={1} style={{ padding: '8px 0' }}>
+            <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '4px' }}>
+              {t('toolbar.eraserSize') || 'Eraser Size'}: {eraserSize}
+            </div>
+            <SizeSlider
+              min={1}
+              max={50}
+              step={1}
+              defaultValue={eraserSize}
+              onChange={handleEraserSizeChange}
+              title={t('toolbar.eraserSize') || 'Eraser Size'}
+            />
+          </Stack.Col>
+        )}
       </Stack.Col>
     </Island>
   );

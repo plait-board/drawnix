@@ -13,6 +13,7 @@ const enTranslations: Translations = {
 
   'toolbar.pen': 'Pen — P',
   'toolbar.eraser': 'Eraser — E',
+  'toolbar.eraserSize': 'Eraser Size',
 
   'toolbar.arrow.straight': 'Straight Arrow Line',
   'toolbar.arrow.elbow': 'Elbow Arrow Line',
