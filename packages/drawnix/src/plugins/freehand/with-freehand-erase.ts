@@ -6,10 +6,9 @@ import {
   toHostPoint,
   toViewBoxPoint,
   Transforms,
-  distanceBetweenPointAndPoint,
 } from '@plait/core';
 import { isDrawingMode } from '@plait/common';
-import { isHitFreehand, createFreehandElement } from './utils';
+import { createFreehandElement } from './utils';
 import { Freehand, FreehandShape } from './type';
 import { CoreTransforms } from '@plait/core';
 import { LaserPointer } from '../../utils/laser-pointer';
@@ -191,26 +190,37 @@ export const withFreehandErase = (board: PlaitBoard) => {
 
   const modifyMarkedElements = () => {
     if (elementsToModify.size > 0) {
-      elementsToModify.forEach(({ element, intersectionIndices }) => {
+      const elementsToProcess = Array.from(elementsToModify.values());
+      
+      elementsToProcess.sort((a, b) => {
+        const indexA = board.children.indexOf(a.element);
+        const indexB = board.children.indexOf(b.element);
+        return indexA - indexB;
+      });
+
+      let offset = 0;
+
+      elementsToProcess.forEach(({ element, intersectionIndices }) => {
+        const originalIndex = board.children.indexOf(element);
+        if (originalIndex === -1) {
+          return;
+        }
+
+        const currentIndex = originalIndex + offset;
+
         const segments = splitPointsAtIntersections(
           element.points,
           intersectionIndices.sort((a, b) => a - b)
         );
 
-        if (segments.length === 0) {
-          CoreTransforms.removeElements(board, [element]);
-        } else if (segments.length === 1) {
-          const path = board.getPath(element);
-          Transforms.setNode(board, { points: segments[0] }, { at: path });
-        } else {
-          const path = board.getPath(element);
-          const index = path[path.length - 1];
-          
-          CoreTransforms.removeElements(board, [element]);
-          
+        CoreTransforms.removeElements(board, [element]);
+        offset--;
+
+        if (segments.length > 0) {
           segments.forEach((segmentPoints, i) => {
             const newElement = createFreehandElement(element.shape, segmentPoints);
-            Transforms.insertNode(board, newElement, [index + i]);
+            Transforms.insertNode(board, newElement, [currentIndex + i]);
+            offset++;
           });
         }
       });
