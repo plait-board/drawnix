@@ -10,7 +10,7 @@ import {
   ThemeColorMode,
   Viewport,
 } from '@plait/core';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { withGroup } from '@plait/common';
 import { withDraw } from '@plait/draw';
 import { MindThemeColors, withMind } from '@plait/mind';
@@ -40,6 +40,7 @@ import { LinkPopup } from './components/popup/link-popup/link-popup';
 import { I18nProvider } from './i18n';
 import { Tutorial } from './components/tutorial';
 import { LASER_POINTER_CLASS_NAME } from './utils/laser-pointer';
+import { DEFAULT_FREEHAND_PRESETS } from './plugins/freehand/presets';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -80,6 +81,10 @@ export const Drawnix: React.FC<DrawnixProps> = ({
       pointer: PlaitPointerType.hand,
       isMobile: md.mobile() !== null,
       isPencilMode: false,
+      freehandPresets: DEFAULT_FREEHAND_PRESETS.map((preset) => ({
+        ...preset,
+      })),
+      activeFreehandPresetIndex: 0,
       openDialogType: null,
       openCleanConfirm: false,
     };
@@ -92,10 +97,10 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   }
 
   const updateAppState = (newAppState: Partial<DrawnixState>) => {
-    setAppState({
-      ...appState,
+    setAppState((currentAppState) => ({
+      ...currentAppState,
       ...newAppState,
-    });
+    }));
   };
 
   const plugins: PlaitPlugin[] = [

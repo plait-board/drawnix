@@ -7,10 +7,22 @@ import Stack from '../../stack';
 import { SizeSlider } from '../../size-slider';
 import { useI18n } from '../../../i18n';
 import { ColorPicker } from '../../color-picker';
+import { useBoard } from '@plait-board/react-board';
+import { getFreehandDefaultStrokeColor } from '../../../plugins/freehand/utils';
+import {
+  FREEHAND_STROKE_WIDTH_STEP,
+  MAX_FREEHAND_STROKE_WIDTH,
+  MIN_FREEHAND_STROKE_WIDTH,
+} from '../../../plugins/freehand/type';
+import { isNoColor } from '../../../utils/color';
+
+const formatSize = (value: number) => {
+  return value.toFixed(2).replace(/\.?0+$/, '');
+};
 
 export interface FreehandStylePreset {
   id: string;
-  color: string;
+  color?: string;
   size: number;
 }
 
@@ -19,7 +31,7 @@ export interface FreehandStylePresetItemProps {
   selected: boolean;
   container: HTMLElement | null;
   onSelect: () => void;
-  onColorChange: (color: string) => void;
+  onColorChange: (color?: string) => void;
   onSizeChange: (size: number) => void;
 }
 
@@ -32,7 +44,10 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
   onSizeChange,
 }) => {
   const { t } = useI18n();
+  const board = useBoard();
   const [open, setOpen] = React.useState(false);
+  const swatchColor =
+    preset.color || getFreehandDefaultStrokeColor(board.theme.themeColorMode);
 
   React.useEffect(() => {
     if (!selected) {
@@ -73,13 +88,13 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
           <span
             className="freehand-style-preset__preview"
             style={{
-              borderColor: preset.color,
+              borderColor: swatchColor,
             }}
           >
             <span
               className="freehand-style-preset__dot"
               style={{
-                backgroundColor: preset.color,
+                backgroundColor: swatchColor,
                 width: `${Math.min(Math.max(preset.size + 1, 4), 14)}px`,
                 height: `${Math.min(Math.max(preset.size + 1, 4), 14)}px`,
               }}
@@ -91,11 +106,13 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
         <Island padding={4} className="freehand-style-setting">
           <Stack.Col gap={3}>
             <SizeSlider
-              title={t('popupToolbar.stroke')}
-              min={1}
-              max={24}
-              step={1}
+              title={formatSize(preset.size)}
+              min={MIN_FREEHAND_STROKE_WIDTH}
+              max={MAX_FREEHAND_STROKE_WIDTH}
+              step={FREEHAND_STROKE_WIDTH_STEP}
               defaultValue={preset.size}
+              variant="neutral"
+              compact={true}
               onChange={(value) => {
                 onSizeChange(value);
               }}
@@ -104,7 +121,9 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
               currentColor={preset.color}
               hideOpacitySlider={true}
               onColorChange={(selectedColor: string) => {
-                onColorChange(selectedColor);
+                onColorChange(
+                  isNoColor(selectedColor) ? undefined : selectedColor
+                );
               }}
               onOpacityChange={() => {
                 return;

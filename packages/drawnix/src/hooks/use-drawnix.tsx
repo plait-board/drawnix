@@ -3,12 +3,18 @@
  * context whenever changes occur.
  */
 import { PlaitBoard, PlaitPointerType } from '@plait/core';
-import { createContext, useContext } from 'react';
+import {
+  createContext,
+  useContext,
+  type Dispatch,
+  type SetStateAction,
+} from 'react';
 import { MindPointerType } from '@plait/mind';
 import { DrawPointerType } from '@plait/draw';
 import { FreehandShape } from '../plugins/freehand/type';
 import { Editor } from 'slate';
 import { LinkElement } from '@plait/common';
+import { FreehandDrawOptions } from '../plugins/freehand/presets';
 
 export enum DialogType {
   mermaidToDrawnix = 'mermaidToDrawnix',
@@ -38,6 +44,8 @@ export type DrawnixState = {
   pointer: DrawnixPointerType;
   isMobile: boolean;
   isPencilMode: boolean;
+  freehandPresets: FreehandDrawOptions[];
+  activeFreehandPresetIndex: number;
   openDialogType: DialogType | null;
   openCleanConfirm: boolean;
   linkState?: LinkState | null;
@@ -45,12 +53,12 @@ export type DrawnixState = {
 
 export const DrawnixContext = createContext<{
   appState: DrawnixState;
-  setAppState: (appState: DrawnixState) => void;
+  setAppState: Dispatch<SetStateAction<DrawnixState>>;
 } | null>(null);
 
 export const useDrawnix = (): {
   appState: DrawnixState;
-  setAppState: (appState: DrawnixState) => void;
+  setAppState: Dispatch<SetStateAction<DrawnixState>>;
 } => {
   const context = useContext(DrawnixContext);
 
@@ -64,8 +72,8 @@ export const useDrawnix = (): {
 };
 
 export const useSetPointer = () => {
-  const { appState, setAppState } = useDrawnix();
+  const { setAppState } = useDrawnix();
   return (pointer: DrawnixPointerType) => {
-    setAppState({ ...appState, pointer });
+    setAppState((appState) => ({ ...appState, pointer }));
   };
 };
