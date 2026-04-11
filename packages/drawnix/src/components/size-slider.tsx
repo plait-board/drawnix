@@ -144,14 +144,12 @@ export const SizeSlider: React.FC<SliderProps> = ({
           }
         }}
       >
-        {variant !== 'neutral' && (
-          <div
-            className="slider-range"
-            style={{
-              width: `${percentage}%`,
-            }}
-          />
-        )}
+        <div
+          className="slider-range"
+          style={{
+            width: `${percentage}%`,
+          }}
+        />
         <div
           className="slider-thumb"
           style={{

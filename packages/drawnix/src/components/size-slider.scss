@@ -65,19 +65,20 @@
         inset 0 1px 2px rgba($oc-black, 0.04);
     }
 
+    .slider-range {
+      background-color: var(--color-primary);
+    }
+
     .slider-thumb {
       width: 14px;
       height: 14px;
       border-radius: 999px;
-      box-shadow:
-        0 0 0 1px rgba($oc-white, 0.5),
-        0 4px 10px rgba($oc-black, 0.14);
+      box-shadow: 0 4px 10px rgba($oc-black, 0.14);
     }
 
     .slider-track:focus-visible .slider-thumb {
       box-shadow:
         0 0 0 3px rgba($oc-blue-4, 0.25),
-        0 0 0 1px rgba($oc-white, 0.5),
         0 4px 10px rgba($oc-black, 0.14);
     }
   }
