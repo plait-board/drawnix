@@ -1,14 +1,6 @@
-import React, {
-  useState,
-  useRef,
-  useCallback,
-  useEffect,
-  useMemo,
-} from 'react';
-import { toFixed } from '@plait/core';
+import React, { useEffect, useRef, useState } from 'react';
 import './size-slider.scss';
 import classNames from 'classnames';
-import { throttle } from 'lodash';
 
 interface SliderProps {
   min?: number;
@@ -17,10 +9,22 @@ interface SliderProps {
   defaultValue?: number;
   disabled?: boolean;
   title?: string;
+  variant?: 'default' | 'neutral';
+  compact?: boolean;
   onChange?: (value: number) => void;
   beforeStart?: () => void;
   afterEnd?: () => void;
 }
+
+const clamp = (value: number, min: number, max: number) => {
+  return Math.min(max, Math.max(min, value));
+};
+
+const getStepPrecision = (step: number) => {
+  const stepText = step.toString();
+  const decimalIndex = stepText.indexOf('.');
+  return decimalIndex === -1 ? 0 : stepText.length - decimalIndex - 1;
+};
 
 export const SizeSlider: React.FC<SliderProps> = ({
   min = 0,
@@ -32,85 +36,112 @@ export const SizeSlider: React.FC<SliderProps> = ({
   beforeStart,
   afterEnd,
   title,
+  variant = 'default',
+  compact = false,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [value, setValue] = useState(defaultValue);
   const sliderRef = useRef<HTMLDivElement>(null);
-  const thumbRef = useRef<HTMLDivElement>(null);
+  const precision = getStepPrecision(step);
   const percentage = ((value - min) / (max - min)) * 100;
 
-  const handleSliderChange = useCallback(
-    throttle(
-      (event: React.MouseEvent<HTMLDivElement> | MouseEvent) => {
-        if (sliderRef.current && thumbRef.current) {
-          const sliderRect = sliderRef.current.getBoundingClientRect();
-          const thumbRect = thumbRef.current.getBoundingClientRect();
-          const x = event.clientX - sliderRect.left;
-          const thumbPercentage = toFixed(
-            (thumbRect.width / 2 / sliderRect.width) * 100
-          );
-          let percentage = Math.min(Math.max(x / sliderRect.width, 0), 1);
-          if (percentage >= (100 - thumbPercentage) / 100) {
-            percentage = 1;
-          } else if (percentage <= thumbPercentage / 100) {
-            percentage = 0;
-          }
-          const newValue =
-            Math.round((percentage * (max - min)) / step) * step + min;
-          setValue(newValue);
-          onChange && onChange(newValue);
-        }
-      },
-      50,
-      { leading: true, trailing: true }
-    ),
-    [min, max, step, onChange]
-  );
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
 
-  const handlePointerDown = useCallback(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setIsDragging(true);
-      handleSliderChange(e);
-    };
-    const handleMouseUp = () => {
-      document.removeEventListener('pointermove', handleMouseMove);
-      document.removeEventListener('pointerup', handleMouseUp);
-      afterEnd && afterEnd();
-      setTimeout(() => {
-        setIsDragging(false);
-      }, 0);
-    };
+  const updateValue = (nextValue: number) => {
+    const roundedValue = Number(
+      (
+        Math.round((nextValue - min) / step) * step + min
+      ).toFixed(precision)
+    );
+    const normalizedValue = clamp(roundedValue, min, max);
+    setValue(normalizedValue);
+    onChange?.(normalizedValue);
+  };
 
-    document.addEventListener('pointermove', handleMouseMove);
-    document.addEventListener('pointerup', handleMouseUp);
-  }, [handleSliderChange]);
+  const updateValueByClientX = (clientX: number) => {
+    if (!sliderRef.current) {
+      return;
+    }
+    const sliderRect = sliderRef.current.getBoundingClientRect();
+    const ratio = clamp((clientX - sliderRect.left) / sliderRect.width, 0, 1);
+    updateValue(min + ratio * (max - min));
+  };
 
-  useEffect(()=>{
-    setValue(defaultValue)
-  },[defaultValue])
+  const finishDragging = (currentTarget: HTMLDivElement, pointerId: number) => {
+    if (currentTarget.hasPointerCapture(pointerId)) {
+      currentTarget.releasePointerCapture(pointerId);
+    }
+    setIsDragging(false);
+    afterEnd?.();
+  };
 
   return (
     <div
       data-tooltip
       title={title}
-      className={classNames('slider-container', { disabled: disabled })}
+      className={classNames('slider-container', {
+        disabled,
+        'slider-container--neutral': variant === 'neutral',
+        'slider-container--compact': compact,
+      })}
     >
       <div
         ref={sliderRef}
         className="slider-track"
-        onClick={(event) => {
-          if (disabled || isDragging) {
-            return;
-          }
-          handleSliderChange(event);
-        }}
+        role="slider"
+        tabIndex={disabled ? -1 : 0}
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={value}
+        aria-valuetext={title || String(value)}
         onPointerDown={(event) => {
           event.preventDefault();
           if (disabled) {
             return;
           }
-          beforeStart && beforeStart();
-          handlePointerDown();
+          beforeStart?.();
+          event.currentTarget.setPointerCapture(event.pointerId);
+          setIsDragging(true);
+          updateValueByClientX(event.clientX);
+        }}
+        onPointerMove={(event) => {
+          if (!isDragging || disabled) {
+            return;
+          }
+          event.preventDefault();
+          updateValueByClientX(event.clientX);
+        }}
+        onPointerUp={(event) => {
+          finishDragging(event.currentTarget, event.pointerId);
+        }}
+        onPointerCancel={(event) => {
+          finishDragging(event.currentTarget, event.pointerId);
+        }}
+        onKeyDown={(event) => {
+          if (disabled) {
+            return;
+          }
+          let nextValue = value;
+
+          if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+            nextValue = value - step;
+          }
+          if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+            nextValue = value + step;
+          }
+          if (event.key === 'Home') {
+            nextValue = min;
+          }
+          if (event.key === 'End') {
+            nextValue = max;
+          }
+
+          if (nextValue !== value) {
+            event.preventDefault();
+            updateValue(nextValue);
+          }
         }}
       >
         <div
@@ -120,7 +151,6 @@ export const SizeSlider: React.FC<SliderProps> = ({
           }}
         />
         <div
-          ref={thumbRef}
           className="slider-thumb"
           style={{
             left: `${percentage}%`,
