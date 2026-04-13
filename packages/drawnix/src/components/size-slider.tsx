@@ -123,6 +123,21 @@ export const SizeSlider: React.FC<SliderProps> = ({
           if (disabled) {
             return;
           }
+          const isHandledKey =
+            event.key === 'ArrowLeft' ||
+            event.key === 'ArrowDown' ||
+            event.key === 'ArrowRight' ||
+            event.key === 'ArrowUp' ||
+            event.key === 'Home' ||
+            event.key === 'End';
+
+          if (!isHandledKey) {
+            return;
+          }
+
+          event.preventDefault();
+          event.stopPropagation();
+
           let nextValue = value;
 
           if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
@@ -139,7 +154,6 @@ export const SizeSlider: React.FC<SliderProps> = ({
           }
 
           if (nextValue !== value) {
-            event.preventDefault();
             updateValue(nextValue);
           }
         }}
