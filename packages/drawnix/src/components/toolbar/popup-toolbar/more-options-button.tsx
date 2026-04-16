@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { getShortcutKey } from '../../../utils/common';
 import {
   canCopySelectionAs,
-  copySelectionAsImage,
+  copySelectionAsPng,
   copySelectionAsSvg,
 } from '../../../utils/image';
 
@@ -27,8 +27,7 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const canCopySvg = canCopySelectionAs('svg');
   const canCopyPng = canCopySelectionAs('png');
-  const canCopyJpg = canCopySelectionAs('jpg');
-  const canCopyAny = canCopySvg || canCopyPng || canCopyJpg;
+  const canCopyAny = canCopySvg || canCopyPng;
 
   return (
     <Popover
@@ -101,25 +100,21 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
                 </MenuItem>
                 <MenuItem
                   onSelect={() => {
-                    void copySelectionAsImage(board, 'png').catch(
-                      () => undefined
-                    );
+                    void copySelectionAsPng(board).catch(() => undefined);
                   }}
                   disabled={!canCopyPng}
-                  aria-label={t('general.copyToClipboard.png')}
+                  aria-label={t('general.copyToClipboard.pngWithoutBackground')}
                 >
-                  {t('general.copyToClipboard.png')}
+                  {t('general.copyToClipboard.pngWithoutBackground')}
                 </MenuItem>
                 <MenuItem
                   onSelect={() => {
-                    void copySelectionAsImage(board, 'jpg').catch(
-                      () => undefined
-                    );
+                    void copySelectionAsPng(board, true).catch(() => undefined);
                   }}
-                  disabled={!canCopyJpg}
-                  aria-label={t('general.copyToClipboard.jpg')}
+                  disabled={!canCopyPng}
+                  aria-label={t('general.copyToClipboard.pngWithBackground')}
                 >
-                  {t('general.copyToClipboard.jpg')}
+                  {t('general.copyToClipboard.pngWithBackground')}
                 </MenuItem>
               </Menu>
             }

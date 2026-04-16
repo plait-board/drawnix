@@ -73,8 +73,8 @@ export interface Translations {
   'general.delete': string;
   'general.copyToClipboard': string;
   'general.copyToClipboard.svg': string;
-  'general.copyToClipboard.png': string;
-  'general.copyToClipboard.jpg': string;
+  'general.copyToClipboard.pngWithoutBackground': string;
+  'general.copyToClipboard.pngWithBackground': string;
 
   // Language
   'language.switcher': string;

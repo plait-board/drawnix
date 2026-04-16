@@ -70,8 +70,8 @@ const arTranslations: Translations = {
 
     "general.copyToClipboard": "نسخ إلى الحافظة",
     "general.copyToClipboard.svg": "SVG",
-    "general.copyToClipboard.png": "PNG (بدون خلفية)",
-    "general.copyToClipboard.jpg": "PNG (مع خلفية)",
+    "general.copyToClipboard.pngWithoutBackground": "PNG (بدون خلفية)",
+    "general.copyToClipboard.pngWithBackground": "PNG (مع خلفية)",
 
     // Language
     "language.switcher": "اللغة",

@@ -6,12 +6,11 @@ import { insertImage } from '../data/image';
 import { getBackgroundColor, isWhite } from './color';
 import { TRANSPARENT } from '../constants/color';
 
-type ClipboardImageFormat = 'svg' | 'png' | 'jpg';
+type ClipboardImageFormat = 'svg' | 'png';
 
 const CLIPBOARD_MIME_TYPES: Record<ClipboardImageFormat, string> = {
   svg: 'image/svg+xml',
   png: 'image/png',
-  jpg: 'image/jpeg',
 };
 
 const getSelectedClipboardElements = (board: PlaitBoard) => {
@@ -38,13 +37,11 @@ export const canCopySelectionAs = (format: ClipboardImageFormat) => {
   if (!hasClipboardWriteSupport()) {
     return false;
   }
-  // jpg is written as png with opaque background since clipboard doesn't support image/jpeg
-  const effectiveFormat = format === 'jpg' ? 'png' : format;
   const supports = getClipboardItemSupports();
   if (typeof supports === 'function') {
-    return supports(CLIPBOARD_MIME_TYPES[effectiveFormat]);
+    return supports(CLIPBOARD_MIME_TYPES[format]);
   }
-  return effectiveFormat === 'png';
+  return format === 'png';
 };
 
 const writeBlobToClipboard = async (
@@ -135,18 +132,16 @@ export const copySelectionAsSvg = async (board: PlaitBoard) => {
   await writeBlobToClipboard('svg', blob, pngBlob);
 };
 
-export const copySelectionAsImage = async (
+export const copySelectionAsPng = async (
   board: PlaitBoard,
-  format: Exclude<ClipboardImageFormat, 'svg'>
+  withBackground = false
 ) => {
-  const imageDataUrl = await getSelectedImageDataUrl(board, format === 'png');
+  const imageDataUrl = await getSelectedImageDataUrl(board, !withBackground);
   if (!imageDataUrl) {
     return;
   }
-  // Both png and jpg are written as image/png to the clipboard.
-  // For jpg the image is rendered with an opaque background (isTransparent=false above),
-  // which gives the same effect as JPEG (no transparency) since the Clipboard API
-  // does not support image/jpeg in any browser.
+  // The clipboard only gets image/png. The background choice is controlled by
+  // how the image is rendered before writing to the clipboard.
   await writeBlobToClipboard('png', base64ToBlob(imageDataUrl));
 };
 

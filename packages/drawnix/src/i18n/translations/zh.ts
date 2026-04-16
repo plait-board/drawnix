@@ -70,8 +70,8 @@ const zhTranslations: Translations = {
 
   'general.copyToClipboard': '复制到粘贴板',
   'general.copyToClipboard.svg': 'SVG',
-  'general.copyToClipboard.png': 'PNG（无背景）',
-  'general.copyToClipboard.jpg': 'PNG（含背景）',
+  'general.copyToClipboard.pngWithoutBackground': 'PNG（无背景）',
+  'general.copyToClipboard.pngWithBackground': 'PNG（含背景）',
 
   // Language
   'language.switcher': 'Language',
