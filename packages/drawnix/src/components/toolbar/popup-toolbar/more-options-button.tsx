@@ -9,6 +9,11 @@ import Menu from '../../menu/menu';
 import MenuItem from '../../menu/menu-item';
 import { useState } from 'react';
 import { getShortcutKey } from '../../../utils/common';
+import {
+  canCopySelectionAs,
+  copySelectionAsImage,
+  copySelectionAsSvg,
+} from '../../../utils/image';
 
 export type MoreOptionsButtonProps = {
   board: PlaitBoard;
@@ -20,6 +25,10 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
   const { t } = useI18n();
   const container = PlaitBoard.getBoardContainer(board);
   const [menuOpen, setMenuOpen] = useState(false);
+  const canCopySvg = canCopySelectionAs('svg');
+  const canCopyPng = canCopySelectionAs('png');
+  const canCopyJpg = canCopySelectionAs('jpg');
+  const canCopyAny = canCopySvg || canCopyPng || canCopyJpg;
 
   return (
     <Popover
@@ -70,6 +79,52 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
             aria-label={t('general.delete')}
           >
             {t('general.delete')}
+          </MenuItem>
+          <MenuItem
+            onSelect={() => undefined}
+            aria-label={t('general.copyToClipboard')}
+            disabled={!canCopyAny}
+            submenu={
+              <Menu
+                onSelect={() => {
+                  setMenuOpen(false);
+                }}
+              >
+                <MenuItem
+                  onSelect={() => {
+                    void copySelectionAsSvg(board).catch(() => undefined);
+                  }}
+                  disabled={!canCopySvg}
+                  aria-label={t('general.copyToClipboard.svg')}
+                >
+                  {t('general.copyToClipboard.svg')}
+                </MenuItem>
+                <MenuItem
+                  onSelect={() => {
+                    void copySelectionAsImage(board, 'png').catch(
+                      () => undefined
+                    );
+                  }}
+                  disabled={!canCopyPng}
+                  aria-label={t('general.copyToClipboard.png')}
+                >
+                  {t('general.copyToClipboard.png')}
+                </MenuItem>
+                <MenuItem
+                  onSelect={() => {
+                    void copySelectionAsImage(board, 'jpg').catch(
+                      () => undefined
+                    );
+                  }}
+                  disabled={!canCopyJpg}
+                  aria-label={t('general.copyToClipboard.jpg')}
+                >
+                  {t('general.copyToClipboard.jpg')}
+                </MenuItem>
+              </Menu>
+            }
+          >
+            {t('general.copyToClipboard')}
           </MenuItem>
         </Menu>
       </PopoverContent>

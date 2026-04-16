@@ -71,6 +71,10 @@ export interface Translations {
   'general.moreOptions': string;
   'general.duplicate': string;
   'general.delete': string;
+  'general.copyToClipboard': string;
+  'general.copyToClipboard.svg': string;
+  'general.copyToClipboard.png': string;
+  'general.copyToClipboard.jpg': string;
 
   // Language
   'language.switcher': string;

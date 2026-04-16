@@ -67,6 +67,10 @@ const enTranslations: Translations = {
   'general.moreOptions': 'More Options',
   'general.duplicate': 'Duplicate',
   'general.delete': 'Delete',
+  'general.copyToClipboard': 'Copy to Clipboard',
+  'general.copyToClipboard.svg': 'SVG',
+  'general.copyToClipboard.png': 'PNG (no background)',
+  'general.copyToClipboard.jpg': 'PNG (with background)',
 
   // Language
   'language.switcher': 'Language',
