@@ -8,7 +8,7 @@ RUN npm install \
     && npm run build 
 
 
-FROM lipanski/docker-static-website:2.4.0
+FROM lipanski/docker-static-website:2.6.0
 
 WORKDIR /home/static
 
