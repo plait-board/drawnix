@@ -68,7 +68,7 @@ const zhTranslations: Translations = {
   'general.duplicate': '复制',
   'general.delete': '删除',
 
-  'general.copyToClipboard': '复制到粘贴板',
+  'general.copyToClipboard': '复制到剪贴板',
   'general.copyToClipboard.svg': 'SVG',
   'general.copyToClipboard.pngWithoutBackground': 'PNG（无背景）',
   'general.copyToClipboard.pngWithBackground': 'PNG（含背景）',

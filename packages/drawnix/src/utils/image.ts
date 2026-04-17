@@ -7,18 +7,15 @@ import { getBackgroundColor, isWhite } from './color';
 import { TRANSPARENT } from '../constants/color';
 
 type ClipboardImageFormat = 'svg' | 'png';
+type ExportElements = ReturnType<typeof getSelectedElements>;
 
 const CLIPBOARD_MIME_TYPES: Record<ClipboardImageFormat, string> = {
   svg: 'image/svg+xml',
   png: 'image/png',
 };
 
-const getSelectedClipboardElements = (board: PlaitBoard) => {
-  const selectedElements = getSelectedElements(board);
-  return selectedElements.length > 0 ? selectedElements : null;
-};
-
 const hasClipboardWriteSupport = () => {
+  // Keep the ClipboardItem check local until the shared helper also covers it.
   return (
     typeof navigator !== 'undefined' &&
     !!navigator.clipboard?.write &&
@@ -59,51 +56,38 @@ const writeBlobToClipboard = async (
   await navigator.clipboard.write([new ClipboardItem(item)]);
 };
 
-const getSelectedSvgBlob = async (board: PlaitBoard) => {
-  const selectedElements = getSelectedClipboardElements(board);
-  if (!selectedElements) {
-    return null;
-  }
+const getSvgBlob = async (board: PlaitBoard, elements?: ExportElements) => {
   const backgroundColor = getBackgroundColor(board);
   const svgData = await toSvgData(board, {
     fillStyle: isWhite(backgroundColor) ? TRANSPARENT : backgroundColor,
     padding: 20,
     ratio: 4,
-    elements: selectedElements,
+    elements,
     inlineStyleClassNames: '.plait-text-container',
     styleNames: ['position'],
   });
   return new Blob([svgData], { type: CLIPBOARD_MIME_TYPES.svg });
 };
 
-const getSelectedImageDataUrl = async (
+const getImageBlob = async (
   board: PlaitBoard,
-  isTransparent: boolean
+  isTransparent: boolean,
+  elements?: ExportElements
 ) => {
-  const selectedElements = getSelectedClipboardElements(board);
-  if (!selectedElements) {
-    return null;
-  }
   const backgroundColor = getBackgroundColor(board) || 'white';
-  return boardToImage(board, {
-    elements: selectedElements,
+  const imageDataUrl = await boardToImage(board, {
+    elements,
     fillStyle: isTransparent ? 'transparent' : backgroundColor,
   });
+  return imageDataUrl ? base64ToBlob(imageDataUrl) : null;
 };
 
 export const saveAsSvg = (board: PlaitBoard) => {
   const selectedElements = getSelectedElements(board);
-  const backgroundColor = getBackgroundColor(board);
-
-  return toSvgData(board, {
-    fillStyle: isWhite(backgroundColor) ? TRANSPARENT : backgroundColor,
-    padding: 20,
-    ratio: 4,
-    elements: selectedElements.length > 0 ? selectedElements : undefined,
-    inlineStyleClassNames: '.plait-text-container',
-    styleNames: ['position'],
-  }).then((svgData) => {
-    const blob = new Blob([svgData], { type: 'image/svg+xml' });
+  return getSvgBlob(
+    board,
+    selectedElements.length > 0 ? selectedElements : undefined
+  ).then((blob) => {
     const imageName = `drawnix-${new Date().getTime()}.svg`;
     download(blob, imageName);
   });
@@ -111,24 +95,28 @@ export const saveAsSvg = (board: PlaitBoard) => {
 
 export const saveAsImage = (board: PlaitBoard, isTransparent: boolean) => {
   const selectedElements = getSelectedElements(board);
-  const backgroundColor = getBackgroundColor(board) || 'white';
-  boardToImage(board, {
-    elements: selectedElements.length > 0 ? selectedElements : undefined,
-    fillStyle: isTransparent ? 'transparent' : backgroundColor,
-  }).then((image) => {
-    if (image) {
+  getImageBlob(
+    board,
+    isTransparent,
+    selectedElements.length > 0 ? selectedElements : undefined
+  ).then((imageBlob) => {
+    if (imageBlob) {
       const ext = isTransparent ? 'png' : 'jpg';
-      const pngImage = base64ToBlob(image);
       const imageName = `drawnix-${new Date().getTime()}.${ext}`;
-      download(pngImage, imageName);
+      download(imageBlob, imageName);
     }
   });
 };
 
 export const copySelectionAsSvg = async (board: PlaitBoard) => {
-  const blob = await getSelectedSvgBlob(board);
-  const pngDataUrl = await getSelectedImageDataUrl(board, true);
-  const pngBlob = pngDataUrl ? base64ToBlob(pngDataUrl) : null;
+  const selectedElements = getSelectedElements(board);
+  if (selectedElements.length === 0) {
+    return;
+  }
+  const [blob, pngBlob] = await Promise.all([
+    getSvgBlob(board, selectedElements),
+    getImageBlob(board, true, selectedElements),
+  ]);
   await writeBlobToClipboard('svg', blob, pngBlob);
 };
 
@@ -136,13 +124,21 @@ export const copySelectionAsPng = async (
   board: PlaitBoard,
   withBackground = false
 ) => {
-  const imageDataUrl = await getSelectedImageDataUrl(board, !withBackground);
-  if (!imageDataUrl) {
+  const selectedElements = getSelectedElements(board);
+  if (selectedElements.length === 0) {
+    return;
+  }
+  const imageBlob = await getImageBlob(
+    board,
+    !withBackground,
+    selectedElements
+  );
+  if (!imageBlob) {
     return;
   }
   // The clipboard only gets image/png. The background choice is controlled by
   // how the image is rendered before writing to the clipboard.
-  await writeBlobToClipboard('png', base64ToBlob(imageDataUrl));
+  await writeBlobToClipboard('png', imageBlob);
 };
 
 export const addImage = async (board: PlaitBoard) => {
