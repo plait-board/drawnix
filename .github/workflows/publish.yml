@@ -36,6 +36,10 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set tag without v prefix
+        id: tag
+        run: echo "IMAGE_TAG=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
       - name: Publish version and latest tags
         uses: docker/build-push-action@v7
         with:
@@ -43,7 +47,7 @@ jobs:
           outputs: "type=registry,push=true"
           platforms: linux/amd64, linux/arm64
           tags: |
-            ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+            ghcr.io/${{ github.repository }}:${{ steps.tag.outputs.IMAGE_TAG }}
             ghcr.io/${{ github.repository }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.IMAGE_TAG }}
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
