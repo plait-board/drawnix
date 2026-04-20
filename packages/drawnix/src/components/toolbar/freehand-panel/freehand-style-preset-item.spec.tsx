@@ -32,6 +32,8 @@ jest.mock('../../../plugins/freehand/type', () => ({
 
 jest.mock('../../../utils/color', () => ({
   isNoColor: () => false,
+  isWhite: (color?: string) =>
+    color === '#FFFFFF' || color === '#ffffff',
 }));
 
 jest.mock('../../tool-button', () => ({
