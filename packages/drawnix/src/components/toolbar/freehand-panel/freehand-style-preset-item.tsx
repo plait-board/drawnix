@@ -14,10 +14,10 @@ import {
   MAX_FREEHAND_STROKE_WIDTH,
   MIN_FREEHAND_STROKE_WIDTH,
 } from '../../../plugins/freehand/type';
-import { isNoColor } from '../../../utils/color';
+import { isNoColor, isWhite } from '../../../utils/color';
 
 const shouldAddWhitePresetContrast = (color?: string) => {
-  return color?.toUpperCase() === '#FFFFFF';
+  return isWhite(color);
 };
 
 const formatSize = (value: number) => {
