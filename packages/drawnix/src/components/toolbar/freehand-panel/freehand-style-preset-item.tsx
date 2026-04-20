@@ -24,6 +24,28 @@ const formatSize = (value: number) => {
   return value.toFixed(2).replace(/\.?0+$/, '');
 };
 
+const FREEHAND_PREVIEW_VIEWBOX_SIZE = 16;
+const FREEHAND_PREVIEW_CENTER = FREEHAND_PREVIEW_VIEWBOX_SIZE / 2;
+const FREEHAND_PREVIEW_OUTER_RADIUS = 7;
+const FREEHAND_PREVIEW_MIN_RADIUS = 2;
+const FREEHAND_PREVIEW_MAX_RADIUS = 5.5;
+
+export const getFreehandPreviewRadius = (strokeWidth: number) => {
+  const clampedStrokeWidth = Math.min(
+    Math.max(strokeWidth, MIN_FREEHAND_STROKE_WIDTH),
+    MAX_FREEHAND_STROKE_WIDTH
+  );
+  const normalizedStrokeWidth =
+    (clampedStrokeWidth - MIN_FREEHAND_STROKE_WIDTH) /
+    (MAX_FREEHAND_STROKE_WIDTH - MIN_FREEHAND_STROKE_WIDTH);
+
+  return (
+    FREEHAND_PREVIEW_MIN_RADIUS +
+    normalizedStrokeWidth *
+      (FREEHAND_PREVIEW_MAX_RADIUS - FREEHAND_PREVIEW_MIN_RADIUS)
+  );
+};
+
 export interface FreehandStylePreset {
   id: string;
   color?: string;
@@ -53,6 +75,7 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
   const swatchColor =
     preset.color || getFreehandDefaultStrokeColor(board.theme.themeColorMode);
   const shouldAddWhiteContrast = shouldAddWhitePresetContrast(swatchColor);
+  const previewRadius = getFreehandPreviewRadius(preset.size);
 
   React.useEffect(() => {
     if (!selected) {
@@ -90,24 +113,58 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
             setOpen(false);
           }}
         >
-          <span
-            className={classNames('freehand-style-preset__preview', {
-              'freehand-style-preset__preview--white': shouldAddWhiteContrast,
-            })}
-            style={{
-              borderColor: swatchColor,
-            }}
-          >
-            <span
-              className={classNames('freehand-style-preset__dot', {
-                'freehand-style-preset__dot--white': shouldAddWhiteContrast,
-              })}
-              style={{
-                backgroundColor: swatchColor,
-                width: `${Math.min(Math.max(preset.size + 1, 4), 14)}px`,
-                height: `${Math.min(Math.max(preset.size + 1, 4), 14)}px`,
-              }}
-            />
+          <span className={classNames('freehand-style-preset__preview')}>
+            <svg
+              className="freehand-style-preset__preview-svg"
+              viewBox={`0 0 ${FREEHAND_PREVIEW_VIEWBOX_SIZE} ${FREEHAND_PREVIEW_VIEWBOX_SIZE}`}
+              aria-hidden="true"
+              focusable="false"
+            >
+              <circle
+                className="freehand-style-preset__preview-base"
+                cx={FREEHAND_PREVIEW_CENTER}
+                cy={FREEHAND_PREVIEW_CENTER}
+                r={FREEHAND_PREVIEW_OUTER_RADIUS + 0.5}
+                stroke="none"
+              />
+              {shouldAddWhiteContrast && (
+                <>
+                  <circle
+                    className="freehand-style-preset__preview-ring-contrast"
+                    cx={FREEHAND_PREVIEW_CENTER}
+                    cy={FREEHAND_PREVIEW_CENTER}
+                    r={FREEHAND_PREVIEW_OUTER_RADIUS}
+                    fill="none"
+                    strokeWidth={2}
+                  />
+                  <circle
+                    className="freehand-style-preset__preview-fill-contrast"
+                    cx={FREEHAND_PREVIEW_CENTER}
+                    cy={FREEHAND_PREVIEW_CENTER}
+                    r={previewRadius}
+                    fill="none"
+                    strokeWidth={1.5}
+                  />
+                </>
+              )}
+              <circle
+                className="freehand-style-preset__preview-ring"
+                cx={FREEHAND_PREVIEW_CENTER}
+                cy={FREEHAND_PREVIEW_CENTER}
+                r={FREEHAND_PREVIEW_OUTER_RADIUS}
+                fill="none"
+                stroke={swatchColor}
+                strokeWidth={1}
+              />
+              <circle
+                className="freehand-style-preset__preview-fill"
+                cx={FREEHAND_PREVIEW_CENTER}
+                cy={FREEHAND_PREVIEW_CENTER}
+                r={previewRadius}
+                fill={swatchColor}
+                stroke="none"
+              />
+            </svg>
           </span>
         </ToolButton>
       </PopoverTrigger>

@@ -15,24 +15,28 @@
     width: var(--default-icon-size);
     height: var(--default-icon-size);
     border-radius: 50%;
-    border: 1px solid var(--color-gray-40);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-surface-lowest);
-
-    &.freehand-style-preset__preview--white {
-      box-shadow: inset 0 0 0 1px var(--color-gray-30);
-    }
   }
 
-  .freehand-style-preset__dot {
-    border-radius: 50%;
-    display: inline-flex;
+  .freehand-style-preset__preview-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
 
-    &.freehand-style-preset__dot--white {
-      box-shadow: 0 0 0 1px var(--color-gray-30);
-    }
+  .freehand-style-preset.tool-icon--selected .freehand-style-preset__preview-svg {
+    color: inherit;
+  }
+
+  .freehand-style-preset__preview-base {
+    fill: var(--color-surface-lowest);
+  }
+
+  .freehand-style-preset__preview-ring-contrast,
+  .freehand-style-preset__preview-fill-contrast {
+    stroke: var(--color-gray-30);
   }
 
   .freehand-style-setting {
