@@ -16,6 +16,10 @@ import {
 } from '../../../plugins/freehand/type';
 import { isNoColor } from '../../../utils/color';
 
+const shouldAddWhitePresetContrast = (color?: string) => {
+  return color?.toUpperCase() === '#FFFFFF';
+};
+
 const formatSize = (value: number) => {
   return value.toFixed(2).replace(/\.?0+$/, '');
 };
@@ -48,6 +52,7 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
   const [open, setOpen] = React.useState(false);
   const swatchColor =
     preset.color || getFreehandDefaultStrokeColor(board.theme.themeColorMode);
+  const shouldAddWhiteContrast = shouldAddWhitePresetContrast(swatchColor);
 
   React.useEffect(() => {
     if (!selected) {
@@ -86,13 +91,17 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
           }}
         >
           <span
-            className="freehand-style-preset__preview"
+            className={classNames('freehand-style-preset__preview', {
+              'freehand-style-preset__preview--white': shouldAddWhiteContrast,
+            })}
             style={{
               borderColor: swatchColor,
             }}
           >
             <span
-              className="freehand-style-preset__dot"
+              className={classNames('freehand-style-preset__dot', {
+                'freehand-style-preset__dot--white': shouldAddWhiteContrast,
+              })}
               style={{
                 backgroundColor: swatchColor,
                 width: `${Math.min(Math.max(preset.size + 1, 4), 14)}px`,

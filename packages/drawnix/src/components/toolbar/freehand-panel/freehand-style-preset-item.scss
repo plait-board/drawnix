@@ -20,11 +20,19 @@
     align-items: center;
     justify-content: center;
     background-color: var(--color-surface-lowest);
+
+    &.freehand-style-preset__preview--white {
+      box-shadow: inset 0 0 0 1px var(--color-gray-30);
+    }
   }
 
   .freehand-style-preset__dot {
     border-radius: 50%;
     display: inline-flex;
+
+    &.freehand-style-preset__dot--white {
+      box-shadow: 0 0 0 1px var(--color-gray-30);
+    }
   }
 
   .freehand-style-setting {
