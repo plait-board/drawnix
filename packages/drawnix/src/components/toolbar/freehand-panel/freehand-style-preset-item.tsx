@@ -16,10 +16,6 @@ import {
 } from '../../../plugins/freehand/type';
 import { isNoColor, isWhite } from '../../../utils/color';
 
-const shouldAddWhitePresetContrast = (color?: string) => {
-  return isWhite(color);
-};
-
 const formatSize = (value: number) => {
   return value.toFixed(2).replace(/\.?0+$/, '');
 };
@@ -29,6 +25,7 @@ const FREEHAND_PREVIEW_CENTER = FREEHAND_PREVIEW_VIEWBOX_SIZE / 2;
 const FREEHAND_PREVIEW_OUTER_RADIUS = 7;
 const FREEHAND_PREVIEW_MIN_RADIUS = 2;
 const FREEHAND_PREVIEW_MAX_RADIUS = 5.5;
+const FREEHAND_PREVIEW_CONTRAST_RING_COLOR = 'var(--color-gray-30)';
 
 export const getFreehandPreviewRadius = (strokeWidth: number) => {
   const clampedStrokeWidth = Math.min(
@@ -74,8 +71,9 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
   const [open, setOpen] = React.useState(false);
   const swatchColor =
     preset.color || getFreehandDefaultStrokeColor(board.theme.themeColorMode);
-  const shouldAddWhiteContrast = shouldAddWhitePresetContrast(swatchColor);
+  const shouldAddWhitePresetContrast = isWhite(swatchColor);
   const previewRadius = getFreehandPreviewRadius(preset.size);
+  const isActive = selected || open;
 
   React.useEffect(() => {
     if (!selected) {
@@ -99,7 +97,7 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
       <PopoverTrigger asChild>
         <ToolButton
           className={classNames('freehand-style-preset')}
-          selected={selected || open}
+          selected={isActive}
           type="button"
           size="small"
           visible={true}
@@ -113,7 +111,7 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
             setOpen(false);
           }}
         >
-          <span className={classNames('freehand-style-preset__preview')}>
+          <span className="freehand-style-preset__preview">
             <svg
               className="freehand-style-preset__preview-svg"
               viewBox={`0 0 ${FREEHAND_PREVIEW_VIEWBOX_SIZE} ${FREEHAND_PREVIEW_VIEWBOX_SIZE}`}
@@ -127,7 +125,7 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
                 r={FREEHAND_PREVIEW_OUTER_RADIUS + 0.5}
                 stroke="none"
               />
-              {shouldAddWhiteContrast && (
+              {shouldAddWhitePresetContrast ? (
                 <>
                   <circle
                     className="freehand-style-preset__preview-ring-contrast"
@@ -135,35 +133,40 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
                     cy={FREEHAND_PREVIEW_CENTER}
                     r={FREEHAND_PREVIEW_OUTER_RADIUS}
                     fill="none"
-                    strokeWidth={2}
+                    stroke={FREEHAND_PREVIEW_CONTRAST_RING_COLOR}
+                    strokeWidth={1}
                   />
                   <circle
                     className="freehand-style-preset__preview-fill-contrast"
                     cx={FREEHAND_PREVIEW_CENTER}
                     cy={FREEHAND_PREVIEW_CENTER}
                     r={previewRadius}
+                    fill={swatchColor}
+                    stroke={FREEHAND_PREVIEW_CONTRAST_RING_COLOR}
+                    strokeWidth={1}
+                  />
+                </>
+              ) : (
+                <>
+                  <circle
+                    className="freehand-style-preset__preview-ring"
+                    cx={FREEHAND_PREVIEW_CENTER}
+                    cy={FREEHAND_PREVIEW_CENTER}
+                    r={FREEHAND_PREVIEW_OUTER_RADIUS}
                     fill="none"
-                    strokeWidth={1.5}
+                    stroke={swatchColor}
+                    strokeWidth={1}
+                  />
+                  <circle
+                    className="freehand-style-preset__preview-fill"
+                    cx={FREEHAND_PREVIEW_CENTER}
+                    cy={FREEHAND_PREVIEW_CENTER}
+                    r={previewRadius}
+                    fill={swatchColor}
+                    stroke="none"
                   />
                 </>
               )}
-              <circle
-                className="freehand-style-preset__preview-ring"
-                cx={FREEHAND_PREVIEW_CENTER}
-                cy={FREEHAND_PREVIEW_CENTER}
-                r={FREEHAND_PREVIEW_OUTER_RADIUS}
-                fill="none"
-                stroke={swatchColor}
-                strokeWidth={1}
-              />
-              <circle
-                className="freehand-style-preset__preview-fill"
-                cx={FREEHAND_PREVIEW_CENTER}
-                cy={FREEHAND_PREVIEW_CENTER}
-                r={previewRadius}
-                fill={swatchColor}
-                stroke="none"
-              />
             </svg>
           </span>
         </ToolButton>
