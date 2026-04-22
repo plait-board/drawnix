@@ -52,7 +52,6 @@ export default defineConfig({
         '@plait-board/mermaid-to-drawnix',
         '@plait-board/markdown-to-drawnix',
         'classnames',
-        'open-color',
         'mobile-detect',
         '@floating-ui/react',
         '@plait/core',

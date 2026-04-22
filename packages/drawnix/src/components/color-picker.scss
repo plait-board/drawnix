@@ -28,8 +28,8 @@
     border: none;
     .no-color-icon {
       display: block;
-      width: var(-default-button-size);
-      height: var(-default-button-size);
+      width: var(--default-button-size);
+      height: var(--default-button-size);
       color: rgba(#000000, 0.4);
     }
   }
