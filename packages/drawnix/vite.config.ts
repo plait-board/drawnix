@@ -62,7 +62,6 @@ export default defineConfig({
         '@plait/mind',
         'roughjs/bin/core',
         '@plait/text-plugins',
-        'lodash',
         'slate',
         'slate-react',
         'slate-dom',

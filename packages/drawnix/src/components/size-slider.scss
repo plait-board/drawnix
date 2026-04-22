@@ -1,5 +1,3 @@
-@import "open-color/open-color.scss";
-
 .slider-container {
   padding: 10px 0;
 
@@ -40,16 +38,16 @@
     height: 12px;
     border: 2px solid var(--color-primary);
     border-radius: 50%;
-    background-color: $oc-white;
+    background-color: #ffffff;
     transform: translate(-50%, -50%);
     cursor: grab;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(#000000, 0.1);
   }
 
   .slider-track:focus-visible .slider-thumb {
     box-shadow:
-      0 0 0 3px rgba($oc-blue-4, 0.25),
-      0 2px 4px rgba(0, 0, 0, 0.1);
+      0 0 0 3px rgba(#4dabf7, 0.25),
+      0 2px 4px rgba(#000000, 0.1);
   }
 
   &.slider-container--neutral {
@@ -57,12 +55,12 @@
       height: 6px;
       background: linear-gradient(
         90deg,
-        rgba($oc-black, 0.08) 0%,
-        rgba($oc-black, 0.14) 100%
+        rgba(#000000, 0.08) 0%,
+        rgba(#000000, 0.14) 100%
       );
       box-shadow:
-        inset 0 0 0 1px rgba($oc-black, 0.06),
-        inset 0 1px 2px rgba($oc-black, 0.04);
+        inset 0 0 0 1px rgba(#000000, 0.06),
+        inset 0 1px 2px rgba(#000000, 0.04);
     }
 
     .slider-range {
@@ -73,13 +71,13 @@
       width: 14px;
       height: 14px;
       border-radius: 999px;
-      box-shadow: 0 4px 10px rgba($oc-black, 0.14);
+      box-shadow: 0 4px 10px rgba(#000000, 0.14);
     }
 
     .slider-track:focus-visible .slider-thumb {
       box-shadow:
-        0 0 0 3px rgba($oc-blue-4, 0.25),
-        0 4px 10px rgba($oc-black, 0.14);
+        0 0 0 3px rgba(#4dabf7, 0.25),
+        0 4px 10px rgba(#000000, 0.14);
     }
   }
 }

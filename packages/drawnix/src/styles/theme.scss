@@ -1,8 +1,7 @@
-@import "open-color/open-color.scss";
 @import "./variables.module.scss";
 
 .drawnix {
-  --focus-highlight-color: #{$oc-blue-2};
+  --focus-highlight-color: #a5d8ff;
   --icon-fill-color: var(--color-on-surface);
   --island-bg-color: #ffffff;
   --island-border-color: #eeeeee;
@@ -40,7 +39,7 @@
   --dx-radius-full: 9999px;
   --text-primary-color: var(--color-on-surface);
 
-  --color-icon-white: #{$oc-white};
+  --color-icon-white: #ffffff;
 
   --color-primary: #6698ff;
   --color-primary-darker: #4a7ee6;    // 降低亮度和饱和度
