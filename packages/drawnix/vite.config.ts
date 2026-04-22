@@ -58,7 +58,6 @@ export default defineConfig({
         '@plait/common',
         '@plait/draw',
         '@plait/mind',
-        '@plait/mind',
         'roughjs/bin/core',
         '@plait/text-plugins',
         'slate',
