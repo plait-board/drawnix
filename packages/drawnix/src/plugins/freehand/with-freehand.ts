@@ -57,12 +57,12 @@ export const withFreehand = (board: PlaitBoard) => {
     return isHit(element, point, isStrict);
   };
 
-  board.getOneHitElement = (elements) => {
+  board.getOneHitElement = (elements, point) => {
     const isAllFreehand = elements.every((item) => Freehand.isFreehand(item));
     if (isAllFreehand) {
-      return getHitDrawElement(board, elements as Freehand[]);
+      return getHitDrawElement(board, elements as Freehand[], point);
     }
-    return getOneHitElement(elements);
+    return getOneHitElement(elements, point);
   };
 
   board.isMovable = (element) => {
