@@ -31,5 +31,36 @@ export default defineConfig({
     commonjsOptions: {
       transformMixedEsModules: true,
     },
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          const normalizedId = id.replace(/\\/g, '/');
+
+          if (!normalizedId.includes('node_modules')) {
+            return;
+          }
+          if (normalizedId.includes('@plait-board/mermaid-to-drawnix')) {
+            return 'mermaid-to-drawnix';
+          }
+          if (normalizedId.includes('@plait-board/markdown-to-drawnix')) {
+            return 'markdown-to-drawnix';
+          }
+          if (
+            normalizedId.includes('@plait/') ||
+            normalizedId.includes('slate') ||
+            normalizedId.includes('roughjs') ||
+            normalizedId.includes('laser-pen')
+          ) {
+            return 'board-vendor';
+          }
+          if (
+            normalizedId.includes('/node_modules/react/') ||
+            normalizedId.includes('/node_modules/react-dom/')
+          ) {
+            return 'react-vendor';
+          }
+        },
+      },
+    },
   },
 });

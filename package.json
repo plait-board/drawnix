@@ -2,6 +2,9 @@
   "name": "@drawnix/source",
   "version": "0.0.2",
   "license": "MIT",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "start": "nx serve web --host=0.0.0.0",
     "build": "nx run-many -t=build",
