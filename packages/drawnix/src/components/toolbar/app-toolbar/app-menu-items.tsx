@@ -14,7 +14,7 @@ import {
   ThemeColorMode,
   Viewport,
 } from '@plait/core';
-import { loadFromJSON, saveAsJSON } from '../../../data/json';
+import { loadFromJSON, saveAsJSON, saveJSON } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
 import { saveAsImage, saveAsSvg } from '../../../utils/image';
@@ -28,12 +28,18 @@ import { getShortcutKey } from '../../../utils/common';
 
 export const SaveToFile = () => {
   const board = useBoard();
+  const { appState, setAppState } = useDrawnix();
   const { t } = useI18n();
   return (
     <MenuItem
       data-testid="save-button"
       onSelect={() => {
-        saveAsJSON(board);
+        saveJSON(board, appState.fileHandle).then(({ fileHandle }) => {
+          setAppState((currentAppState) => ({
+            ...currentAppState,
+            fileHandle,
+          }));
+        });
       }}
       icon={SaveFileIcon}
       aria-label={t('menu.saveFile')}
@@ -43,9 +49,33 @@ export const SaveToFile = () => {
 };
 SaveToFile.displayName = 'SaveToFile';
 
+export const SaveAsFile = () => {
+  const board = useBoard();
+  const { setAppState } = useDrawnix();
+  const { t } = useI18n();
+  return (
+    <MenuItem
+      data-testid="save-as-button"
+      onSelect={() => {
+        saveAsJSON(board).then(({ fileHandle }) => {
+          setAppState((currentAppState) => ({
+            ...currentAppState,
+            fileHandle,
+          }));
+        });
+      }}
+      icon={SaveFileIcon}
+      aria-label={t('menu.saveAsFile')}
+      shortcut={getShortcutKey('CtrlOrCmd+Shift+S')}
+    >{t('menu.saveAsFile')}</MenuItem>
+  );
+};
+SaveAsFile.displayName = 'SaveAsFile';
+
 export const OpenFile = () => {
   const board = useBoard();
   const listRender = useListRender();
+  const { setAppState } = useDrawnix();
   const { t } = useI18n();
   const clearAndLoad = (
     value: PlaitElement[],
@@ -68,8 +98,12 @@ export const OpenFile = () => {
     <MenuItem
       data-testid="open-button"
       onSelect={() => {
-        loadFromJSON(board).then((data) => {
+        loadFromJSON(board).then(({ data, fileHandle }) => {
           clearAndLoad(data.elements, data.viewport, data.theme);
+          setAppState((currentAppState) => ({
+            ...currentAppState,
+            fileHandle,
+          }));
         });
       }}
       icon={OpenFileIcon}

@@ -1,8 +1,14 @@
 import { PlaitBoard, PlaitElement } from '@plait/core';
 import { MIME_TYPES, VERSIONS } from '../constants';
-import { fileOpen, fileSave } from './filesystem';
+import { fileOpen, fileSave, type FileSystemHandle } from './filesystem';
 import { DrawnixExportedData, DrawnixExportedType } from './types';
 import { loadFromBlob, normalizeFile } from './blob';
+
+export type DrawnixFileHandle = FileSystemHandle | null;
+
+type FileWithHandle = File & {
+  handle?: FileSystemHandle;
+};
 
 export const getDefaultName = () => {
   const time = new Date().getTime();
@@ -11,6 +17,14 @@ export const getDefaultName = () => {
 
 export const saveAsJSON = async (
   board: PlaitBoard,
+  name: string = getDefaultName()
+) => {
+  return saveJSON(board, null, name);
+};
+
+export const saveJSON = async (
+  board: PlaitBoard,
+  existingFileHandle: DrawnixFileHandle = null,
   name: string = getDefaultName()
 ) => {
   const serialized = serializeAsJSON(board);
@@ -22,6 +36,7 @@ export const saveAsJSON = async (
     name,
     extension: 'drawnix',
     description: 'Drawnix file',
+    fileHandle: existingFileHandle,
   });
   return { fileHandle };
 };
@@ -33,7 +48,9 @@ export const loadFromJSON = async (board: PlaitBoard) => {
     // gets resolved. Else, iOS users cannot open `.drawnix` files.
     // extensions: ["json", "drawnix", "png", "svg"],
   });
-  return loadFromBlob(board, await normalizeFile(file));
+  const fileHandle = (file as FileWithHandle).handle || null;
+  const data = await loadFromBlob(board, await normalizeFile(file));
+  return { data, fileHandle };
 };
 
 export const isValidDrawnixData = (data?: any): data is DrawnixExportedData => {

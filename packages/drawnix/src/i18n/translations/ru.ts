@@ -84,6 +84,7 @@ const ruTranslations: Translations = {
   // Menu items
   'menu.open': 'Открыть',
   'menu.saveFile': 'Сохранить',
+  'menu.saveAsFile': 'Сохранить как',
   'menu.exportImage': 'Экспортировать',
   'menu.exportImage.svg': 'SVG',
   'menu.exportImage.png': 'PNG',

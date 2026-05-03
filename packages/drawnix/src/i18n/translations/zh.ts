@@ -83,6 +83,7 @@ const zhTranslations: Translations = {
   // Menu items
   'menu.open': '打开',
   'menu.saveFile': '保存文件',
+  'menu.saveAsFile': '另存为',
   'menu.exportImage': '导出图片',
   'menu.exportImage.svg': 'SVG',
   'menu.exportImage.png': 'PNG',

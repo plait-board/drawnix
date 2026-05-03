@@ -1,4 +1,4 @@
-import type { FileSystemHandle } from 'browser-fs-access';
+import type { FileSystemHandle as BrowserFileSystemHandle } from 'browser-fs-access';
 import {
   fileOpen as _fileOpen,
   fileSave as _fileSave,
@@ -7,6 +7,8 @@ import {
 import { MIME_TYPES } from '../constants';
 
 type FILE_EXTENSION = Exclude<keyof typeof MIME_TYPES, 'binary'>;
+
+export type FileSystemHandle = BrowserFileSystemHandle | FileSystemFileHandle;
 
 export const fileOpen = <M extends boolean | undefined = false>(opts: {
   extensions?: FILE_EXTENSION[];
@@ -60,5 +62,4 @@ export const fileSave = (
   );
 };
 
-export type { FileSystemHandle };
 export { nativeFileSystemSupported };

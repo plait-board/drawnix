@@ -82,6 +82,7 @@ const enTranslations: Translations = {
   // Menu items
   'menu.open': 'Open',
   'menu.saveFile': 'Save File',
+  'menu.saveAsFile': 'Save As',
   'menu.exportImage': 'Export Image',
   'menu.exportImage.svg': 'SVG',
   'menu.exportImage.png': 'PNG',

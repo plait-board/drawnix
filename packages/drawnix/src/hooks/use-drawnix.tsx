@@ -15,6 +15,7 @@ import { FreehandShape } from '../plugins/freehand/type';
 import { Editor } from 'slate';
 import { LinkElement } from '@plait/common';
 import { FreehandDrawOptions } from '../plugins/freehand/presets';
+import { DrawnixFileHandle } from '../data/json';
 
 export enum DialogType {
   mermaidToDrawnix = 'mermaidToDrawnix',
@@ -46,6 +47,7 @@ export type DrawnixState = {
   isPencilMode: boolean;
   freehandPresets: FreehandDrawOptions[];
   activeFreehandPresetIndex: number;
+  fileHandle: DrawnixFileHandle;
   openDialogType: DialogType | null;
   openCleanConfirm: boolean;
   linkState?: LinkState | null;

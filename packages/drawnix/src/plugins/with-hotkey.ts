@@ -6,8 +6,8 @@ import {
 } from '@plait/core';
 import { isHotkey } from 'is-hotkey';
 import { addImage, saveAsImage } from '../utils/image';
-import { saveAsJSON } from '../data/json';
-import { DrawnixState } from '../hooks/use-drawnix';
+import { saveAsJSON, saveJSON } from '../data/json';
+import { DrawnixBoard, DrawnixState } from '../hooks/use-drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { MindPointerType } from '@plait/mind';
 import { FreehandShape } from './freehand/type';
@@ -33,8 +33,19 @@ export const buildDrawnixHotkeyPlugin = (
           event.preventDefault();
           return;
         }
+        if (isHotkey(['mod+shift+s'], { byKey: true })(event)) {
+          saveAsJSON(board).then(({ fileHandle }) => {
+            updateAppState({ fileHandle });
+          });
+          event.preventDefault();
+          return;
+        }
         if (isHotkey(['mod+s'], { byKey: true })(event)) {
-          saveAsJSON(board);
+          saveJSON(board, (board as DrawnixBoard).appState.fileHandle).then(
+            ({ fileHandle }) => {
+              updateAppState({ fileHandle });
+            }
+          );
           event.preventDefault();
           return;
         }

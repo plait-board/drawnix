@@ -85,6 +85,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
         ...preset,
       })),
       activeFreehandPresetIndex: 0,
+      fileHandle: null,
       openDialogType: null,
       openCleanConfirm: false,
     };
