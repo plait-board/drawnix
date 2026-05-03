@@ -21,7 +21,7 @@ const zhTranslations: Translations = {
   'toolbar.shape.rectangle': '长方形 — R',
   'toolbar.shape.ellipse': '圆 — O',
   'toolbar.shape.triangle': '三角形',
-  'toolbar.shape.terminal': '椭圆角矩形',
+  'toolbar.shape.terminal': '开始/结束',
   'toolbar.shape.noteCurlyLeft': '左花括注释',
   'toolbar.shape.noteCurlyRight': '右花括注释',
   'toolbar.shape.diamond': '菱形',
