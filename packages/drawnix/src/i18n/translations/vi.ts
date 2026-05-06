@@ -83,7 +83,7 @@ const viTranslations: Translations = {
 
     // Menu items
     'menu.open': 'Mở',
-    'menu.saveFile': 'Lưu tệp',
+    'menu.saveFile': 'Lưu vào tệp hiện tại',
     'menu.saveAsFile': 'Lưu thành',
     'menu.exportImage': 'Xuất hình ảnh',
     'menu.exportImage.svg': 'SVG',

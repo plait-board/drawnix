@@ -83,7 +83,7 @@ const ruTranslations: Translations = {
 
   // Menu items
   'menu.open': 'Открыть',
-  'menu.saveFile': 'Сохранить',
+  'menu.saveFile': 'Сохранить в текущий файл',
   'menu.saveAsFile': 'Сохранить как',
   'menu.exportImage': 'Экспортировать',
   'menu.exportImage.svg': 'SVG',

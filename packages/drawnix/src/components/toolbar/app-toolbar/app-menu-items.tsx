@@ -30,6 +30,9 @@ export const SaveToFile = () => {
   const board = useBoard();
   const { appState, setAppState } = useDrawnix();
   const { t } = useI18n();
+  if (!appState.fileHandle) {
+    return null;
+  }
   return (
     <MenuItem
       data-testid="save-button"

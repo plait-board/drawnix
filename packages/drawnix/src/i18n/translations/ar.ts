@@ -83,7 +83,7 @@ const arTranslations: Translations = {
 
     // Menu items
     "menu.open": "فتح",
-    "menu.saveFile": "حفظ الملف",
+    "menu.saveFile": "حفظ إلى الملف الحالي",
     "menu.saveAsFile": "حفظ باسم",
     "menu.exportImage": "تصدير صورة",
     "menu.exportImage.svg": "SVG",
