@@ -44,9 +44,9 @@ export const SHAPES: ShapeProps[] = [
     pointer: BasicShapes.triangle,
   },
   {
-    icon: TerminalIcon,
-    title: 'toolbar.shape.terminal',
-    pointer: FlowchartSymbols.terminal,
+    icon: RoundRectangleIcon,
+    title: 'toolbar.shape.roundRectangle',
+    pointer: BasicShapes.roundRectangle,
   },
   {
     icon: NoteCurlyRightIcon,
@@ -69,9 +69,9 @@ export const SHAPES: ShapeProps[] = [
     pointer: BasicShapes.parallelogram,
   },
   {
-    icon: RoundRectangleIcon,
-    title: 'toolbar.shape.roundRectangle',
-    pointer: BasicShapes.roundRectangle,
+    icon: TerminalIcon,
+    title: 'toolbar.shape.terminal',
+    pointer: FlowchartSymbols.terminal,
   },
 ];
 
