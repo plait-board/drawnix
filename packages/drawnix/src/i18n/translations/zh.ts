@@ -65,7 +65,7 @@ const zhTranslations: Translations = {
   'general.redo': '重做',
   'general.menu': '应用菜单',
   'general.moreOptions': '更多选项',
-  'general.duplicate': '复制',
+  'general.duplicate': '重复',
   'general.delete': '删除',
 
   'general.copyToClipboard': '复制到剪贴板',

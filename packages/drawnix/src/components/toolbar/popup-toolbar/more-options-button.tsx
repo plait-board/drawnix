@@ -3,7 +3,7 @@ import { ToolButton } from '../../tool-button';
 import classNames from 'classnames';
 import { useI18n } from '../../../i18n';
 import { deleteFragment, duplicateElements, PlaitBoard } from '@plait/core';
-import { DuplicateIcon, MoreOptionsIcon, TrashIcon } from '../../icons';
+import { MoreOptionsIcon } from '../../icons';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import Menu from '../../menu/menu';
 import MenuItem from '../../menu/menu-item';
@@ -63,7 +63,6 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
             onSelect={() => {
               duplicateElements(board);
             }}
-            icon={DuplicateIcon}
             shortcut={getShortcutKey('CtrlOrCmd+D')}
             aria-label={t('general.duplicate')}
           >
@@ -73,7 +72,6 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
             onSelect={() => {
               deleteFragment(board);
             }}
-            icon={TrashIcon}
             shortcut={getShortcutKey('Backspace')}
             aria-label={t('general.delete')}
           >
@@ -81,6 +79,7 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
           </MenuItem>
           <MenuItem
             onSelect={() => undefined}
+            shortcut={getShortcutKey('Shift+Option+C')}
             aria-label={t('general.copyToClipboard')}
             disabled={!canCopyAny}
             submenu={
@@ -91,7 +90,7 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
               >
                 <MenuItem
                   onSelect={() => {
-                    void copySelectionAsSvg(board).catch(() => undefined);
+                    copySelectionAsSvg(board).catch(() => undefined);
                   }}
                   disabled={!canCopySvg}
                   aria-label={t('general.copyToClipboard.svg')}
@@ -100,7 +99,7 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
                 </MenuItem>
                 <MenuItem
                   onSelect={() => {
-                    void copySelectionAsPng(board).catch(() => undefined);
+                    copySelectionAsPng(board).catch(() => undefined);
                   }}
                   disabled={!canCopyPng}
                   aria-label={t('general.copyToClipboard.pngWithoutBackground')}
@@ -109,7 +108,7 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
                 </MenuItem>
                 <MenuItem
                   onSelect={() => {
-                    void copySelectionAsPng(board, true).catch(() => undefined);
+                    copySelectionAsPng(board, true).catch(() => undefined);
                   }}
                   disabled={!canCopyPng}
                   aria-label={t('general.copyToClipboard.pngWithBackground')}
