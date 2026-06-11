@@ -1,3 +1,8 @@
+import { PlaitPointerType } from '@plait/core';
+import { ArrowLineShape, BasicShapes } from '@plait/draw';
+import { FreehandShape } from '../plugins/freehand/type';
+import { createDefaultToolState, mergeToolState } from './use-drawnix';
+
 jest.mock('@plait/core', () => ({
   DEFAULT_COLOR: '#000000',
   PlaitPointerType: {
@@ -29,11 +34,6 @@ jest.mock('@plait/mind', () => ({
     mind: 'mind',
   },
 }));
-
-import { PlaitPointerType } from '@plait/core';
-import { ArrowLineShape, BasicShapes } from '@plait/draw';
-import { FreehandShape } from '../plugins/freehand/type';
-import { createDefaultToolState, mergeToolState } from './use-drawnix';
 
 describe('drawnix tool state', () => {
   it('creates the default persistent tool state', () => {
