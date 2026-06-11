@@ -177,11 +177,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
                 afterInit && afterInit(board);
               }}
             >
-              {tutorial &&
-                board &&
-                PlaitBoard.isPointer(board, PlaitPointerType.selection) && (
-                  <Tutorial />
-                )}
+              {tutorial && board && <Tutorial />}
             </Board>
             <AppToolbar></AppToolbar>
             <CreationToolbar></CreationToolbar>
