@@ -5,7 +5,13 @@ import {
   PlaitPointerType,
 } from '@plait/core';
 import { isHotkey } from 'is-hotkey';
-import { addImage, copySelectionAsSvg, saveAsImage } from '../utils/image';
+import {
+  addImage,
+  canCopySelectionAs,
+  copySelectionAsPng,
+  copySelectionAsSvg,
+  saveAsImage,
+} from '../utils/image';
 import { saveAsJSON, saveJSON } from '../data/json';
 import { DrawnixBoard, DrawnixState } from '../hooks/use-drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
@@ -129,8 +135,17 @@ export const buildDrawnixHotkeyPlugin = (
           }
         }
         if (isHotkey('shift+alt+c')(event)) {
-          copySelectionAsSvg(board).catch(() => undefined);
-          event.preventDefault();
+          const canCopySvg = canCopySelectionAs('svg');
+          const canCopyPng = canCopySelectionAs('png');
+          if (canCopySvg || canCopyPng) {
+            if (canCopySvg) {
+              copySelectionAsSvg(board).catch(() => undefined);
+            } else if (canCopyPng) {
+              copySelectionAsPng(board).catch(() => undefined);
+            }
+            event.preventDefault();
+          }
+
           return;
         }
       }

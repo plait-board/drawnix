@@ -79,7 +79,7 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
           </MenuItem>
           <MenuItem
             onSelect={() => undefined}
-            shortcut={getShortcutKey('Shift+Option+C')}
+            shortcut={getShortcutKey('Shift+Alt+C')}
             aria-label={t('general.copyToClipboard')}
             disabled={!canCopyAny}
             submenu={
