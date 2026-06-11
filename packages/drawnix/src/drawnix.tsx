@@ -6,12 +6,13 @@ import {
   PlaitPlugin,
   PlaitPointerType,
   PlaitTheme,
+  BoardTransforms,
   Selection,
   ThemeColorMode,
   Viewport,
 } from '@plait/core';
-import React, { useState, useRef } from 'react';
-import { withGroup } from '@plait/common';
+import React, { useState, useRef, useEffect } from 'react';
+import { BoardCreationMode, setCreationMode, withGroup } from '@plait/common';
 import { withDraw } from '@plait/draw';
 import { MindThemeColors, withMind } from '@plait/mind';
 import MobileDetect from 'mobile-detect';
@@ -31,6 +32,8 @@ import {
   DrawnixBoard,
   DrawnixContext,
   DrawnixState,
+  DrawnixToolState,
+  mergeToolState,
 } from './hooks/use-drawnix';
 import { ClosePencilToolbar } from './components/toolbar/pencil-mode-toolbar';
 import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
@@ -40,30 +43,48 @@ import { LinkPopup } from './components/popup/link-popup/link-popup';
 import { I18nProvider } from './i18n';
 import { Tutorial } from './components/tutorial';
 import { LASER_POINTER_CLASS_NAME } from './utils/laser-pointer';
-import { DEFAULT_FREEHAND_PRESETS } from './plugins/freehand/presets';
 
 export type DrawnixProps = {
   value: PlaitElement[];
   viewport?: Viewport;
   theme?: PlaitTheme;
+  initialToolState?: Partial<DrawnixToolState>;
   onChange?: (value: BoardChangeData) => void;
   onSelectionChange?: (selection: Selection | null) => void;
   onValueChange?: (value: PlaitElement[]) => void;
   onViewportChange?: (value: Viewport) => void;
   onThemeChange?: (value: ThemeColorMode) => void;
+  onToolStateChange?: (toolState: DrawnixToolState) => void;
   afterInit?: (board: PlaitBoard) => void;
   tutorial?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
+
+export type { DrawnixToolState } from './hooks/use-drawnix';
+
+const applyToolStateToBoard = (
+  board: PlaitBoard,
+  toolState: DrawnixToolState
+) => {
+  BoardTransforms.updatePointerType(board, toolState.pointer);
+  if (
+    toolState.pointer !== PlaitPointerType.hand &&
+    toolState.pointer !== PlaitPointerType.selection
+  ) {
+    setCreationMode(board, BoardCreationMode.drawing);
+  }
+};
 
 export const Drawnix: React.FC<DrawnixProps> = ({
   value,
   viewport,
   theme,
+  initialToolState,
   onChange,
   onSelectionChange,
   onViewportChange,
   onThemeChange,
   onValueChange,
+  onToolStateChange,
   afterInit,
   tutorial = false,
 }) => {
@@ -75,16 +96,11 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   };
 
   const [appState, setAppState] = useState<DrawnixState>(() => {
-    // TODO: need to consider how to maintenance the pointer state in future
     const md = new MobileDetect(window.navigator.userAgent);
     return {
-      pointer: PlaitPointerType.hand,
+      toolState: mergeToolState(initialToolState),
       isMobile: md.mobile() !== null,
       isPencilMode: false,
-      freehandPresets: DEFAULT_FREEHAND_PRESETS.map((preset) => ({
-        ...preset,
-      })),
-      activeFreehandPresetIndex: 0,
       fileHandle: null,
       openDialogType: null,
       openCleanConfirm: false,
@@ -96,6 +112,18 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   if (board) {
     board.appState = appState;
   }
+
+  const hasMountedToolStateRef = useRef(false);
+  const onToolStateChangeRef = useRef(onToolStateChange);
+  onToolStateChangeRef.current = onToolStateChange;
+
+  useEffect(() => {
+    if (!hasMountedToolStateRef.current) {
+      hasMountedToolStateRef.current = true;
+      return;
+    }
+    onToolStateChangeRef.current?.(appState.toolState);
+  }, [appState.toolState]);
 
   const updateAppState = (newAppState: Partial<DrawnixState>) => {
     setAppState((currentAppState) => ({
@@ -143,7 +171,9 @@ export const Drawnix: React.FC<DrawnixProps> = ({
           >
             <Board
               afterInit={(board) => {
-                setBoard(board as DrawnixBoard);
+                const drawnixBoard = board as DrawnixBoard;
+                applyToolStateToBoard(drawnixBoard, appState.toolState);
+                setBoard(drawnixBoard);
                 afterInit && afterInit(board);
               }}
             >

@@ -25,8 +25,10 @@ import {
 } from '@plait/draw';
 
 type FreehandAppState = {
-  activeFreehandPresetIndex?: number;
-  freehandPresets?: FreehandDrawOptions[];
+  toolState?: {
+    activeFreehandPresetIndex?: number;
+    freehandPresets?: FreehandDrawOptions[];
+  };
 };
 
 export function getFreehandPointers() {
@@ -36,9 +38,9 @@ export function getFreehandPointers() {
 export const getFreehandDrawOptions = (board: PlaitBoard) => {
   const appState = (board as PlaitBoard & { appState?: FreehandAppState })
     .appState;
-  const activePresetIndex = appState?.activeFreehandPresetIndex || 0;
+  const activePresetIndex = appState?.toolState?.activeFreehandPresetIndex || 0;
   const activePreset =
-    appState?.freehandPresets?.[activePresetIndex] ||
+    appState?.toolState?.freehandPresets?.[activePresetIndex] ||
     DEFAULT_FREEHAND_PRESETS[activePresetIndex] ||
     DEFAULT_FREEHAND_PRESETS[0];
 

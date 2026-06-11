@@ -35,9 +35,10 @@ import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
 import { FreehandShape } from '../../plugins/freehand/type';
 import {
+  DrawnixFreehandPointer,
   DrawnixPointerType,
+  DrawnixToolState,
   useDrawnix,
-  useSetPointer,
 } from '../../hooks/use-drawnix';
 import { ExtraToolsButton } from './extra-tools/extra-tools-button';
 import { addImage } from '../../utils/image';
@@ -132,28 +133,34 @@ export const isShapePointer = (board: PlaitBoard) => {
 export const CreationToolbar = () => {
   const board = useBoard();
   const { appState, setAppState } = useDrawnix();
+  const toolState = appState.toolState;
   const { t } = useI18n();
-  const setPointer = useSetPointer();
   const container = PlaitBoard.getBoardContainer(board);
 
   const [freehandOpen, setFreehandOpen] = useState(false);
   const [arrowOpen, setArrowOpen] = useState(false);
   const [shapeOpen, setShapeOpen] = useState(false);
-  const [lastFreehandButton, setLastFreehandButton] =
-    useState<AppToolButtonProps>(
-      BUTTONS.find((button) => button.key === PopupKey.freehand) || BUTTONS[4]
-    );
-  const [lastShapePointer, setLastShapePointer] = useState<
-    DrawPointerType | undefined
-  >(SHAPES[0].pointer);
-  const [lastArrowPointer, setLastArrowPointer] = useState<
-    DrawPointerType | undefined
-  >(ARROWS[0].pointer);
+  const lastFreehandButton: AppToolButtonProps =
+    FREEHANDS.find(
+      (freehand) => freehand.pointer === toolState.lastFreehandPointer
+    ) ||
+    BUTTONS.find((button) => button.key === PopupKey.freehand) ||
+    BUTTONS[4];
+
+  const updateToolState = (nextToolState: Partial<DrawnixToolState>) => {
+    setAppState((currentAppState) => ({
+      ...currentAppState,
+      toolState: {
+        ...currentAppState.toolState,
+        ...nextToolState,
+      },
+    }));
+  };
 
   const onPointerDown = (pointer: DrawnixPointerType) => {
     setCreationMode(board, BoardCreationMode.dnd);
     BoardTransforms.updatePointerType(board, pointer);
-    setPointer(pointer);
+    updateToolState({ pointer });
   };
 
   const onPointerUp = () => {
@@ -175,19 +182,24 @@ export const CreationToolbar = () => {
 
   const updateFreehandSettings = (
     presetIndex: number,
-    nextSettings: Partial<(typeof appState)['freehandPresets'][number]>
+    nextSettings: Partial<(typeof toolState)['freehandPresets'][number]>
   ) => {
     setAppState((currentAppState) => ({
       ...currentAppState,
-      freehandPresets: currentAppState.freehandPresets.map((preset, index) => {
-        if (index !== presetIndex) {
-          return preset;
-        }
-        return {
-          ...preset,
-          ...nextSettings,
-        };
-      }),
+      toolState: {
+        ...currentAppState.toolState,
+        freehandPresets: currentAppState.toolState.freehandPresets.map(
+          (preset, index) => {
+            if (index !== presetIndex) {
+              return preset;
+            }
+            return {
+              ...preset,
+              ...nextSettings,
+            };
+          }
+        ),
+      },
     }));
   };
 
@@ -235,13 +247,12 @@ export const CreationToolbar = () => {
                 </PopoverTrigger>
                 <PopoverContent container={container}>
                   <FreehandPanel
-                    freehandPresets={appState.freehandPresets}
-                    activePresetIndex={appState.activeFreehandPresetIndex}
+                    freehandPresets={toolState.freehandPresets}
+                    activePresetIndex={toolState.activeFreehandPresetIndex}
                     onPresetSelect={(presetIndex: number) => {
-                      setAppState((currentAppState) => ({
-                        ...currentAppState,
+                      updateToolState({
                         activeFreehandPresetIndex: presetIndex,
-                      }));
+                      });
                     }}
                     onStrokeColorSelect={(
                       presetIndex: number,
@@ -260,13 +271,10 @@ export const CreationToolbar = () => {
                       });
                     }}
                     onPointerUp={(pointer: DrawnixPointerType) => {
-                      setPointer(pointer);
-                      const selectedButton = FREEHANDS.find(
-                        (item) => item.pointer === pointer
-                      );
-                      if (selectedButton) {
-                        setLastFreehandButton(selectedButton);
-                      }
+                      updateToolState({
+                        pointer,
+                        lastFreehandPointer: pointer as DrawnixFreehandPointer,
+                      });
                     }}
                   ></FreehandPanel>
                 </PopoverContent>
@@ -300,11 +308,13 @@ export const CreationToolbar = () => {
                       if (isShapePointer(board)) {
                         BoardTransforms.updatePointerType(board, board.pointer);
                       } else {
-                        setPointer(lastShapePointer || SHAPES[0].pointer);
+                        updateToolState({
+                          pointer: toolState.lastShapePointer,
+                        });
                         setCreationMode(board, BoardCreationMode.drawing);
                         BoardTransforms.updatePointerType(
                           board,
-                          lastShapePointer || SHAPES[0].pointer
+                          toolState.lastShapePointer
                         );
                       }
                     }}
@@ -314,8 +324,10 @@ export const CreationToolbar = () => {
                   <ShapePicker
                     onPointerUp={(pointer: DrawPointerType) => {
                       setShapeOpen(false);
-                      setPointer(pointer);
-                      setLastShapePointer(pointer);
+                      updateToolState({
+                        pointer,
+                        lastShapePointer: pointer,
+                      });
                     }}
                   ></ShapePicker>
                 </PopoverContent>
@@ -348,9 +360,11 @@ export const CreationToolbar = () => {
                         setCreationMode(board, BoardCreationMode.drawing);
                         BoardTransforms.updatePointerType(
                           board,
-                          lastArrowPointer || ARROWS[0].pointer
+                          toolState.lastArrowPointer
                         );
-                        setPointer(lastArrowPointer || ARROWS[0].pointer);
+                        updateToolState({
+                          pointer: toolState.lastArrowPointer,
+                        });
                       }
                     }}
                   />
@@ -359,8 +373,10 @@ export const CreationToolbar = () => {
                   <ArrowPicker
                     onPointerUp={(pointer: DrawPointerType) => {
                       setArrowOpen(false);
-                      setPointer(pointer);
-                      setLastArrowPointer(pointer);
+                      updateToolState({
+                        pointer,
+                        lastArrowPointer: pointer as ArrowLineShape,
+                      });
                     }}
                   ></ArrowPicker>
                 </PopoverContent>
@@ -388,7 +404,7 @@ export const CreationToolbar = () => {
                   onPointerUp();
                 } else if (button.pointer && isBasicPointer(button.pointer)) {
                   BoardTransforms.updatePointerType(board, button.pointer);
-                  setPointer(button.pointer);
+                  updateToolState({ pointer: button.pointer });
                 }
                 if (button.key === 'image') {
                   addImage(board);

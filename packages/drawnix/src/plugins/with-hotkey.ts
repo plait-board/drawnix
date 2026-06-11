@@ -7,7 +7,13 @@ import {
 import { isHotkey } from 'is-hotkey';
 import { addImage, saveAsImage } from '../utils/image';
 import { saveAsJSON, saveJSON } from '../data/json';
-import { DrawnixBoard, DrawnixState } from '../hooks/use-drawnix';
+import {
+  DrawnixBoard,
+  DrawnixFreehandPointer,
+  DrawnixPointerType,
+  DrawnixState,
+  DrawnixToolState,
+} from '../hooks/use-drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { MindPointerType } from '@plait/mind';
 import { FreehandShape } from './freehand/type';
@@ -18,6 +24,18 @@ export const buildDrawnixHotkeyPlugin = (
 ) => {
   const withDrawnixHotkey = (board: PlaitBoard) => {
     const { globalKeyDown, keyDown } = board;
+    const updatePointer = (
+      pointer: DrawnixPointerType,
+      nextToolState: Partial<DrawnixToolState> = {}
+    ) => {
+      updateAppState({
+        toolState: {
+          ...(board as DrawnixBoard).appState.toolState,
+          pointer,
+          ...nextToolState,
+        },
+      });
+    };
     board.globalKeyDown = (event: KeyboardEvent) => {
       const isTypingNormal =
         event.target instanceof HTMLInputElement ||
@@ -67,7 +85,7 @@ export const buildDrawnixHotkeyPlugin = (
         if (!event.altKey && !event.metaKey && !event.ctrlKey) {
           if (event.key === 'h') {
             BoardTransforms.updatePointerType(board, PlaitPointerType.hand);
-            updateAppState({ pointer: PlaitPointerType.hand });
+            updatePointer(PlaitPointerType.hand);
             event.preventDefault();
             return;
           }
@@ -76,28 +94,34 @@ export const buildDrawnixHotkeyPlugin = (
               board,
               PlaitPointerType.selection
             );
-            updateAppState({ pointer: PlaitPointerType.selection });
+            updatePointer(PlaitPointerType.selection);
             event.preventDefault();
             return;
           }
           if (event.key === 'm') {
             setCreationMode(board, BoardCreationMode.dnd);
             BoardTransforms.updatePointerType(board, MindPointerType.mind);
-            updateAppState({ pointer: MindPointerType.mind });
+            updatePointer(MindPointerType.mind);
             event.preventDefault();
             return;
           }
           if (event.key === 'e') {
             setCreationMode(board, BoardCreationMode.drawing);
             BoardTransforms.updatePointerType(board, FreehandShape.eraser);
-            updateAppState({ pointer: FreehandShape.eraser });
+            updatePointer(FreehandShape.eraser, {
+              lastFreehandPointer:
+                FreehandShape.eraser as DrawnixFreehandPointer,
+            });
             event.preventDefault();
             return;
           }
           if (event.key === 'p') {
             setCreationMode(board, BoardCreationMode.drawing);
             BoardTransforms.updatePointerType(board, FreehandShape.feltTipPen);
-            updateAppState({ pointer: FreehandShape.feltTipPen });
+            updatePointer(FreehandShape.feltTipPen, {
+              lastFreehandPointer:
+                FreehandShape.feltTipPen as DrawnixFreehandPointer,
+            });
             event.preventDefault();
             return;
           }
@@ -106,7 +130,9 @@ export const buildDrawnixHotkeyPlugin = (
             if (getSelectedElements(board).length === 0) {
               setCreationMode(board, BoardCreationMode.drawing);
               BoardTransforms.updatePointerType(board, ArrowLineShape.straight);
-              updateAppState({ pointer: ArrowLineShape.straight });
+              updatePointer(ArrowLineShape.straight, {
+                lastArrowPointer: ArrowLineShape.straight,
+              });
               event.preventDefault();
               return;
             }
@@ -123,7 +149,11 @@ export const buildDrawnixHotkeyPlugin = (
               setCreationMode(board, BoardCreationMode.drawing);
             }
             BoardTransforms.updatePointerType(board, keyToPointer[event.key]);
-            updateAppState({ pointer: keyToPointer[event.key] });
+            updatePointer(keyToPointer[event.key], {
+              ...(keyToPointer[event.key] === BasicShapes.text
+                ? {}
+                : { lastShapePointer: keyToPointer[event.key] }),
+            });
             event.preventDefault();
             return;
           }

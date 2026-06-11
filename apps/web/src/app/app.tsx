@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Drawnix } from '@drawnix/drawnix';
+import { Drawnix, DrawnixToolState } from '@drawnix/drawnix';
 import { PlaitBoard, PlaitElement, PlaitTheme, Viewport } from '@plait/core';
 import localforage from 'localforage';
 
@@ -10,6 +10,7 @@ type AppValue = {
 };
 
 const MAIN_BOARD_CONTENT_KEY = 'main_board_content';
+const MAIN_BOARD_TOOL_STATE_KEY = 'main_board_tool_state';
 
 localforage.config({
   name: 'Drawnix',
@@ -19,30 +20,43 @@ localforage.config({
 
 export function App() {
   const [value, setValue] = useState<AppValue>({ children: [] });
+  const [initialToolState, setInitialToolState] =
+    useState<Partial<DrawnixToolState>>();
+  const [loaded, setLoaded] = useState(false);
 
   const [tutorial, setTutorial] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
-      const storedData = (await localforage.getItem(
-        MAIN_BOARD_CONTENT_KEY
-      )) as AppValue;
+      const [storedData, storedToolState] = await Promise.all([
+        localforage.getItem(MAIN_BOARD_CONTENT_KEY),
+        localforage.getItem(MAIN_BOARD_TOOL_STATE_KEY),
+      ]);
       if (storedData) {
-        setValue(storedData);
-        if (storedData.children && storedData.children.length === 0) {
+        const appValue = storedData as AppValue;
+        setValue(appValue);
+        if (appValue.children && appValue.children.length === 0) {
           setTutorial(true);
         }
-        return;
+      } else {
+        setTutorial(true);
       }
-      setTutorial(true);
+      if (storedToolState) {
+        setInitialToolState(storedToolState as Partial<DrawnixToolState>);
+      }
+      setLoaded(true);
     };
     loadData();
   }, []);
+  if (!loaded) {
+    return null;
+  }
   return (
     <Drawnix
       value={value.children}
       viewport={value.viewport}
       theme={value.theme}
+      initialToolState={initialToolState}
       onChange={(value) => {
         const newValue = value as AppValue;
         localforage.setItem(MAIN_BOARD_CONTENT_KEY, newValue);
@@ -50,6 +64,9 @@ export function App() {
         if (newValue.children && newValue.children.length > 0) {
           setTutorial(false);
         }
+      }}
+      onToolStateChange={(toolState) => {
+        localforage.setItem(MAIN_BOARD_TOOL_STATE_KEY, toolState);
       }}
       tutorial={tutorial}
       afterInit={(board) => {
