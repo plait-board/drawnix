@@ -217,7 +217,7 @@ export const CreationToolbar = () => {
             return (
               <Popover
                 key={index}
-                open={freehandOpen || checkCurrentPointerIsFreehand(board)}
+                open={freehandOpen}
                 sideOffset={12}
                 onOpenChange={(open) => {
                   setFreehandOpen(open);
