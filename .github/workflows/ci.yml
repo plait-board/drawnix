@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches:
+      - develop
       - main
   pull_request:
 
@@ -18,24 +19,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Connect your workspace on nx.app and uncomment this to enable task distribution.
-      # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "e2e-ci" targets have been requested
-      # - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-js" --stop-agents-after="e2e-ci"
-
-      # Cache node_modules
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version-file: '.nvmrc'
           cache: 'npm'
 
       - run: npm ci
       - uses: nrwl/nx-set-shas@v5
 
-      # 安装 Playwright 浏览器和依赖
       - name: Install Playwright
         run: npx playwright install --with-deps
 
-      # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
-      # - run: npx nx-cloud record -- echo Hello World
       - run: npx nx affected -t lint test build --base=origin/develop --verbose
-      - run: npx nx affected --parallel 1 -t e2e-ci --base=origin/develop --verbose
+      - run: npx nx affected -t e2e --base=origin/develop --parallel 1 --verbose

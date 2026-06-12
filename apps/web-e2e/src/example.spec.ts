@@ -1,9 +1,9 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-test('has title', async ({ page }) => {
+test('loads the Drawnix board', async ({ page }) => {
   await page.goto('/');
 
-  // Expect h1 to contain a substring.
-  expect(await page.title()).toContain('Drawnix - 开源白板工具');
-  expect(page.locator('drawnix')).toBeTruthy();
+  await expect(page).toHaveTitle(/Drawnix/);
+  await expect(page.locator('.drawnix')).toBeVisible();
+  await expect(page.locator('.drawnix .plait-board-container')).toBeVisible();
 });
