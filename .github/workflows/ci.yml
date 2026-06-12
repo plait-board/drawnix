@@ -26,9 +26,11 @@ jobs:
 
       - run: npm ci
       - uses: nrwl/nx-set-shas@v5
+        with:
+          main-branch-name: develop
 
       - name: Install Playwright
         run: npx playwright install --with-deps
 
-      - run: npx nx affected -t lint test build --base=origin/develop --verbose
-      - run: npx nx affected -t e2e --base=origin/develop --parallel 1 --verbose
+      - run: npx nx affected -t lint test build --base=$NX_BASE --head=$NX_HEAD --verbose
+      - run: npx nx affected -t e2e --base=$NX_BASE --head=$NX_HEAD --parallel 1 --verbose

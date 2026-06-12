@@ -26,7 +26,7 @@ export default defineConfig({
       'html',
       {
         outputFolder: '../../dist/.playwright/apps/web-e2e/playwright-report',
-        open: 'on-failure',
+        open: process.env.CI ? 'never' : 'on-failure',
       },
     ],
     ...(process.env.CI
