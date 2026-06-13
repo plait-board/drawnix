@@ -31,7 +31,7 @@ import {
 import { FreehandPanel } from './freehand-panel/freehand-panel';
 import { ShapePicker } from '../shape-picker';
 import { ArrowPicker } from '../arrow-picker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
 import { FreehandShape } from '../../plugins/freehand/type';
 import {
@@ -120,13 +120,31 @@ export const BUTTONS: AppToolButtonProps[] = [
 
 // TODO provider by plait/draw
 export const isArrowLinePointer = (board: PlaitBoard) => {
-  return Object.keys(ArrowLineShape).includes(board.pointer);
+  return isArrowLinePointerType(board.pointer);
 };
 
 export const isShapePointer = (board: PlaitBoard) => {
+  return isShapePointerType(board.pointer);
+};
+
+const isArrowLinePointerType = (pointer?: string) => {
+  return Object.values(ArrowLineShape).includes(pointer as ArrowLineShape);
+};
+
+const isShapePointerType = (pointer?: string) => {
   return (
-    Object.keys(BasicShapes).includes(board.pointer) ||
-    Object.keys(FlowchartSymbols).includes(board.pointer)
+    Object.values(BasicShapes).includes(pointer as BasicShapes) ||
+    Object.values(FlowchartSymbols).includes(pointer as FlowchartSymbols)
+  );
+};
+
+const isShapeMenuPointer = (pointer?: string) => {
+  return pointer !== BasicShapes.text && isShapePointerType(pointer);
+};
+
+const isFreehandPointer = (pointer?: string) => {
+  return (
+    pointer === FreehandShape.feltTipPen || pointer === FreehandShape.eraser
   );
 };
 
@@ -135,7 +153,7 @@ export const CreationToolbar = () => {
   const { appState, setAppState } = useDrawnix();
   const toolState = appState.toolState;
   const { t } = useI18n();
-  const container = PlaitBoard.getBoardContainer(board);
+  const container = PlaitBoard.getBoardContainer(board) ?? null;
 
   const [freehandOpen, setFreehandOpen] = useState(false);
   const [arrowOpen, setArrowOpen] = useState(false);
@@ -157,6 +175,33 @@ export const CreationToolbar = () => {
     }));
   };
 
+  useEffect(() => {
+    if (!container) {
+      return;
+    }
+    if (isFreehandPointer(toolState.pointer)) {
+      setFreehandOpen(true);
+      setArrowOpen(false);
+      setShapeOpen(false);
+      return;
+    }
+    if (isArrowLinePointerType(toolState.pointer)) {
+      setFreehandOpen(false);
+      setArrowOpen(true);
+      setShapeOpen(false);
+      return;
+    }
+    if (isShapeMenuPointer(toolState.pointer)) {
+      setFreehandOpen(false);
+      setArrowOpen(false);
+      setShapeOpen(true);
+      return;
+    }
+    setFreehandOpen(false);
+    setArrowOpen(false);
+    setShapeOpen(false);
+  }, [container, toolState.pointer]);
+
   const onPointerDown = (pointer: DrawnixPointerType) => {
     setCreationMode(board, BoardCreationMode.dnd);
     BoardTransforms.updatePointerType(board, pointer);
@@ -174,10 +219,7 @@ export const CreationToolbar = () => {
   };
 
   const checkCurrentPointerIsFreehand = (board: PlaitBoard) => {
-    return PlaitBoard.isInPointer(board, [
-      FreehandShape.feltTipPen,
-      FreehandShape.eraser,
-    ]);
+    return isFreehandPointer(board.pointer);
   };
 
   const updateFreehandSettings = (
@@ -245,7 +287,7 @@ export const CreationToolbar = () => {
                     }}
                   />
                 </PopoverTrigger>
-                <PopoverContent container={container}>
+                <PopoverContent container={container} initialFocus={-1}>
                   <FreehandPanel
                     freehandPresets={toolState.freehandPresets}
                     activePresetIndex={toolState.activeFreehandPresetIndex}
@@ -320,7 +362,7 @@ export const CreationToolbar = () => {
                     }}
                   />
                 </PopoverTrigger>
-                <PopoverContent container={container}>
+                <PopoverContent container={container} initialFocus={-1}>
                   <ShapePicker
                     onPointerUp={(pointer: DrawPointerType) => {
                       setShapeOpen(false);
@@ -369,7 +411,7 @@ export const CreationToolbar = () => {
                     }}
                   />
                 </PopoverTrigger>
-                <PopoverContent container={container}>
+                <PopoverContent container={container} initialFocus={-1}>
                   <ArrowPicker
                     onPointerUp={(pointer: DrawPointerType) => {
                       setArrowOpen(false);
