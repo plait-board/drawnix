@@ -1,18 +1,19 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { vi } from 'vitest';
 import {
   FreehandStylePresetItem,
   getFreehandPreviewRadius,
   type FreehandStylePresetItemProps,
 } from './freehand-style-preset-item';
 
-jest.mock('../../../i18n', () => ({
+vi.mock('../../../i18n', () => ({
   useI18n: () => ({
     t: (key: string) => key,
   }),
 }));
 
-jest.mock('@plait-board/react-board', () => ({
+vi.mock('@plait-board/react-board', () => ({
   useBoard: () => ({
     theme: {
       themeColorMode: 'light',
@@ -20,23 +21,23 @@ jest.mock('@plait-board/react-board', () => ({
   }),
 }));
 
-jest.mock('../../../plugins/freehand/utils', () => ({
+vi.mock('../../../plugins/freehand/utils', () => ({
   getFreehandDefaultStrokeColor: () => '#000000',
 }));
 
-jest.mock('../../../plugins/freehand/type', () => ({
+vi.mock('../../../plugins/freehand/type', () => ({
   FREEHAND_STROKE_WIDTH_STEP: 0.25,
   MAX_FREEHAND_STROKE_WIDTH: 12,
   MIN_FREEHAND_STROKE_WIDTH: 1,
 }));
 
-jest.mock('../../../utils/color', () => ({
+vi.mock('../../../utils/color', () => ({
   isNoColor: () => false,
   isWhite: (color?: string) =>
     color === '#FFFFFF' || color === '#ffffff',
 }));
 
-jest.mock('../../tool-button', () => ({
+vi.mock('../../tool-button', () => ({
   ToolButton: ({ children, className, selected, ...props }: any) => (
     <button
       type="button"
@@ -50,28 +51,28 @@ jest.mock('../../tool-button', () => ({
   ),
 }));
 
-jest.mock('../../popover/popover', () => ({
+vi.mock('../../popover/popover', () => ({
   Popover: ({ children }: any) => <div>{children}</div>,
   PopoverContent: ({ children }: any) => <div>{children}</div>,
   PopoverTrigger: ({ children }: any) => <>{children}</>,
 }));
 
-jest.mock('../../island', () => ({
+vi.mock('../../island', () => ({
   Island: ({ children }: any) => <div>{children}</div>,
 }));
 
-jest.mock('../../stack', () => ({
+vi.mock('../../stack', () => ({
   __esModule: true,
   default: {
     Col: ({ children }: any) => <div>{children}</div>,
   },
 }));
 
-jest.mock('../../size-slider', () => ({
+vi.mock('../../size-slider', () => ({
   SizeSlider: () => null,
 }));
 
-jest.mock('../../color-picker', () => ({
+vi.mock('../../color-picker', () => ({
   ColorPicker: () => null,
 }));
 
@@ -85,9 +86,9 @@ const createProps = (
   },
   selected: false,
   container: null,
-  onSelect: jest.fn(),
-  onColorChange: jest.fn(),
-  onSizeChange: jest.fn(),
+  onSelect: vi.fn(),
+  onColorChange: vi.fn(),
+  onSizeChange: vi.fn(),
   ...overrides,
 });
 
