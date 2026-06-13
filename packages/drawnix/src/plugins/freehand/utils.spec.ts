@@ -1,9 +1,4 @@
-import { vi } from 'vitest';
 import { resolveFreehandDrawOptions } from './presets';
-
-vi.mock('@plait/core', () => ({
-  DEFAULT_COLOR: '#000000',
-}));
 
 describe('freehand utils', () => {
   it('preserves theme-following presets when color is omitted', () => {
