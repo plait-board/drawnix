@@ -46,6 +46,16 @@ export default defineConfig({
       external: ['react', 'react-dom', 'react/jsx-runtime', 'slate', 'slate-react', 'slate-history', 'is-hotkey', '@plait/text-plugins', '@plait/common'],
     },
   },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    coverage: {
+      reportsDirectory: '../../coverage/packages/react-text',
+      provider: 'v8',
+    },
+  },
+
   resolve: {
     alias: {
       '@plait': path.resolve(__dirname, 'src'), // 根据项目结构调整路径

@@ -4,14 +4,14 @@
     "outDir": "../../dist/out-tsc",
     "module": "commonjs",
     "types": [
-      "jest",
+      "vitest/globals",
       "node",
       "@nx/react/typings/cssmodule.d.ts",
       "@nx/react/typings/image.d.ts"
     ]
   },
   "include": [
-    "jest.config.ts",
+    "vite.config.ts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
     "src/**/*.test.tsx",
