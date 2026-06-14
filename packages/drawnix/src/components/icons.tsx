@@ -546,6 +546,23 @@ export const ChevronDownIcon = createIcon(
   </svg>
 );
 
+export const ChevronRightIcon = createIcon(
+  <svg
+    width="15"
+    height="15"
+    viewBox="0 0 15 15"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6.15803 11.8648C5.95657 11.6759 5.94637 11.3595 6.13523 11.158L9.56464 7.5L6.13523 3.84197C5.94637 3.64052 5.95657 3.3241 6.15803 3.13523C6.35949 2.94637 6.67591 2.95657 6.86477 3.15803L10.6148 7.15803C10.7951 7.35036 10.7951 7.64964 10.6148 7.84197L6.86477 11.842C6.67591 12.0434 6.35949 12.0536 6.15803 11.8648Z"
+      fill="currentColor"
+      fillRule="evenodd"
+      clipRule="evenodd"
+    ></path>
+  </svg>
+);
+
 export const ThickCheckIcon = createIcon(
   <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path

@@ -23,6 +23,7 @@
 
     .menu-container {
       background-color: var(--island-bg-color);
+      min-width: 200px;
       max-height: calc(100vh - 150px);
       overflow-y: auto;
       --gap: 2;
@@ -69,14 +70,27 @@
       }
 
       &__shortcut {
-        margin-inline-start: auto;
+        font-size: 0.75rem;
         opacity: 0.5;
 
         &--orphaned {
           text-align: right;
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           padding: 0 0.625rem;
         }
+      }
+
+      &__right {
+        margin-inline-start: auto;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 56px;
+        justify-content: flex-end;
+      }
+
+      &__submenu-indicator {
+        opacity: 0.5;
       }
 
       &:hover {

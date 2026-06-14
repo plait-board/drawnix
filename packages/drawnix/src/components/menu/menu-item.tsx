@@ -24,9 +24,10 @@ const MenuItem = ({
   const [isOpen, setIsOpen] = useState(false);
   const closeTimeoutRef = useRef<number>();
   const handleClick = useHandleMenuItemClick(rest.onClick, onSelect);
+  const hasSubmenu = !!submenu;
 
   const menuItemContent = (
-    <MenuItemContent icon={icon} shortcut={shortcut}>
+    <MenuItemContent icon={icon} shortcut={shortcut} hasSubmenu={hasSubmenu}>
       {children}
     </MenuItemContent>
   );

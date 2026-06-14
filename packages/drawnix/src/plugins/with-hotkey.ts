@@ -151,13 +151,8 @@ export const buildDrawnixHotkeyPlugin = (
         }
         if (isHotkey('shift+alt+c')(event)) {
           const canCopySvg = canCopySelectionAs('svg');
-          const canCopyPng = canCopySelectionAs('png');
-          if (canCopySvg || canCopyPng) {
-            if (canCopySvg) {
-              copySelectionAsSvg(board).catch(() => undefined);
-            } else if (canCopyPng) {
-              copySelectionAsPng(board).catch(() => undefined);
-            }
+          if (canCopySvg) {
+            copySelectionAsSvg(board).catch(() => undefined);
             event.preventDefault();
           }
 

@@ -139,6 +139,7 @@ export const SaveAsImage = () => {
               saveAsImage(board, true);
             }}
             aria-label={t('menu.exportImage.png')}
+            shortcut={getShortcutKey('CtrlOrCmd+Shift+E')}
           >
             {t('menu.exportImage.png')}
           </MenuItem>
@@ -152,7 +153,6 @@ export const SaveAsImage = () => {
           </MenuItem>
         </Menu>
       }
-      shortcut={getShortcutKey('CtrlOrCmd+Shift+E')}
       aria-label={t('menu.exportImage')}
     >
       {t('menu.exportImage')}

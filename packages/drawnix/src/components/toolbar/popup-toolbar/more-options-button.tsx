@@ -73,7 +73,6 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({ board }) =
           </MenuItem>
           <MenuItem
             onSelect={() => undefined}
-            shortcut={getShortcutKey('Shift+Alt+C')}
             aria-label={t('general.copyToClipboard')}
             disabled={!canCopyAny}
             submenu={
@@ -87,6 +86,7 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({ board }) =
                     copySelectionAsSvg(board).catch(() => undefined);
                   }}
                   disabled={!canCopySvg}
+                  shortcut={getShortcutKey('Shift+Alt+C')}
                   aria-label={t('general.copyToClipboard.svg')}
                 >
                   {t('general.copyToClipboard.svg')}
