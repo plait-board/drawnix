@@ -23,7 +23,7 @@
 
     .menu-container {
       background-color: var(--island-bg-color);
-      min-width: 200px;
+      min-width: 160px;
       max-height: calc(100vh - 150px);
       overflow-y: auto;
       --gap: 2;
@@ -57,6 +57,16 @@
       &--active {
         background-color: var(--color-surface-primary-container);
         text-decoration: none;
+      }
+
+      &--setting {
+        margin-top: 0.5rem;
+        background-color: var(--color-surface-low);
+      }
+
+      &__icon {
+        display: flex;
+        align-items: center;
       }
 
       &__text {
@@ -93,14 +103,57 @@
         opacity: 0.5;
       }
 
+      .menu-item-switch {
+        width: 24px;
+        height: 14px;
+        border-radius: 9999px;
+        box-sizing: border-box;
+        display: inline-flex;
+        align-items: center;
+        padding: 2px;
+        border: 1px solid var(--color-gray-30);
+        background-color: var(--color-gray-20);
+        transition: background-color 120ms ease, border-color 120ms ease;
+        line-height: 0;
+
+        &__thumb {
+          width: 9px;
+          height: 9px;
+          border-radius: 9999px;
+          background-color: var(--color-gray-60);
+          transform: translateX(0);
+          transition: transform 120ms ease, background-color 120ms ease;
+        }
+
+        &--checked {
+          background-color: var(--color-surface-lowest);
+          border-color: currentColor;
+          opacity: 0.8;
+
+          .menu-item-switch__thumb {
+            transform: translateX(9px);
+            background-color: currentColor;
+          }
+        }
+      }
+
       &:hover {
         background-color: var(--color-surface-primary-container);
         text-decoration: none;
       }
 
+      &--setting:hover {
+        background-color: var(--color-surface-low);
+      }
+
       &:active {
         background-color: var(--color-surface-primary-container);
         border-color: var(--color-brand-active);
+      }
+
+      &--setting:active {
+        background-color: var(--color-surface-low);
+        border-color: transparent;
       }
 
       svg {

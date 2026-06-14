@@ -70,9 +70,8 @@ const viTranslations: Translations = {
 
   'general.copyToClipboard': 'Sao chép vào bộ nhớ tạm',
   'general.copyToClipboard.svg': 'SVG',
-  'general.copyToClipboard.pngWithoutBackground': 'PNG (không nền)',
-  'general.copyToClipboard.pngWithBackground': 'PNG (có nền)',
-
+  'general.copyToClipboard.png': 'PNG',
+  'general.copyToClipboard.transparent': 'Nền trong suốt',
   // Language
   'language.switcher': 'Ngôn ngữ',
   'language.chinese': '中文',

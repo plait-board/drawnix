@@ -9,6 +9,7 @@ const Menu = ({
   className = '',
   onSelect,
   style,
+  containerStyle,
 }: {
   children?: React.ReactNode;
   className?: string;
@@ -17,6 +18,7 @@ const Menu = ({
    */
   onSelect?: (event: Event) => void;
   style?: React.CSSProperties;
+  containerStyle?: React.CSSProperties;
 }) => {
   const newClassName = classNames(`menu ${className}`).trim();
 
@@ -24,7 +26,7 @@ const Menu = ({
     <MenuContentPropsContext.Provider value={{ onSelect }}>
       <div className={newClassName} style={style} data-testid="menu">
         {
-          <Island className="menu-container" padding={2}>
+          <Island className="menu-container" padding={2} style={containerStyle}>
             {children}
           </Island>
         }

@@ -69,9 +69,8 @@ const enTranslations: Translations = {
   'general.delete': 'Delete',
   'general.copyToClipboard': 'Copy to Clipboard',
   'general.copyToClipboard.svg': 'SVG',
-  'general.copyToClipboard.pngWithoutBackground': 'PNG (no background)',
-  'general.copyToClipboard.pngWithBackground': 'PNG (with background)',
-
+  'general.copyToClipboard.png': 'PNG',
+  'general.copyToClipboard.transparent': 'Transparent',
   // Language
   'language.switcher': 'Language',
   'language.chinese': '中文',

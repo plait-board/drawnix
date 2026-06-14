@@ -4,7 +4,7 @@ import { BoardTransforms, PlaitBoard, PlaitElement, PlaitTheme, Viewport } from 
 import { loadFromJSON, saveAsJSON, saveJSON } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
-import { saveAsImage, saveAsSvg } from '../../../utils/image';
+import { saveAsPng, saveAsSvg } from '../../../utils/image';
 import { useDrawnix } from '../../../hooks/use-drawnix';
 import { useI18n } from '../../../i18n';
 import Menu from '../../menu/menu';
@@ -12,6 +12,7 @@ import { useContext } from 'react';
 import { MenuContentPropsContext } from '../../menu/common';
 import { EVENT } from '../../../constants';
 import { getShortcutKey } from '../../../utils/common';
+import { MenuItemSwitch } from '../../menu/menu-item-content';
 
 export const SaveToFile = () => {
   const board = useBoard();
@@ -107,15 +108,14 @@ OpenFile.displayName = 'OpenFile';
 
 export const SaveAsImage = () => {
   const board = useBoard();
+  const { appState, setAppState } = useDrawnix();
   const menuContentProps = useContext(MenuContentPropsContext);
   const { t } = useI18n();
   return (
     <MenuItem
       icon={ExportImageIcon}
       data-testid="image-export-button"
-      onSelect={() => {
-        saveAsImage(board, true);
-      }}
+      onSelect={() => {}}
       submenu={
         <Menu
           onSelect={() => {
@@ -131,25 +131,32 @@ export const SaveAsImage = () => {
               saveAsSvg(board);
             }}
             aria-label={t('menu.exportImage.svg')}
+            shortcut={getShortcutKey('CtrlOrCmd+Shift+E')}
           >
             {t('menu.exportImage.svg')}
           </MenuItem>
           <MenuItem
             onSelect={() => {
-              saveAsImage(board, true);
+              saveAsPng(board);
             }}
             aria-label={t('menu.exportImage.png')}
-            shortcut={getShortcutKey('CtrlOrCmd+Shift+E')}
           >
             {t('menu.exportImage.png')}
           </MenuItem>
           <MenuItem
-            onSelect={() => {
-              saveAsImage(board, false);
+            onSelect={(event) => {
+              event.preventDefault();
+              setAppState((currentAppState) => ({
+                ...currentAppState,
+                exportTransparent: !currentAppState.exportTransparent,
+              }));
             }}
-            aria-label={t('menu.exportImage.jpg')}
+            className="menu-item--setting"
+            icon={<MenuItemSwitch checked={appState.exportTransparent} />}
+            shortcut={t('general.copyToClipboard.transparent')}
+            aria-label={t('general.copyToClipboard.transparent')}
           >
-            {t('menu.exportImage.jpg')}
+            {null}
           </MenuItem>
         </Menu>
       }

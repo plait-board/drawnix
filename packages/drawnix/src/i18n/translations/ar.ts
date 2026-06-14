@@ -67,11 +67,6 @@ const arTranslations: Translations = {
   'general.duplicate': 'تكرار',
   'general.delete': 'حذف',
 
-  'general.copyToClipboard': 'نسخ إلى الحافظة',
-  'general.copyToClipboard.svg': 'SVG',
-  'general.copyToClipboard.pngWithoutBackground': 'PNG (بدون خلفية)',
-  'general.copyToClipboard.pngWithBackground': 'PNG (مع خلفية)',
-
   // Language
   'language.switcher': 'اللغة',
   'language.chinese': '中文',
@@ -79,6 +74,10 @@ const arTranslations: Translations = {
   'language.russian': 'Русский',
   'language.arabic': 'عربي',
   'language.vietnamese': 'Tiếng Việt',
+  "general.copyToClipboard": "نسخ إلى الحافظة",
+  "general.copyToClipboard.svg": "SVG",
+  "general.copyToClipboard.png": "PNG",
+  "general.copyToClipboard.transparent": "خلفية شفافة",
 
   // Menu items
   'menu.open': 'فتح',

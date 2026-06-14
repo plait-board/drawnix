@@ -102,6 +102,8 @@ export const Drawnix: React.FC<DrawnixProps> = ({
       fileHandle: null,
       openDialogType: null,
       openCleanConfirm: false,
+      copyTransparent: false,
+      exportTransparent: false,
     };
   });
 

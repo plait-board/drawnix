@@ -76,6 +76,8 @@ export type DrawnixState = {
   fileHandle: DrawnixFileHandle;
   openDialogType: DialogType | null;
   openCleanConfirm: boolean;
+  copyTransparent: boolean;
+  exportTransparent: boolean;
   linkState?: LinkState | null;
 };
 

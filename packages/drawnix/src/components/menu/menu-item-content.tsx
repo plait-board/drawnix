@@ -1,6 +1,19 @@
 import React from 'react';
 import { ChevronRightIcon } from '../icons';
 
+export const MenuItemSwitch = ({ checked }: { checked: boolean }) => {
+  return (
+    <span
+      className={`menu-item-switch ${
+        checked ? 'menu-item-switch--checked' : ''
+      }`.trim()}
+      aria-hidden="true"
+    >
+      <span className="menu-item-switch__thumb" />
+    </span>
+  );
+};
+
 const MenuItemContent = ({
   icon,
   shortcut,

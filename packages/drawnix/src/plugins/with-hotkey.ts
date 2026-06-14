@@ -3,9 +3,8 @@ import { isHotkey } from 'is-hotkey';
 import {
   addImage,
   canCopySelectionAs,
-  copySelectionAsPng,
   copySelectionAsSvg,
-  saveAsImage,
+  saveAsSvg,
 } from '../utils/image';
 import { saveAsJSON, saveJSON } from '../data/json';
 import {
@@ -46,7 +45,7 @@ export const buildDrawnixHotkeyPlugin = (
         !PlaitBoard.hasBeenTextEditing(board)
       ) {
         if (isHotkey(['mod+shift+e'], { byKey: true })(event)) {
-          saveAsImage(board, true);
+          saveAsSvg(board);
           event.preventDefault();
           return;
         }

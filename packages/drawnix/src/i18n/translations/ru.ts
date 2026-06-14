@@ -70,9 +70,8 @@ const ruTranslations: Translations = {
 
   'general.copyToClipboard': 'Копировать в буфер обмена',
   'general.copyToClipboard.svg': 'SVG',
-  'general.copyToClipboard.pngWithoutBackground': 'PNG (без фона)',
-  'general.copyToClipboard.pngWithBackground': 'PNG (с фоном)',
-
+  'general.copyToClipboard.png': 'PNG',
+  'general.copyToClipboard.transparent': 'Прозрачный фон',
   // Language
   'language.switcher': 'Language',
   'language.chinese': '中文',
