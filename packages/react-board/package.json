@@ -1,9 +1,16 @@
 {
   "name": "@plait-board/react-board",
   "version": "0.4.0",
+  "private": false,
   "main": "./index.js",
   "types": "./index.d.ts",
-  "private": false,
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "types": "./index.d.ts"
+    }
+  },
   "dependencies": {
     "@plait/common": "^0.93.1",
     "@plait/core": "^0.93.1",
@@ -13,12 +20,5 @@
     "@plait/text-plugins": "^0.93.1",
     "ahooks": "^3.8.0",
     "classnames": "^2.5.1"
-  },
-  "exports": {
-    ".": {
-      "import": "./index.mjs",
-      "require": "./index.js",
-      "types": "./index.d.ts"
-    }
   }
 }

@@ -1,6 +1,7 @@
 {
   "name": "@drawnix/source",
   "version": "0.0.2",
+  "private": true,
   "license": "MIT",
   "scripts": {
     "start": "nx serve web --host=0.0.0.0",
@@ -13,7 +14,6 @@
     "release": "node scripts/release-version.js",
     "pub": "npm run build && node scripts/publish.js"
   },
-  "private": true,
   "dependencies": {
     "@floating-ui/react": "^0.26.24",
     "@plait-board/markdown-to-drawnix": "^0.0.8",

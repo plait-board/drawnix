@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useCallback, useContext, useState, useMemo } from 'react';
 import {
   zhTranslations,
   enTranslations,
@@ -26,14 +26,17 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ children, defaultLan
     return storedLanguage || defaultLanguage;
   });
 
-  const setLanguage = (newLanguage: Language) => {
+  const setLanguage = useCallback((newLanguage: Language) => {
     localStorage.setItem('language', newLanguage);
     setLanguageState(newLanguage);
-  };
+  }, []);
 
-  const t = (key: keyof Translations): string => {
-    return translations[language][key] || key;
-  };
+  const t = useCallback(
+    (key: keyof Translations): string => {
+      return translations[language][key] || key;
+    },
+    [language]
+  );
 
   const value: I18nContextType = useMemo(
     () => ({
@@ -41,8 +44,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ children, defaultLan
       setLanguage,
       t,
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [language]
+    [language, setLanguage, t]
   );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

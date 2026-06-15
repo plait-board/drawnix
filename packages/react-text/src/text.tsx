@@ -8,7 +8,7 @@ import {
   type ParagraphElement,
   type TextProps,
 } from '@plait/common';
-import React, { useMemo, useCallback, useEffect, CSSProperties } from 'react';
+import React, { useCallback, useEffect, useState, CSSProperties } from 'react';
 import { withHistory } from 'slate-history';
 import { withText } from './plugins/with-text';
 import { RenderElementPropsFor } from './custom-types';
@@ -25,12 +25,11 @@ export const Text: React.FC<TextComponentProps> = (props: TextComponentProps) =>
 
   const initialValue: Descendant[] = [text];
 
-  const editor = useMemo(() => {
+  const [editor] = useState(() => {
     const editor = withInlineLink(withText(withHistory(withReact(createEditor()))));
     afterInit?.(editor);
     return editor;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   useEffect(() => {
     if (text === editor.children[0]) {

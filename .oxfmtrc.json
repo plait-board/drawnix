@@ -5,8 +5,9 @@
   "jsxSingleQuote": false,
   "printWidth": 100,
   "ignorePatterns": [
+    ".claude/**",
     "**/*.md",
-    "**/*.json",
+    "package-lock.json",
     "**/*.scss",
     "**/*.css",
     "**/*.html",

@@ -126,8 +126,15 @@ export const Wrapper: React.FC<WrapperProps> = ({
       board,
       listRender,
     }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [board, onChange, onSelectionChange, onValueChange]);
+  }, [
+    board,
+    listRender,
+    onChange,
+    onSelectionChange,
+    onThemeChange,
+    onValueChange,
+    onViewportChange,
+  ]);
 
   useEffect(() => {
     BOARD_TO_ON_CHANGE.set(board, () => {
@@ -178,8 +185,7 @@ export const Wrapper: React.FC<WrapperProps> = ({
       BOARD_TO_ON_CHANGE.delete(board);
       BOARD_TO_AFTER_CHANGE.delete(board);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [board]);
+  }, [board, listRender, onContextChange]);
 
   const isFirstRender = useRef(true);
 
