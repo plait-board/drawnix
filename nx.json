@@ -9,8 +9,6 @@
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.js",
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/test-setup.[jt]s"
     ],
@@ -28,12 +26,6 @@
       }
     },
     {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    },
-    {
       "plugin": "@nx/playwright/plugin",
       "options": {
         "targetName": "e2e"
@@ -45,7 +37,6 @@
       "application": {
         "babel": true,
         "style": "scss",
-        "linter": "eslint",
         "bundler": "vite"
       },
       "component": {
@@ -53,7 +44,6 @@
       },
       "library": {
         "style": "scss",
-        "linter": "eslint",
         "unitTestRunner": "vitest"
       }
     }

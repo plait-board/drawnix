@@ -32,5 +32,11 @@ jobs:
       - name: Install Playwright
         run: npx playwright install --with-deps
 
-      - run: npx nx affected -t lint test build --base=$NX_BASE --head=$NX_HEAD --verbose
+      - name: Lint code
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - run: npx nx affected -t test build --base=$NX_BASE --head=$NX_HEAD --verbose
       - run: npx nx affected -t e2e --base=$NX_BASE --head=$NX_HEAD --parallel 1 --verbose

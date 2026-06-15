@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "jsxSingleQuote": false,
+  "printWidth": 100,
+  "ignorePatterns": [
+    "**/*.md",
+    "**/*.json",
+    "**/*.scss",
+    "**/*.css",
+    "**/*.html",
+    "**/*.yml",
+    "**/*.yaml"
+  ]
+}
