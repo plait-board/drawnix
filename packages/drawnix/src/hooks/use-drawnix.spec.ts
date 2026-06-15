@@ -1,9 +1,10 @@
 import { PlaitPointerType } from '@plait/core';
 import { ArrowLineShape, BasicShapes } from '@plait/draw';
+import { describe, expect, it, vi } from 'vitest';
 import { FreehandShape } from '../plugins/freehand/type';
 import { createDefaultToolState, mergeToolState } from './use-drawnix';
 
-jest.mock('@plait/core', () => ({
+vi.mock('@plait/core', () => ({
   DEFAULT_COLOR: '#000000',
   PlaitPointerType: {
     hand: 'hand',
@@ -19,7 +20,7 @@ jest.mock('@plait/core', () => ({
   },
 }));
 
-jest.mock('@plait/draw', () => ({
+vi.mock('@plait/draw', () => ({
   ArrowLineShape: {
     straight: 'straight',
   },
@@ -29,7 +30,7 @@ jest.mock('@plait/draw', () => ({
   },
 }));
 
-jest.mock('@plait/mind', () => ({
+vi.mock('@plait/mind', () => ({
   MindPointerType: {
     mind: 'mind',
   },
