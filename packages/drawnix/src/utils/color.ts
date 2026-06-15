@@ -87,8 +87,6 @@ export function isDefaultStroke(color?: string) {
 
 export function getBackgroundColor(board: PlaitBoard) {
   const themeColors = PlaitBoard.getThemeColors(board);
-  const themeColor = themeColors.find(
-    (val) => val.mode === board.theme.themeColorMode
-  );
+  const themeColor = themeColors.find((val) => val.mode === board.theme.themeColorMode);
   return themeColor?.boardBackground;
 }

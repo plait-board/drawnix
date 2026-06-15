@@ -26,9 +26,7 @@ export function useDialog({
 }: DialogOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
   const [labelId, setLabelId] = React.useState<string | undefined>();
-  const [descriptionId, setDescriptionId] = React.useState<
-    string | undefined
-  >();
+  const [descriptionId, setDescriptionId] = React.useState<string | undefined>();
 
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
@@ -66,9 +64,7 @@ export function useDialog({
 type ContextType =
   | (ReturnType<typeof useDialog> & {
       setLabelId: React.Dispatch<React.SetStateAction<string | undefined>>;
-      setDescriptionId: React.Dispatch<
-        React.SetStateAction<string | undefined>
-      >;
+      setDescriptionId: React.Dispatch<React.SetStateAction<string | undefined>>;
     })
   | null;
 
@@ -91,9 +87,7 @@ export function Dialog({
   children: React.ReactNode;
 } & DialogOptions) {
   const dialog = useDialog(options);
-  return (
-    <DialogContext.Provider value={dialog}>{children}</DialogContext.Provider>
-  );
+  return <DialogContext.Provider value={dialog}>{children}</DialogContext.Provider>;
 }
 
 interface DialogTriggerProps {
@@ -208,7 +202,5 @@ export const DialogClose = React.forwardRef<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 >(function DialogClose(props, ref) {
   const { setOpen } = useDialogContext();
-  return (
-    <button type="button" {...props} ref={ref} onClick={() => setOpen(false)} />
-  );
+  return <button type="button" {...props} ref={ref} onClick={() => setOpen(false)} />;
 });

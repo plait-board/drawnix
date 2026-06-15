@@ -25,8 +25,7 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const normalizedCurrent = useMemo(() => {
-    return Number.isFinite(currentFontSize as number) &&
-      (currentFontSize as number) > 0
+    return Number.isFinite(currentFontSize as number) && (currentFontSize as number) > 0
       ? (currentFontSize as number)
       : undefined;
   }, [currentFontSize]);
@@ -48,10 +47,7 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
     if (!Number.isFinite(next)) {
       return;
     }
-    const clamped = Math.min(
-      MAX_FONT_SIZE,
-      Math.max(MIN_FONT_SIZE, Math.round(next))
-    );
+    const clamped = Math.min(MAX_FONT_SIZE, Math.max(MIN_FONT_SIZE, Math.round(next)));
     const nextValue = String(clamped);
     setDraft(nextValue);
     setTextFontSize(board, clamped);
@@ -63,20 +59,14 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
       return Math.min(MAX_FONT_SIZE, Math.max(MIN_FONT_SIZE, Math.round(parsed)));
     }
     if (typeof normalizedCurrent === 'number' && normalizedCurrent > 0) {
-      return Math.min(
-        MAX_FONT_SIZE,
-        Math.max(MIN_FONT_SIZE, Math.round(normalizedCurrent))
-      );
+      return Math.min(MAX_FONT_SIZE, Math.max(MIN_FONT_SIZE, Math.round(normalizedCurrent)));
     }
     return DEFAULT_FONT_SIZE;
   };
 
   const stepBy = (delta: number) => {
     const base = getBaseValue();
-    const next = Math.min(
-      MAX_FONT_SIZE,
-      Math.max(MIN_FONT_SIZE, Math.round(base + delta))
-    );
+    const next = Math.min(MAX_FONT_SIZE, Math.max(MIN_FONT_SIZE, Math.round(base + delta)));
     const value = String(next);
     setDraft(value);
     apply(value);
@@ -144,10 +134,7 @@ export const PopupFontSizeControl: React.FC<PopupFontSizeControlProps> = ({
                 inputRef.current?.focus();
               }}
             >
-              <FontSizeStepperUpIcon
-                className="popup-font-size__stepper-icon"
-                aria-hidden="true"
-              />
+              <FontSizeStepperUpIcon className="popup-font-size__stepper-icon" aria-hidden="true" />
             </button>
             <button
               type="button"

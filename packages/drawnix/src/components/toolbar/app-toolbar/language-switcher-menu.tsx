@@ -9,7 +9,7 @@ import { EVENT } from '../../../constants';
 export const LanguageSwitcherMenu = () => {
   const { language, setLanguage, t } = useI18n();
   const menuContentProps = useContext(MenuContentPropsContext);
-  
+
   return (
     <MenuItem
       icon={MenuIcon}
@@ -18,13 +18,15 @@ export const LanguageSwitcherMenu = () => {
         // This will be handled by the submenu
       }}
       submenu={
-        <Menu onSelect={() => {
-          const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
-            bubbles: true,
-            cancelable: true,
-          });
-          menuContentProps.onSelect?.(itemSelectEvent);
-        }}>
+        <Menu
+          onSelect={() => {
+            const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
+              bubbles: true,
+              cancelable: true,
+            });
+            menuContentProps.onSelect?.(itemSelectEvent);
+          }}
+        >
           <MenuItem
             onSelect={() => {
               setLanguage('zh');
@@ -43,8 +45,8 @@ export const LanguageSwitcherMenu = () => {
           >
             {t('language.english')}
           </MenuItem>
-            <MenuItem
-             onSelect={() => {
+          <MenuItem
+            onSelect={() => {
               setLanguage('ru');
             }}
             aria-label={t('language.russian')}
@@ -58,15 +60,17 @@ export const LanguageSwitcherMenu = () => {
             }}
             aria-label={t('language.arabic')}
             selected={language === 'ar'}
-          >{t('language.arabic')} 
-            </MenuItem>
+          >
+            {t('language.arabic')}
+          </MenuItem>
           <MenuItem
             onSelect={() => {
               setLanguage('vi');
             }}
             aria-label={t('language.vietnamese')}
             selected={language === 'vi'}
-          >{t('language.vietnamese')}
+          >
+            {t('language.vietnamese')}
           </MenuItem>
         </Menu>
       }

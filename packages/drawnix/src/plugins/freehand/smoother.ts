@@ -43,10 +43,7 @@ export class FreehandSmoother {
     this.options = { ...this.defaultOptions, ...options };
   }
 
-  process(
-    point: Point,
-    data: Partial<Omit<StrokePoint, 'point'>> = {}
-  ): Point | null {
+  process(point: Point, data: Partial<Omit<StrokePoint, 'point'>> = {}): Point | null {
     const timestamp = data.timestamp ?? Date.now();
 
     // 第一个点直接返回
@@ -145,8 +142,7 @@ export class FreehandSmoother {
 
     // 倾斜适应 - 更温和的响应
     if (strokePoint.tiltX !== undefined && strokePoint.tiltY !== undefined) {
-      const tiltFactor =
-        Math.sqrt(strokePoint.tiltX ** 2 + strokePoint.tiltY ** 2) / 90;
+      const tiltFactor = Math.sqrt(strokePoint.tiltX ** 2 + strokePoint.tiltY ** 2) / 90;
       params.smoothing *= 1 + tiltFactor * params.tiltSensitivity * 0.7;
     }
 
@@ -220,10 +216,7 @@ export class FreehandSmoother {
 
   private getAverageVelocity(): number {
     if (this.movingAverageVelocity.length === 0) return 0;
-    return (
-      this.movingAverageVelocity.reduce((a, b) => a + b) /
-      this.movingAverageVelocity.length
-    );
+    return this.movingAverageVelocity.reduce((a, b) => a + b) / this.movingAverageVelocity.length;
   }
 
   private getPointVelocity(index: number): number {

@@ -15,10 +15,7 @@ export type ArrowMarkerPickerProps = {
   property: ArrowLineHandle;
 };
 
-export const ArrowMarkerPicker: React.FC<ArrowMarkerPickerProps> = ({
-  end,
-  property,
-}) => {
+export const ArrowMarkerPicker: React.FC<ArrowMarkerPickerProps> = ({ end, property }) => {
   const board = useBoard();
   const { marker: currentMarker } = property;
   const { t } = useI18n();
@@ -36,9 +33,7 @@ export const ArrowMarkerPicker: React.FC<ArrowMarkerPickerProps> = ({
     <Island
       padding={2}
       className={classNames(
-        `${ATTACHED_ELEMENT_CLASS_NAME} ${
-          end === 'source' ? 'source-arrow-island' : ''
-        } `
+        `${ATTACHED_ELEMENT_CLASS_NAME} ${end === 'source' ? 'source-arrow-island' : ''} `
       )}
     >
       <Stack.Row gap={1}>

@@ -4,11 +4,7 @@ import './clean-confirm.scss';
 import { useBoard } from '@plait-board/react-board';
 import { useI18n } from '../../i18n';
 
-export const CleanConfirm = ({
-  container,
-}: {
-  container: HTMLElement | null;
-}) => {
+export const CleanConfirm = ({ container }: { container: HTMLElement | null }) => {
   const { appState, setAppState } = useDrawnix();
   const { t } = useI18n();
   const board = useBoard();
@@ -21,9 +17,7 @@ export const CleanConfirm = ({
     >
       <DialogContent className="clean-confirm" container={container}>
         <h2 className="clean-confirm__title">{t('cleanConfirm.title')}</h2>
-        <p className="clean-confirm__description">
-          {t('cleanConfirm.description')}
-        </p>
+        <p className="clean-confirm__description">{t('cleanConfirm.description')}</p>
         <div className="clean-confirm__actions">
           <button
             className="clean-confirm__button clean-confirm__button--cancel"

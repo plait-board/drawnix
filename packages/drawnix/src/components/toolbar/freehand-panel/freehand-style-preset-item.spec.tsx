@@ -33,8 +33,7 @@ vi.mock('../../../plugins/freehand/type', () => ({
 
 vi.mock('../../../utils/color', () => ({
   isNoColor: () => false,
-  isWhite: (color?: string) =>
-    color === '#FFFFFF' || color === '#ffffff',
+  isWhite: (color?: string) => color === '#FFFFFF' || color === '#ffffff',
 }));
 
 vi.mock('../../tool-button', () => ({
@@ -42,9 +41,7 @@ vi.mock('../../tool-button', () => ({
     <button
       type="button"
       aria-label={props['aria-label']}
-      className={[className, selected ? 'tool-icon--selected' : '']
-        .filter(Boolean)
-        .join(' ')}
+      className={[className, selected ? 'tool-icon--selected' : ''].filter(Boolean).join(' ')}
     >
       {children}
     </button>
@@ -108,9 +105,7 @@ describe('getFreehandPreviewRadius', () => {
 
   it('increases monotonically across the supported stroke-width range', () => {
     expect(getFreehandPreviewRadius(3)).toBeLessThan(getFreehandPreviewRadius(6));
-    expect(getFreehandPreviewRadius(6)).toBeLessThan(
-      getFreehandPreviewRadius(9)
-    );
+    expect(getFreehandPreviewRadius(6)).toBeLessThan(getFreehandPreviewRadius(9));
   });
 });
 
@@ -138,13 +133,9 @@ describe('FreehandStylePresetItem', () => {
   });
 
   it('updates only the fill radius when the preset size changes', () => {
-    const { container, rerender } = render(
-      <FreehandStylePresetItem {...createProps()} />
-    );
+    const { container, rerender } = render(<FreehandStylePresetItem {...createProps()} />);
 
-    const initialFill = container.querySelector(
-      '.freehand-style-preset__preview-fill'
-    );
+    const initialFill = container.querySelector('.freehand-style-preset__preview-fill');
     const initialRadius = initialFill?.getAttribute('r');
     const initialCenterX = initialFill?.getAttribute('cx');
     const initialCenterY = initialFill?.getAttribute('cy');
@@ -166,9 +157,7 @@ describe('FreehandStylePresetItem', () => {
     expect(nextFill?.getAttribute('cx')).toBe(initialCenterX);
     expect(nextFill?.getAttribute('cy')).toBe(initialCenterY);
     expect(nextFill?.getAttribute('r')).not.toBe(initialRadius);
-    expect(nextFill?.getAttribute('r')).toBe(
-      `${getFreehandPreviewRadius(12)}`
-    );
+    expect(nextFill?.getAttribute('r')).toBe(`${getFreehandPreviewRadius(12)}`);
   });
 
   it('renders a dedicated white contrast structure without the standard color ring', () => {
@@ -184,12 +173,8 @@ describe('FreehandStylePresetItem', () => {
       />
     );
 
-    const contrastRing = container.querySelector(
-      '.freehand-style-preset__preview-ring-contrast'
-    );
-    const contrastFill = container.querySelector(
-      '.freehand-style-preset__preview-fill-contrast'
-    );
+    const contrastRing = container.querySelector('.freehand-style-preset__preview-ring-contrast');
+    const contrastFill = container.querySelector('.freehand-style-preset__preview-fill-contrast');
 
     expect(container.querySelectorAll('circle')).toHaveLength(3);
     expect(contrastRing).not.toBeNull();
@@ -197,12 +182,8 @@ describe('FreehandStylePresetItem', () => {
     expect(contrastFill).not.toBeNull();
     expect(contrastFill?.getAttribute('stroke-width')).toBe('1');
     expect(contrastFill?.getAttribute('fill')).toBe('#FFFFFF');
-    expect(
-      container.querySelector('.freehand-style-preset__preview-ring')
-    ).toBeNull();
-    expect(
-      container.querySelector('.freehand-style-preset__preview-fill')
-    ).toBeNull();
+    expect(container.querySelector('.freehand-style-preset__preview-ring')).toBeNull();
+    expect(container.querySelector('.freehand-style-preset__preview-fill')).toBeNull();
   });
 
   it('keeps the non-white outer ring color unchanged when selected', () => {
@@ -235,12 +216,8 @@ describe('FreehandStylePresetItem', () => {
       />
     );
 
-    const contrastRing = container.querySelector(
-      '.freehand-style-preset__preview-ring-contrast'
-    );
-    const contrastFill = container.querySelector(
-      '.freehand-style-preset__preview-fill-contrast'
-    );
+    const contrastRing = container.querySelector('.freehand-style-preset__preview-ring-contrast');
+    const contrastFill = container.querySelector('.freehand-style-preset__preview-fill-contrast');
 
     expect(container.querySelectorAll('circle')).toHaveLength(3);
     expect(contrastRing?.getAttribute('stroke')).toBe('var(--color-gray-30)');

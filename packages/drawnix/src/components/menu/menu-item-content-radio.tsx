@@ -27,17 +27,10 @@ const MenuItemContentRadio = <T,>({
         <label className="menu-item__text" htmlFor={name}>
           {children}
         </label>
-        <RadioGroup
-          name={name}
-          value={value}
-          onChange={onChange}
-          choices={choices}
-        />
+        <RadioGroup name={name} value={value} onChange={onChange} choices={choices} />
       </div>
       {shortcut && (
-        <div className="menu-item__shortcut menu-item__shortcut--orphaned">
-          {shortcut}
-        </div>
+        <div className="menu-item__shortcut menu-item__shortcut--orphaned">{shortcut}</div>
       )}
     </>
   );

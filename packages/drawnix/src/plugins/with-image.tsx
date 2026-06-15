@@ -1,8 +1,4 @@
-import {
-  getElementOfFocusedImage,
-  isResizing,
-  type PlaitImageBoard,
-} from '@plait/common';
+import { getElementOfFocusedImage, isResizing, type PlaitImageBoard } from '@plait/common';
 import {
   ClipboardData,
   getHitElementByPoint,
@@ -34,10 +30,7 @@ export const withImagePlugin = (board: PlaitBoard) => {
     targetPoint: Point,
     operationType?: WritableClipboardOperationType
   ) => {
-    if (
-      clipboardData?.files?.length &&
-      isSupportedImageFileType(clipboardData.files[0].type)
-    ) {
+    if (clipboardData?.files?.length && isSupportedImageFileType(clipboardData.files[0].type)) {
       const imageFile = clipboardData.files[0];
       insertImage(board, imageFile, targetPoint, false);
       return;
@@ -49,10 +42,7 @@ export const withImagePlugin = (board: PlaitBoard) => {
     if (event.dataTransfer?.files?.length) {
       const imageFile = event.dataTransfer.files[0];
       if (isSupportedImageFileType(imageFile.type)) {
-        const point = toViewBoxPoint(
-          board,
-          toHostPoint(board, event.x, event.y)
-        );
+        const point = toViewBoxPoint(board, toHostPoint(board, event.x, event.y));
         insertImage(board, imageFile, point, true);
         return true;
       }
@@ -62,12 +52,7 @@ export const withImagePlugin = (board: PlaitBoard) => {
 
   newBoard.pointerUp = (event: PointerEvent) => {
     const focusMindNode = getElementOfFocusedImage(board);
-    if (
-      focusMindNode &&
-      !isResizing(board) &&
-      !isSelectionMoving(board) &&
-      !isDragging(board)
-    ) {
+    if (focusMindNode && !isResizing(board) && !isSelectionMoving(board) && !isDragging(board)) {
       const point = toViewBoxPoint(board, toHostPoint(board, event.x, event.y));
       const hitElement = getHitElementByPoint(board, point);
       const isHittingImage =

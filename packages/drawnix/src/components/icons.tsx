@@ -74,12 +74,7 @@ export const StraightArrowLineIcon = createIcon(
 
 export const RectangleIcon = createIcon(
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <path
-      d="M3 3h18v18H3z"
-      stroke="currentColor"
-      strokeWidth="2"
-      fill="none"
-    ></path>
+    <path d="M3 3h18v18H3z" stroke="currentColor" strokeWidth="2" fill="none"></path>
   </svg>
 );
 
@@ -262,11 +257,7 @@ export const OpenFileIcon = createIcon(
 );
 
 export const BackgroundColorIcon = createIcon(
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    className="background-color-icon"
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="background-color-icon">
     <g transform="translate(1 1)" fillRule="evenodd" fill="#000" stroke="none">
       <circle fillOpacity=".04" r="11" cy="11" cx="11"></circle>
       <path
@@ -279,12 +270,7 @@ export const BackgroundColorIcon = createIcon(
 
 export const NoColorIcon = createIcon(
   <svg viewBox="0 0 32 32" className="no-color-icon">
-    <g
-      xmlns="http://www.w3.org/2000/svg"
-      fillRule="nonzero"
-      fill="currentColor"
-      stroke="none"
-    >
+    <g xmlns="http://www.w3.org/2000/svg" fillRule="nonzero" fill="currentColor" stroke="none">
       <path d="M2 16c0 7.733 6.267 14 14 14s14-6.267 14-14S23.733 2 16 2 2 8.267 2 16zm-1 0C1 7.716 7.714 1 16 1c8.284 0 15 6.714 15 15 0 8.284-6.714 15-15 15-8.284 0-15-6.714-15-15z"></path>
       <path d="M6.354 26.354l-.708-.708 20-20 .708.708z"></path>
     </g>
@@ -308,12 +294,7 @@ export const Check = createIcon(
 
 export const StrokeIcon = createIcon(
   <svg viewBox="0 0 24 24" className="stroke-icon">
-    <g
-      xmlns="http://www.w3.org/2000/svg"
-      stroke="none"
-      fillRule="evenodd"
-      fill="#000"
-    >
+    <g xmlns="http://www.w3.org/2000/svg" stroke="none" fillRule="evenodd" fill="#000">
       <path
         d="M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm0-4c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1z"
         fillRule="nonzero"
@@ -388,22 +369,10 @@ export const StrokeStyleDotedIcon = createIcon(
   </svg>
 );
 
-export const FontColorIcon: React.FC<{ currentColor?: string }> = ({
-  currentColor,
-}) => {
+export const FontColorIcon: React.FC<{ currentColor?: string }> = ({ currentColor }) => {
   return (
-    <svg
-      viewBox="0 0 16 16"
-      xmlns="http://www.w3.org/2000/svg"
-      className="font-color-icon"
-    >
-      <g
-        id="font-color"
-        strokeWidth="1"
-        fillRule="evenodd"
-        stroke="none"
-        fill="currentColor"
-      >
+    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" className="font-color-icon">
+      <g id="font-color" strokeWidth="1" fillRule="evenodd" stroke="none" fill="currentColor">
         <path
           id="secondary-color"
           d="M1.999 15.011h11.998V13.81H1.999z"
@@ -454,12 +423,7 @@ export const TrashIcon = createIcon(
 );
 
 export const DuplicateIcon = createIcon(
-  <svg
-    viewBox="0 0 20 20"
-    fill="none"
-    stroke="currentColor"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
     <g strokeWidth="1.25">
       <path d="M14.375 6.458H8.958a2.5 2.5 0 0 0-2.5 2.5v5.417a2.5 2.5 0 0 0 2.5 2.5h5.417a2.5 2.5 0 0 0 2.5-2.5V8.958a2.5 2.5 0 0 0-2.5-2.5Z"></path>
       <path d="M11.667 3.125c.517 0 .986.21 1.325.55.34.338.55.807.55 1.325v1.458H8.333c-.485 0-.927.185-1.26.487-.343.312-.57.75-.609 1.24l-.005 5.357H5a1.87 1.87 0 0 1-1.326-.55 1.87 1.87 0 0 1-.549-1.325V5c0-.518.21-.987.55-1.326.338-.34.807-.549 1.325-.549h6.667Z"></path>
@@ -468,11 +432,7 @@ export const DuplicateIcon = createIcon(
 );
 
 export const FeltTipPenIcon = createIcon(
-  <svg
-    viewBox="0 0 1024 1024"
-    fill="currentColor"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg viewBox="0 0 1024 1024" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <path d="M170.794667 896c3.456 0 6.912-0.426667 10.325333-1.28l170.666667-42.666667c7.509333-1.877333 14.378667-5.76 19.84-11.221333L896.128 316.330667c16.128-16.128 25.002667-37.546667 25.002667-60.330667s-8.874667-44.202667-25.002667-60.330667L828.458667 128c-32.256-32.256-88.405333-32.256-120.661334 0L183.296 652.501333a42.794667 42.794667 0 0 0-11.221333 19.797334l-42.666667 170.666666A42.666667 42.666667 0 0 0 170.794667 896z m597.333333-707.669333L835.797333 256l-67.669333 67.669333L700.458667 256l67.669333-67.669333zM251.989333 704.469333l388.138667-388.138666L707.797333 384l-388.181333 388.138667-90.197333 22.528 22.570666-90.197334z"></path>
   </svg>
 );
@@ -486,11 +446,7 @@ export const ImageIcon = createIcon(
 );
 
 export const ExtraToolsIcon = createIcon(
-  <svg
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <g strokeWidth={1.8} fill="none">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
       <path d="M12 3l-4 7h8z"></path>
@@ -501,11 +457,7 @@ export const ExtraToolsIcon = createIcon(
 );
 
 export const MermaidLogoIcon = createIcon(
-  <svg
-    stroke="currentColor"
-    viewBox="0 0 512 512"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg stroke="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
     <path
       stroke="none"
       fill="currentColor"
@@ -584,13 +536,7 @@ export const NoteCurlyLeftIcon = createIcon(
 );
 
 export const ChevronDownIcon = createIcon(
-  <svg
-    width="15"
-    height="15"
-    viewBox="0 0 15 15"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
       fill="currentColor"
@@ -601,13 +547,7 @@ export const ChevronDownIcon = createIcon(
 );
 
 export const ThickCheckIcon = createIcon(
-  <svg
-    width="15"
-    height="15"
-    viewBox="0 0 15 15"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M11.4669 3.72684C11.7558 3.91574 11.8369 4.30308 11.648 4.59198L7.39799 11.092C7.29783 11.2452 7.13556 11.3467 6.95402 11.3699C6.77247 11.3931 6.58989 11.3355 6.45446 11.2124L3.70446 8.71241C3.44905 8.48022 3.43023 8.08494 3.66242 7.82953C3.89461 7.57412 4.28989 7.55529 4.5453 7.78749L6.75292 9.79441L10.6018 3.90792C10.7907 3.61902 11.178 3.53795 11.4669 3.72684Z"
       fill="currentColor"
@@ -617,9 +557,7 @@ export const ThickCheckIcon = createIcon(
   </svg>
 );
 
-export const FontSizeStepperUpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
-  props
-) => {
+export const FontSizeStepperUpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   return (
     <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path
@@ -634,9 +572,7 @@ export const FontSizeStepperUpIcon: React.FC<React.SVGProps<SVGSVGElement>> = (
   );
 };
 
-export const FontSizeStepperDownIcon: React.FC<
-  React.SVGProps<SVGSVGElement>
-> = (props) => {
+export const FontSizeStepperDownIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   return (
     <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path

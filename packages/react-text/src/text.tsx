@@ -1,12 +1,6 @@
 import { createEditor, type Descendant, Range, Transforms } from 'slate';
 import { isKeyHotkey } from 'is-hotkey';
-import {
-  Editable,
-  RenderElementProps,
-  RenderLeafProps,
-  Slate,
-  withReact,
-} from 'slate-react';
+import { Editable, RenderElementProps, RenderLeafProps, Slate, withReact } from 'slate-react';
 import {
   type CustomElement,
   type CustomText,
@@ -16,33 +10,26 @@ import {
 } from '@plait/common';
 import React, { useMemo, useCallback, useEffect, CSSProperties } from 'react';
 import { withHistory } from 'slate-history';
-import { isUrl, LinkEditor } from '@plait/text-plugins';
 import { withText } from './plugins/with-text';
-import { CustomEditor, RenderElementPropsFor } from './custom-types';
+import { RenderElementPropsFor } from './custom-types';
 
 import './styles/index.scss';
 import { LinkComponent, withInlineLink } from './plugins/with-link';
 
 export type TextComponentProps = TextProps;
 
-export const Text: React.FC<TextComponentProps> = (
-  props: TextComponentProps
-) => {
+export const Text: React.FC<TextComponentProps> = (props: TextComponentProps) => {
   const { text, readonly, onChange, onComposition, afterInit } = props;
 
-  const renderLeaf = useCallback(
-    (props: RenderLeafProps) => <Leaf {...props} />,
-    []
-  );
+  const renderLeaf = useCallback((props: RenderLeafProps) => <Leaf {...props} />, []);
 
   const initialValue: Descendant[] = [text];
 
   const editor = useMemo(() => {
-    const editor = withInlineLink(
-      withText(withHistory(withReact(createEditor())))
-    );
-    afterInit && afterInit(editor);
+    const editor = withInlineLink(withText(withHistory(withReact(createEditor()))));
+    afterInit?.(editor);
     return editor;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -81,12 +68,11 @@ export const Text: React.FC<TextComponentProps> = (
     <Slate
       editor={editor}
       initialValue={initialValue}
-      onChange={(value: Descendant[]) => {
-        onChange &&
-          onChange({
-            newText: editor.children[0] as ParagraphElement,
-            operations: editor.operations,
-          });
+      onChange={(_value: Descendant[]) => {
+        onChange?.({
+          newText: editor.children[0] as ParagraphElement,
+          operations: editor.operations,
+        });
       }}
     >
       <Editable
@@ -116,20 +102,12 @@ export const Text: React.FC<TextComponentProps> = (
 };
 
 const Element = (props: RenderElementProps) => {
-  const { attributes, children, element } = props as RenderElementPropsFor<
-    CustomElement & { type: string }
-  >;
+  const { element } = props as RenderElementPropsFor<CustomElement & { type: string }>;
   switch (element.type) {
     case 'link':
-      return (
-        <LinkComponent {...(props as RenderElementPropsFor<LinkElement>)} />
-      );
+      return <LinkComponent {...(props as RenderElementPropsFor<LinkElement>)} />;
     default:
-      return (
-        <ParagraphComponent
-          {...(props as RenderElementPropsFor<ParagraphElement>)}
-        />
-      );
+      return <ParagraphComponent {...(props as RenderElementPropsFor<ParagraphElement>)} />;
   }
 };
 
@@ -165,15 +143,11 @@ const Leaf: React.FC<RenderLeafProps> = ({ children, leaf, attributes }) => {
 
   const fontSizeValue = (leaf as CustomText)['font-size'];
   const style: CSSProperties = {
-    color: (leaf as CustomText).color
+    color: (leaf as CustomText).color,
   };
 
   return (
-    <span
-      style={style}
-      {...attributes}
-      {...({ 'plait-font-size': fontSizeValue } as any)}
-    >
+    <span style={style} {...attributes} {...({ 'plait-font-size': fontSizeValue } as any)}>
       {children}
     </span>
   );

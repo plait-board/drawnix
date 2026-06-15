@@ -21,10 +21,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import Stack from '../../stack';
 import { PropertyTransforms, StrokeStyle } from '@plait/common';
 import { getMemorizeKey } from '@plait/draw';
-import {
-  setStrokeColor,
-  setStrokeColorOpacity,
-} from '../../../transforms/property';
+import { setStrokeColor, setStrokeColorOpacity } from '../../../transforms/property';
 import { useI18n } from '../../../i18n';
 
 export type PopupStrokeButtonProps = {
@@ -53,8 +50,8 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
   const icon = isFullyTransparent(opacity)
     ? StrokeIcon
     : isWhite(hexColor)
-    ? StrokeWhiteIcon
-    : undefined;
+      ? StrokeWhiteIcon
+      : undefined;
 
   const setStrokeStyle = (style: StrokeStyle) => {
     PropertyTransforms.setStrokeStyle(board, style, { getMemorizeKey });
@@ -88,11 +85,9 @@ export const PopupStrokeButton: React.FC<PopupStrokeButtonProps> = ({
       <PopoverContent container={container}>
         <Island
           padding={4}
-          className={classNames(
-            `${ATTACHED_ELEMENT_CLASS_NAME}`,
-            'stroke-setting',
-            { 'has-stroke-style': hasStrokeStyle }
-          )}
+          className={classNames(`${ATTACHED_ELEMENT_CLASS_NAME}`, 'stroke-setting', {
+            'has-stroke-style': hasStrokeStyle,
+          })}
         >
           <Stack.Col>
             {hasStrokeStyle && (

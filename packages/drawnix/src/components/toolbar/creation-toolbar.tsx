@@ -22,12 +22,7 @@ import {
 } from '@plait/core';
 import { MindPointerType } from '@plait/mind';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
-import {
-  ArrowLineShape,
-  BasicShapes,
-  DrawPointerType,
-  FlowchartSymbols,
-} from '@plait/draw';
+import { ArrowLineShape, BasicShapes, DrawPointerType, FlowchartSymbols } from '@plait/draw';
 import { FreehandPanel } from './freehand-panel/freehand-panel';
 import { ShapePicker } from '../shape-picker';
 import { ArrowPicker } from '../arrow-picker';
@@ -43,8 +38,6 @@ import {
 import { ExtraToolsButton } from './extra-tools/extra-tools-button';
 import { addImage } from '../../utils/image';
 import { Translations, useI18n } from '../../i18n';
-import { SHAPES } from '../shape-picker';
-import { ARROWS } from '../arrow-picker';
 import { FREEHANDS } from '../../constants/freehand';
 
 export enum PopupKey {
@@ -62,9 +55,7 @@ type AppToolButtonProps = {
 };
 
 const isBasicPointer = (pointer: string) => {
-  return (
-    pointer === PlaitPointerType.hand || pointer === PlaitPointerType.selection
-  );
+  return pointer === PlaitPointerType.hand || pointer === PlaitPointerType.selection;
 };
 
 export const BUTTONS: AppToolButtonProps[] = [
@@ -143,9 +134,7 @@ const isShapeMenuPointer = (pointer?: string) => {
 };
 
 const isFreehandPointer = (pointer?: string) => {
-  return (
-    pointer === FreehandShape.feltTipPen || pointer === FreehandShape.eraser
-  );
+  return pointer === FreehandShape.feltTipPen || pointer === FreehandShape.eraser;
 };
 
 export const CreationToolbar = () => {
@@ -159,9 +148,7 @@ export const CreationToolbar = () => {
   const [arrowOpen, setArrowOpen] = useState(false);
   const [shapeOpen, setShapeOpen] = useState(false);
   const lastFreehandButton: AppToolButtonProps =
-    FREEHANDS.find(
-      (freehand) => freehand.pointer === toolState.lastFreehandPointer
-    ) ||
+    FREEHANDS.find((freehand) => freehand.pointer === toolState.lastFreehandPointer) ||
     BUTTONS.find((button) => button.key === PopupKey.freehand) ||
     BUTTONS[4];
 
@@ -205,9 +192,7 @@ export const CreationToolbar = () => {
   };
 
   const isChecked = (button: AppToolButtonProps) => {
-    return (
-      PlaitBoard.isPointer(board, button.pointer) && !arrowOpen && !shapeOpen && !freehandOpen
-    );
+    return PlaitBoard.isPointer(board, button.pointer) && !arrowOpen && !shapeOpen && !freehandOpen;
   };
 
   const checkCurrentPointerIsFreehand = (board: PlaitBoard) => {
@@ -222,26 +207,21 @@ export const CreationToolbar = () => {
       ...currentAppState,
       toolState: {
         ...currentAppState.toolState,
-        freehandPresets: currentAppState.toolState.freehandPresets.map(
-          (preset, index) => {
-            if (index !== presetIndex) {
-              return preset;
-            }
-            return {
-              ...preset,
-              ...nextSettings,
-            };
+        freehandPresets: currentAppState.toolState.freehandPresets.map((preset, index) => {
+          if (index !== presetIndex) {
+            return preset;
           }
-        ),
+          return {
+            ...preset,
+            ...nextSettings,
+          };
+        }),
       },
     }));
   };
 
   return (
-    <Island
-      padding={1}
-      className={classNames('draw-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
-    >
+    <Island padding={1} className={classNames('draw-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}>
       <Stack.Row gap={1}>
         {BUTTONS.map((button, index) => {
           if (appState.isMobile && button.pointer === PlaitPointerType.hand) {
@@ -261,13 +241,14 @@ export const CreationToolbar = () => {
                   <ToolButton
                     type="icon"
                     visible={true}
-                    selected={
-                      freehandOpen ||
-                      checkCurrentPointerIsFreehand(board)
-                    }
+                    selected={freehandOpen || checkCurrentPointerIsFreehand(board)}
                     icon={lastFreehandButton.icon}
-                    title={lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'}
-                    aria-label={lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'}
+                    title={
+                      lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'
+                    }
+                    aria-label={
+                      lastFreehandButton.titleKey ? t(lastFreehandButton.titleKey) : 'Freehand'
+                    }
                     onPointerDown={() => {
                       setFreehandOpen(!freehandOpen);
                       if (lastFreehandButton.pointer) {
@@ -288,18 +269,12 @@ export const CreationToolbar = () => {
                         activeFreehandPresetIndex: presetIndex,
                       });
                     }}
-                    onStrokeColorSelect={(
-                      presetIndex: number,
-                      strokeColor?: string
-                    ) => {
+                    onStrokeColorSelect={(presetIndex: number, strokeColor?: string) => {
                       updateFreehandSettings(presetIndex, {
                         strokeColor,
                       });
                     }}
-                    onStrokeWidthSelect={(
-                      presetIndex: number,
-                      strokeWidth: number
-                    ) => {
+                    onStrokeWidthSelect={(presetIndex: number, strokeWidth: number) => {
                       updateFreehandSettings(presetIndex, {
                         strokeWidth,
                       });
@@ -331,8 +306,7 @@ export const CreationToolbar = () => {
                     visible={true}
                     selected={
                       shapeOpen ||
-                      (isShapePointer(board) &&
-                        !PlaitBoard.isPointer(board, BasicShapes.text))
+                      (isShapePointer(board) && !PlaitBoard.isPointer(board, BasicShapes.text))
                     }
                     icon={button.icon}
                     title={button.titleKey ? t(button.titleKey) : 'Shape'}
@@ -346,10 +320,7 @@ export const CreationToolbar = () => {
                           pointer: toolState.lastShapePointer,
                         });
                         setCreationMode(board, BoardCreationMode.drawing);
-                        BoardTransforms.updatePointerType(
-                          board,
-                          toolState.lastShapePointer
-                        );
+                        BoardTransforms.updatePointerType(board, toolState.lastShapePointer);
                       }
                     }}
                   />
@@ -392,10 +363,7 @@ export const CreationToolbar = () => {
                         BoardTransforms.updatePointerType(board, board.pointer);
                       } else {
                         setCreationMode(board, BoardCreationMode.drawing);
-                        BoardTransforms.updatePointerType(
-                          board,
-                          toolState.lastArrowPointer
-                        );
+                        BoardTransforms.updatePointerType(board, toolState.lastArrowPointer);
                         updateToolState({
                           pointer: toolState.lastArrowPointer,
                         });

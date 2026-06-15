@@ -14,12 +14,7 @@ export type RadioGroupProps<T> = {
   name: string;
 };
 
-export const RadioGroup = function <T>({
-  onChange,
-  value,
-  choices,
-  name,
-}: RadioGroupProps<T>) {
+export const RadioGroup = function <T>({ onChange, value, choices, name }: RadioGroupProps<T>) {
   return (
     <div className="RadioGroup">
       {choices.map((choice) => (

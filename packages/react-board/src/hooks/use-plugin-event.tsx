@@ -114,11 +114,7 @@ const useBoardPluginEvent = (
   useEventListener('copy', (event) => {
     if (PlaitBoard.isFocus(board) && !PlaitBoard.hasBeenTextEditing(board)) {
       event.preventDefault();
-      setFragment(
-        board,
-        WritableClipboardOperationType.copy,
-        event.clipboardData
-      );
+      setFragment(board, WritableClipboardOperationType.copy, event.clipboardData);
     }
   });
 
@@ -130,18 +126,9 @@ const useBoardPluginEvent = (
     ) {
       const mousePoint = PlaitBoard.getMovingPointInBoard(board);
       if (mousePoint) {
-        const targetPoint = toViewBoxPoint(
-          board,
-          toHostPoint(board, mousePoint[0], mousePoint[1])
-        );
-        const clipboardData = await getClipboardData(
-          clipboardEvent.clipboardData
-        );
-        board.insertFragment(
-          clipboardData,
-          targetPoint,
-          WritableClipboardOperationType.paste
-        );
+        const targetPoint = toViewBoxPoint(board, toHostPoint(board, mousePoint[0], mousePoint[1]));
+        const clipboardData = await getClipboardData(clipboardEvent.clipboardData);
+        board.insertFragment(clipboardData, targetPoint, WritableClipboardOperationType.paste);
       }
     }
   });
@@ -153,11 +140,7 @@ const useBoardPluginEvent = (
       !PlaitBoard.hasBeenTextEditing(board)
     ) {
       event.preventDefault();
-      setFragment(
-        board,
-        WritableClipboardOperationType.cut,
-        event.clipboardData
-      );
+      setFragment(board, WritableClipboardOperationType.cut, event.clipboardData);
       deleteFragment(board);
     }
   });

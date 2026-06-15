@@ -13,9 +13,7 @@ const MenuItemContent = ({
     <>
       {icon && <div className="menu-item__icon">{icon}</div>}
       <div className="menu-item__text">{children}</div>
-      {shortcut && (
-        <div className="menu-item__shortcut">{shortcut}</div>
-      )}
+      {shortcut && <div className="menu-item__shortcut">{shortcut}</div>}
     </>
   );
 };

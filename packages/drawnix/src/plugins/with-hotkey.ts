@@ -1,9 +1,4 @@
-import {
-  BoardTransforms,
-  getSelectedElements,
-  PlaitBoard,
-  PlaitPointerType,
-} from '@plait/core';
+import { BoardTransforms, getSelectedElements, PlaitBoard, PlaitPointerType } from '@plait/core';
 import { isHotkey } from 'is-hotkey';
 import {
   addImage,
@@ -44,12 +39,10 @@ export const buildDrawnixHotkeyPlugin = (
     };
     board.globalKeyDown = (event: KeyboardEvent) => {
       const isTypingNormal =
-        event.target instanceof HTMLInputElement ||
-        event.target instanceof HTMLTextAreaElement;
+        event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement;
       if (
         !isTypingNormal &&
-        (PlaitBoard.getMovingPointInBoard(board) ||
-          PlaitBoard.isMovingPointInBoard(board)) &&
+        (PlaitBoard.getMovingPointInBoard(board) || PlaitBoard.isMovingPointInBoard(board)) &&
         !PlaitBoard.hasBeenTextEditing(board)
       ) {
         if (isHotkey(['mod+shift+e'], { byKey: true })(event)) {
@@ -65,18 +58,13 @@ export const buildDrawnixHotkeyPlugin = (
           return;
         }
         if (isHotkey(['mod+s'], { byKey: true })(event)) {
-          saveJSON(board, (board as DrawnixBoard).appState.fileHandle).then(
-            ({ fileHandle }) => {
-              updateAppState({ fileHandle });
-            }
-          );
+          saveJSON(board, (board as DrawnixBoard).appState.fileHandle).then(({ fileHandle }) => {
+            updateAppState({ fileHandle });
+          });
           event.preventDefault();
           return;
         }
-        if (
-          isHotkey(['mod+backspace'])(event) ||
-          isHotkey(['mod+delete'])(event)
-        ) {
+        if (isHotkey(['mod+backspace'])(event) || isHotkey(['mod+delete'])(event)) {
           updateAppState({
             openCleanConfirm: true,
           });
@@ -96,10 +84,7 @@ export const buildDrawnixHotkeyPlugin = (
             return;
           }
           if (event.key === 'v') {
-            BoardTransforms.updatePointerType(
-              board,
-              PlaitPointerType.selection
-            );
+            BoardTransforms.updatePointerType(board, PlaitPointerType.selection);
             updatePointer(PlaitPointerType.selection);
             event.preventDefault();
             return;
@@ -115,8 +100,7 @@ export const buildDrawnixHotkeyPlugin = (
             setCreationMode(board, BoardCreationMode.drawing);
             BoardTransforms.updatePointerType(board, FreehandShape.eraser);
             updatePointer(FreehandShape.eraser, {
-              lastFreehandPointer:
-                FreehandShape.eraser as DrawnixFreehandPointer,
+              lastFreehandPointer: FreehandShape.eraser as DrawnixFreehandPointer,
             });
             event.preventDefault();
             return;
@@ -125,8 +109,7 @@ export const buildDrawnixHotkeyPlugin = (
             setCreationMode(board, BoardCreationMode.drawing);
             BoardTransforms.updatePointerType(board, FreehandShape.feltTipPen);
             updatePointer(FreehandShape.feltTipPen, {
-              lastFreehandPointer:
-                FreehandShape.feltTipPen as DrawnixFreehandPointer,
+              lastFreehandPointer: FreehandShape.feltTipPen as DrawnixFreehandPointer,
             });
             event.preventDefault();
             return;
@@ -155,11 +138,13 @@ export const buildDrawnixHotkeyPlugin = (
               setCreationMode(board, BoardCreationMode.drawing);
             }
             BoardTransforms.updatePointerType(board, keyToPointer[event.key]);
-            updatePointer(keyToPointer[event.key], {
-              ...(keyToPointer[event.key] === BasicShapes.text
-                ? {}
-                : { lastShapePointer: keyToPointer[event.key] }),
-            });
+            if (keyToPointer[event.key] === BasicShapes.text) {
+              updatePointer(keyToPointer[event.key]);
+            } else {
+              updatePointer(keyToPointer[event.key], {
+                lastShapePointer: keyToPointer[event.key],
+              });
+            }
             event.preventDefault();
             return;
           }

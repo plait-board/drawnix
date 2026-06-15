@@ -6,16 +6,13 @@ import { DataURL } from '../types';
 
 export const loadFromBlob = async (board: PlaitBoard, blob: Blob | File) => {
   const contents = await parseFileContents(blob);
-  let data;
   try {
-    data = JSON.parse(contents);
+    const data = JSON.parse(contents);
     if (isValidDrawnixData(data)) {
       return data;
     }
-    throw new Error('Error: invalid file');
-  } catch (error: any) {
-    throw new Error('Error: invalid file');
-  }
+  } catch {}
+  throw new Error('Error: invalid file');
 };
 
 export const createFile = (
@@ -48,11 +45,7 @@ export const blobToArrayBuffer = (blob: Blob): Promise<ArrayBuffer> => {
 export const normalizeFile = async (file: File) => {
   if (!file.type) {
     if (file?.name?.endsWith('.drawnix')) {
-      file = createFile(
-        await blobToArrayBuffer(file),
-        MIME_TYPES.drawnix,
-        file.name
-      );
+      file = createFile(await blobToArrayBuffer(file), MIME_TYPES.drawnix, file.name);
     }
   }
   return file;

@@ -22,9 +22,7 @@ export const useBoard = (): PlaitBoard => {
   const context = useContext(BoardContext);
 
   if (!context) {
-    throw new Error(
-      `The \`useBoard\` hook must be used inside the <Plait> component's context.`
-    );
+    throw new Error(`The \`useBoard\` hook must be used inside the <Plait> component's context.`);
   }
 
   const { board } = context;
@@ -35,9 +33,7 @@ export const useListRender = (): ListRender => {
   const context = useContext(BoardContext);
 
   if (!context) {
-    throw new Error(
-      `The \`useBoard\` hook must be used inside the <Plait> component's context.`
-    );
+    throw new Error(`The \`useBoard\` hook must be used inside the <Plait> component's context.`);
   }
 
   const { listRender } = context;

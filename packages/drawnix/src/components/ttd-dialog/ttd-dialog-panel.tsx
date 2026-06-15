@@ -50,9 +50,7 @@ export const TTDDialogPanel = ({
             {panelAction?.icon && <span>{panelAction.icon}</span>}
           </div>
         </button>
-        {!panelActionDisabled &&
-          !onTextSubmitInProgress &&
-          renderSubmitShortcut?.()}
+        {!panelActionDisabled && !onTextSubmitInProgress && renderSubmitShortcut?.()}
         {renderBottomRight?.()}
       </div>
     </div>

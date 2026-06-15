@@ -7,19 +7,14 @@ import {
   toViewBoxPoint,
 } from '@plait/core';
 import { isDrawingMode } from '@plait/common';
-import {
-  createFreehandElement,
-  getFreehandDrawOptions,
-  getFreehandPointers,
-} from './utils';
+import { createFreehandElement, getFreehandDrawOptions, getFreehandPointers } from './utils';
 import { Freehand, FreehandShape } from './type';
 import { FreehandGenerator } from './freehand.generator';
 import { FreehandSmoother } from './smoother';
 import { isTwoFingerMode } from '@plait-board/react-board';
 
 export const withFreehandCreate = (board: PlaitBoard) => {
-  const { pointerDown, pointerMove, pointerUp, globalPointerUp, touchStart } =
-    board;
+  const { pointerDown, pointerMove, pointerUp, globalPointerUp, touchStart } = board;
 
   let isDrawing = false;
 
@@ -73,10 +68,7 @@ export const withFreehandCreate = (board: PlaitBoard) => {
       isDrawing = true;
       originScreenPoint = [event.x, event.y];
       const smoothingPoint = smoother.process(originScreenPoint) as Point;
-      const point = toViewBoxPoint(
-        board,
-        toHostPoint(board, smoothingPoint[0], smoothingPoint[1])
-      );
+      const point = toViewBoxPoint(board, toHostPoint(board, smoothingPoint[0], smoothingPoint[1]));
       points.push(point);
     }
     pointerDown(event);
@@ -107,15 +99,8 @@ export const withFreehandCreate = (board: PlaitBoard) => {
         );
         points.push(newPoint);
         const pointer = PlaitBoard.getPointer(board) as FreehandShape;
-        temporaryElement = createFreehandElement(
-          pointer,
-          points,
-          getFreehandDrawOptions(board)
-        );
-        generator.processDrawing(
-          temporaryElement,
-          PlaitBoard.getElementTopHost(board)
-        );
+        temporaryElement = createFreehandElement(pointer, points, getFreehandDrawOptions(board));
+        generator.processDrawing(temporaryElement, PlaitBoard.getElementTopHost(board));
       }
       return;
     }

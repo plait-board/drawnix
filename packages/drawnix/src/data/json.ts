@@ -1,4 +1,4 @@
-import { PlaitBoard, PlaitElement } from '@plait/core';
+import { PlaitBoard } from '@plait/core';
 import { MIME_TYPES, VERSIONS } from '../constants';
 import { fileOpen, fileSave, type FileSystemHandle } from './filesystem';
 import { DrawnixExportedData, DrawnixExportedType } from './types';
@@ -15,10 +15,7 @@ export const getDefaultName = () => {
   return time.toString();
 };
 
-export const saveAsJSON = async (
-  board: PlaitBoard,
-  name: string = getDefaultName()
-) => {
+export const saveAsJSON = async (board: PlaitBoard, name: string = getDefaultName()) => {
   return saveJSON(board, null, name);
 };
 

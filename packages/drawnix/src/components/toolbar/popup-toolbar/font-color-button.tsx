@@ -5,10 +5,7 @@ import classNames from 'classnames';
 import { Island } from '../../island';
 import { ATTACHED_ELEMENT_CLASS_NAME, PlaitBoard } from '@plait/core';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
-import {
-  setTextColor,
-  setTextColorOpacity,
-} from '../../../transforms/property';
+import { setTextColor, setTextColorOpacity } from '../../../transforms/property';
 
 export type PopupFontColorButtonProps = {
   board: PlaitBoard;
@@ -50,17 +47,10 @@ export const PopupFontColorButton: React.FC<PopupFontColorButtonProps> = ({
         ></ToolButton>
       </PopoverTrigger>
       <PopoverContent container={container}>
-        <Island
-          padding={4}
-          className={classNames(`${ATTACHED_ELEMENT_CLASS_NAME}`)}
-        >
+        <Island padding={4} className={classNames(`${ATTACHED_ELEMENT_CLASS_NAME}`)}>
           <ColorPicker
             onColorChange={(selectedColor: string) => {
-              setTextColor(
-                board,
-                currentColor ? currentColor : selectedColor,
-                selectedColor
-              );
+              setTextColor(board, currentColor ? currentColor : selectedColor, selectedColor);
             }}
             onOpacityChange={(opacity: number) => {
               if (currentColor) {

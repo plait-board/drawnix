@@ -1,14 +1,6 @@
 import { PlaitBoard, PlaitElement } from '@plait/core';
-import {
-  isClosedCustomGeometry,
-  isClosedDrawElement,
-  PlaitDrawElement,
-} from '@plait/draw';
-import {
-  getFillByElement,
-  getStrokeColorByElement,
-  MindElement,
-} from '@plait/mind';
+import { isClosedCustomGeometry, isClosedDrawElement, PlaitDrawElement } from '@plait/draw';
+import { getFillByElement, getStrokeColorByElement, MindElement } from '@plait/mind';
 import {
   getFillByElement as getFillByDrawElement,
   getStrokeColorByElement as getStrokeColorByDrawElement,
@@ -39,10 +31,7 @@ export const getCurrentFill = (board: PlaitBoard, element: PlaitElement) => {
   return currentFill as string;
 };
 
-export const getCurrentStrokeColor = (
-  board: PlaitBoard,
-  element: PlaitElement
-) => {
+export const getCurrentStrokeColor = (board: PlaitBoard, element: PlaitElement) => {
   let strokeColor: string | null = element.strokeColor;
   if (!strokeColor) {
     if (MindElement.isMindElement(board, element)) {
@@ -58,10 +47,7 @@ export const getCurrentStrokeColor = (
   return strokeColor as string;
 };
 
-export const getCurrentFontColor = (
-  board: PlaitBoard,
-  element: PlaitElement
-) => {
+export const getCurrentFontColor = (board: PlaitBoard, element: PlaitElement) => {
   const marks = getTextMarksByElement(element);
   return marks.color;
 };

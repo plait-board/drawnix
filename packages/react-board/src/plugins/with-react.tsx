@@ -1,8 +1,4 @@
-import {
-  type PlaitTextBoard,
-  type RenderComponentRef,
-  type TextProps,
-} from '@plait/common';
+import { type PlaitTextBoard, type RenderComponentRef, type TextProps } from '@plait/common';
 import type { PlaitBoard } from '@plait/core';
 import { createRoot } from 'react-dom/client';
 import { Text } from '@plait-board/react-text';
@@ -12,10 +8,7 @@ import type { ReactBoard } from './board';
 export const withReact = (board: PlaitBoard & PlaitTextBoard) => {
   const newBoard = board as PlaitBoard & PlaitTextBoard & ReactBoard;
 
-  newBoard.renderText = (
-    container: Element | DocumentFragment,
-    props: TextProps
-  ) => {
+  newBoard.renderText = (container: Element | DocumentFragment, props: TextProps) => {
     const root = createRoot(container);
     let currentEditor: ReactEditor;
     const text = (
@@ -23,7 +16,7 @@ export const withReact = (board: PlaitBoard & PlaitTextBoard) => {
         {...props}
         afterInit={(editor) => {
           currentEditor = editor as ReactEditor;
-          props.afterInit && props.afterInit(editor);
+          props.afterInit?.(editor);
         }}
       ></Text>
     );
@@ -40,9 +33,7 @@ export const withReact = (board: PlaitBoard & PlaitTextBoard) => {
           updatedProps &&
           newProps &&
           !Object.keys(updatedProps).every(
-            (key) =>
-              updatedProps[key as keyof TextProps] ===
-              newProps[key as keyof TextProps]
+            (key) => updatedProps[key as keyof TextProps] === newProps[key as keyof TextProps]
           );
         if (!hasUpdated) {
           return;

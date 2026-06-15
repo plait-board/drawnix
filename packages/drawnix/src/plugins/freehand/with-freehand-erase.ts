@@ -14,8 +14,7 @@ import { LaserPointer } from '../../utils/laser-pointer';
 import { isTwoFingerMode } from '@plait-board/react-board';
 
 export const withFreehandErase = (board: PlaitBoard) => {
-  const { pointerDown, pointerMove, pointerUp, globalPointerUp, touchStart } =
-    board;
+  const { pointerDown, pointerMove, pointerUp, globalPointerUp, touchStart } = board;
 
   const laserPointer = new LaserPointer();
 
@@ -23,20 +22,14 @@ export const withFreehandErase = (board: PlaitBoard) => {
   const elementsToDelete = new Set<string>();
 
   const checkAndMarkFreehandElementsForDeletion = (point: Point) => {
-    const viewBoxPoint = toViewBoxPoint(
-      board,
-      toHostPoint(board, point[0], point[1])
-    );
+    const viewBoxPoint = toViewBoxPoint(board, toHostPoint(board, point[0], point[1]));
 
     const freehandElements = board.children.filter((element) =>
       Freehand.isFreehand(element)
     ) as Freehand[];
 
     freehandElements.forEach((element) => {
-      if (
-        !elementsToDelete.has(element.id) &&
-        isHitFreehand(board, element, viewBoxPoint)
-      ) {
+      if (!elementsToDelete.has(element.id) && isHitFreehand(board, element, viewBoxPoint)) {
         PlaitElement.getElementG(element).style.opacity = '0.2';
         elementsToDelete.add(element.id);
       }
@@ -45,9 +38,7 @@ export const withFreehandErase = (board: PlaitBoard) => {
 
   const deleteMarkedElements = () => {
     if (elementsToDelete.size > 0) {
-      const elementsToRemove = board.children.filter((element) =>
-        elementsToDelete.has(element.id)
-      );
+      const elementsToRemove = board.children.filter((element) => elementsToDelete.has(element.id));
 
       if (elementsToRemove.length > 0) {
         CoreTransforms.removeElements(board, elementsToRemove);
@@ -65,9 +56,7 @@ export const withFreehandErase = (board: PlaitBoard) => {
   };
 
   board.touchStart = (event: TouchEvent) => {
-    const isEraserPointer = PlaitBoard.isInPointer(board, [
-      FreehandShape.eraser,
-    ]);
+    const isEraserPointer = PlaitBoard.isInPointer(board, [FreehandShape.eraser]);
     if (isEraserPointer && isDrawingMode(board)) {
       return event.preventDefault();
     }
@@ -75,9 +64,7 @@ export const withFreehandErase = (board: PlaitBoard) => {
   };
 
   board.pointerDown = (event: PointerEvent) => {
-    const isEraserPointer = PlaitBoard.isInPointer(board, [
-      FreehandShape.eraser,
-    ]);
+    const isEraserPointer = PlaitBoard.isInPointer(board, [FreehandShape.eraser]);
 
     if (isEraserPointer && isDrawingMode(board)) {
       isErasing = true;

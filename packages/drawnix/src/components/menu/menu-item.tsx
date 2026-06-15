@@ -1,8 +1,5 @@
 import React, { useState, useRef } from 'react';
-import {
-  getMenuItemClassName,
-  useHandleMenuItemClick,
-} from './common';
+import { getMenuItemClassName, useHandleMenuItemClick } from './common';
 import MenuItemContent from './menu-item-content';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
 
@@ -58,11 +55,7 @@ const MenuItem = ({
 
   if (submenu) {
     return (
-      <Popover 
-        open={isOpen}
-        onOpenChange={setIsOpen}
-        placement="right-start"
-      >
+      <Popover open={isOpen} onOpenChange={setIsOpen} placement="right-start">
         <PopoverTrigger asChild>
           <button
             {...rest}
@@ -97,11 +90,7 @@ const MenuItem = ({
 };
 MenuItem.displayName = 'MenuItem';
 
-export const DropDownMenuItemBadge = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const DropDownMenuItemBadge = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       style={{

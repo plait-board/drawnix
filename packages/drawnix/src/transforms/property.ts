@@ -1,11 +1,5 @@
 import { PropertyTransforms } from '@plait/common';
-import {
-  isNullOrUndefined,
-  Path,
-  PlaitBoard,
-  PlaitElement,
-  Transforms,
-} from '@plait/core';
+import { isNullOrUndefined, Path, PlaitBoard, PlaitElement, Transforms } from '@plait/core';
 import { getMemorizeKey } from '@plait/draw';
 import {
   applyOpacityToHex,
@@ -15,11 +9,7 @@ import {
   isValidColor,
   removeHexAlpha,
 } from '../utils/color';
-import {
-  getCurrentFill,
-  getCurrentStrokeColor,
-  isClosedElement,
-} from '../utils/property';
+import { getCurrentFill, getCurrentStrokeColor, isClosedElement } from '../utils/property';
 import { DEFAULT_FONT_SIZE, TextTransforms } from '@plait/text-plugins';
 
 export const setFillColorOpacity = (board: PlaitBoard, fillOpacity: number) => {
@@ -54,27 +44,17 @@ export const setFillColor = (board: PlaitBoard, fillColor: string) => {
       if (isNoColor(fillColor)) {
         Transforms.setNode(board, { fill: null }, path);
       } else {
-        if (
-          isNullOrUndefined(currentOpacity) ||
-          isFullyOpaque(currentOpacity)
-        ) {
+        if (isNullOrUndefined(currentOpacity) || isFullyOpaque(currentOpacity)) {
           Transforms.setNode(board, { fill: fillColor }, path);
         } else {
-          Transforms.setNode(
-            board,
-            { fill: applyOpacityToHex(fillColor, currentOpacity) },
-            path
-          );
+          Transforms.setNode(board, { fill: applyOpacityToHex(fillColor, currentOpacity) }, path);
         }
       }
     },
   });
 };
 
-export const setStrokeColorOpacity = (
-  board: PlaitBoard,
-  fillOpacity: number
-) => {
+export const setStrokeColorOpacity = (board: PlaitBoard, fillOpacity: number) => {
   PropertyTransforms.setStrokeColor(board, null, {
     getMemorizeKey,
     callback: (element: PlaitElement, path: Path) => {
@@ -97,10 +77,7 @@ export const setStrokeColor = (board: PlaitBoard, newColor: string) => {
       if (isNoColor(newColor)) {
         Transforms.setNode(board, { strokeColor: null }, path);
       } else {
-        if (
-          isNullOrUndefined(currentOpacity) ||
-          isFullyOpaque(currentOpacity)
-        ) {
+        if (isNullOrUndefined(currentOpacity) || isFullyOpaque(currentOpacity)) {
           Transforms.setNode(board, { strokeColor: newColor }, path);
         } else {
           Transforms.setNode(
@@ -114,27 +91,16 @@ export const setStrokeColor = (board: PlaitBoard, newColor: string) => {
   });
 };
 
-export const setTextColor = (
-  board: PlaitBoard,
-  currentColor: string,
-  newColor: string
-) => {
+export const setTextColor = (board: PlaitBoard, currentColor: string, newColor: string) => {
   const currentOpacity = hexAlphaToOpacity(currentColor);
   if (isNoColor(newColor)) {
     TextTransforms.setTextColor(board, null);
   } else {
-    TextTransforms.setTextColor(
-      board,
-      applyOpacityToHex(newColor, currentOpacity)
-    );
+    TextTransforms.setTextColor(board, applyOpacityToHex(newColor, currentOpacity));
   }
 };
 
-export const setTextColorOpacity = (
-  board: PlaitBoard,
-  currentColor: string,
-  opacity: number
-) => {
+export const setTextColorOpacity = (board: PlaitBoard, currentColor: string, opacity: number) => {
   const currentFontColorValue = removeHexAlpha(currentColor);
   const newFontColor = isFullyOpaque(opacity)
     ? currentFontColorValue

@@ -26,15 +26,12 @@ export const DEFAULT_FREEHAND_PRESETS: FreehandDrawOptions[] = [
     strokeWidth: 6,
   },
   {
-    strokeColor:
-      getClassicColorValue('color.green') || CLASSIC_COLORS[6].value,
+    strokeColor: getClassicColorValue('color.green') || CLASSIC_COLORS[6].value,
     strokeWidth: 10,
   },
 ];
 
-export const resolveFreehandDrawOptions = (
-  drawOptions: Partial<FreehandDrawOptions> = {}
-) => {
+export const resolveFreehandDrawOptions = (drawOptions: Partial<FreehandDrawOptions> = {}) => {
   const normalizedDrawOptions = {} as Partial<FreehandDrawOptions>;
 
   if (typeof drawOptions.strokeColor === 'string' && drawOptions.strokeColor) {

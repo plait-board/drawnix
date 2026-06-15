@@ -84,13 +84,12 @@ const getImageBlob = async (
 
 export const saveAsSvg = (board: PlaitBoard) => {
   const selectedElements = getSelectedElements(board);
-  return getSvgBlob(
-    board,
-    selectedElements.length > 0 ? selectedElements : undefined
-  ).then((blob) => {
-    const imageName = `drawnix-${new Date().getTime()}.svg`;
-    download(blob, imageName);
-  });
+  return getSvgBlob(board, selectedElements.length > 0 ? selectedElements : undefined).then(
+    (blob) => {
+      const imageName = `drawnix-${new Date().getTime()}.svg`;
+      download(blob, imageName);
+    }
+  );
 };
 
 export const saveAsImage = (board: PlaitBoard, isTransparent: boolean) => {
@@ -120,19 +119,12 @@ export const copySelectionAsSvg = async (board: PlaitBoard) => {
   await writeBlobToClipboard('svg', blob, pngBlob);
 };
 
-export const copySelectionAsPng = async (
-  board: PlaitBoard,
-  withBackground = false
-) => {
+export const copySelectionAsPng = async (board: PlaitBoard, withBackground = false) => {
   const selectedElements = getSelectedElements(board);
   if (selectedElements.length === 0) {
     return;
   }
-  const imageBlob = await getImageBlob(
-    board,
-    !withBackground,
-    selectedElements
-  );
+  const imageBlob = await getImageBlob(board, !withBackground, selectedElements);
   if (!imageBlob) {
     return;
   }
@@ -144,9 +136,7 @@ export const copySelectionAsPng = async (
 export const addImage = async (board: PlaitBoard) => {
   const imageFile = await fileOpen({
     description: 'Image',
-    extensions: Object.keys(
-      IMAGE_MIME_TYPES
-    ) as (keyof typeof IMAGE_MIME_TYPES)[],
+    extensions: Object.keys(IMAGE_MIME_TYPES) as (keyof typeof IMAGE_MIME_TYPES)[],
   });
   insertImage(board, imageFile);
 };

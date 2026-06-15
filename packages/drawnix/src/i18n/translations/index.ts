@@ -4,4 +4,4 @@ import ruTranslations from './ru';
 import arTranslations from './ar';
 import viTranslations from './vi';
 
-export { zhTranslations, enTranslations, ruTranslations,arTranslations, viTranslations };
+export { zhTranslations, enTranslations, ruTranslations, arTranslations, viTranslations };

@@ -16,11 +16,7 @@ export type ArrowMarkButtonProps = {
   end: 'source' | 'target';
 };
 
-export const ArrowMarkButton: React.FC<ArrowMarkButtonProps> = ({
-  board,
-  end,
-  endProperty,
-}) => {
+export const ArrowMarkButton: React.FC<ArrowMarkButtonProps> = ({ board, end, endProperty }) => {
   const [isPopoverOpen, setIsPopoverrOpen] = useState(false);
   const container = PlaitBoard.getBoardContainer(board);
   const { t } = useI18n();
@@ -29,8 +25,7 @@ export const ArrowMarkButton: React.FC<ArrowMarkButtonProps> = ({
   }
   const marker = endProperty.marker ?? 'none';
   const endLabelKey: keyof Translations = end === 'source' ? 'line.source' : 'line.target';
-  const markerLabelKey: keyof Translations =
-    marker === 'none' ? 'line.none' : 'line.arrow';
+  const markerLabelKey: keyof Translations = marker === 'none' ? 'line.none' : 'line.arrow';
   const title = `${t(endLabelKey)} — ${t(markerLabelKey)}`;
 
   return (

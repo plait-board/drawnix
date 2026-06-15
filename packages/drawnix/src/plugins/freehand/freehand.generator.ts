@@ -2,11 +2,7 @@ import { Generator } from '@plait/common';
 import { PlaitBoard, setStrokeLinecap } from '@plait/core';
 import { Options } from 'roughjs/bin/core';
 import { Freehand } from './type';
-import {
-  gaussianSmooth,
-  getFillByElement,
-  getStrokeColorByElement,
-} from './utils';
+import { gaussianSmooth, getFillByElement, getStrokeColorByElement } from './utils';
 import { getStrokeWidthByElement } from '@plait/draw';
 
 export class FreehandGenerator extends Generator<Freehand> {
@@ -23,7 +19,7 @@ export class FreehandGenerator extends Generator<Freehand> {
     return g;
   }
 
-  canDraw(element: Freehand): boolean {
+  canDraw(_element: Freehand): boolean {
     return true;
   }
 }

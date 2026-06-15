@@ -7,10 +7,7 @@ import { MindThemeColors, withMind } from '@plait/mind';
 
 const ErrorComp = ({ error }: { error: string }) => {
   return (
-    <div
-      data-testid="ttd-dialog-output-error"
-      className="ttd-dialog-output-error"
-    >
+    <div data-testid="ttd-dialog-output-error" className="ttd-dialog-output-error">
       Error! <p>{error}</p>
     </div>
   );
@@ -22,11 +19,7 @@ interface TTDDialogOutputProps {
   loaded: boolean;
 }
 
-export const TTDDialogOutput = ({
-  error,
-  value,
-  loaded,
-}: TTDDialogOutputProps) => {
+export const TTDDialogOutput = ({ error, value, loaded: _loaded }: TTDDialogOutputProps) => {
   const plugins: PlaitPlugin[] = [withDraw, withMind, withGroup, withCommonPlugin];
   const options = {
     readonly: true,
@@ -38,10 +31,7 @@ export const TTDDialogOutput = ({
     <div className="ttd-dialog-output-wrapper">
       {error && <ErrorComp error={error.message} />}
       {
-        <div
-          style={{ opacity: error ? '0.15' : 1 }}
-          className="ttd-dialog-output-canvas-container"
-        >
+        <div style={{ opacity: error ? '0.15' : 1 }} className="ttd-dialog-output-canvas-container">
           <Wrapper value={value} options={options} plugins={plugins}>
             <Board></Board>
           </Wrapper>

@@ -95,9 +95,9 @@ const SelectRoot: React.FC<SelectRootProps> = ({
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
-  const [uncontrolledValue, setUncontrolledValue] = React.useState<
-    string | undefined
-  >(defaultValue);
+  const [uncontrolledValue, setUncontrolledValue] = React.useState<string | undefined>(
+    defaultValue
+  );
   const value = controlledValue ?? uncontrolledValue;
   const setValue = React.useCallback(
     (nextValue: string) => {
@@ -136,11 +136,7 @@ const SelectRoot: React.FC<SelectRootProps> = ({
     open,
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
-    middleware: [
-      offset(sideOffset),
-      flip({ padding: 5 }),
-      shift({ padding: 5 }),
-    ],
+    middleware: [offset(sideOffset), flip({ padding: 5 }), shift({ padding: 5 })],
   });
 
   const click = useClick(context, { enabled: !disabled && controlledOpen === undefined });
@@ -212,16 +208,11 @@ const SelectRoot: React.FC<SelectRootProps> = ({
     ]
   );
 
-  return (
-    <SelectContext.Provider value={contextValue}>
-      {children}
-    </SelectContext.Provider>
-  );
+  return <SelectContext.Provider value={contextValue}>{children}</SelectContext.Provider>;
 };
 SelectRoot.displayName = 'Select.Root';
 
-interface SelectTriggerProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface SelectTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'classic' | 'surface' | 'soft' | 'ghost';
   color?: string;
   radius?: 'none' | 'small' | 'medium' | 'large' | 'full';
@@ -235,8 +226,8 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
       children,
       className,
       variant = 'surface',
-      color,
-      radius,
+      color: _color,
+      radius: _radius,
       placeholder,
       asChild,
       ...props
@@ -257,15 +248,15 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
     // Value rendering logic
     let content = children;
     if (!content && context.value) {
-       // Find label for value
-       const index = context.valuesRef.current.indexOf(context.value);
-       if (index !== -1) {
-         content = context.labelsRef.current[index];
-       } else {
-         content = context.value;
-       }
+      // Find label for value
+      const index = context.valuesRef.current.indexOf(context.value);
+      if (index !== -1) {
+        content = context.labelsRef.current[index];
+      } else {
+        content = context.value;
+      }
     }
-    
+
     const shouldShowPlaceholder = !content && placeholder;
     const displayContent = shouldShowPlaceholder ? placeholder : content;
 
@@ -285,9 +276,7 @@ const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
         {...context.getReferenceProps(props)}
       >
         <span className="dx-SelectTriggerInner">{displayContent}</span>
-        <span className="dx-SelectIcon">
-          {ChevronDownIcon}
-        </span>
+        <span className="dx-SelectIcon">{ChevronDownIcon}</span>
       </button>
     );
   }
@@ -307,8 +296,8 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
       children,
       className,
       variant = 'solid',
-      color,
-      highContrast,
+      color: _color,
+      highContrast: _highContrast,
       container,
       style,
       ...props
@@ -336,9 +325,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
             {...context.getFloatingProps(props)}
           >
             <FloatingList elementsRef={context.elementsRef} labelsRef={context.labelsRef}>
-              <div className="dx-SelectViewport">
-                 {children}
-              </div>
+              <div className="dx-SelectViewport">{children}</div>
             </FloatingList>
           </div>
         </FloatingFocusManager>
@@ -365,11 +352,12 @@ const SelectItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
     const isSelected = context.value === value;
 
     React.useEffect(() => {
-        if (index !== null) {
-            context.valuesRef.current[index] = value;
-            // Best effort to get label
-            context.labelsRef.current[index] = textValue ?? (typeof children === 'string' ? children : value);
-        }
+      if (index !== null) {
+        context.valuesRef.current[index] = value;
+        // Best effort to get label
+        context.labelsRef.current[index] =
+          textValue ?? (typeof children === 'string' ? children : value);
+      }
     }, [index, value, textValue, children, context.valuesRef, context.labelsRef]);
 
     const handleSelect = () => {
@@ -392,13 +380,8 @@ const SelectItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
       },
     });
 
-    const {
-      onPointerMove,
-      onMouseMove,
-      onMouseEnter,
-      onMouseLeave,
-      ...restMergedItemProps
-    } = mergedItemProps as React.ButtonHTMLAttributes<HTMLButtonElement>;
+    const { onPointerMove, onMouseMove, onMouseEnter, onMouseLeave, ...restMergedItemProps } =
+      mergedItemProps as React.ButtonHTMLAttributes<HTMLButtonElement>;
 
     return (
       <button
@@ -418,9 +401,7 @@ const SelectItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
           : { onPointerMove, onMouseMove, onMouseEnter, onMouseLeave })}
       >
         {!context.hideSelectedIndicator && (
-          <span className="dx-SelectItemIndicator">
-            {isSelected && ThickCheckIcon}
-          </span>
+          <span className="dx-SelectItemIndicator">{isSelected && ThickCheckIcon}</span>
         )}
         <span className="dx-SelectItemText">{children}</span>
       </button>
@@ -429,7 +410,7 @@ const SelectItem = React.forwardRef<HTMLButtonElement, SelectItemProps>(
 );
 SelectItem.displayName = 'Select.Item';
 
-type SelectGroupProps = React.HTMLAttributes<HTMLDivElement>
+type SelectGroupProps = React.HTMLAttributes<HTMLDivElement>;
 const SelectGroup = React.forwardRef<HTMLDivElement, SelectGroupProps>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={classNames('dx-SelectGroup', className)} {...props} />
@@ -437,7 +418,7 @@ const SelectGroup = React.forwardRef<HTMLDivElement, SelectGroupProps>(
 );
 SelectGroup.displayName = 'Select.Group';
 
-type SelectLabelProps = React.HTMLAttributes<HTMLDivElement>
+type SelectLabelProps = React.HTMLAttributes<HTMLDivElement>;
 const SelectLabel = React.forwardRef<HTMLDivElement, SelectLabelProps>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={classNames('dx-SelectLabel', className)} {...props} />
@@ -445,7 +426,7 @@ const SelectLabel = React.forwardRef<HTMLDivElement, SelectLabelProps>(
 );
 SelectLabel.displayName = 'Select.Label';
 
-type SelectSeparatorProps = React.HTMLAttributes<HTMLDivElement>
+type SelectSeparatorProps = React.HTMLAttributes<HTMLDivElement>;
 const SelectSeparator = React.forwardRef<HTMLDivElement, SelectSeparatorProps>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={classNames('dx-SelectSeparator', className)} {...props} />

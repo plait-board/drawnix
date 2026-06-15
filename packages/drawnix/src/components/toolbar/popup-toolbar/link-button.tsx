@@ -14,10 +14,7 @@ export type PopupLinkButtonProps = {
   title: string;
 };
 
-export const PopupLinkButton: React.FC<PopupLinkButtonProps> = ({
-  board,
-  title,
-}) => {
+export const PopupLinkButton: React.FC<PopupLinkButtonProps> = ({ board, title }) => {
   const { t } = useI18n();
   const { appState, setAppState } = useDrawnix();
   return (

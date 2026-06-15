@@ -1,9 +1,4 @@
-import {
-  isMovingElements,
-  PlaitBoard,
-  PlaitPointerType,
-  throttleRAF,
-} from '@plait/core';
+import { isMovingElements, PlaitBoard, PlaitPointerType, throttleRAF } from '@plait/core';
 import { DrawnixBoard, DrawnixState } from '../hooks/use-drawnix';
 import { ReactEditor } from 'slate-react';
 import { Editor } from 'slate';
@@ -11,28 +6,23 @@ import { isResizing, LinkElement } from '@plait/common';
 
 export const isHovering = (board: PlaitBoard) => {
   const { appState } = board as DrawnixBoard;
-  const isHovering =
-    appState && appState.linkState && appState.linkState.isHovering;
+  const isHovering = appState && appState.linkState && appState.linkState.isHovering;
   return isHovering;
 };
 
 export const isHoveringOrigin = (board: PlaitBoard) => {
   const { appState } = board as DrawnixBoard;
-  const isHoveringOrigin =
-    appState && appState.linkState && appState.linkState.isHoveringOrigin;
+  const isHoveringOrigin = appState && appState.linkState && appState.linkState.isHoveringOrigin;
   return isHoveringOrigin;
 };
 
 export const isEditing = (board: PlaitBoard) => {
   const { appState } = board as DrawnixBoard;
-  const isEditing =
-    appState && appState.linkState && appState.linkState.isEditing;
+  const isEditing = appState && appState.linkState && appState.linkState.isEditing;
   return isEditing;
 };
 
-export const buildTextLinkPlugin = (
-  updateAppState: (appState: Partial<DrawnixState>) => void
-) => {
+export const buildTextLinkPlugin = (updateAppState: (appState: Partial<DrawnixState>) => void) => {
   const withTextLink = (board: PlaitBoard) => {
     const { pointerMove } = board;
 
@@ -54,9 +44,7 @@ export const buildTextLinkPlugin = (
             '.plait-board-link'
           ) as HTMLElement | null;
           if (textLinkDom && textLinkDom !== target) {
-            const editable = textLinkDom.closest(
-              '.plait-text-container'
-            ) as HTMLElement;
+            const editable = textLinkDom.closest('.plait-text-container') as HTMLElement;
             const editor = ReactEditor.toSlateNode(
               undefined as unknown as Editor,
               editable

@@ -1,10 +1,6 @@
 import { useBoard } from '@plait-board/react-board';
 import classNames from 'classnames';
-import {
-  ATTACHED_ELEMENT_CLASS_NAME,
-  BoardTransforms,
-  ThemeColorMode,
-} from '@plait/core';
+import { ATTACHED_ELEMENT_CLASS_NAME, BoardTransforms, ThemeColorMode } from '@plait/core';
 import { Island } from '../island';
 import { useI18n } from '../../i18n';
 
@@ -13,10 +9,7 @@ export const ThemeToolbar = () => {
   const { t } = useI18n();
   const theme = board.theme;
   return (
-    <Island
-      padding={1}
-      className={classNames('theme-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
-    >
+    <Island padding={1} className={classNames('theme-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}>
       <select
         onChange={(e) => {
           const value = (e.target as HTMLSelectElement).value;

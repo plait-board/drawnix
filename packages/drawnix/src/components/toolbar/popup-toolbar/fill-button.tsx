@@ -4,17 +4,10 @@ import classNames from 'classnames';
 import { ATTACHED_ELEMENT_CLASS_NAME, PlaitBoard } from '@plait/core';
 import { Island } from '../../island';
 import { ColorPicker } from '../../color-picker';
-import {
-  hexAlphaToOpacity,
-  isFullyTransparent,
-  removeHexAlpha,
-} from '../../../utils/color';
+import { hexAlphaToOpacity, isFullyTransparent, removeHexAlpha } from '../../../utils/color';
 import { BackgroundColorIcon } from '../../icons';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
-import {
-  setFillColor,
-  setFillColorOpacity,
-} from '../../../transforms/property';
+import { setFillColor, setFillColorOpacity } from '../../../transforms/property';
 
 export type PopupFillButtonProps = {
   board: PlaitBoard;
@@ -33,8 +26,7 @@ export const PopupFillButton: React.FC<PopupFillButtonProps> = ({
   const hexColor = currentColor && removeHexAlpha(currentColor);
   const opacity = currentColor ? hexAlphaToOpacity(currentColor) : 100;
   const container = PlaitBoard.getBoardContainer(board);
-  const icon =
-    !hexColor || isFullyTransparent(opacity) ? BackgroundColorIcon : undefined;
+  const icon = !hexColor || isFullyTransparent(opacity) ? BackgroundColorIcon : undefined;
 
   return (
     <Popover
@@ -62,10 +54,7 @@ export const PopupFillButton: React.FC<PopupFillButtonProps> = ({
         </ToolButton>
       </PopoverTrigger>
       <PopoverContent container={container}>
-        <Island
-          padding={4}
-          className={classNames(`${ATTACHED_ELEMENT_CLASS_NAME}`)}
-        >
+        <Island padding={4} className={classNames(`${ATTACHED_ELEMENT_CLASS_NAME}`)}>
           <ColorPicker
             onColorChange={(selectedColor: string) => {
               setFillColor(board, selectedColor);

@@ -36,12 +36,8 @@ export class LaserPointer {
   private container: HTMLElement | null = null;
 
   public init(board: PlaitBoard): void {
-    this.container = PlaitBoard.getBoardContainer(board).closest(
-      '.drawnix'
-    ) as HTMLElement;
-    this.cvsDom = this.container.querySelector(
-      `.${LASER_POINTER_CLASS_NAME}`
-    ) as HTMLCanvasElement;
+    this.container = PlaitBoard.getBoardContainer(board).closest('.drawnix') as HTMLElement;
+    this.cvsDom = this.container.querySelector(`.${LASER_POINTER_CLASS_NAME}`) as HTMLCanvasElement;
     this.ctx = this.cvsDom.getContext('2d') as CanvasRenderingContext2D;
     this.canvasPos = this.cvsDom.getBoundingClientRect();
 
@@ -54,7 +50,9 @@ export class LaserPointer {
         y: relativeY,
         time: Date.now(),
       });
-      this.ctx && this.startDraw();
+      if (this.ctx) {
+        this.startDraw();
+      }
     };
 
     this.resizeHandler = () => this.setCanvasSize();

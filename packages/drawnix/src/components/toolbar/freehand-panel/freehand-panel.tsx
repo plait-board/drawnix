@@ -9,24 +9,15 @@ import { useBoard } from '@plait-board/react-board';
 import { DrawnixPointerType } from '../../../hooks/use-drawnix';
 import { useI18n } from '../../../i18n';
 import { FreehandShape } from '../../../plugins/freehand/type';
-import {
-  FREEHANDS,
-  FREEHAND_PRESET_IDS,
-  type FreehandPresetId,
-} from '../../../constants/freehand';
-import {
-  FreehandStylePresetItem,
-  type FreehandStylePreset,
-} from './freehand-style-preset-item';
+import { FREEHANDS, FREEHAND_PRESET_IDS, type FreehandPresetId } from '../../../constants/freehand';
+import { FreehandStylePresetItem, type FreehandStylePreset } from './freehand-style-preset-item';
 import './freehand-style-preset-item.scss';
 import {
   DEFAULT_FREEHAND_PRESETS,
   type FreehandDrawOptions,
 } from '../../../plugins/freehand/presets';
 
-const FreehandStyleDivider = () => (
-  <span className="freehand-style-divider" aria-hidden="true" />
-);
+const FreehandStyleDivider = () => <span className="freehand-style-divider" aria-hidden="true" />;
 
 FreehandStyleDivider.displayName = 'FreehandStyleDivider';
 
@@ -34,10 +25,7 @@ const getPresetId = (presetIndex: number): FreehandPresetId | string => {
   return FREEHAND_PRESET_IDS[presetIndex] || `preset-${presetIndex + 1}`;
 };
 
-const toPreset = (
-  presetIndex: number,
-  preset: FreehandDrawOptions
-): FreehandStylePreset => ({
+const toPreset = (presetIndex: number, preset: FreehandDrawOptions): FreehandStylePreset => ({
   id: getPresetId(presetIndex),
   color: preset.strokeColor,
   size: preset.strokeWidth,
@@ -63,9 +51,7 @@ export const FreehandPanel: React.FC<FreehandPickerProps> = ({
   const { t } = useI18n();
   const board = useBoard();
   const container = PlaitBoard.getBoardContainer(board);
-  const presets = freehandPresets.length
-    ? freehandPresets
-    : DEFAULT_FREEHAND_PRESETS;
+  const presets = freehandPresets.length ? freehandPresets : DEFAULT_FREEHAND_PRESETS;
   const showPresets = board.pointer !== FreehandShape.eraser;
 
   const saveAndApplyPreset = (presetIndex: number) => {
@@ -99,9 +85,7 @@ export const FreehandPanel: React.FC<FreehandPickerProps> = ({
             }}
           />
         ))}
-        {showPresets && FREEHANDS.length > 0 && presets.length > 0 && (
-          <FreehandStyleDivider />
-        )}
+        {showPresets && FREEHANDS.length > 0 && presets.length > 0 && <FreehandStyleDivider />}
         {showPresets &&
           presets.map((preset, presetIndex) => (
             <FreehandStylePresetItem

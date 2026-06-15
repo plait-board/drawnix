@@ -27,7 +27,6 @@ export const withPinchZoom = (board: PlaitBoard) => {
   const { touchStart, touchMove, touchEnd } = board;
 
   let pointerRecords: PointerRecord[] = [];
-  let initializeZoom = 0;
   let isPinching = false;
 
   board.touchStart = (event: TouchEvent) => {
@@ -38,17 +37,12 @@ export const withPinchZoom = (board: PlaitBoard) => {
       hasMoved: false,
     }));
     TOUCH_RECORDS.set(board, pointerRecords);
-    if (pointerRecords.length >= 2) {
-      initializeZoom = board.viewport.zoom;
-    }
     touchStart(event);
   };
 
   board.touchMove = (event: TouchEvent) => {
     Array.from(event.changedTouches).forEach((touch) => {
-      const record = pointerRecords.find(
-        (record) => record.pointerId === touch.identifier
-      );
+      const record = pointerRecords.find((record) => record.pointerId === touch.identifier);
       if (record) {
         record.lastPoint = record.currentPoint;
         record.currentPoint = [touch.clientX, touch.clientY];
@@ -58,25 +52,15 @@ export const withPinchZoom = (board: PlaitBoard) => {
     if (pointerRecords.length === 2) {
       event.preventDefault();
     }
-    if (
-      pointerRecords.length === 2 &&
-      pointerRecords.every((record) => record.hasMoved)
-    ) {
+    if (pointerRecords.length === 2 && pointerRecords.every((record) => record.hasMoved)) {
       const [p1, p2] = pointerRecords;
-      const pinchCenter = getPointBetween(
-        ...p1.lastPoint,
-        ...p2.lastPoint
-      ) as Point;
-      const newPinchCenter = getPointBetween(
-        ...p1.currentPoint,
-        ...p2.currentPoint
-      ) as Point;
+      const pinchCenter = getPointBetween(...p1.lastPoint, ...p2.lastPoint) as Point;
+      const newPinchCenter = getPointBetween(...p1.currentPoint, ...p2.currentPoint) as Point;
       const dx = newPinchCenter[0] - pinchCenter[0];
       const dy = newPinchCenter[1] - pinchCenter[1];
 
       // hand moving
-      const boardContainerRect =
-        PlaitBoard.getBoardContainer(board).getBoundingClientRect();
+      const boardContainerRect = PlaitBoard.getBoardContainer(board).getBoundingClientRect();
       const halfOfWidth = boardContainerRect.width / 2;
       const halfOfHeight = boardContainerRect.height / 2;
       const zoom = board.viewport.zoom;
@@ -89,14 +73,8 @@ export const withPinchZoom = (board: PlaitBoard) => {
       ] as Point;
 
       let newZoom = zoom;
-      const lastDistance = distanceBetweenPointAndPoint(
-        ...p1.lastPoint,
-        ...p2.lastPoint
-      );
-      const currentDistance = distanceBetweenPointAndPoint(
-        ...p1.currentPoint,
-        ...p2.currentPoint
-      );
+      const lastDistance = distanceBetweenPointAndPoint(...p1.lastPoint, ...p2.lastPoint);
+      const currentDistance = distanceBetweenPointAndPoint(...p1.currentPoint, ...p2.currentPoint);
       // zoom 处理
       const scale = currentDistance / lastDistance;
 
@@ -126,10 +104,7 @@ export const withPinchZoom = (board: PlaitBoard) => {
         isPinching = false;
       }
       if (isPinching) {
-        newZoom = Math.min(
-          Math.max(board.viewport.zoom * scale, MIN_ZOOM),
-          MAX_ZOOM
-        );
+        newZoom = Math.min(Math.max(board.viewport.zoom * scale, MIN_ZOOM), MAX_ZOOM);
         const nativeElement = PlaitBoard.getBoardContainer(board);
         const nativeElementRect = nativeElement.getBoundingClientRect();
         const zoomCenterWidth = newPinchCenter[0] - nativeElementRect.x;

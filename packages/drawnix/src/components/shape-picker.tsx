@@ -100,12 +100,8 @@ export const ShapePicker: React.FC<ShapePickerProps> = ({ onPointerUp }) => {
                     visible={true}
                     selected={PlaitBoard.isPointer(board, shape.pointer)}
                     icon={shape.icon}
-                    title={t(
-                      (shape.title || 'toolbar.shape') as keyof Translations
-                    )}
-                    aria-label={t(
-                      (shape.title || 'toolbar.shape') as keyof Translations
-                    )}
+                    title={t((shape.title || 'toolbar.shape') as keyof Translations)}
+                    aria-label={t((shape.title || 'toolbar.shape') as keyof Translations)}
                     onPointerDown={() => {
                       setCreationMode(board, BoardCreationMode.dnd);
                       BoardTransforms.updatePointerType(board, shape.pointer);

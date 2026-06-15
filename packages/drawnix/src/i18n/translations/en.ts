@@ -96,14 +96,12 @@ const enTranslations: Translations = {
   'dialog.mermaid.flowchart': 'flowcharts',
   'dialog.mermaid.sequence': 'sequence diagrams',
   'dialog.mermaid.class': 'class diagrams',
-  'dialog.mermaid.otherTypes':
-    ', and other diagram types (rendered as images).',
+  'dialog.mermaid.otherTypes': ', and other diagram types (rendered as images).',
   'dialog.mermaid.syntax': 'Mermaid Syntax',
   'dialog.mermaid.placeholder': 'Write your Mermaid chart definition here…',
   'dialog.mermaid.preview': 'Preview',
   'dialog.mermaid.insert': 'Insert',
-  'dialog.markdown.description':
-    'Supports automatic conversion of Markdown syntax to mind map.',
+  'dialog.markdown.description': 'Supports automatic conversion of Markdown syntax to mind map.',
   'dialog.markdown.syntax': 'Markdown Syntax',
   'dialog.markdown.placeholder': 'Write your Markdown text definition here...',
   'dialog.markdown.preview': 'Preview',
@@ -116,8 +114,7 @@ const enTranslations: Translations = {
 
   // Clean confirm dialog
   'cleanConfirm.title': 'Clear Board',
-  'cleanConfirm.description':
-    'This will clear the entire board. Do you want to continue?',
+  'cleanConfirm.description': 'This will clear the entire board. Do you want to continue?',
   'cleanConfirm.cancel': 'Cancel',
   'cleanConfirm.ok': 'OK',
 

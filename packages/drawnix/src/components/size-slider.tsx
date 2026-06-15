@@ -51,9 +51,7 @@ export const SizeSlider: React.FC<SliderProps> = ({
 
   const updateValue = (nextValue: number) => {
     const roundedValue = Number(
-      (
-        Math.round((nextValue - min) / step) * step + min
-      ).toFixed(precision)
+      (Math.round((nextValue - min) / step) * step + min).toFixed(precision)
     );
     const normalizedValue = clamp(roundedValue, min, max);
     setValue(normalizedValue);

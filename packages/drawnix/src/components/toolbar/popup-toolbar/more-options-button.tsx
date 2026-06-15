@@ -9,19 +9,13 @@ import Menu from '../../menu/menu';
 import MenuItem from '../../menu/menu-item';
 import { useState } from 'react';
 import { getShortcutKey } from '../../../utils/common';
-import {
-  canCopySelectionAs,
-  copySelectionAsPng,
-  copySelectionAsSvg,
-} from '../../../utils/image';
+import { canCopySelectionAs, copySelectionAsPng, copySelectionAsSvg } from '../../../utils/image';
 
 export type MoreOptionsButtonProps = {
   board: PlaitBoard;
 };
 
-export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({
-  board,
-}) => {
+export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({ board }) => {
   const { t } = useI18n();
   const container = PlaitBoard.getBoardContainer(board);
   const [menuOpen, setMenuOpen] = useState(false);

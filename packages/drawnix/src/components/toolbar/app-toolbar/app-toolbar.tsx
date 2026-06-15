@@ -1,13 +1,7 @@
 import { useBoard } from '@plait-board/react-board';
 import Stack from '../../stack';
 import { ToolButton } from '../../tool-button';
-import {
-  DuplicateIcon,
-  MenuIcon,
-  RedoIcon,
-  TrashIcon,
-  UndoIcon,
-} from '../../icons';
+import { DuplicateIcon, MenuIcon, RedoIcon, TrashIcon, UndoIcon } from '../../icons';
 import classNames from 'classnames';
 import {
   ATTACHED_ELEMENT_CLASS_NAME,
@@ -41,10 +35,7 @@ export const AppToolbar = () => {
   const isUndoDisabled = board.history.undos.length <= 0;
   const isRedoDisabled = board.history.redos.length <= 0;
   return (
-    <Island
-      padding={1}
-      className={classNames('app-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
-    >
+    <Island padding={1} className={classNames('app-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}>
       <Stack.Row gap={1}>
         <Popover
           key={0}
@@ -137,7 +128,6 @@ export const AppToolbar = () => {
             }}
           />
         )}
-        
       </Stack.Row>
     </Island>
   );

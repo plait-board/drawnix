@@ -38,8 +38,7 @@ export const getFreehandPreviewRadius = (strokeWidth: number) => {
 
   return (
     FREEHAND_PREVIEW_MIN_RADIUS +
-    normalizedStrokeWidth *
-      (FREEHAND_PREVIEW_MAX_RADIUS - FREEHAND_PREVIEW_MIN_RADIUS)
+    normalizedStrokeWidth * (FREEHAND_PREVIEW_MAX_RADIUS - FREEHAND_PREVIEW_MIN_RADIUS)
   );
 };
 
@@ -69,8 +68,7 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
   const { t } = useI18n();
   const board = useBoard();
   const [open, setOpen] = React.useState(false);
-  const swatchColor =
-    preset.color || getFreehandDefaultStrokeColor(board.theme.themeColorMode);
+  const swatchColor = preset.color || getFreehandDefaultStrokeColor(board.theme.themeColorMode);
   const shouldAddWhitePresetContrast = isWhite(swatchColor);
   const previewRadius = getFreehandPreviewRadius(preset.size);
   const isActive = selected || open;
@@ -190,9 +188,7 @@ export const FreehandStylePresetItem: React.FC<FreehandStylePresetItemProps> = (
               currentColor={preset.color}
               hideOpacitySlider={true}
               onColorChange={(selectedColor: string) => {
-                onColorChange(
-                  isNoColor(selectedColor) ? undefined : selectedColor
-                );
+                onColorChange(isNoColor(selectedColor) ? undefined : selectedColor);
               }}
               onOpacityChange={() => {
                 return;

@@ -34,12 +34,7 @@ export type PlaitBoardProps = {
   afterInit?: (board: PlaitBoard) => void;
 };
 
-export const Board: React.FC<PlaitBoardProps> = ({
-  style,
-  className,
-  children,
-  afterInit,
-}) => {
+export const Board: React.FC<PlaitBoardProps> = ({ style, className, children, afterInit }) => {
   const hostRef = useRef<SVGSVGElement>(null);
   const elementLowerHostRef = useRef<SVGGElement>(null);
   const elementHostRef = useRef<SVGGElement>(null);
@@ -97,6 +92,7 @@ export const Board: React.FC<PlaitBoardProps> = ({
       BOARD_TO_ROUGH_SVG.delete(board);
       KEY_TO_ELEMENT_MAP.delete(board);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useBoardPluginEvent(board, viewportContainerRef, hostRef);
@@ -113,9 +109,7 @@ export const Board: React.FC<PlaitBoardProps> = ({
         {
           focused: PlaitBoard.isFocus(board),
           readonly: PlaitBoard.isReadonly(board),
-          'disabled-scroll':
-            board.options?.disabledScrollOnNonFocus &&
-            !PlaitBoard.isFocus(board),
+          'disabled-scroll': board.options?.disabledScrollOnNonFocus && !PlaitBoard.isFocus(board),
         }
       )}
       ref={boardContainerRef}

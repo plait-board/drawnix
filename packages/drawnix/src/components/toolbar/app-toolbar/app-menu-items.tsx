@@ -1,19 +1,6 @@
-import {
-  ExportImageIcon,
-  GithubIcon,
-  OpenFileIcon,
-  SaveFileIcon,
-  TrashIcon,
-} from '../../icons';
+import { ExportImageIcon, GithubIcon, OpenFileIcon, SaveFileIcon, TrashIcon } from '../../icons';
 import { useBoard, useListRender } from '@plait-board/react-board';
-import {
-  BoardTransforms,
-  PlaitBoard,
-  PlaitElement,
-  PlaitTheme,
-  ThemeColorMode,
-  Viewport,
-} from '@plait/core';
+import { BoardTransforms, PlaitBoard, PlaitElement, PlaitTheme, Viewport } from '@plait/core';
 import { loadFromJSON, saveAsJSON, saveJSON } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
@@ -47,7 +34,9 @@ export const SaveToFile = () => {
       icon={SaveFileIcon}
       aria-label={t('menu.saveFile')}
       shortcut={getShortcutKey('CtrlOrCmd+S')}
-    >{t('menu.saveFile')}</MenuItem>
+    >
+      {t('menu.saveFile')}
+    </MenuItem>
   );
 };
 SaveToFile.displayName = 'SaveToFile';
@@ -70,7 +59,9 @@ export const SaveAsFile = () => {
       icon={SaveFileIcon}
       aria-label={t('menu.saveAsFile')}
       shortcut={getShortcutKey('CtrlOrCmd+Shift+S')}
-    >{t('menu.saveAsFile')}</MenuItem>
+    >
+      {t('menu.saveAsFile')}
+    </MenuItem>
   );
 };
 SaveAsFile.displayName = 'SaveAsFile';
@@ -80,11 +71,7 @@ export const OpenFile = () => {
   const listRender = useListRender();
   const { setAppState } = useDrawnix();
   const { t } = useI18n();
-  const clearAndLoad = (
-    value: PlaitElement[],
-    viewport?: Viewport,
-    theme?: PlaitTheme
-  ) => {
+  const clearAndLoad = (value: PlaitElement[], viewport?: Viewport, theme?: PlaitTheme) => {
     board.children = value;
     board.viewport = viewport || { zoom: 1 };
     if (theme) {
@@ -111,7 +98,9 @@ export const OpenFile = () => {
       }}
       icon={OpenFileIcon}
       aria-label={t('menu.open')}
-    >{t('menu.open')}</MenuItem>
+    >
+      {t('menu.open')}
+    </MenuItem>
   );
 };
 OpenFile.displayName = 'OpenFile';
@@ -128,13 +117,15 @@ export const SaveAsImage = () => {
         saveAsImage(board, true);
       }}
       submenu={
-        <Menu onSelect={() => {
-          const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
-            bubbles: true,
-            cancelable: true,
-          });
-          menuContentProps.onSelect?.(itemSelectEvent);
-        }}>
+        <Menu
+          onSelect={() => {
+            const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
+              bubbles: true,
+              cancelable: true,
+            });
+            menuContentProps.onSelect?.(itemSelectEvent);
+          }}
+        >
           <MenuItem
             onSelect={() => {
               saveAsSvg(board);

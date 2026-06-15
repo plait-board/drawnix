@@ -61,10 +61,7 @@ export type DrawnixProps = {
 
 export type { DrawnixToolState } from './hooks/use-drawnix';
 
-const applyToolStateToBoard = (
-  board: PlaitBoard,
-  toolState: DrawnixToolState
-) => {
+const applyToolStateToBoard = (board: PlaitBoard, toolState: DrawnixToolState) => {
   BoardTransforms.updatePointerType(board, toolState.pointer);
   if (
     toolState.pointer !== PlaitPointerType.hand &&
@@ -162,7 +159,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
             options={options}
             plugins={plugins}
             onChange={(data: BoardChangeData) => {
-              onChange && onChange(data);
+              onChange?.(data);
             }}
             onSelectionChange={onSelectionChange}
             onViewportChange={onViewportChange}
@@ -174,7 +171,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
                 const drawnixBoard = board as DrawnixBoard;
                 applyToolStateToBoard(drawnixBoard, appState.toolState);
                 setBoard(drawnixBoard);
-                afterInit && afterInit(board);
+                afterInit?.(board);
               }}
             >
               {tutorial && board && <Tutorial />}

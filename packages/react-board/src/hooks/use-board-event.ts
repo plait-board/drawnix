@@ -44,7 +44,7 @@ const useBoardEvent = (
       // https://github.com/excalidraw/excalidraw/blob/b7d7ccc929696cc17b4cc34452e4afd846d59f4f/src/components/App.tsx#L9060
       if (event.metaKey || event.ctrlKey) {
         event.preventDefault();
-        const { deltaX, deltaY } = event;
+        const { deltaY } = event;
         const zoom = board.viewport.zoom;
         const sign = Math.sign(deltaY);
         const MAX_STEP = ZOOM_STEP * 100;
@@ -60,11 +60,7 @@ const useBoardEvent = (
           -sign *
           // reduced amplification for small deltas (small movements on a trackpad)
           Math.min(1, absDelta / 20);
-        BoardTransforms.updateZoom(
-          board,
-          newZoom,
-          PlaitBoard.getMovingPointInBoard(board)
-        );
+        BoardTransforms.updateZoom(board, newZoom, PlaitBoard.getMovingPointInBoard(board));
       }
     },
     { target: viewportContainerRef, passive: false }
@@ -84,8 +80,9 @@ const useBoardEvent = (
     });
     resizeObserver.observe(PlaitBoard.getBoardContainer(board));
     return () => {
-      resizeObserver && (resizeObserver as ResizeObserver).disconnect();
+      resizeObserver.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

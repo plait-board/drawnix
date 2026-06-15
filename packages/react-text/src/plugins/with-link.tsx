@@ -37,8 +37,7 @@ export const withInlineLink = (editor: CustomEditor) => {
 
   editor.isInline = (element: CustomElement) => {
     return (
-      ((element as LinkElement).type &&
-        ['link'].includes((element as LinkElement).type)) ||
+      ((element as LinkElement).type && ['link'].includes((element as LinkElement).type)) ||
       isInline(element)
     );
   };

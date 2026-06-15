@@ -97,14 +97,8 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
 
   const lastPointerTypeRef = useRef<EventPointerType | null>(null);
 
-  if (
-    props.type === 'button' ||
-    props.type === 'icon' ||
-    props.type === 'submit'
-  ) {
-    const type = (props.type === 'icon' ? 'button' : props.type) as
-      | 'button'
-      | 'submit';
+  if (props.type === 'button' || props.type === 'icon' || props.type === 'submit') {
+    const type = (props.type === 'icon' ? 'button' : props.type) as 'button' | 'submit';
     return (
       <button
         className={classNames(
@@ -139,25 +133,15 @@ export const ToolButton = React.forwardRef((props: ToolButtonProps, ref) => {
         disabled={isLoading || !!props.disabled}
       >
         {(props.icon || props.label) && (
-          <div
-            className="tool-icon__icon"
-            aria-hidden="true"
-            aria-disabled={!!props.disabled}
-          >
+          <div className="tool-icon__icon" aria-hidden="true" aria-disabled={!!props.disabled}>
             {props.icon || props.label}
             {props.keyBindingLabel && (
-              <span className="tool-icon__keybinding">
-                {props.keyBindingLabel}
-              </span>
+              <span className="tool-icon__keybinding">{props.keyBindingLabel}</span>
             )}
           </div>
         )}
-        {props.showAriaLabel && (
-          <div className="tool-icon__label">{props['aria-label']}</div>
-        )}
-        {props.children && (
-          <div className="tool-icon__icon">{props.children}</div>
-        )}
+        {props.showAriaLabel && <div className="tool-icon__label">{props['aria-label']}</div>}
+        {props.children && <div className="tool-icon__icon">{props.children}</div>}
       </button>
     );
   }

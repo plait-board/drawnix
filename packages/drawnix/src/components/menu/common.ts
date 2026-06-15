@@ -6,24 +6,17 @@ export const MenuContentPropsContext = React.createContext<{
   onSelect?: (event: Event) => void;
 }>({});
 
-export const getMenuItemClassName = (
-  className = '',
-  active = false,
-) => {
-  return `menu-item menu-item-base ${className} ${
-    active ? 'menu-item--active' : ''
-  }`.trim();
+export const getMenuItemClassName = (className = '', active = false) => {
+  return `menu-item menu-item-base ${className} ${active ? 'menu-item--active' : ''}`.trim();
 };
 
 export const useHandleMenuItemClick = (
-  origOnClick:
-    | React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>
-    | undefined,
+  origOnClick: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement> | undefined,
   onSelect: ((event: Event) => void) | undefined
 ) => {
   const menuContentProps = useContext(MenuContentPropsContext);
 
-  return composeEventHandlers(origOnClick, (event) => {
+  return composeEventHandlers(origOnClick, (_event) => {
     const itemSelectEvent = new CustomEvent(EVENT.MENU_ITEM_SELECT, {
       bubbles: true,
       cancelable: true,

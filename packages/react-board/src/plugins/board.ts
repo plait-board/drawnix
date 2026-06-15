@@ -1,11 +1,5 @@
 import type { RenderComponentRef } from '@plait/common';
-import {
-  PlaitElement,
-  PlaitOperation,
-  Viewport,
-  Selection,
-  type PlaitTheme
-} from '@plait/core';
+import { PlaitElement, PlaitOperation, Viewport, Selection, type PlaitTheme } from '@plait/core';
 
 export interface ReactBoard {
   renderComponent: <T extends object>(

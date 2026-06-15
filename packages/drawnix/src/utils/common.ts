@@ -1,9 +1,7 @@
 import { IS_APPLE, IS_MAC, PlaitBoard, toImage, ToImageOptions } from '@plait/core';
 import type { ResolutionType } from './utility-types';
 
-export const isPromiseLike = (
-  value: any
-): value is Promise<ResolutionType<typeof value>> => {
+export const isPromiseLike = (value: any): value is Promise<ResolutionType<typeof value>> => {
   return (
     !!value &&
     typeof value === 'object' &&
@@ -23,10 +21,7 @@ export const composeEventHandlers = <E>(
   return function handleEvent(event: E) {
     originalEventHandler?.(event);
 
-    if (
-      !checkForDefaultPrevented ||
-      !(event as unknown as Event)?.defaultPrevented
-    ) {
+    if (!checkForDefaultPrevented || !(event as unknown as Event)?.defaultPrevented) {
       return ourEventHandler?.(event);
     }
   };
@@ -47,10 +42,7 @@ export const base64ToBlob = (base64: string) => {
   });
 };
 
-export const boardToImage = (
-  board: PlaitBoard,
-  options: ToImageOptions = {}
-) => {
+export const boardToImage = (board: PlaitBoard, options: ToImageOptions = {}) => {
   return toImage(board, {
     fillStyle: 'transparent',
     inlineStyleClassNames: '.extend,.emojis,.text',
@@ -81,13 +73,11 @@ export const splitRows = <T>(shapes: T[], cols: number) => {
 
 export const getShortcutKey = (shortcut: string): string => {
   shortcut = shortcut
-    .replace(/\bAlt\b/i, "Alt")
-    .replace(/\bShift\b/i, "Shift")
-    .replace(/\b(Enter|Return)\b/i, "Enter");
+    .replace(/\bAlt\b/i, 'Alt')
+    .replace(/\bShift\b/i, 'Shift')
+    .replace(/\b(Enter|Return)\b/i, 'Enter');
   if (IS_APPLE || IS_MAC) {
-    return shortcut
-      .replace(/\bCtrlOrCmd\b/gi, "Cmd")
-      .replace(/\bAlt\b/i, "Option");
+    return shortcut.replace(/\bCtrlOrCmd\b/gi, 'Cmd').replace(/\bAlt\b/i, 'Option');
   }
-  return shortcut.replace(/\bCtrlOrCmd\b/gi, "Ctrl");
+  return shortcut.replace(/\bCtrlOrCmd\b/gi, 'Ctrl');
 };

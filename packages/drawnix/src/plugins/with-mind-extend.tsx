@@ -13,18 +13,12 @@ import type { RenderComponentRef } from '@plait/common';
 export const withMindExtend = (board: PlaitBoard) => {
   const newBoard = board as PlaitBoard & PlaitMindBoard & PlaitMindEmojiBoard;
 
-  (board as PlaitOptionsBoard).setPluginOptions<WithMindOptions>(
-    WithMindPluginKey,
-    {
-      emojiPadding: 0,
-      spaceBetweenEmojis: 4,
-    }
-  );
+  (board as PlaitOptionsBoard).setPluginOptions<WithMindOptions>(WithMindPluginKey, {
+    emojiPadding: 0,
+    spaceBetweenEmojis: 4,
+  });
 
-  newBoard.renderEmoji = (
-    container: Element | DocumentFragment,
-    props: EmojiProps
-  ) => {
+  newBoard.renderEmoji = (container: Element | DocumentFragment, props: EmojiProps) => {
     const emojiContainer = document.createElement('span');
     container.appendChild(emojiContainer);
     const root = createRoot(emojiContainer);

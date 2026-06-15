@@ -1,9 +1,4 @@
-import {
-  getHitElementByPoint,
-  getSelectedElements,
-  PlaitBoard,
-  Point,
-} from '@plait/core';
+import { getHitElementByPoint, getSelectedElements, PlaitBoard, Point } from '@plait/core';
 import { DataURL } from '../types';
 import { getDataURL } from './blob';
 import { MindElement, MindTransforms } from '@plait/mind';
@@ -23,11 +18,7 @@ export const loadHTMLImageElement = (dataURL: DataURL) => {
   });
 };
 
-export const buildImage = (
-  image: HTMLImageElement,
-  dataURL: DataURL,
-  maxWidth: number
-) => {
+export const buildImage = (image: HTMLImageElement, dataURL: DataURL, maxWidth: number) => {
   const width = image.width > maxWidth ? maxWidth : image.width;
   const height = (width / image.width) * image.height;
   return {
@@ -43,8 +34,7 @@ export const insertImage = async (
   startPoint?: Point,
   isDrop?: boolean
 ) => {
-  const selectedElement =
-    getSelectedElements(board)[0] || getElementOfFocusedImage(board);
+  const selectedElement = getSelectedElements(board)[0] || getElementOfFocusedImage(board);
   const defaultImageWidth = selectedElement ? 240 : 400;
   const dataURL = await getDataURL(imageFile);
   const image = await loadHTMLImageElement(dataURL);
@@ -54,11 +44,7 @@ export const insertImage = async (
     MindTransforms.setImage(board, element as MindElement, imageItem);
     return;
   }
-  if (
-    selectedElement &&
-    MindElement.isMindElement(board, selectedElement) &&
-    !isDrop
-  ) {
+  if (selectedElement && MindElement.isMindElement(board, selectedElement) && !isDrop) {
     MindTransforms.setImage(board, selectedElement as MindElement, imageItem);
   } else {
     DrawTransforms.insertImage(board, imageItem, startPoint);

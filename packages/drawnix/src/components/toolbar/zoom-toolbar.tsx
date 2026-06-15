@@ -1,13 +1,9 @@
 import { useBoard } from '@plait-board/react-board';
 import Stack from '../stack';
 import { ToolButton } from '../tool-button';
-import {  ZoomInIcon, ZoomOutIcon } from '../icons';
+import { ZoomInIcon, ZoomOutIcon } from '../icons';
 import classNames from 'classnames';
-import {
-  ATTACHED_ELEMENT_CLASS_NAME,
-  BoardTransforms,
-  PlaitBoard,
-} from '@plait/core';
+import { ATTACHED_ELEMENT_CLASS_NAME, BoardTransforms, PlaitBoard } from '@plait/core';
 import { Island } from '../island';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
 import { useState } from 'react';
@@ -21,10 +17,7 @@ export const ZoomToolbar = () => {
   const container = PlaitBoard.getBoardContainer(board);
   const [zoomMenuOpen, setZoomMenuOpen] = useState(false);
   return (
-    <Island
-      padding={1}
-      className={classNames('zoom-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}
-    >
+    <Island padding={1} className={classNames('zoom-toolbar', ATTACHED_ELEMENT_CLASS_NAME)}>
       <Stack.Row gap={1}>
         <ToolButton
           key={0}
@@ -74,7 +67,9 @@ export const ZoomToolbar = () => {
                 }}
                 aria-label={t('zoom.fit')}
                 shortcut={`Cmd+Shift+=`}
-              >{t('zoom.fit')}</MenuItem>
+              >
+                {t('zoom.fit')}
+              </MenuItem>
               <MenuItem
                 data-testid="open-button"
                 onSelect={() => {
@@ -82,8 +77,9 @@ export const ZoomToolbar = () => {
                 }}
                 aria-label={t('zoom.100')}
                 shortcut={`Cmd+0`}
-              >{t('zoom.100')}</MenuItem>
-             
+              >
+                {t('zoom.100')}
+              </MenuItem>
             </Menu>
           </PopoverContent>
         </Popover>
@@ -103,4 +99,3 @@ export const ZoomToolbar = () => {
     </Island>
   );
 };
-

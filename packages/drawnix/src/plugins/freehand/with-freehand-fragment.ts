@@ -44,12 +44,7 @@ export const withFreehandFragment = (baseBoard: PlaitBoard) => {
         elements,
       });
     }
-    return buildFragment(
-      clipboardContext,
-      rectangle,
-      operationType,
-      originData
-    );
+    return buildFragment(clipboardContext, rectangle, operationType, originData);
   };
 
   board.insertFragment = (

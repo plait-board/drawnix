@@ -3,21 +3,13 @@
  * context whenever changes occur.
  */
 import { PlaitBoard, PlaitPointerType } from '@plait/core';
-import {
-  createContext,
-  useContext,
-  type Dispatch,
-  type SetStateAction,
-} from 'react';
+import { createContext, useContext, type Dispatch, type SetStateAction } from 'react';
 import { MindPointerType } from '@plait/mind';
 import { ArrowLineShape, BasicShapes, DrawPointerType } from '@plait/draw';
 import { FreehandShape } from '../plugins/freehand/type';
 import { Editor } from 'slate';
 import { LinkElement } from '@plait/common';
-import {
-  DEFAULT_FREEHAND_PRESETS,
-  FreehandDrawOptions,
-} from '../plugins/freehand/presets';
+import { DEFAULT_FREEHAND_PRESETS, FreehandDrawOptions } from '../plugins/freehand/presets';
 import { DrawnixFileHandle } from '../data/json';
 
 export enum DialogType {
@@ -31,9 +23,7 @@ export type DrawnixPointerType =
   | DrawPointerType
   | FreehandShape;
 
-export type DrawnixFreehandPointer =
-  | FreehandShape.feltTipPen
-  | FreehandShape.eraser;
+export type DrawnixFreehandPointer = FreehandShape.feltTipPen | FreehandShape.eraser;
 
 export type DrawnixToolState = {
   pointer: DrawnixPointerType;
@@ -53,9 +43,7 @@ export const createDefaultToolState = (): DrawnixToolState => ({
   freehandPresets: DEFAULT_FREEHAND_PRESETS.map((preset) => ({ ...preset })),
 });
 
-export const mergeToolState = (
-  toolState?: Partial<DrawnixToolState>
-): DrawnixToolState => {
+export const mergeToolState = (toolState?: Partial<DrawnixToolState>): DrawnixToolState => {
   const defaultToolState = createDefaultToolState();
   const freehandPresets = toolState?.freehandPresets?.length
     ? toolState.freehandPresets

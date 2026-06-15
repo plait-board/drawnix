@@ -64,19 +64,19 @@ export class ImageViewer {
     if (this.overlay) {
       // 清理拖动事件监听器
       this.cleanupDragEvents();
-      
+
       // 清理全局事件监听器
       document.removeEventListener('mousemove', this.delegationHandler!);
       document.removeEventListener('mouseup', this.delegationHandler!);
       document.removeEventListener('keydown', this.delegationHandler!);
       document.removeEventListener('wheel', this.delegationHandler!);
-      
+
       // 取消动画帧
       if (this.animationFrameId) {
         cancelAnimationFrame(this.animationFrameId);
         this.animationFrameId = null;
       }
-      
+
       document.body.removeChild(this.overlay);
       this.overlay = null;
       this.image = null;
@@ -169,7 +169,7 @@ export class ImageViewer {
   }
 
   // 创建图片元素
-  private  createImage(src: string, alt: string): void {
+  private createImage(src: string, alt: string): void {
     this.imageContainer = document.createElement('div');
     this.imageContainer.style.cssText = `
       position: relative;
@@ -316,19 +316,13 @@ export class ImageViewer {
 
   // 放大
   private zoomIn(): void {
-    this.state.zoom = Math.min(
-      this.state.zoom + this.options.zoomStep,
-      this.options.maxZoom
-    );
+    this.state.zoom = Math.min(this.state.zoom + this.options.zoomStep, this.options.maxZoom);
     this.updateImageTransform();
   }
 
   // 缩小
   private zoomOut(): void {
-    this.state.zoom = Math.max(
-      this.state.zoom - this.options.zoomStep,
-      this.options.minZoom
-    );
+    this.state.zoom = Math.max(this.state.zoom - this.options.zoomStep, this.options.minZoom);
     this.updateImageTransform();
   }
 
