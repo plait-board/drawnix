@@ -115,7 +115,7 @@ export const SaveAsImage = () => {
     <MenuItem
       icon={ExportImageIcon}
       data-testid="image-export-button"
-      onSelect={() => {}}
+      onSelect={() => undefined}
       submenu={
         <Menu
           onSelect={() => {
