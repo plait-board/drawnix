@@ -138,6 +138,10 @@ const isShapePointerType = (pointer?: string) => {
   );
 };
 
+const isShapeMenuPointer = (pointer?: string) => {
+  return pointer !== BasicShapes.text && isShapePointerType(pointer);
+};
+
 const isFreehandPointer = (pointer?: string) => {
   return (
     pointer === FreehandShape.feltTipPen || pointer === FreehandShape.eraser
@@ -182,8 +186,12 @@ export const CreationToolbar = () => {
       return;
     }
     setFreehandOpen(false);
-    setArrowOpen(false);
-    setShapeOpen(false);
+    if (!isArrowLinePointerType(toolState.pointer)) {
+      setArrowOpen(false);
+    }
+    if (!isShapeMenuPointer(toolState.pointer)) {
+      setShapeOpen(false);
+    }
   }, [container, toolState.pointer]);
 
   const onPointerDown = (pointer: DrawnixPointerType) => {
