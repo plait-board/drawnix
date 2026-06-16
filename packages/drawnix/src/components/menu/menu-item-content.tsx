@@ -4,9 +4,7 @@ import { ChevronRightIcon } from '../icons';
 export const MenuItemSwitch = ({ checked }: { checked: boolean }) => {
   return (
     <span
-      className={`menu-item-switch ${
-        checked ? 'menu-item-switch--checked' : ''
-      }`.trim()}
+      className={`menu-item-switch ${checked ? 'menu-item-switch--checked' : ''}`.trim()}
       aria-hidden="true"
     >
       <span className="menu-item-switch__thumb" />
@@ -32,11 +30,7 @@ const MenuItemContent = ({
       {(shortcut || hasSubmenu) && (
         <div className="menu-item__right">
           {shortcut && <div className="menu-item__shortcut">{shortcut}</div>}
-          {hasSubmenu && (
-            <div className="menu-item__submenu-indicator">
-              {ChevronRightIcon}
-            </div>
-          )}
+          {hasSubmenu && <div className="menu-item__submenu-indicator">{ChevronRightIcon}</div>}
         </div>
       )}
     </>

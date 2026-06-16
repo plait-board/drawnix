@@ -57,12 +57,8 @@ const writeBlobToClipboard = async (
   await navigator.clipboard.write([new ClipboardItem(item)]);
 };
 
-const getSvgBlob = async (
-  board: PlaitBoard,
-  isTransparent: boolean,
-  elements?: ExportElements,
-) => {
-  const backgroundColor = getBackgroundColor(board) || "white";
+const getSvgBlob = async (board: PlaitBoard, isTransparent: boolean, elements?: ExportElements) => {
+  const backgroundColor = getBackgroundColor(board) || 'white';
   const fillStyle = isTransparent ? TRANSPARENT : backgroundColor;
   const svgData = await toSvgData(board, {
     fillStyle,
@@ -89,8 +85,7 @@ const getImageBlob = async (
 };
 
 export const saveAsSvg = (board: PlaitBoard) => {
-  const exportTransparent = !!(board as DrawnixBoard).appState
-    ?.exportTransparent;
+  const exportTransparent = !!(board as DrawnixBoard).appState?.exportTransparent;
   const selectedElements = getSelectedElements(board);
   return getSvgBlob(
     board,
@@ -103,8 +98,7 @@ export const saveAsSvg = (board: PlaitBoard) => {
 };
 
 export const saveAsPng = (board: PlaitBoard) => {
-  const exportTransparent = !!(board as DrawnixBoard).appState
-    ?.exportTransparent;
+  const exportTransparent = !!(board as DrawnixBoard).appState?.exportTransparent;
   const selectedElements = getSelectedElements(board);
   getImageBlob(
     board,
@@ -138,11 +132,7 @@ export const copySelectionAsPng = async (board: PlaitBoard) => {
   if (selectedElements.length === 0) {
     return;
   }
-  const imageBlob = await getImageBlob(
-    board,
-    copyTransparent,
-    selectedElements,
-  );
+  const imageBlob = await getImageBlob(board, copyTransparent, selectedElements);
   if (!imageBlob) {
     return;
   }

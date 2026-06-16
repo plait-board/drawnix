@@ -1,11 +1,6 @@
 import { BoardTransforms, getSelectedElements, PlaitBoard, PlaitPointerType } from '@plait/core';
 import { isHotkey } from 'is-hotkey';
-import {
-  addImage,
-  canCopySelectionAs,
-  copySelectionAsSvg,
-  saveAsSvg,
-} from '../utils/image';
+import { addImage, canCopySelectionAs, copySelectionAsSvg, saveAsSvg } from '../utils/image';
 import { saveAsJSON, saveJSON } from '../data/json';
 import {
   DrawnixBoard,
