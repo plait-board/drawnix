@@ -4,9 +4,7 @@ import MenuItemContent from './menu-item-content';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
 
 const isMenuItemContentElement = (node: React.ReactNode) => {
-  return (
-    React.isValidElement(node) && (node.type as any)?.__DRAWNIX_MENU_ITEM_CONTENT === true
-  );
+  return React.isValidElement(node) && (node.type as any)?.__DRAWNIX_MENU_ITEM_CONTENT === true;
 };
 
 const MenuItem = ({

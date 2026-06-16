@@ -19,11 +19,7 @@ const MenuItemContent = ({
       {(shortcut || hasSubmenu) && (
         <div className="menu-item__right">
           {shortcut && <div className="menu-item__shortcut">{shortcut}</div>}
-          {hasSubmenu && (
-            <div className="menu-item__submenu-indicator">
-              {ChevronRightIcon}
-            </div>
-          )}
+          {hasSubmenu && <div className="menu-item__submenu-indicator">{ChevronRightIcon}</div>}
         </div>
       )}
     </>

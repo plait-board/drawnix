@@ -7,9 +7,7 @@ export type MenuItemSwitchProps = {
 export const MenuItemSwitch = ({ checked }: MenuItemSwitchProps) => {
   return (
     <span
-      className={`menu-item-switch ${
-        checked ? 'menu-item-switch--checked' : ''
-      }`.trim()}
+      className={`menu-item-switch ${checked ? 'menu-item-switch--checked' : ''}`.trim()}
       aria-hidden="true"
     >
       <span className="menu-item-switch__thumb" />
@@ -18,4 +16,3 @@ export const MenuItemSwitch = ({ checked }: MenuItemSwitchProps) => {
 };
 
 MenuItemSwitch.displayName = 'MenuItemSwitch';
-
