@@ -25,6 +25,7 @@ import { AppToolbar } from './components/toolbar/app-toolbar/app-toolbar';
 import classNames from 'classnames';
 import './styles/index.scss';
 import { buildDrawnixHotkeyPlugin } from './plugins/with-hotkey';
+import { buildToolStateSyncPlugin } from './plugins/with-tool-state-sync';
 import { withFreehand } from './plugins/freehand/with-freehand';
 import { ThemeToolbar } from './components/toolbar/theme-toolbar';
 import { buildPencilPlugin } from './plugins/with-pencil';
@@ -132,6 +133,21 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     }));
   };
 
+  const syncBoardPointerToToolState = (pointer: DrawnixToolState['pointer']) => {
+    setAppState((currentAppState) => {
+      if (currentAppState.toolState.pointer === pointer) {
+        return currentAppState;
+      }
+      return {
+        ...currentAppState,
+        toolState: {
+          ...currentAppState.toolState,
+          pointer,
+        },
+      };
+    });
+  };
+
   const plugins: PlaitPlugin[] = [
     withDraw,
     withGroup,
@@ -142,6 +158,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     withFreehand,
     buildPencilPlugin(updateAppState),
     buildTextLinkPlugin(updateAppState),
+    buildToolStateSyncPlugin(syncBoardPointerToToolState),
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
