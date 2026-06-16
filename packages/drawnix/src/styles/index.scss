@@ -1,6 +1,7 @@
-@import './../../../../node_modules/@plait/draw/styles/styles.scss';
-@import './../../../../node_modules/@plait/mind/styles/styles.scss';
-@import './theme.scss';
+@use './../../../../node_modules/@plait/draw/styles/styles.scss' as *;
+@use './../../../../node_modules/@plait/mind/styles/styles.scss' as *;
+@use './variables.module.scss' as *;
+@use './theme.scss' as *;
 
 .drawnix {
     height: 100%;

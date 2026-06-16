@@ -1,4 +1,4 @@
-@import "./variables.module.scss";
+@use './variables.module.scss' as *;
 
 .drawnix {
   --focus-highlight-color: #a5d8ff;

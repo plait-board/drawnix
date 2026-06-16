@@ -1,3 +1,5 @@
+@use 'sass:string';
+
 @mixin isMobile() {
   @at-root .drawnix--mobile#{&} {
     @content;
@@ -123,6 +125,6 @@ $theme-filter: "invert(93%) hue-rotate(180deg)";
 $right-sidebar-width: "302px";
 
 :export {
-  themeFilter: unquote($theme-filter);
-  rightSidebarWidth: unquote($right-sidebar-width);
+  themeFilter: string.unquote($theme-filter);
+  rightSidebarWidth: string.unquote($right-sidebar-width);
 }

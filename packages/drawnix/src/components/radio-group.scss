@@ -1,4 +1,4 @@
-@import '../styles/variables.module.scss';
+@use '../styles/variables.module.scss' as *;
 
 .drawnix {
   --RadioGroup-background: var(--island-bg-color);
