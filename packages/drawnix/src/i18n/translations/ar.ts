@@ -74,10 +74,10 @@ const arTranslations: Translations = {
   'language.russian': 'Русский',
   'language.arabic': 'عربي',
   'language.vietnamese': 'Tiếng Việt',
-  "general.copyToClipboard": "نسخ إلى الحافظة",
-  "general.copyToClipboard.svg": "SVG",
-  "general.copyToClipboard.png": "PNG",
-  "general.copyToClipboard.transparent": "خلفية شفافة",
+  'general.copyToClipboard': 'نسخ إلى الحافظة',
+  'general.copyToClipboard.svg': 'SVG',
+  'general.copyToClipboard.png': 'PNG',
+  'general.copyToClipboard.transparent': 'خلفية شفافة',
 
   // Menu items
   'menu.open': 'فتح',

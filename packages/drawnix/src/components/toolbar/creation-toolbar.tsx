@@ -24,8 +24,8 @@ import { MindPointerType } from '@plait/mind';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { ArrowLineShape, BasicShapes, DrawPointerType, FlowchartSymbols } from '@plait/draw';
 import { FreehandPanel } from './freehand-panel/freehand-panel';
-import { ShapePicker } from '../shape-picker';
-import { ArrowPicker } from '../arrow-picker';
+import { ShapePicker, SHAPES } from '../shape-picker';
+import { ArrowPicker, ARROWS } from '../arrow-picker';
 import { useEffect, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
 import { FreehandShape } from '../../plugins/freehand/type';
@@ -157,12 +157,8 @@ export const CreationToolbar = () => {
   const currentArrowPointer = isArrowLinePointerType(toolState.pointer)
     ? toolState.pointer
     : toolState.lastArrowPointer;
-  const lastShapeButton = SHAPES.find(
-    (shape) => shape.pointer === currentShapePointer
-  );
-  const lastArrowButton = ARROWS.find(
-    (arrow) => arrow.pointer === currentArrowPointer
-  );
+  const lastShapeButton = SHAPES.find((shape) => shape.pointer === currentShapePointer);
+  const lastArrowButton = ARROWS.find((arrow) => arrow.pointer === currentArrowPointer);
 
   const updateToolState = (nextToolState: Partial<DrawnixToolState>) => {
     setAppState((currentAppState) => ({

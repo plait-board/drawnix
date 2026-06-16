@@ -2,10 +2,7 @@ import { PlaitPointerType } from '@plait/core';
 import { BasicShapes } from '@plait/draw';
 import { describe, expect, it, vi } from 'vitest';
 import type { DrawnixBoard } from '../hooks/use-drawnix';
-import {
-  buildToolStateSyncPlugin,
-  syncBoardPointerToToolState,
-} from './with-tool-state-sync';
+import { buildToolStateSyncPlugin, syncBoardPointerToToolState } from './with-tool-state-sync';
 
 vi.mock('@plait/core', () => ({
   PlaitPointerType: {
@@ -64,9 +61,7 @@ describe('tool state pointer sync plugin', () => {
     buildToolStateSyncPlugin(syncToolStatePointer)(board);
     board.pointerUp({} as PointerEvent);
 
-    expect(syncToolStatePointer).toHaveBeenCalledWith(
-      PlaitPointerType.selection
-    );
+    expect(syncToolStatePointer).toHaveBeenCalledWith(PlaitPointerType.selection);
   });
 
   it('skips sync when the board and tool pointers already match', () => {
