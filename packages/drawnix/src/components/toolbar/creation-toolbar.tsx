@@ -164,6 +164,18 @@ export const CreationToolbar = () => {
     ) ||
     BUTTONS.find((button) => button.key === PopupKey.freehand) ||
     BUTTONS[4];
+  const currentShapePointer = isShapeMenuPointer(toolState.pointer)
+    ? toolState.pointer
+    : toolState.lastShapePointer;
+  const currentArrowPointer = isArrowLinePointerType(toolState.pointer)
+    ? toolState.pointer
+    : toolState.lastArrowPointer;
+  const lastShapeButton = SHAPES.find(
+    (shape) => shape.pointer === currentShapePointer
+  );
+  const lastArrowButton = ARROWS.find(
+    (arrow) => arrow.pointer === currentArrowPointer
+  );
 
   const updateToolState = (nextToolState: Partial<DrawnixToolState>) => {
     setAppState((currentAppState) => ({
@@ -334,7 +346,7 @@ export const CreationToolbar = () => {
                       (isShapePointer(board) &&
                         !PlaitBoard.isPointer(board, BasicShapes.text))
                     }
-                    icon={button.icon}
+                    icon={lastShapeButton?.icon || button.icon}
                     title={button.titleKey ? t(button.titleKey) : 'Shape'}
                     aria-label={button.titleKey ? t(button.titleKey) : 'Shape'}
                     onPointerDown={() => {
@@ -383,7 +395,7 @@ export const CreationToolbar = () => {
                     type="icon"
                     visible={true}
                     selected={arrowOpen || isArrowLinePointer(board)}
-                    icon={button.icon}
+                    icon={lastArrowButton?.icon || button.icon}
                     title={button.titleKey ? t(button.titleKey) : ''}
                     aria-label={button.titleKey ? t(button.titleKey) : ''}
                     onPointerDown={() => {
