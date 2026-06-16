@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ToolButton } from '../../tool-button';
 import classNames from 'classnames';
 import { useI18n } from '../../../i18n';
@@ -7,10 +7,9 @@ import { MoreOptionsIcon } from '../../icons';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import Menu from '../../menu/menu';
 import MenuItem from '../../menu/menu-item';
-import { useState } from 'react';
+import MenuItemContentSwitch from '../../menu/menu-item-content-switch';
 import { getShortcutKey } from '../../../utils/common';
 import { canCopySelectionAs, copySelectionAsPng, copySelectionAsSvg } from '../../../utils/image';
-import { MenuItemSwitch } from '../../menu/menu-item-content';
 import { useDrawnix } from '../../../hooks/use-drawnix';
 
 export type MoreOptionsButtonProps = {
@@ -112,11 +111,13 @@ export const MoreOptionsButton: React.FC<MoreOptionsButtonProps> = ({ board }) =
                     }));
                   }}
                   className="menu-item--setting"
-                  icon={<MenuItemSwitch checked={appState.copyTransparent} />}
-                  shortcut={t('general.copyToClipboard.transparent')}
+                  role="menuitemcheckbox"
+                  aria-checked={appState.copyTransparent}
                   aria-label={t('general.copyToClipboard.transparent')}
                 >
-                  {null}
+                  <MenuItemContentSwitch checked={appState.copyTransparent}>
+                    {t('general.copyToClipboard.transparent')}
+                  </MenuItemContentSwitch>
                 </MenuItem>
               </Menu>
             }

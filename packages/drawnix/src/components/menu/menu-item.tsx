@@ -3,6 +3,12 @@ import { getMenuItemClassName, useHandleMenuItemClick } from './common';
 import MenuItemContent from './menu-item-content';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
 
+const isMenuItemContentElement = (node: React.ReactNode) => {
+  return (
+    React.isValidElement(node) && (node.type as any)?.__DRAWNIX_MENU_ITEM_CONTENT === true
+  );
+};
+
 const MenuItem = ({
   icon,
   onSelect,
@@ -15,7 +21,7 @@ const MenuItem = ({
 }: {
   icon?: React.ReactNode;
   onSelect: (event: Event) => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   shortcut?: string;
   selected?: boolean;
   className?: string;
@@ -26,11 +32,14 @@ const MenuItem = ({
   const handleClick = useHandleMenuItemClick(rest.onClick, onSelect);
   const hasSubmenu = !!submenu;
 
-  const menuItemContent = (
-    <MenuItemContent icon={icon} shortcut={shortcut} hasSubmenu={hasSubmenu}>
-      {children}
-    </MenuItemContent>
-  );
+  const menuItemContent =
+    children && isMenuItemContentElement(children) ? (
+      children
+    ) : children ? (
+      <MenuItemContent icon={icon} shortcut={shortcut} hasSubmenu={hasSubmenu}>
+        {children}
+      </MenuItemContent>
+    ) : null;
 
   const handleMouseEnter = () => {
     if (closeTimeoutRef.current) {

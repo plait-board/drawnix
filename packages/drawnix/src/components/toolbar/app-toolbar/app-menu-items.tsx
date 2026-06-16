@@ -8,11 +8,11 @@ import { saveAsPng, saveAsSvg } from '../../../utils/image';
 import { useDrawnix } from '../../../hooks/use-drawnix';
 import { useI18n } from '../../../i18n';
 import Menu from '../../menu/menu';
+import MenuItemContentSwitch from '../../menu/menu-item-content-switch';
 import { useContext } from 'react';
 import { MenuContentPropsContext } from '../../menu/common';
 import { EVENT } from '../../../constants';
 import { getShortcutKey } from '../../../utils/common';
-import { MenuItemSwitch } from '../../menu/menu-item-content';
 
 export const SaveToFile = () => {
   const board = useBoard();
@@ -152,11 +152,13 @@ export const SaveAsImage = () => {
               }));
             }}
             className="menu-item--setting"
-            icon={<MenuItemSwitch checked={appState.exportTransparent} />}
-            shortcut={t('general.copyToClipboard.transparent')}
+            role="menuitemcheckbox"
+            aria-checked={appState.exportTransparent}
             aria-label={t('general.copyToClipboard.transparent')}
           >
-            {null}
+            <MenuItemContentSwitch checked={appState.exportTransparent}>
+              {t('general.copyToClipboard.transparent')}
+            </MenuItemContentSwitch>
           </MenuItem>
         </Menu>
       }

@@ -64,7 +64,7 @@
         background-color: var(--color-surface-low);
       }
 
-      &__icon {
+      &__left {
         display: flex;
         align-items: center;
       }
@@ -77,6 +77,15 @@
         overflow: hidden;
         white-space: nowrap;
         gap: 0.75rem;
+      }
+
+      &__label {
+        font-size: 0.75rem;
+        opacity: 0.5;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-align: right;
       }
 
       &__shortcut {
