@@ -6,6 +6,7 @@ import { insertImage } from '../data/image';
 import { getBackgroundColor } from './color';
 import { TRANSPARENT } from '../constants/color';
 import type { DrawnixBoard } from '../hooks/use-drawnix';
+import { i18nInsidePlaitHook, type Translations } from '../i18n';
 
 type ClipboardImageFormat = 'svg' | 'png';
 type ExportElements = ReturnType<typeof getSelectedElements>;
@@ -13,6 +14,11 @@ type ExportElements = ReturnType<typeof getSelectedElements>;
 const CLIPBOARD_MIME_TYPES: Record<ClipboardImageFormat, string> = {
   svg: 'image/svg+xml',
   png: 'image/png',
+};
+
+const COPY_TOAST_KEYS: Record<ClipboardImageFormat, keyof Translations> = {
+  svg: 'toast.copyToClipboard.svg',
+  png: 'toast.copyToClipboard.png',
 };
 
 const hasClipboardWriteSupport = () => {
@@ -55,6 +61,23 @@ const writeBlobToClipboard = async (
     item[CLIPBOARD_MIME_TYPES.png] = fallbackPngBlob;
   }
   await navigator.clipboard.write([new ClipboardItem(item)]);
+};
+
+const showCopySuccessToast = (
+  board: PlaitBoard,
+  format: ClipboardImageFormat,
+  isTransparent: boolean
+) => {
+  const { t } = i18nInsidePlaitHook();
+  const modeKey: keyof Translations = isTransparent
+    ? 'toast.copyToClipboard.mode.transparent'
+    : 'toast.copyToClipboard.mode.light';
+
+  (board as DrawnixBoard).showToast?.({
+    type: 'success',
+    message: t(COPY_TOAST_KEYS[format]),
+    description: t(modeKey),
+  });
 };
 
 const getSvgBlob = async (board: PlaitBoard, isTransparent: boolean, elements?: ExportElements) => {
@@ -124,6 +147,7 @@ export const copySelectionAsSvg = async (board: PlaitBoard) => {
     getImageBlob(board, copyTransparent, selectedElements),
   ]);
   await writeBlobToClipboard('svg', blob, pngBlob);
+  showCopySuccessToast(board, 'svg', copyTransparent);
 };
 
 export const copySelectionAsPng = async (board: PlaitBoard) => {
@@ -139,6 +163,7 @@ export const copySelectionAsPng = async (board: PlaitBoard) => {
   // The clipboard only gets image/png. The background choice is controlled by
   // how the image is rendered before writing to the clipboard.
   await writeBlobToClipboard('png', imageBlob);
+  showCopySuccessToast(board, 'png', copyTransparent);
 };
 
 export const addImage = async (board: PlaitBoard) => {

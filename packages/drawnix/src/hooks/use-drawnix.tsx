@@ -58,7 +58,24 @@ export const mergeToolState = (toolState?: Partial<DrawnixToolState>): DrawnixTo
 
 export interface DrawnixBoard extends PlaitBoard {
   appState: DrawnixState;
+  showToast?: (toast: DrawnixToastOptions) => void;
 }
+
+export type DrawnixToastType = 'info' | 'success' | 'error';
+
+export type DrawnixToastOptions = {
+  message: string;
+  description?: string;
+  type?: DrawnixToastType;
+  duration?: number;
+};
+
+export type DrawnixToast = {
+  id: number;
+  message: string;
+  description?: string;
+  type: DrawnixToastType;
+};
 
 export type LinkState = {
   targetDom: HTMLElement;
@@ -84,11 +101,13 @@ export type DrawnixState = {
 export const DrawnixContext = createContext<{
   appState: DrawnixState;
   setAppState: Dispatch<SetStateAction<DrawnixState>>;
+  showToast: (toast: DrawnixToastOptions) => void;
 } | null>(null);
 
 export const useDrawnix = (): {
   appState: DrawnixState;
   setAppState: Dispatch<SetStateAction<DrawnixState>>;
+  showToast: (toast: DrawnixToastOptions) => void;
 } => {
   const context = useContext(DrawnixContext);
 

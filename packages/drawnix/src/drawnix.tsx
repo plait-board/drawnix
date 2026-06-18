@@ -11,7 +11,7 @@ import {
   ThemeColorMode,
   Viewport,
 } from '@plait/core';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { BoardCreationMode, setCreationMode, withGroup } from '@plait/common';
 import { withDraw } from '@plait/draw';
 import { MindThemeColors, withMind } from '@plait/mind';
@@ -32,9 +32,11 @@ import { buildPencilPlugin } from './plugins/with-pencil';
 import {
   DrawnixBoard,
   DrawnixContext,
-  DrawnixState,
   DrawnixToolState,
   mergeToolState,
+  type DrawnixState,
+  type DrawnixToast,
+  type DrawnixToastOptions,
 } from './hooks/use-drawnix';
 import { ClosePencilToolbar } from './components/toolbar/pencil-mode-toolbar';
 import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
@@ -44,6 +46,7 @@ import { LinkPopup } from './components/popup/link-popup/link-popup';
 import { I18nProvider } from './i18n';
 import { Tutorial } from './components/tutorial';
 import { LASER_POINTER_CLASS_NAME } from './utils/laser-pointer';
+import { Toast } from './components/toast/toast';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -108,9 +111,38 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   });
 
   const [board, setBoard] = useState<DrawnixBoard | null>(null);
+  const [toast, setToast] = useState<DrawnixToast | null>(null);
+  const toastIdRef = useRef(0);
+  const toastTimerRef = useRef<number | null>(null);
+
+  const showToast = useCallback((toastOptions: DrawnixToastOptions) => {
+    toastIdRef.current += 1;
+    const id = toastIdRef.current;
+    const duration = toastOptions.duration ?? 2500;
+
+    if (toastTimerRef.current) {
+      window.clearTimeout(toastTimerRef.current);
+      toastTimerRef.current = null;
+    }
+
+    setToast({
+      id,
+      message: toastOptions.message,
+      description: toastOptions.description,
+      type: toastOptions.type || 'info',
+    });
+
+    if (duration > 0) {
+      toastTimerRef.current = window.setTimeout(() => {
+        setToast((currentToast) => (currentToast?.id === id ? null : currentToast));
+        toastTimerRef.current = null;
+      }, duration);
+    }
+  }, []);
 
   if (board) {
     board.appState = appState;
+    board.showToast = showToast;
   }
 
   const hasMountedToolStateRef = useRef(false);
@@ -124,6 +156,14 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     }
     onToolStateChangeRef.current?.(appState.toolState);
   }, [appState.toolState]);
+
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current) {
+        window.clearTimeout(toastTimerRef.current);
+      }
+    };
+  }, []);
 
   const updateAppState = (newAppState: Partial<DrawnixState>) => {
     setAppState((currentAppState) => ({
@@ -164,7 +204,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
 
   return (
     <I18nProvider>
-      <DrawnixContext.Provider value={{ appState, setAppState }}>
+      <DrawnixContext.Provider value={{ appState, setAppState, showToast }}>
         <div
           className={classNames('drawnix', {
             'drawnix--mobile': appState.isMobile,
@@ -204,6 +244,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
             <ClosePencilToolbar></ClosePencilToolbar>
             <TTDDialog container={containerRef.current}></TTDDialog>
             <CleanConfirm container={containerRef.current}></CleanConfirm>
+            <Toast toast={toast}></Toast>
           </Wrapper>
           <canvas className={`${LASER_POINTER_CLASS_NAME} mouse-course-hidden`}></canvas>
         </div>

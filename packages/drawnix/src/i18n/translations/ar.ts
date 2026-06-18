@@ -78,6 +78,10 @@ const arTranslations: Translations = {
   'general.copyToClipboard.svg': 'SVG',
   'general.copyToClipboard.png': 'PNG',
   'general.copyToClipboard.transparent': 'خلفية شفافة',
+  'toast.copyToClipboard.svg': 'تم نسخ العناصر المحددة كـ SVG إلى الحافظة',
+  'toast.copyToClipboard.png': 'تم نسخ العناصر المحددة كـ PNG إلى الحافظة',
+  'toast.copyToClipboard.mode.light': '(الوضع الفاتح)',
+  'toast.copyToClipboard.mode.transparent': '(خلفية شفافة)',
 
   // Menu items
   'menu.open': 'فتح',

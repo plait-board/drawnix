@@ -1,0 +1,46 @@
+.drawnix-toast-wrapper {
+    position: absolute;
+    z-index: 2023;
+    bottom: 36px;
+    left: 50%;
+    max-width: calc(100% - 48px);
+    pointer-events: none;
+    transform: translateX(-50%);
+}
+
+.drawnix-toast {
+    min-width: 280px;
+    max-width: 560px;
+    padding: 16px 28px;
+    border: 1px solid var(--color-border-outline-variant);
+    border-radius: 12px;
+    background: var(--color-surface-lowest);
+    box-shadow: var(--shadow-island);
+    color: var(--text-primary-color);
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: center;
+    word-break: break-word;
+}
+
+.drawnix-toast__message {
+    font-weight: 500;
+}
+
+.drawnix-toast__description {
+    margin-top: 2px;
+}
+
+.drawnix--mobile {
+    .drawnix-toast-wrapper {
+        bottom: 92px;
+        max-width: calc(100% - 32px);
+    }
+
+    .drawnix-toast {
+        min-width: 0;
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+}

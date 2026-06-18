@@ -72,6 +72,10 @@ const zhTranslations: Translations = {
   'general.copyToClipboard.svg': 'SVG',
   'general.copyToClipboard.png': 'PNG',
   'general.copyToClipboard.transparent': '透明背景',
+  'toast.copyToClipboard.svg': '已将所选项作为 SVG 复制到剪贴板',
+  'toast.copyToClipboard.png': '已将所选项作为 PNG 复制到剪贴板',
+  'toast.copyToClipboard.mode.light': '（浅色模式）',
+  'toast.copyToClipboard.mode.transparent': '（透明背景）',
 
   // Language
   'language.switcher': 'Language',
