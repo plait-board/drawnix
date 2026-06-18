@@ -111,6 +111,9 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   });
 
   const [board, setBoard] = useState<DrawnixBoard | null>(null);
+  const [themeColorMode, setThemeColorMode] = useState<ThemeColorMode>(
+    theme?.themeColorMode || ThemeColorMode.default
+  );
   const [toast, setToast] = useState<DrawnixToast | null>(null);
   const toastIdRef = useRef(0);
   const toastTimerRef = useRef<number | null>(null);
@@ -165,6 +168,12 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (theme?.themeColorMode) {
+      setThemeColorMode(theme.themeColorMode);
+    }
+  }, [theme?.themeColorMode]);
+
   const updateAppState = (newAppState: Partial<DrawnixState>) => {
     setAppState((currentAppState) => ({
       ...currentAppState,
@@ -208,6 +217,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
         <div
           className={classNames('drawnix', {
             'drawnix--mobile': appState.isMobile,
+            [`theme--${themeColorMode}`]: themeColorMode,
           })}
           ref={containerRef}
         >
@@ -222,7 +232,10 @@ export const Drawnix: React.FC<DrawnixProps> = ({
             }}
             onSelectionChange={onSelectionChange}
             onViewportChange={onViewportChange}
-            onThemeChange={onThemeChange}
+            onThemeChange={(value) => {
+              setThemeColorMode(value);
+              onThemeChange?.(value);
+            }}
             onValueChange={onValueChange}
           >
             <Board

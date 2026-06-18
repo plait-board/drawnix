@@ -74,7 +74,6 @@ const viTranslations: Translations = {
   'general.copyToClipboard.transparent': 'Nền trong suốt',
   'toast.copyToClipboard.svg': 'Đã sao chép các mục đã chọn dưới dạng SVG vào bộ nhớ tạm',
   'toast.copyToClipboard.png': 'Đã sao chép các mục đã chọn dưới dạng PNG vào bộ nhớ tạm',
-  'toast.copyToClipboard.mode.light': '(Chế độ sáng)',
   'toast.copyToClipboard.mode.transparent': '(Nền trong suốt)',
   // Language
   'language.switcher': 'Ngôn ngữ',

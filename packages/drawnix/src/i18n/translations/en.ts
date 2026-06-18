@@ -73,7 +73,6 @@ const enTranslations: Translations = {
   'general.copyToClipboard.transparent': 'Transparent',
   'toast.copyToClipboard.svg': 'Copied selected items as SVG to clipboard',
   'toast.copyToClipboard.png': 'Copied selected items as PNG to clipboard',
-  'toast.copyToClipboard.mode.light': '(Light mode)',
   'toast.copyToClipboard.mode.transparent': '(Transparent background)',
   // Language
   'language.switcher': 'Language',

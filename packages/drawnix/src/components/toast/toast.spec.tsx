@@ -9,14 +9,30 @@ describe('Toast', () => {
     expect(container.textContent).toBe('');
   });
 
-  it('renders toast message and description', () => {
+  it('renders toast message without requiring a description', () => {
     render(
       <Toast
         toast={{
           id: 1,
           type: 'success',
           message: 'Copied selected items as PNG to clipboard',
-          description: '(Light mode)',
+        }}
+      />
+    );
+
+    expect(screen.getByRole('status').textContent).toBe(
+      'Copied selected items as PNG to clipboard'
+    );
+  });
+
+  it('renders optional toast description', () => {
+    render(
+      <Toast
+        toast={{
+          id: 2,
+          type: 'success',
+          message: 'Copied selected items as PNG to clipboard',
+          description: '(Transparent background)',
         }}
       />
     );
@@ -24,6 +40,6 @@ describe('Toast', () => {
     expect(screen.getByRole('status').textContent).toContain(
       'Copied selected items as PNG to clipboard'
     );
-    expect(screen.getByText('(Light mode)')).toBeTruthy();
+    expect(screen.getByText('(Transparent background)')).toBeTruthy();
   });
 });

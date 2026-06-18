@@ -3,32 +3,76 @@
     z-index: 2023;
     bottom: 36px;
     left: 50%;
-    max-width: calc(100% - 48px);
+    max-width: calc(100% - 32px);
     pointer-events: none;
     transform: translateX(-50%);
 }
 
 .drawnix-toast {
-    min-width: 280px;
-    max-width: 560px;
-    padding: 16px 28px;
-    border: 1px solid var(--color-border-outline-variant);
-    border-radius: 12px;
-    background: var(--color-surface-lowest);
-    box-shadow: var(--shadow-island);
-    color: var(--text-primary-color);
-    font-size: 16px;
-    line-height: 1.6;
+    min-width: 220px;
+    max-width: min(420px, calc(100vw - 32px));
+    box-sizing: border-box;
+    padding: 10px 16px;
+    border: 1px solid var(--toast-border-color, var(--island-border-color));
+    border-radius: var(--border-radius-md);
+    background: var(--toast-bg-color, var(--island-bg-color));
+    box-shadow: var(--toast-shadow, var(--shadow-island));
+    color: var(--toast-text-color, var(--color-gray-90));
+    font-size: 14px;
+    line-height: 1.5;
     text-align: center;
     word-break: break-word;
 }
 
 .drawnix-toast__message {
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .drawnix-toast__description {
-    margin-top: 2px;
+    margin-top: 1px;
+    color: var(--toast-description-color, var(--color-on-surface));
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.drawnix {
+    &.theme--default,
+    &.theme--colorful {
+        --toast-bg-color: var(--island-bg-color);
+        --toast-border-color: var(--island-border-color);
+        --toast-text-color: var(--color-gray-90);
+        --toast-description-color: var(--color-gray-70);
+    }
+
+    &.theme--soft {
+        --toast-bg-color: #ffffff;
+        --toast-border-color: var(--color-gray-20);
+        --toast-text-color: var(--color-gray-90);
+        --toast-description-color: var(--color-gray-70);
+    }
+
+    &.theme--retro {
+        --toast-bg-color: #fffdf2;
+        --toast-border-color: #e4dfc6;
+        --toast-text-color: #4f4a34;
+        --toast-description-color: #77704f;
+    }
+
+    &.theme--dark {
+        --toast-bg-color: var(--color-gray-85);
+        --toast-border-color: var(--color-gray-80);
+        --toast-text-color: var(--color-gray-10);
+        --toast-description-color: var(--color-gray-30);
+        --toast-shadow: 0 8px 24px #00000040;
+    }
+
+    &.theme--starry {
+        --toast-bg-color: #153047;
+        --toast-border-color: #284b66;
+        --toast-text-color: #f5fbff;
+        --toast-description-color: #c8d9e6;
+        --toast-shadow: 0 8px 24px #00111f66;
+    }
 }
 
 .drawnix--mobile {
@@ -40,7 +84,7 @@
     .drawnix-toast {
         min-width: 0;
         width: 100%;
-        padding: 12px 16px;
-        font-size: 14px;
+        padding: 9px 14px;
+        font-size: 13px;
     }
 }

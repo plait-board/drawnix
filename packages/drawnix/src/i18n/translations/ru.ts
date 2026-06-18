@@ -74,7 +74,6 @@ const ruTranslations: Translations = {
   'general.copyToClipboard.transparent': 'Прозрачный фон',
   'toast.copyToClipboard.svg': 'Выбранные элементы скопированы в буфер обмена как SVG',
   'toast.copyToClipboard.png': 'Выбранные элементы скопированы в буфер обмена как PNG',
-  'toast.copyToClipboard.mode.light': '(Светлый режим)',
   'toast.copyToClipboard.mode.transparent': '(Прозрачный фон)',
   // Language
   'language.switcher': 'Language',

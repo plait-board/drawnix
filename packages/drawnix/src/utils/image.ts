@@ -69,14 +69,11 @@ const showCopySuccessToast = (
   isTransparent: boolean
 ) => {
   const { t } = i18nInsidePlaitHook();
-  const modeKey: keyof Translations = isTransparent
-    ? 'toast.copyToClipboard.mode.transparent'
-    : 'toast.copyToClipboard.mode.light';
 
   (board as DrawnixBoard).showToast?.({
     type: 'success',
     message: t(COPY_TOAST_KEYS[format]),
-    description: t(modeKey),
+    description: isTransparent ? t('toast.copyToClipboard.mode.transparent') : undefined,
   });
 };
 
