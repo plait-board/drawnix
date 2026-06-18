@@ -15,6 +15,9 @@ const CLIPBOARD_MIME_TYPES: Record<ClipboardImageFormat, string> = {
   png: 'image/png',
 };
 
+const EXPORT_INLINE_STYLE_SELECTOR =
+  '.plait-text-container,[data-slate-node="text"],[data-slate-leaf]';
+
 const hasClipboardWriteSupport = () => {
   // Keep the ClipboardItem check local until the shared helper also covers it.
   return (
@@ -65,8 +68,8 @@ const getSvgBlob = async (board: PlaitBoard, isTransparent: boolean, elements?: 
     padding: 20,
     ratio: 4,
     elements,
-    inlineStyleClassNames: '.plait-text-container',
-    styleNames: ['position'],
+    inlineStyleClassNames: EXPORT_INLINE_STYLE_SELECTOR,
+    styleNames: ['position', 'color'],
   });
   return new Blob([svgData], { type: CLIPBOARD_MIME_TYPES.svg });
 };

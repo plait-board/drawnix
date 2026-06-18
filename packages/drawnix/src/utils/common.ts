@@ -45,7 +45,8 @@ export const base64ToBlob = (base64: string) => {
 export const boardToImage = (board: PlaitBoard, options: ToImageOptions = {}) => {
   return toImage(board, {
     fillStyle: 'transparent',
-    inlineStyleClassNames: '.extend,.emojis,.text',
+    inlineStyleClassNames: '.extend,.emojis,.text,[data-slate-node="text"],[data-slate-leaf]',
+    styleNames: ['color'],
     padding: 20,
     ratio: 4,
     ...options,
