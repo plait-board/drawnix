@@ -1,10 +1,25 @@
 import classNames from 'classnames';
 import { FloatingPortal } from '@floating-ui/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { DrawnixToast, DrawnixToastOptions } from '../../hooks/use-drawnix';
 import './toast.scss';
 
 export const DEFAULT_TOAST_DURATION = 4000;
+
+export type DrawnixToastType = 'info' | 'success' | 'error';
+
+export type DrawnixToastOptions = {
+  message: string;
+  description?: string;
+  type?: DrawnixToastType;
+  duration?: number;
+};
+
+export type DrawnixToast = {
+  id: number;
+  message: string;
+  description?: string;
+  type: DrawnixToastType;
+};
 
 export const useToast = () => {
   const [toast, setToast] = useState<DrawnixToast | null>(null);

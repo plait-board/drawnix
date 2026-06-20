@@ -11,6 +11,7 @@ import { Editor } from 'slate';
 import { LinkElement } from '@plait/common';
 import { DEFAULT_FREEHAND_PRESETS, FreehandDrawOptions } from '../plugins/freehand/presets';
 import { DrawnixFileHandle } from '../data/json';
+import type { DrawnixToastOptions } from '../components/toast/toast';
 
 export enum DialogType {
   mermaidToDrawnix = 'mermaidToDrawnix',
@@ -60,22 +61,6 @@ export interface DrawnixBoard extends PlaitBoard {
   appState: DrawnixState;
   showToast?: (toast: DrawnixToastOptions) => void;
 }
-
-export type DrawnixToastType = 'info' | 'success' | 'error';
-
-export type DrawnixToastOptions = {
-  message: string;
-  description?: string;
-  type?: DrawnixToastType;
-  duration?: number;
-};
-
-export type DrawnixToast = {
-  id: number;
-  message: string;
-  description?: string;
-  type: DrawnixToastType;
-};
 
 export type LinkState = {
   targetDom: HTMLElement;
