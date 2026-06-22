@@ -63,7 +63,10 @@ export type DrawnixProps = {
   onViewportChange?: (value: Viewport) => void;
   onThemeChange?: (value: ThemeColorMode) => void;
   onToolStateChange?: (toolState: DrawnixToolState) => void;
-  onPreferenceChange?: (preference: { copyTransparent: boolean; exportTransparent: boolean }) => void;
+  onPreferenceChange?: (preference: {
+    copyTransparent: boolean;
+    exportTransparent: boolean;
+  }) => void;
   onLanguageChange?: (language: Language) => void;
   afterInit?: (board: PlaitBoard) => void;
   tutorial?: boolean;

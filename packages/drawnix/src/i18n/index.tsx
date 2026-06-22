@@ -38,10 +38,13 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({
     return initial;
   });
 
-  const setLanguage = useCallback((newLanguage: Language) => {
-    setLanguageState(newLanguage);
-    onLanguageChange?.(newLanguage);
-  }, [onLanguageChange]);
+  const setLanguage = useCallback(
+    (newLanguage: Language) => {
+      setLanguageState(newLanguage);
+      onLanguageChange?.(newLanguage);
+    },
+    [onLanguageChange]
+  );
 
   const t = useCallback(
     (key: keyof Translations): string => {
