@@ -27,7 +27,7 @@ export const withCommonPlugin = (board: PlaitBoard) => {
     return ref;
   };
 
-  const { t } = i18nInsidePlaitHook();
+  const { t } = i18nInsidePlaitHook(board);
 
   newBoard.getI18nValue = (key: string) => {
     if (key === DrawI18nKey.lineText) {

@@ -68,7 +68,7 @@ const showCopySuccessToast = (
   format: ClipboardImageFormat,
   isTransparent: boolean
 ) => {
-  const { t } = i18nInsidePlaitHook();
+  const { t } = i18nInsidePlaitHook(board);
 
   (board as DrawnixBoard).showToast?.({
     type: 'success',

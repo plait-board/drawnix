@@ -41,7 +41,8 @@ import { TTDDialog } from './components/ttd-dialog/ttd-dialog';
 import { CleanConfirm } from './components/clean-confirm/clean-confirm';
 import { buildTextLinkPlugin } from './plugins/with-text-link';
 import { LinkPopup } from './components/popup/link-popup/link-popup';
-import { I18nProvider } from './i18n';
+import { I18nProvider, setBoardLanguage } from './i18n';
+import type { Language } from './i18n/types';
 import { Tutorial } from './components/tutorial';
 import { LASER_POINTER_CLASS_NAME } from './utils/laser-pointer';
 import { Toast, useToast } from './components/toast/toast';
@@ -51,12 +52,19 @@ export type DrawnixProps = {
   viewport?: Viewport;
   theme?: PlaitTheme;
   initialToolState?: Partial<DrawnixToolState>;
+  initialPreference?: {
+    copyTransparent?: boolean;
+    exportTransparent?: boolean;
+  };
+  initialLanguage?: Language;
   onChange?: (value: BoardChangeData) => void;
   onSelectionChange?: (selection: Selection | null) => void;
   onValueChange?: (value: PlaitElement[]) => void;
   onViewportChange?: (value: Viewport) => void;
   onThemeChange?: (value: ThemeColorMode) => void;
   onToolStateChange?: (toolState: DrawnixToolState) => void;
+  onPreferenceChange?: (preference: { copyTransparent: boolean; exportTransparent: boolean }) => void;
+  onLanguageChange?: (language: Language) => void;
   afterInit?: (board: PlaitBoard) => void;
   tutorial?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
@@ -78,12 +86,16 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   viewport,
   theme,
   initialToolState,
+  initialPreference,
+  initialLanguage,
   onChange,
   onSelectionChange,
   onViewportChange,
   onThemeChange,
   onValueChange,
   onToolStateChange,
+  onPreferenceChange,
+  onLanguageChange,
   afterInit,
   tutorial = false,
 }) => {
@@ -103,8 +115,8 @@ export const Drawnix: React.FC<DrawnixProps> = ({
       fileHandle: null,
       openDialogType: null,
       openCleanConfirm: false,
-      copyTransparent: false,
-      exportTransparent: false,
+      copyTransparent: initialPreference?.copyTransparent ?? false,
+      exportTransparent: initialPreference?.exportTransparent ?? false,
     };
   });
 
@@ -113,11 +125,19 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     theme?.themeColorMode || ThemeColorMode.default
   );
   const { toast, showToast } = useToast();
+  const lastKnownLanguageRef = useRef<Language>(initialLanguage ?? 'zh');
 
   if (board) {
     board.appState = appState;
     board.showToast = showToast;
   }
+
+  useEffect(() => {
+    if (!board) {
+      return;
+    }
+    setBoardLanguage(board, lastKnownLanguageRef.current);
+  }, [board]);
 
   const hasMountedToolStateRef = useRef(false);
   const onToolStateChangeRef = useRef(onToolStateChange);
@@ -130,6 +150,21 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     }
     onToolStateChangeRef.current?.(appState.toolState);
   }, [appState.toolState]);
+
+  const hasMountedPreferenceRef = useRef(false);
+  const onPreferenceChangeRef = useRef(onPreferenceChange);
+  onPreferenceChangeRef.current = onPreferenceChange;
+
+  useEffect(() => {
+    if (!hasMountedPreferenceRef.current) {
+      hasMountedPreferenceRef.current = true;
+      return;
+    }
+    onPreferenceChangeRef.current?.({
+      copyTransparent: appState.copyTransparent,
+      exportTransparent: appState.exportTransparent,
+    });
+  }, [appState.copyTransparent, appState.exportTransparent]);
 
   useEffect(() => {
     if (theme?.themeColorMode) {
@@ -175,7 +210,16 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
-    <I18nProvider>
+    <I18nProvider
+      initialLanguage={initialLanguage}
+      onLanguageChange={(language) => {
+        lastKnownLanguageRef.current = language;
+        if (board) {
+          setBoardLanguage(board, language);
+        }
+        onLanguageChange?.(language);
+      }}
+    >
       <DrawnixContext.Provider value={{ appState, setAppState, showToast }}>
         <div
           className={classNames('drawnix', {

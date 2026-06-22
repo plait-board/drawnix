@@ -182,4 +182,6 @@ export interface I18nContextType {
 export interface I18nProviderProps {
   children: ReactNode;
   defaultLanguage?: Language;
+  initialLanguage?: Language;
+  onLanguageChange?: (language: Language) => void;
 }
