@@ -76,12 +76,17 @@ export const useI18n = (): I18nContextType => {
 };
 
 export const i18nInsidePlaitHook = (board?: object | null) => {
-  const resolvedLanguage = (board ? boardLanguageMap.get(board) : undefined) ?? DEFAULT_LANGUAGE;
+  const resolveLanguage = () => {
+    return (board ? boardLanguageMap.get(board) : undefined) ?? DEFAULT_LANGUAGE;
+  };
   const i18n = {
     t: (key: keyof Translations): string => {
+      const resolvedLanguage = resolveLanguage();
       return translations[resolvedLanguage][key] || key;
     },
-    language: resolvedLanguage,
+    get language(): Language {
+      return resolveLanguage();
+    },
   };
 
   return i18n;
