@@ -24,4 +24,3 @@ describe('i18nInsidePlaitHook', () => {
     expect(t('general.delete')).toBe('Delete');
   });
 });
-
