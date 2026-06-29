@@ -104,7 +104,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
 }) => {
   const options: PlaitBoardOptions = {
     readonly: false,
-    hideScrollbar: false,
+    hideScrollbar: true,
     disabledScrollOnNonFocus: false,
     themeColors: MindThemeColors,
   };
