@@ -27,7 +27,7 @@ vi.mock('../../../plugins/freehand/utils', () => ({
 
 vi.mock('../../../plugins/freehand/type', () => ({
   FREEHAND_STROKE_WIDTH_STEP: 0.25,
-  MAX_FREEHAND_STROKE_WIDTH: 12,
+  MAX_FREEHAND_STROKE_WIDTH: 24,
   MIN_FREEHAND_STROKE_WIDTH: 1,
 }));
 
@@ -95,17 +95,18 @@ describe('getFreehandPreviewRadius', () => {
   });
 
   it('maps the maximum stroke width to the maximum preview radius', () => {
-    expect(getFreehandPreviewRadius(12)).toBeCloseTo(5.5);
+    expect(getFreehandPreviewRadius(24)).toBeCloseTo(5.5);
   });
 
   it('clamps out-of-range stroke widths', () => {
     expect(getFreehandPreviewRadius(0)).toBeCloseTo(2);
-    expect(getFreehandPreviewRadius(20)).toBeCloseTo(5.5);
+    expect(getFreehandPreviewRadius(32)).toBeCloseTo(5.5);
   });
 
   it('increases monotonically across the supported stroke-width range', () => {
     expect(getFreehandPreviewRadius(3)).toBeLessThan(getFreehandPreviewRadius(6));
-    expect(getFreehandPreviewRadius(6)).toBeLessThan(getFreehandPreviewRadius(9));
+    expect(getFreehandPreviewRadius(6)).toBeLessThan(getFreehandPreviewRadius(12));
+    expect(getFreehandPreviewRadius(12)).toBeLessThan(getFreehandPreviewRadius(18));
   });
 });
 
@@ -146,7 +147,7 @@ describe('FreehandStylePresetItem', () => {
           preset: {
             id: 'preset-1',
             color: '#FF4500',
-            size: 12,
+            size: 24,
           },
         })}
       />
@@ -157,7 +158,7 @@ describe('FreehandStylePresetItem', () => {
     expect(nextFill?.getAttribute('cx')).toBe(initialCenterX);
     expect(nextFill?.getAttribute('cy')).toBe(initialCenterY);
     expect(nextFill?.getAttribute('r')).not.toBe(initialRadius);
-    expect(nextFill?.getAttribute('r')).toBe(`${getFreehandPreviewRadius(12)}`);
+    expect(nextFill?.getAttribute('r')).toBe(`${getFreehandPreviewRadius(24)}`);
   });
 
   it('renders a dedicated white contrast structure without the standard color ring', () => {
