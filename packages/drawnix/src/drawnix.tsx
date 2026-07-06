@@ -1,12 +1,12 @@
 import { Board, BoardChangeData, Wrapper } from '@plait-board/react-board';
 import {
+  BoardTransforms,
   PlaitBoard,
   PlaitBoardOptions,
   PlaitElement,
   PlaitPlugin,
   PlaitPointerType,
   PlaitTheme,
-  BoardTransforms,
   Selection,
   ThemeColorMode,
   Viewport,
@@ -46,6 +46,7 @@ import type { Language } from './i18n/types';
 import { Tutorial } from './components/tutorial';
 import { LASER_POINTER_CLASS_NAME } from './utils/laser-pointer';
 import { Toast, useToast } from './components/toast/toast';
+import { withHandSelectionBounding } from './plugins/with-hand-selection-bounding';
 
 export type DrawnixProps = {
   value: PlaitElement[];
@@ -208,6 +209,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     buildPencilPlugin(updateAppState),
     buildTextLinkPlugin(updateAppState),
     buildToolStateSyncPlugin(syncBoardPointerToToolState),
+    withHandSelectionBounding,
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
