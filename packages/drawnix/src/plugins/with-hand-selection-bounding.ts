@@ -4,9 +4,11 @@ import {
   PlaitOperation,
   PlaitPointerType,
   SELECTION_RECTANGLE_BOUNDING_CLASS_NAME,
+  updateViewportContainerScroll,
 } from '@plait/core';
 
 export const HAND_SELECTION_BOUNDING_CLASS_NAME = 'drawnix-hand-selection-bounding';
+const VIEWPORT_MOVING_CLASS_NAME = 'viewport-moving';
 
 export const clearHandSelectionBounding = (board: PlaitBoard) => {
   const activeHost = PlaitBoard.getActiveHost(board);
@@ -31,7 +33,26 @@ export const refreshSelectionBounding = (board: PlaitBoard) => {
 };
 
 export const withHandSelectionBounding = (board: PlaitBoard) => {
-  const { afterChange, onChange, pointerDown } = board;
+  const { afterChange, onChange, pointerDown, pointerMove, pointerUp, globalPointerUp } = board;
+  let temporaryViewportMovingPoint: { x: number; y: number } | null = null;
+
+  const isTemporaryViewportMove = () => {
+    return (
+      board.pointer !== PlaitPointerType.hand &&
+      PlaitBoard.getBoardContainer(board).classList.contains(VIEWPORT_MOVING_CLASS_NAME)
+    );
+  };
+
+  const moveTemporaryViewport = (event: PointerEvent) => {
+    if (!temporaryViewportMovingPoint) {
+      return;
+    }
+    const viewportContainer = PlaitBoard.getViewportContainer(board);
+    const left = viewportContainer.scrollLeft - (event.x - temporaryViewportMovingPoint.x);
+    const top = viewportContainer.scrollTop - (event.y - temporaryViewportMovingPoint.y);
+    updateViewportContainerScroll(board, left, top, false);
+    temporaryViewportMovingPoint = { x: event.x, y: event.y };
+  };
 
   const clearIfNotHand = () => {
     if (board.pointer !== PlaitPointerType.hand) {
@@ -41,7 +62,43 @@ export const withHandSelectionBounding = (board: PlaitBoard) => {
 
   board.pointerDown = (event) => {
     clearIfNotHand();
+    if (isTemporaryViewportMove()) {
+      temporaryViewportMovingPoint = { x: event.x, y: event.y };
+      event.preventDefault();
+      return;
+    }
     pointerDown(event);
+  };
+
+  board.pointerMove = (event) => {
+    if (temporaryViewportMovingPoint) {
+      if (isTemporaryViewportMove()) {
+        moveTemporaryViewport(event);
+        event.preventDefault();
+      } else {
+        temporaryViewportMovingPoint = null;
+      }
+      return;
+    }
+    pointerMove(event);
+  };
+
+  board.pointerUp = (event) => {
+    if (temporaryViewportMovingPoint) {
+      temporaryViewportMovingPoint = null;
+      event.preventDefault();
+      return;
+    }
+    pointerUp(event);
+  };
+
+  board.globalPointerUp = (event) => {
+    if (temporaryViewportMovingPoint) {
+      temporaryViewportMovingPoint = null;
+      event.preventDefault();
+      return;
+    }
+    globalPointerUp(event);
   };
 
   board.onChange = () => {

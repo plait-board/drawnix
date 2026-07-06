@@ -10,15 +10,22 @@ import type { PlaitBoard } from '@plait/core';
 
 const mocks = vi.hoisted(() => ({
   activeHost: undefined as SVGGElement | undefined,
+  boardContainer: undefined as HTMLDivElement | undefined,
+  viewportContainer: undefined as HTMLDivElement | undefined,
   getActiveHost: vi.fn(),
+  getBoardContainer: vi.fn(),
+  getViewportContainer: vi.fn(),
   getSelectedElements: vi.fn(),
   isSetViewportOperation: vi.fn(),
+  updateViewportContainerScroll: vi.fn(),
 }));
 
 vi.mock('@plait/core', () => ({
   getSelectedElements: mocks.getSelectedElements,
   PlaitBoard: {
     getActiveHost: mocks.getActiveHost,
+    getBoardContainer: mocks.getBoardContainer,
+    getViewportContainer: mocks.getViewportContainer,
   },
   PlaitOperation: {
     isSetViewportOperation: mocks.isSetViewportOperation,
@@ -28,6 +35,7 @@ vi.mock('@plait/core', () => ({
     selection: 'selection',
   },
   SELECTION_RECTANGLE_BOUNDING_CLASS_NAME: 'selection-rectangle-bounding',
+  updateViewportContainerScroll: mocks.updateViewportContainerScroll,
 }));
 
 const createSvgG = (className?: string) => {
@@ -45,9 +53,19 @@ const createBoard = (overrides: Partial<PlaitBoard> = {}) =>
     afterChange: vi.fn(),
     onChange: vi.fn(),
     pointerDown: vi.fn(),
+    pointerMove: vi.fn(),
+    pointerUp: vi.fn(),
+    globalPointerUp: vi.fn(),
     drawSelectionRectangle: vi.fn(() => createSvgG('selection-rectangle-bounding')),
     ...overrides,
   }) as unknown as PlaitBoard;
+
+const createPointerEvent = (x = 0, y = 0) =>
+  ({
+    x,
+    y,
+    preventDefault: vi.fn(),
+  }) as unknown as PointerEvent & { preventDefault: ReturnType<typeof vi.fn> };
 
 describe('clearHandSelectionBounding', () => {
   beforeEach(() => {
@@ -108,8 +126,15 @@ describe('refreshSelectionBounding', () => {
 describe('withHandSelectionBounding', () => {
   beforeEach(() => {
     mocks.activeHost = createSvgG();
+    mocks.boardContainer = document.createElement('div');
+    mocks.viewportContainer = document.createElement('div');
+    mocks.viewportContainer.scrollLeft = 200;
+    mocks.viewportContainer.scrollTop = 100;
     mocks.getActiveHost.mockReturnValue(mocks.activeHost);
+    mocks.getBoardContainer.mockReturnValue(mocks.boardContainer);
+    mocks.getViewportContainer.mockReturnValue(mocks.viewportContainer);
     mocks.getSelectedElements.mockReturnValue([{ id: 'a' }, { id: 'b' }]);
+    mocks.updateViewportContainerScroll.mockReset();
     mocks.isSetViewportOperation.mockImplementation(
       (operation) => operation.type === 'set_viewport'
     );
@@ -169,5 +194,47 @@ describe('withHandSelectionBounding', () => {
     board.afterChange();
 
     expect(board.drawSelectionRectangle).not.toHaveBeenCalled();
+  });
+
+  it('pans viewport directly during temporary viewport moving', () => {
+    mocks.boardContainer?.classList.add('viewport-moving');
+    const board = createBoard({
+      pointer: PlaitPointerType.selection,
+    });
+    const originalPointerDown = board.pointerDown;
+    const originalPointerMove = board.pointerMove;
+    const originalPointerUp = board.pointerUp;
+    const pointerDownEvent = createPointerEvent(100, 50);
+    const pointerMoveEvent = createPointerEvent(120, 60);
+    const pointerUpEvent = createPointerEvent(120, 60);
+
+    withHandSelectionBounding(board);
+    board.pointerDown(pointerDownEvent);
+    board.pointerMove(pointerMoveEvent);
+    board.pointerUp(pointerUpEvent);
+
+    expect(originalPointerDown).not.toHaveBeenCalled();
+    expect(originalPointerMove).not.toHaveBeenCalled();
+    expect(originalPointerUp).not.toHaveBeenCalled();
+    expect(mocks.updateViewportContainerScroll).toHaveBeenCalledWith(board, 180, 90, false);
+    expect(pointerDownEvent.preventDefault).toHaveBeenCalled();
+    expect(pointerMoveEvent.preventDefault).toHaveBeenCalled();
+    expect(pointerUpEvent.preventDefault).toHaveBeenCalled();
+  });
+
+  it('passes pointer events through when the board is not temporary viewport moving', () => {
+    const board = createBoard({
+      pointer: PlaitPointerType.selection,
+    });
+    const originalPointerDown = board.pointerDown;
+    const originalPointerMove = board.pointerMove;
+
+    withHandSelectionBounding(board);
+    board.pointerDown(createPointerEvent());
+    board.pointerMove(createPointerEvent());
+
+    expect(originalPointerDown).toHaveBeenCalled();
+    expect(originalPointerMove).toHaveBeenCalled();
+    expect(mocks.updateViewportContainerScroll).not.toHaveBeenCalled();
   });
 });
