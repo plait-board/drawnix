@@ -7,7 +7,7 @@ import {
   toViewBoxPoint,
 } from '@plait/core';
 import { isDrawingMode } from '@plait/common';
-import { isHitFreehand } from './utils';
+import { isHitFreehand, isPrimaryPointerButton } from './utils';
 import { Freehand, FreehandShape } from './type';
 import { CoreTransforms } from '@plait/core';
 import { LaserPointer } from '../../utils/laser-pointer';
@@ -66,7 +66,7 @@ export const withFreehandErase = (board: PlaitBoard) => {
   board.pointerDown = (event: PointerEvent) => {
     const isEraserPointer = PlaitBoard.isInPointer(board, [FreehandShape.eraser]);
 
-    if (isEraserPointer && isDrawingMode(board)) {
+    if (isEraserPointer && isDrawingMode(board) && isPrimaryPointerButton(event)) {
       isErasing = true;
       elementsToDelete.clear();
       const currentPoint: Point = [event.x, event.y];
