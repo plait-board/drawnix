@@ -40,6 +40,7 @@ vi.mock('@plait/core', () => ({
   },
   distanceBetweenPointAndPoint: (x1: number, y1: number, x2: number, y2: number) =>
     Math.hypot(x2 - x1, y2 - y1),
+  isMainPointer: (event: MouseEvent) => event.button === 0,
   throttleRAF: (_board: unknown, _key: string, callback: () => void) => callback(),
   toHostPoint: (_board: unknown, x: number, y: number) => [x, y],
   toViewBoxPoint: (_board: unknown, point: [number, number]) => point,

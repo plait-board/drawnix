@@ -35,10 +35,6 @@ export function getFreehandPointers() {
   return [FreehandShape.feltTipPen, FreehandShape.eraser];
 }
 
-export const isPrimaryPointerButton = (event: PointerEvent) => {
-  return event.button === 0;
-};
-
 export const getFreehandDrawOptions = (board: PlaitBoard) => {
   const appState = (board as PlaitBoard & { appState?: FreehandAppState }).appState;
   const activePresetIndex = appState?.toolState?.activeFreehandPresetIndex || 0;

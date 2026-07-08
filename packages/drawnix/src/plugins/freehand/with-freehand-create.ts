@@ -3,16 +3,12 @@ import {
   Point,
   Transforms,
   distanceBetweenPointAndPoint,
+  isMainPointer,
   toHostPoint,
   toViewBoxPoint,
 } from '@plait/core';
 import { isDrawingMode } from '@plait/common';
-import {
-  createFreehandElement,
-  getFreehandDrawOptions,
-  getFreehandPointers,
-  isPrimaryPointerButton,
-} from './utils';
+import { createFreehandElement, getFreehandDrawOptions, getFreehandPointers } from './utils';
 import { Freehand, FreehandShape } from './type';
 import { FreehandGenerator } from './freehand.generator';
 import { FreehandSmoother } from './smoother';
@@ -69,7 +65,7 @@ export const withFreehandCreate = (board: PlaitBoard) => {
   board.pointerDown = (event: PointerEvent) => {
     const freehandPointers = getFreehandPointers();
     const isFreehandPointer = PlaitBoard.isInPointer(board, freehandPointers);
-    if (isFreehandPointer && isDrawingMode(board) && isPrimaryPointerButton(event)) {
+    if (isFreehandPointer && isDrawingMode(board) && isMainPointer(event)) {
       isDrawing = true;
       originScreenPoint = [event.x, event.y];
       const smoothingPoint = smoother.process(originScreenPoint) as Point;
