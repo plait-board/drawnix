@@ -24,5 +24,16 @@ describe('boardToImage', () => {
         inlineStyleClassNames: expect.stringContaining('.slate-editable-container'),
       })
     );
+    expect(toImage).toHaveBeenCalledWith(
+      {},
+      expect.objectContaining({
+        styleNames: expect.arrayContaining([
+          'white-space',
+          'overflow-wrap',
+          'line-height',
+          'min-height',
+        ]),
+      })
+    );
   });
 });

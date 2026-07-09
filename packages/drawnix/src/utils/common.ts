@@ -46,6 +46,18 @@ export const boardToImage = (board: PlaitBoard, options: ToImageOptions = {}) =>
   return toImage(board, {
     fillStyle: 'transparent',
     inlineStyleClassNames: '.extend,.emojis,.text,.plait-text-container,.slate-editable-container',
+    styleNames: [
+      'position',
+      'display',
+      'white-space',
+      'overflow-wrap',
+      'word-break',
+      'line-height',
+      'min-height',
+      'padding-top',
+      'padding-bottom',
+      'box-sizing',
+    ],
     padding: 20,
     ratio: 4,
     ...options,
