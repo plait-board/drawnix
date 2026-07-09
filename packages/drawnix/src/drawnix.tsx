@@ -47,6 +47,14 @@ import { Tutorial } from './components/tutorial';
 import { LASER_POINTER_CLASS_NAME } from './utils/laser-pointer';
 import { Toast, useToast } from './components/toast/toast';
 
+export type DrawnixAppMenuItem = {
+  key: string;
+  label: string;
+  icon?: React.ReactNode;
+  disabled?: boolean;
+  onSelect: () => void | Promise<void>;
+};
+
 export type DrawnixProps = {
   value: PlaitElement[];
   viewport?: Viewport;
@@ -69,6 +77,7 @@ export type DrawnixProps = {
   }) => void;
   onLanguageChange?: (language: Language) => void;
   afterInit?: (board: PlaitBoard) => void;
+  appMenuItems?: DrawnixAppMenuItem[];
   tutorial?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
@@ -100,6 +109,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
   onPreferenceChange,
   onLanguageChange,
   afterInit,
+  appMenuItems,
   tutorial = false,
 }) => {
   const options: PlaitBoardOptions = {
@@ -258,7 +268,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
             >
               {tutorial && board && <Tutorial />}
             </Board>
-            <AppToolbar></AppToolbar>
+            <AppToolbar appMenuItems={appMenuItems}></AppToolbar>
             <CreationToolbar></CreationToolbar>
             <ZoomToolbar></ZoomToolbar>
             <ThemeToolbar></ThemeToolbar>

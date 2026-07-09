@@ -15,6 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import { useState } from 'react';
 import {
   CleanBoard,
+  CustomAppMenuItem,
   OpenFile,
   SaveAsFile,
   SaveAsImage,
@@ -25,8 +26,9 @@ import { LanguageSwitcherMenu } from './language-switcher-menu';
 import Menu from '../../menu/menu';
 import MenuSeparator from '../../menu/menu-separator';
 import { useI18n } from '../../../i18n';
+import { DrawnixAppMenuItem } from '../../../drawnix';
 
-export const AppToolbar = () => {
+export const AppToolbar = ({ appMenuItems }: { appMenuItems?: DrawnixAppMenuItem[] }) => {
   const board = useBoard();
   const { t } = useI18n();
   const container = PlaitBoard.getBoardContainer(board);
@@ -68,6 +70,9 @@ export const AppToolbar = () => {
               <OpenFile></OpenFile>
               <SaveToFile></SaveToFile>
               <SaveAsFile></SaveAsFile>
+              {appMenuItems?.map((item) => (
+                <CustomAppMenuItem key={item.key} item={item}></CustomAppMenuItem>
+              ))}
               <SaveAsImage></SaveAsImage>
               <CleanBoard></CleanBoard>
               <MenuSeparator />

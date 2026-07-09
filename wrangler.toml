@@ -1,0 +1,13 @@
+name = "drawnix"
+compatibility_date = "2026-07-09"
+pages_build_output_dir = "dist/apps/web"
+
+[[d1_databases]]
+binding = "DRAWNIX_DB"
+database_name = "drawnix"
+database_id = "acc0dd77-8773-42be-ad66-a91c2dd3e132"
+
+[[r2_buckets]]
+binding = "DRAWNIX_BUCKET"
+bucket_name = "drawnix"
+

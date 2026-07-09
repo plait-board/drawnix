@@ -13,6 +13,24 @@ import { useContext } from 'react';
 import { MenuContentPropsContext } from '../../menu/common';
 import { EVENT } from '../../../constants';
 import { getShortcutKey } from '../../../utils/common';
+import { DrawnixAppMenuItem } from '../../../drawnix';
+
+export const CustomAppMenuItem = ({ item }: { item: DrawnixAppMenuItem }) => {
+  return (
+    <MenuItem
+      data-testid={`app-menu-${item.key}`}
+      onSelect={() => {
+        item.onSelect();
+      }}
+      icon={item.icon}
+      aria-label={item.label}
+      disabled={item.disabled}
+    >
+      {item.label}
+    </MenuItem>
+  );
+};
+CustomAppMenuItem.displayName = 'CustomAppMenuItem';
 
 export const SaveToFile = () => {
   const board = useBoard();
