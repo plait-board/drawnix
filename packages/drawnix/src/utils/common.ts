@@ -46,6 +46,8 @@ export const boardToImage = (board: PlaitBoard, options: ToImageOptions = {}) =>
   return toImage(board, {
     fillStyle: 'transparent',
     inlineStyleClassNames: '.extend,.emojis,.text,.plait-text-container,.slate-editable-container',
+    // `toImage` only clones computed styles that are explicitly listed here.
+    // Keep the text layout properties in sync with the local PNG clipping repro.
     styleNames: [
       'position',
       'display',
