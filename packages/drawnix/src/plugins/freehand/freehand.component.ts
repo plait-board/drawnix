@@ -38,6 +38,11 @@ export class FreehandComponent
       },
     });
     this.generator = new FreehandGenerator(this.board);
+    this.getRef().updateActiveSection = () => {
+      this.activeGenerator.processDrawing(this.element, PlaitBoard.getActiveHost(this.board), {
+        selected: this.selected,
+      });
+    };
   }
 
   initialize(): void {
