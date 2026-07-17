@@ -49,10 +49,8 @@ export const PopupToolbar = () => {
   const selectedElements = getSelectedElements(board);
   const [movingOrDragging, setMovingOrDragging] = useState(false);
   const movingOrDraggingRef = useRef(movingOrDragging);
-  const open =
-    selectedElements.length > 0 &&
-    !isSelectionMoving(board) &&
-    !selectedElements.some(PlaitDrawElement.isImage);
+  const hasImage = selectedElements.some(PlaitDrawElement.isImage);
+  const open = selectedElements.length > 0 && !isSelectionMoving(board);
   const { viewport, selection, children } = board;
   const { refs, floatingStyles } = useFloating({
     placement: 'right-start',
@@ -76,7 +74,7 @@ export const PopupToolbar = () => {
   } = {
     fill: 'red',
   };
-  if (open && !movingOrDragging) {
+  if (open && !movingOrDragging && !hasImage) {
     const hasFill =
       selectedElements.some((value) => hasFillProperty(board, value)) &&
       !PlaitBoard.hasBeenTextEditing(board);
