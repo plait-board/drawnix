@@ -26,7 +26,7 @@ If yes:
 
 - **Tool/model:** <!-- Example: Codex / GPT-5.6 Sol -->
 - **AI-assisted work:** <!-- Affected files or tasks -->
-- **Human validation:** <!-- What you personally reviewed and tested -->
+- **My review and validation:** <!-- What did you personally review and test? -->
 
 - [ ] I reviewed and understand the AI-assisted changes and can explain and maintain them
 
