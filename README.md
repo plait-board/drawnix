@@ -126,6 +126,8 @@ docker pull pubuzhixing/drawnix:latest
 
 欢迎任何形式的贡献：
 
+提交 Issue 或 Pull Request 前，请先阅读 [贡献指南](CONTRIBUTING.md)。
+
 - 提 Bug
 
 - 贡献代码
@@ -142,4 +144,4 @@ docker pull pubuzhixing/drawnix:latest
 
 ## License
 
-[MIT License](https://github.com/plait-board/drawnix/blob/master/LICENSE)  
+[MIT License](https://github.com/plait-board/drawnix/blob/master/LICENSE)

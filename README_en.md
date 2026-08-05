@@ -123,6 +123,8 @@ docker pull pubuzhixing/drawnix:latest
 
 Any form of contribution is welcome:
 
+Before opening an issue or pull request, please read the [Contributing Guide](CONTRIBUTING.md).
+
 - Report bugs
 
 - Contribute code
