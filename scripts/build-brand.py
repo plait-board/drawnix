@@ -136,18 +136,21 @@ MARK = ("M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 "
 TILE = ("M14 0 H50 A14 14 0 0 1 64 14 V50 A14 14 0 0 1 50 64 H14 "
         "A14 14 0 0 1 0 50 V14 A14 14 0 0 1 14 0 Z")
 
-COLD, MID, WARM = '#2f6bff', '#7b5bf2', '#ff5e3a'
-INK  = '#050928'          # inherited from the existing wordmark
-PAD  = 2                  # mark artboard padding, in mark units
+# ---------- palette : 朱 · 墨 · 纸 ----------
+# Flat, one hue, no gradient, and one value for every ground. A gradient dates a
+# mark to the decade it was drawn in; a single pigment does not. 朱膘 is the mix
+# that holds up on both ends: measured as a 16px icon it scores 3.31 against a
+# light tab strip, 3.31 against a dark one and 4.05 against a dark dock — its
+# worst ground is 3.10, where 银朱 #C0362C bottoms out at 2.45. Trading a step of
+# headroom on light ground buys away the whole light/dark switching rule.
+ZHU = '#D8452F'           # 朱膘，全场唯一的红
+INK = '#1A1512'           # 暖墨，与朱同族的中性黑
+PAPER = '#F7F3EC'         # 宣纸白，反刻笔画与深底字标
+PAD = 2                   # mark artboard padding, in mark units
 
 mx0, my0, mx1, my1 = bbox([MARK])
 MW, MH = mx1 - mx0, my1 - my0
 MCX, MCY = (mx0 + mx1) / 2, (my0 + my1) / 2
-
-GRAD = (f'<linearGradient id="g" x1="0" y1="1" x2="1" y2="0">'
-        f'<stop offset="0" stop-color="{COLD}"/>'
-        f'<stop offset=".55" stop-color="{MID}"/>'
-        f'<stop offset="1" stop-color="{WARM}"/></linearGradient>')
 
 def svg(vb, body, defs='', w=None, h=None):
     size = f' width="{w}" height="{h}"' if w else ''
@@ -162,23 +165,34 @@ def write(name, text):
 
 # ---------- form A : free mark ----------
 vbA = f'{mx0-PAD:.3f} {my0-PAD:.3f} {MW+PAD*2:.3f} {MH+PAD*2:.3f}'
-write('mark.svg',      svg(vbA, f'<path fill="url(#g)" d="{MARK}"/>', GRAD))
+write('mark.svg',      svg(vbA, f'<path fill="{ZHU}" d="{MARK}"/>'))
 write('mark-mono.svg', svg(vbA, f'<path fill="currentColor" d="{MARK}"/>'))
 
 # ---------- form B : icon ----------
-def tile(scale, grad=True, knock='#fff', bleed=False):
+def tile(scale, fill=ZHU, knock=PAPER, bleed=False):
     """bleed=True gives a full-square plate: maskable and apple-touch icons must
     reach the edges with no transparency, since the platform applies its own mask."""
     tx, ty = 32 - MCX * scale, 32 - MCY * scale
-    fill = 'url(#g)' if grad else COLD
     plate = f'<rect width="64" height="64" fill="{fill}"/>' if bleed else f'<path fill="{fill}" d="{TILE}"/>'
     return (plate +
             f'<path fill="{knock}" transform="translate({tx:.3f},{ty:.3f}) scale({scale})" d="{MARK}"/>')
 
-write('icon.svg',          svg('0 0 64 64', tile(0.74), GRAD))
-write('icon-square.svg',   svg('0 0 64 64', tile(0.68, bleed=True), GRAD))
-write('icon-maskable.svg', svg('0 0 64 64', tile(0.615, bleed=True), GRAD))
-write('icon-solid.svg',    svg('0 0 64 64', tile(0.74, grad=False)))
+write('icon.svg',          svg('0 0 64 64', tile(0.74)))
+write('icon-square.svg',   svg('0 0 64 64', tile(0.68, bleed=True)))
+write('icon-maskable.svg', svg('0 0 64 64', tile(0.615, bleed=True)))
+write('icon-solid.svg',    svg('0 0 64 64', tile(0.74, fill=INK)))   # 墨底，单色印刷与深色场备用
+
+# ---------- browser favicon : form A, no plate ----------
+# The tab strip is the one icon slot with no platform mask and no neighbours to
+# line up with, so the mark can drop the colour field and fill the box by its
+# longest side — 0.98 against form B's 0.74, which makes the shape itself bigger
+# than the knocked-out one. One value covers both strips, so no media query.
+FAV_S = 0.98 * 64 / max(MW, MH)
+fav_tx, fav_ty = 32 - MCX * FAV_S, 32 - MCY * FAV_S
+FAV = svg('0 0 64 64', f'<path fill="{ZHU}" transform="translate({fav_tx:.3f},'
+          f'{fav_ty:.3f}) scale({FAV_S:.4f})" d="{MARK}"/>')
+write('favicon.svg', FAV)
+write('favicon-src.svg', FAV)      # scratch, for the .ico raster
 
 # ---------- lockups ----------
 src = open(os.path.join(REPO, 'apps/web/public/logo/logo_drawnix_h.svg')).read()
@@ -190,7 +204,13 @@ CAP_MID = (cy0 + cy1) / 2
 
 MARK_H = CAP * 1.62
 S      = MARK_H / MH
-GAP    = CAP * 0.26
+GAP    = CAP * 0.36        # mark-to-wordmark. 0.26 measured 0.29 cap at the
+                           # closest approach, and that approach is the right
+                           # tail tine pointing straight at the D's stem — a
+                           # point aimed at a flat wall reads tighter than it is
+LPAD   = CAP * 0.06        # lockup bleed: without it the x and the blade tip sit
+                           # exactly on the viewBox edge and get shaved by any
+                           # container that clips or rounds
 
 mark_w  = MW * S
 word_x  = mark_w + GAP
@@ -202,15 +222,15 @@ mty = 0 - my0 * S
 wtx = word_x - wx0
 wty = (MARK_H / 2) - CAP_MID
 
-def lockup(word_fill, mark_fill, defs):
-    return svg(f'0 0 {total_w:.2f} {total_h:.2f}',
+def lockup(word_fill, mark_fill, defs=''):
+    return svg(f'{-LPAD:.2f} {-LPAD:.2f} {total_w+2*LPAD:.2f} {total_h+2*LPAD:.2f}',
                f'<g transform="translate({mtx:.3f},{mty:.3f}) scale({S:.5f})">'
                f'<path fill="{mark_fill}" d="{MARK}"/></g>'
                f'<g transform="translate({wtx:.3f},{wty:.3f})" fill="{word_fill}">'
                + ''.join(f'<path d="{d}"/>' for d in letters) + '</g>', defs)
 
-write('logo-h.svg',      lockup(INK,       'url(#g)',      GRAD))
-write('logo-h-dark.svg', lockup('#ffffff', 'url(#g)',      GRAD))
+write('logo-h.svg',      lockup(INK,   ZHU))
+write('logo-h-dark.svg', lockup(PAPER, ZHU))
 write('logo-h-mono.svg', lockup('currentColor', 'currentColor', ''))
 
 
@@ -223,38 +243,37 @@ v_wordw = wx1 - wx0
 v_w     = max(v_markw, v_wordw)
 v_h     = v_markh + v_gap + (wy1 - wy0)
 
-def lockup_v(word_fill, mark_fill, defs):
+def lockup_v(word_fill, mark_fill, defs=''):
     mtx_v = (v_w - v_markw) / 2 - mx0 * VS
     mty_v = -my0 * VS
     wtx_v = (v_w - v_wordw) / 2 - wx0
     wty_v = v_markh + v_gap - wy0
-    return svg(f'0 0 {v_w:.2f} {v_h:.2f}',
+    return svg(f'{-LPAD:.2f} {-LPAD:.2f} {v_w+2*LPAD:.2f} {v_h+2*LPAD:.2f}',
                f'<g transform="translate({mtx_v:.3f},{mty_v:.3f}) scale({VS:.5f})">'
                f'<path fill="{mark_fill}" d="{MARK}"/></g>'
                f'<g transform="translate({wtx_v:.3f},{wty_v:.3f})" fill="{word_fill}">'
                + ''.join(f'<path d="{d}"/>' for d in letters) + '</g>', defs)
 
-write('logo-v.svg',      lockup_v(INK,       'url(#g)', GRAD))
-write('logo-v-dark.svg', lockup_v('#ffffff', 'url(#g)', GRAD))
+write('logo-v.svg',      lockup_v(INK,   ZHU))
+write('logo-v-dark.svg', lockup_v(PAPER, ZHU))
 
 # ---------- OG image ----------
 og_w, og_h = 1200, 630
 og_s = 0.62
 og_lw, og_lh = total_w * og_s, total_h * og_s
 og_body = (
-    f'<rect width="{og_w}" height="{og_h}" fill="#ffffff"/>'
+    f'<rect width="{og_w}" height="{og_h}" fill="{PAPER}"/>'
     f'<rect width="{og_w}" height="{og_h}" fill="url(#dots)"/>'
     f'<g transform="translate({(og_w-og_lw)/2:.1f},{og_h/2-og_lh/2-26:.1f}) scale({og_s})">'
-    f'<g transform="translate({mtx:.3f},{mty:.3f}) scale({S:.5f})"><path fill="url(#g)" d="{MARK}"/></g>'
+    f'<g transform="translate({mtx:.3f},{mty:.3f}) scale({S:.5f})"><path fill="{ZHU}" d="{MARK}"/></g>'
     f'<g transform="translate({wtx:.3f},{wty:.3f})" fill="{INK}">'
     + ''.join(f'<path d="{d}"/>' for d in letters) + '</g></g>'
-    f'<text x="{og_w/2}" y="{og_h/2+72}" text-anchor="middle" font-size="27" fill="#5b6478" '
+    f'<text x="{og_w/2}" y="{og_h/2+72}" text-anchor="middle" font-size="27" fill="#6B6058" '
     f'font-family="PingFang SC, Hiragino Sans GB, Microsoft YaHei, system-ui, sans-serif">'
     f'开源白板工具 · 思维导图 · 流程图 · 自由画</text>'
 )
-og_defs = (GRAD +
-           '<pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">'
-           '<circle cx="1.5" cy="1.5" r="1.5" fill="#d5dbe6"/></pattern>')
+og_defs = ('<pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">'
+           '<circle cx="1.5" cy="1.5" r="1.5" fill="#E0D8CB"/></pattern>')
 write('og.svg', svg(f'0 0 {og_w} {og_h}', og_body, og_defs, og_w, og_h))
 
 # ---------- rasterise ----------
@@ -265,7 +284,7 @@ def png(src_svg, out_png, w, h=None):
     return out_png
 
 for size in (16, 32, 48, 64):
-    png('icon.svg', f'favicon-{size}.png', size)
+    png('favicon-src.svg', f'favicon-{size}.png', size)
 png('icon-square.svg', 'apple-touch-icon.png', 180)
 png('icon.svg', 'icon-192.png', 192)
 png('icon.svg', 'icon-512.png', 512)
@@ -284,6 +303,7 @@ for s, blob in zip(sizes, blobs):
     data += blob
 with open(os.path.join(OUT, 'favicon.ico'), 'wb') as f:
     f.write(header + entries + data)
+os.remove(os.path.join(OUT, 'favicon-src.svg'))   # scratch: only the .ico needs it
 
 print('mark bbox  %.3f %.3f %.3f %.3f' % (mx0, my0, mx1, my1))
 print('cap height %.2f  mark height %.2f  scale %.4f' % (CAP, MARK_H, S))

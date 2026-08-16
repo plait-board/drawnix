@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一笔的时间线 · Drawnix</title>
+<meta name="description" content="Drawnix 动效规范">
+<meta name="theme-color" content="#D8452F">
+<link rel="icon" type="image/svg+xml" href="../../apps/web/public/brand/favicon.svg">
+</head>
+<body>
+<style>
+  :root {
+    --paper:#F7F3EC; --sheet:#FFFDF8; --ink:#1A1512; --ink-2:#4A423B; --faint:#93867A;
+    --line:#E4DACA; --hair:#D2C5B2; --zhu:#D8452F; --grid:#E9E0D2;
+    --stage:#17120F; --stage-2:#221A16; --stage-ink:#F2EBE2; --stage-faint:#9A8B7C;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:#131010; --sheet:#1C1816; --ink:#F2EBE2; --ink-2:#C5B9AC; --faint:#8E8175;
+      --line:#2C2521; --hair:#3C332C; --grid:#241E1A;
+      --stage:#0B0908; --stage-2:#181310;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:#131010; --sheet:#1C1816; --ink:#F2EBE2; --ink-2:#C5B9AC; --faint:#8E8175;
+    --line:#2C2521; --hair:#3C332C; --grid:#241E1A;
+    --stage:#0B0908; --stage-2:#181310;
+  }
+
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+         font-size:16px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+
+  /* ---------- the animation itself ---------- */
+  .wipeA { animation: drawA 3.4s cubic-bezier(.12,.5,.2,1) infinite; }
+  .inkA  { animation: holdA 3.4s linear infinite; }
+  @keyframes drawA { 0%,7% { transform:translateX(0px); } 42%,100% { transform:translateX(64.26px); } }
+  @keyframes holdA { 0%,90% { opacity:1; } 99%,100% { opacity:0; } }
+
+  .wipeL { animation: drawA 4.6s cubic-bezier(.12,.5,.2,1) infinite; }
+  .inkL  { animation: holdL 4.6s linear infinite; }
+  .wordL { opacity:0; animation: wordL 4.6s cubic-bezier(.2,.8,.3,1) infinite; }
+  @keyframes holdL { 0%,89% { opacity:1; } 100% { opacity:0; } }
+  @keyframes wordL { 0%,25% { opacity:0; transform:translateY(7px); }
+                      37%,100% { opacity:1; transform:translateY(0); } }
+
+  .wipeF { animation: drawA 1.5s cubic-bezier(.12,.5,.2,1) infinite; }
+  .inkF  { animation: holdF 1.5s linear infinite; }
+  @keyframes holdF { 0%,57% { opacity:1; } 80%,100% { opacity:0; } }
+
+  .sealA { transform-origin:32px 32px; animation: press 2.6s cubic-bezier(.2,.9,.25,1) infinite; }
+  @keyframes press { 0% { transform:scale(1.14); opacity:0; } 9% { opacity:1; }
+                      18% { transform:scale(.985); } 26%,86% { transform:scale(1); }
+                      95%,100% { transform:scale(1); opacity:0; } }
+
+  .burnStage { position:relative; overflow:hidden; }
+  .burnBase, .burnTop { position:absolute; inset:0; display:grid; place-items:center; }
+  /* one layer holds both the field and the reversed type, so a single clip-path
+     drives them together and the two edges can never drift apart */
+  .burnTop { background:var(--zhu); clip-path: polygon(-100% 0%, -60% 0%, -76% 100%, -100% 100%);
+             animation: burn 5s cubic-bezier(.35,0,.2,1) infinite; }
+  @keyframes burn {
+    0%,42%   { clip-path: polygon(-100% 0%, -60% 0%, -76% 100%, -100% 100%); }
+    64%,100% { clip-path: polygon(-100% 0%, 160% 0%, 144% 100%, -100% 100%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wipeA,.wipeL,.wipeF { animation:none; transform:translateX(64.26px); }
+    .inkA,.inkL,.inkF,.wordL,.sealA { animation:none; opacity:1; transform:none; }
+    .burnTop { animation:none; clip-path: polygon(-100% 0%, 160% 0%, 144% 100%, -100% 100%); }
+  }
+
+  /* ---------- layout ---------- */
+  .hero { background:var(--stage); padding:clamp(50px,9vw,110px) clamp(22px,5vw,60px) clamp(40px,6vw,72px);
+           display:flex; flex-direction:column; gap:30px; }
+  .hero-stage { display:flex; align-items:center; justify-content:center; min-height:210px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:8px 34px; font-family:var(--mono);
+                font-size:11.5px; color:var(--stage-faint); }
+  .hero-meta b { font-weight:400; opacity:.65; }
+  .hero-tag { font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+               color:var(--stage-faint); }
+
+  .wrap { max-width:1040px; margin:0 auto; padding:0 clamp(18px,4vw,34px) 120px; }
+  .plate { padding:58px 0 6px; border-top:1px solid var(--hair); }
+  .plate:first-of-type { border-top:0; }
+  .plate-head { display:grid; grid-template-columns:46px 1fr; gap:0 18px; align-items:baseline; margin-bottom:26px; }
+  .plate-no { font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--zhu); padding-top:6px; }
+  h2 { margin:0; font-size:clamp(21px,3vw,27px); letter-spacing:-.028em; font-weight:800;
+        line-height:1.18; text-wrap:balance; }
+  .plate-sub { grid-column:2; margin:7px 0 0; font-size:14.5px; color:var(--ink-2); max-width:64ch; }
+  .body { grid-column:2; }
+  p { margin:0; max-width:66ch; }
+  .note { font-size:13.5px; color:var(--faint); line-height:1.6; }
+  strong { font-weight:680; color:var(--ink); }
+  code { font-family:var(--mono); font-size:.86em; background:var(--grid); border-radius:3px; padding:1px 5px; }
+  .cap { font-family:var(--mono); font-size:10px; letter-spacing:.09em; text-transform:uppercase; color:var(--faint); }
+  .card { background:var(--sheet); border:1px solid var(--line); border-radius:5px; }
+  .pad { padding:22px; }
+  .stack { display:flex; flex-direction:column; gap:14px; }
+  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+
+  .demo { background:var(--stage); border-radius:5px; display:grid; place-items:center;
+           min-height:170px; padding:22px; }
+  .demo.light { background:var(--grid); }
+
+  .sb-row { display:flex; gap:10px; flex-wrap:wrap; }
+  .sb { display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .sb-frame { background:var(--grid); border-radius:4px; padding:12px 10px; display:grid; place-items:center; }
+  .sb-t { font-family:var(--mono); font-size:10px; color:var(--faint); }
+
+  .track { display:flex; height:32px; border-radius:4px; overflow:hidden; border:1px solid var(--line); }
+  .track div { display:grid; place-items:center; font-family:var(--mono); font-size:10px;
+                color:var(--stage-ink); white-space:nowrap; overflow:hidden; }
+
+  .scroll { overflow-x:auto; }
+  table { border-collapse:collapse; width:100%; min-width:460px; font-size:13.5px; }
+  th,td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); }
+  thead th { font-family:var(--mono); font-size:10px; letter-spacing:.09em; text-transform:uppercase;
+              color:var(--faint); font-weight:500; white-space:nowrap; }
+  tbody tr:last-child td { border-bottom:0; }
+  td.n { font-family:var(--mono); font-variant-numeric:tabular-nums; }
+  td.f { font-family:var(--mono); font-size:12px; white-space:nowrap; }
+
+  .frames { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start; }
+  .fr { display:flex; flex-direction:column; gap:8px; align-items:center; }
+  .fr-box { position:relative; background:#F7F3EC; border:1px solid var(--hair); border-radius:4px;
+             display:grid; place-items:center; overflow:hidden; }
+  .safe { position:absolute; left:0; right:0; background:#D8452F1f; }
+  .safe.t { top:0; } .safe.b { bottom:0; }
+  .safe span { position:absolute; right:5px; bottom:2px; font-family:var(--mono); font-size:8px; color:#B4553F; }
+
+  .dont { display:flex; gap:12px; align-items:flex-start; }
+  .dont b { font-weight:680; }
+  .dont span { color:var(--faint); font-size:13px; }
+  .x { flex:0 0 20px; height:20px; border-radius:50%; background:var(--zhu); color:#F7F3EC;
+        display:grid; place-items:center; font-size:12px; font-weight:700; margin-top:2px; }
+
+  @media (max-width:620px) { .plate-head { grid-template-columns:1fr; } .plate-sub,.body { grid-column:1; } }
+  :focus-visible { outline:2px solid var(--zhu); outline-offset:3px; border-radius:3px; }
+</style>
+
+<header class="hero">
+  <div class="hero-stage"><svg width="460" height="103" viewBox="-5.57 -5.57 718.6 161.5"><g class="inkL"><g transform="translate(-6.046,-6.939) scale(2.31305)"><mask id="heroL" maskUnits="userSpaceOnUse" x="-40" y="-40" width="160" height="160"><g transform="rotate(-20 33.3 35.5)"><rect class="wipeL" x="-60.35" y="-90" width="64.26" height="260" fill="#fff"/></g></mask><g mask="url(#heroL)"><path fill="#D8452F" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g></g><g transform="translate(23.400,-3.916)"><g class="wordL" fill="#F7F3EC"><path d="M183.86,32.69a87.53,87.53,0,0,1,18.52,1.81,32,32,0,0,1,14.31,6.88q5.94,5.09,9.16,14.18t3.21,23.53q0,13.51-3.21,22.4a34.43,34.43,0,0,1-9.16,14.24,34,34,0,0,1-14.31,7.56,72.64,72.64,0,0,1-18.52,2.2H152V32.69Zm-1.07,75.42A41.41,41.41,0,0,0,194,106.77a16.78,16.78,0,0,0,7.89-4.68,20.74,20.74,0,0,0,4.68-9,53.88,53.88,0,0,0,1.54-14,55.23,55.23,0,0,0-1.6-14.64,20.92,20.92,0,0,0-4.75-9A16.24,16.24,0,0,0,193.82,51a45.3,45.3,0,0,0-11-1.2H172.36v58.3Z"/><path d="M288.7,52l-.54,17.25h-1.87a30.11,30.11,0,0,0-6.62.73,18,18,0,0,0-5.95,2.48A16.42,16.42,0,0,0,269,77.09a18.79,18.79,0,0,0-2.81,7.35v41.05H246.84V53.28h19.39v13A24.12,24.12,0,0,1,270.17,59a19.88,19.88,0,0,1,5-4.41,16.66,16.66,0,0,1,5.75-2.14,37.22,37.22,0,0,1,6.28-.53Z"/><path d="M325.2,52.08a64.58,64.58,0,0,1,15.31,1.54,26.69,26.69,0,0,1,10,4.48A16.68,16.68,0,0,1,356,65.38a28.17,28.17,0,0,1,1.67,10.1v50H340.31l-1.87-8.42q-2.28,4-8.16,6.89t-14.84,2.87q-12.17,0-18.45-5.41t-6.29-16.65q0-12.57,7.56-17.66T320.39,82h17.92V80.16a21.25,21.25,0,0,0-.61-5.48A6.87,6.87,0,0,0,335.37,71a11.63,11.63,0,0,0-4.69-2.07,35.89,35.89,0,0,0-7.75-.67c-2.59,0-5.17.11-7.76.33s-5.13.56-7.62,1V53.15c2.76-.36,5.75-.62,9-.8S322.62,52.08,325.2,52.08ZM320.39,112a25.2,25.2,0,0,0,11.36-2.34,13.94,13.94,0,0,0,6.56-6.09V95.14h-15q-7.21,0-10.36,1.74c-2.1,1.16-3.15,3.56-3.15,7.22q0,4.28,2.48,6.08C314,111.39,316.64,112,320.39,112Z"/><path d="M368,53.28h20.6L400,105.43h.81l12.7-52.15h21.93l12.7,52.15h.81l11.36-52.15h20.33L460.8,125.49H436.46l-11.9-49.34h-.8l-11.9,49.34H387.52Z"/><path d="M534.48,52a36.28,36.28,0,0,1,11.3,1.53,17.23,17.23,0,0,1,7.42,4.62,17.88,17.88,0,0,1,4,7.55,40.88,40.88,0,0,1,1.2,10.5v49.34H539V81.23a31.91,31.91,0,0,0-.53-6.22,9.88,9.88,0,0,0-1.81-4.21,7.14,7.14,0,0,0-3.54-2.34,19.55,19.55,0,0,0-5.88-.74,20.42,20.42,0,0,0-9.9,2.14q-3.87,2.15-5.48,7.76v47.87H492.49V53.28h19.39V62a17.83,17.83,0,0,1,8.82-7.55A35.39,35.39,0,0,1,534.48,52Z"/><path d="M586.9,43.25a36,36,0,0,1-5.35-.33,6.45,6.45,0,0,1-3.35-1.4,5.75,5.75,0,0,1-1.67-3.08,25.33,25.33,0,0,1-.47-5.48,24.58,24.58,0,0,1,.47-5.35,5.75,5.75,0,0,1,1.67-3.08,6.1,6.1,0,0,1,3.35-1.33,53.73,53.73,0,0,1,10.76,0,6,6,0,0,1,3.28,1.33,5.75,5.75,0,0,1,1.67,3.08,24.58,24.58,0,0,1,.47,5.35,25.33,25.33,0,0,1-.47,5.48,5.75,5.75,0,0,1-1.67,3.08,6.35,6.35,0,0,1-3.28,1.4A35.75,35.75,0,0,1,586.9,43.25Zm-9.77,10h19.39v72.21H577.13Z"/><path d="M632.23,88.59,608.69,53.28h22.73l14.05,23.54h.8l14-23.54h22.46l-23.4,35.17,24.74,37h-23l-15-24.87h-.8l-15.24,24.87H607.22Z"/></g></g></g></svg></div>
+  <span class="hero-tag">落笔 · 一笔写成</span>
+  <div class="hero-meta">
+    <span><b>擦除轴</b>　-20°</span>
+    <span><b>行程</b>　64.26 单位</span>
+    <span><b>落笔</b>　1.2s</span>
+    <span><b>缓动</b>　cubic-bezier(.12,.5,.2,1)</span>
+    <span><b>序列</b>　6.0s / 30fps</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">01</span>
+      <h2>这个标记只有一种诚实的动法</h2>
+      <p class="plate-sub">
+        它是一笔。所以动画不该是淡入、不该是缩放、更不该是弹跳——<strong>它应该被写出来</strong>。
+        淡入适用于任何形状，因此不属于任何形状；笔顺只属于这一个。
+      </p>
+    </div>
+    <div class="body stack">
+      <div class="card pad stack">
+        <span class="cap">擦除轴是量出来的，不是拍出来的</span>
+        <p class="note" style="max-width:70ch">
+          做法是把轮廓上所有点投影到一条候选轴上，看它们的先后顺序。
+          <strong>水平擦除（0°）会让刃尖比尾羽先出现</strong>，笔顺就反了——真实的运笔里出锋一定是最后一下。
+          把轴转到 <code>-20°</code>（向右略微上扬，与运笔同向）之后，顺序才对。
+        </p>
+        <div class="scroll" style="max-width:420px">
+          <table><thead><tr><th>笔画部位</th><th>落在行程的第几成</th></tr></thead>
+          <tbody><tr><td>挑势底 15,48</td><td class="n">0.10</td></tr><tr><td>起笔 5,19</td><td class="n">0.11</td></tr><tr><td>行笔 34,44</td><td class="n">0.42</td></tr><tr><td>下尾 43,68</td><td class="n">0.42</td></tr><tr><td>右尾 64,51</td><td class="n">0.84</td></tr><tr><td>刃尖 57,3</td><td class="n">1.00</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <div class="card pad stack">
+        <span class="cap">分解</span>
+        <div class="sb-row"><div class="sb"><div class="sb-frame"><svg width="96" height="101" viewBox="0.61 1.00 65.39 69.00"><mask id="sb0" maskUnits="userSpaceOnUse" x="-40" y="-40" width="160" height="160"><g transform="rotate(-20 33.3 35.5)"><rect  x="-60.35" y="-90" width="64.26" height="260" fill="#fff"/></g></mask><g mask="url(#sb0)"><path fill="#D8452F" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g></svg></div><span class="sb-t">纸</span></div><div class="sb"><div class="sb-frame"><svg width="96" height="101" viewBox="0.61 1.00 65.39 69.00"><mask id="sb1" maskUnits="userSpaceOnUse" x="-40" y="-40" width="160" height="160"><g transform="rotate(-20 33.3 35.5)"><rect  x="-44.35" y="-90" width="64.26" height="260" fill="#fff"/></g></mask><g mask="url(#sb1)"><path fill="#D8452F" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g></svg></div><span class="sb-t">挑势</span></div><div class="sb"><div class="sb-frame"><svg width="96" height="101" viewBox="0.61 1.00 65.39 69.00"><mask id="sb2" maskUnits="userSpaceOnUse" x="-40" y="-40" width="160" height="160"><g transform="rotate(-20 33.3 35.5)"><rect  x="-31.35" y="-90" width="64.26" height="260" fill="#fff"/></g></mask><g mask="url(#sb2)"><path fill="#D8452F" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g></svg></div><span class="sb-t">行笔</span></div><div class="sb"><div class="sb-frame"><svg width="96" height="101" viewBox="0.61 1.00 65.39 69.00"><mask id="sb3" maskUnits="userSpaceOnUse" x="-40" y="-40" width="160" height="160"><g transform="rotate(-20 33.3 35.5)"><rect  x="-20.35" y="-90" width="64.26" height="260" fill="#fff"/></g></mask><g mask="url(#sb3)"><path fill="#D8452F" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g></svg></div><span class="sb-t">过叉口</span></div><div class="sb"><div class="sb-frame"><svg width="96" height="101" viewBox="0.61 1.00 65.39 69.00"><mask id="sb4" maskUnits="userSpaceOnUse" x="-40" y="-40" width="160" height="160"><g transform="rotate(-20 33.3 35.5)"><rect  x="-7.35" y="-90" width="64.26" height="260" fill="#fff"/></g></mask><g mask="url(#sb4)"><path fill="#D8452F" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g></svg></div><span class="sb-t">尾羽</span></div><div class="sb"><div class="sb-frame"><svg width="96" height="101" viewBox="0.61 1.00 65.39 69.00"><mask id="sb5" maskUnits="userSpaceOnUse" x="-40" y="-40" width="160" height="160"><g transform="rotate(-20 33.3 35.5)"><rect  x="3.92" y="-90" width="64.26" height="260" fill="#fff"/></g></mask><g mask="url(#sb5)"><path fill="#D8452F" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g></svg></div><span class="sb-t">出锋</span></div></div>
+        <p class="note">同一条路径，同一个遮罩，只是行程不同。中间没有任何一帧是单独画的。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">02</span>
+      <h2>四个动作，各有各的岗位</h2>
+      <p class="plate-sub">不是四个效果，是一套：全部由同一条擦除轴和同一条缓动曲线推导出来，所以放在一起像一个东西。</p>
+    </div>
+    <div class="body grid2">
+      <div class="card pad stack">
+        <span class="cap">落笔 · 1.2s · 首屏与片头</span>
+        <div class="demo"><svg width="150" height="158" viewBox="0.61 1.00 65.39 69.00"><mask id="d1" maskUnits="userSpaceOnUse" x="-40" y="-40" width="160" height="160"><g transform="rotate(-20 33.3 35.5)"><rect class="wipeA" x="-60.35" y="-90" width="64.26" height="260" fill="#fff"/></g></mask><g class="inkA" mask="url(#d1)"><path fill="#D8452F" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g></svg></div>
+        <p class="note">主动作。用在官网首屏、应用冷启动、视频片头。<strong>一次就好，不要循环</strong>——品牌位反复重写会变成噪音。</p>
+      </div>
+      <div class="card pad stack">
+        <span class="cap">蓄力 · 0.85s 循环 · 加载态</span>
+        <div class="demo">
+          <svg width="86" height="90" viewBox="0.61 1.00 65.39 69.00">
+            <mask id="d2" maskUnits="userSpaceOnUse" x="-40" y="-40" width="160" height="160"><g transform="rotate(-20 33.3 35.5)"><rect class="wipeF" x="-60.35" y="-90" width="64.26" height="260" fill="#fff"/></g></mask>
+            <g class="inkF" mask="url(#d2)"><path fill="#D8452F" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g>
+          </svg>
+        </div>
+        <p class="note">同一笔，更快，循环。<strong>加载态也留在品牌语言里</strong>，而不是随便一个转圈 spinner。</p>
+      </div>
+      <div class="card pad stack">
+        <span class="cap">落款 · 0.5s · 收尾定格</span>
+        <div class="demo light"><svg width="104" height="104" viewBox="0 0 64 64"><g class="sealA"><path fill="var(--zhu)" d="M14 0 H50 A14 14 0 0 1 64 14 V50 A14 14 0 0 1 50 64 H14 A14 14 0 0 1 0 50 V14 A14 14 0 0 1 14 0 Z"/><path fill="#F7F3EC" transform="translate(7.353,5.730) scale(0.74)" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g></svg></div>
+        <p class="note">形态 B 像一枚印被按下去：从 1.14 落到 0.985 再回正。用在视频尾帧、发布公告、成就类提示。</p>
+      </div>
+      <div class="card pad stack">
+        <span class="cap">浴火 · 0.85s · 形态 A → B</span>
+        <div class="demo burnStage light" style="min-height:170px"><div class="burnBase"><svg width="200" height="45" viewBox="-5.57 -5.57 718.6 161.5"><g transform="translate(-6.046,-6.939) scale(2.31305)"><path fill="var(--zhu)" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g><g transform="translate(23.400,-3.916)" fill="var(--ink)"><path d="M183.86,32.69a87.53,87.53,0,0,1,18.52,1.81,32,32,0,0,1,14.31,6.88q5.94,5.09,9.16,14.18t3.21,23.53q0,13.51-3.21,22.4a34.43,34.43,0,0,1-9.16,14.24,34,34,0,0,1-14.31,7.56,72.64,72.64,0,0,1-18.52,2.2H152V32.69Zm-1.07,75.42A41.41,41.41,0,0,0,194,106.77a16.78,16.78,0,0,0,7.89-4.68,20.74,20.74,0,0,0,4.68-9,53.88,53.88,0,0,0,1.54-14,55.23,55.23,0,0,0-1.6-14.64,20.92,20.92,0,0,0-4.75-9A16.24,16.24,0,0,0,193.82,51a45.3,45.3,0,0,0-11-1.2H172.36v58.3Z"/><path d="M288.7,52l-.54,17.25h-1.87a30.11,30.11,0,0,0-6.62.73,18,18,0,0,0-5.95,2.48A16.42,16.42,0,0,0,269,77.09a18.79,18.79,0,0,0-2.81,7.35v41.05H246.84V53.28h19.39v13A24.12,24.12,0,0,1,270.17,59a19.88,19.88,0,0,1,5-4.41,16.66,16.66,0,0,1,5.75-2.14,37.22,37.22,0,0,1,6.28-.53Z"/><path d="M325.2,52.08a64.58,64.58,0,0,1,15.31,1.54,26.69,26.69,0,0,1,10,4.48A16.68,16.68,0,0,1,356,65.38a28.17,28.17,0,0,1,1.67,10.1v50H340.31l-1.87-8.42q-2.28,4-8.16,6.89t-14.84,2.87q-12.17,0-18.45-5.41t-6.29-16.65q0-12.57,7.56-17.66T320.39,82h17.92V80.16a21.25,21.25,0,0,0-.61-5.48A6.87,6.87,0,0,0,335.37,71a11.63,11.63,0,0,0-4.69-2.07,35.89,35.89,0,0,0-7.75-.67c-2.59,0-5.17.11-7.76.33s-5.13.56-7.62,1V53.15c2.76-.36,5.75-.62,9-.8S322.62,52.08,325.2,52.08ZM320.39,112a25.2,25.2,0,0,0,11.36-2.34,13.94,13.94,0,0,0,6.56-6.09V95.14h-15q-7.21,0-10.36,1.74c-2.1,1.16-3.15,3.56-3.15,7.22q0,4.28,2.48,6.08C314,111.39,316.64,112,320.39,112Z"/><path d="M368,53.28h20.6L400,105.43h.81l12.7-52.15h21.93l12.7,52.15h.81l11.36-52.15h20.33L460.8,125.49H436.46l-11.9-49.34h-.8l-11.9,49.34H387.52Z"/><path d="M534.48,52a36.28,36.28,0,0,1,11.3,1.53,17.23,17.23,0,0,1,7.42,4.62,17.88,17.88,0,0,1,4,7.55,40.88,40.88,0,0,1,1.2,10.5v49.34H539V81.23a31.91,31.91,0,0,0-.53-6.22,9.88,9.88,0,0,0-1.81-4.21,7.14,7.14,0,0,0-3.54-2.34,19.55,19.55,0,0,0-5.88-.74,20.42,20.42,0,0,0-9.9,2.14q-3.87,2.15-5.48,7.76v47.87H492.49V53.28h19.39V62a17.83,17.83,0,0,1,8.82-7.55A35.39,35.39,0,0,1,534.48,52Z"/><path d="M586.9,43.25a36,36,0,0,1-5.35-.33,6.45,6.45,0,0,1-3.35-1.4,5.75,5.75,0,0,1-1.67-3.08,25.33,25.33,0,0,1-.47-5.48,24.58,24.58,0,0,1,.47-5.35,5.75,5.75,0,0,1,1.67-3.08,6.1,6.1,0,0,1,3.35-1.33,53.73,53.73,0,0,1,10.76,0,6,6,0,0,1,3.28,1.33,5.75,5.75,0,0,1,1.67,3.08,24.58,24.58,0,0,1,.47,5.35,25.33,25.33,0,0,1-.47,5.48,5.75,5.75,0,0,1-1.67,3.08,6.35,6.35,0,0,1-3.28,1.4A35.75,35.75,0,0,1,586.9,43.25Zm-9.77,10h19.39v72.21H577.13Z"/><path d="M632.23,88.59,608.69,53.28h22.73l14.05,23.54h.8l14-23.54h22.46l-23.4,35.17,24.74,37h-23l-15-24.87h-.8l-15.24,24.87H607.22Z"/></g></svg></div><div class="burnTop"><svg width="200" height="45" viewBox="-5.57 -5.57 718.6 161.5"><g transform="translate(-6.046,-6.939) scale(2.31305)"><path fill="#F7F3EC" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g><g transform="translate(23.400,-3.916)" fill="#F7F3EC"><path d="M183.86,32.69a87.53,87.53,0,0,1,18.52,1.81,32,32,0,0,1,14.31,6.88q5.94,5.09,9.16,14.18t3.21,23.53q0,13.51-3.21,22.4a34.43,34.43,0,0,1-9.16,14.24,34,34,0,0,1-14.31,7.56,72.64,72.64,0,0,1-18.52,2.2H152V32.69Zm-1.07,75.42A41.41,41.41,0,0,0,194,106.77a16.78,16.78,0,0,0,7.89-4.68,20.74,20.74,0,0,0,4.68-9,53.88,53.88,0,0,0,1.54-14,55.23,55.23,0,0,0-1.6-14.64,20.92,20.92,0,0,0-4.75-9A16.24,16.24,0,0,0,193.82,51a45.3,45.3,0,0,0-11-1.2H172.36v58.3Z"/><path d="M288.7,52l-.54,17.25h-1.87a30.11,30.11,0,0,0-6.62.73,18,18,0,0,0-5.95,2.48A16.42,16.42,0,0,0,269,77.09a18.79,18.79,0,0,0-2.81,7.35v41.05H246.84V53.28h19.39v13A24.12,24.12,0,0,1,270.17,59a19.88,19.88,0,0,1,5-4.41,16.66,16.66,0,0,1,5.75-2.14,37.22,37.22,0,0,1,6.28-.53Z"/><path d="M325.2,52.08a64.58,64.58,0,0,1,15.31,1.54,26.69,26.69,0,0,1,10,4.48A16.68,16.68,0,0,1,356,65.38a28.17,28.17,0,0,1,1.67,10.1v50H340.31l-1.87-8.42q-2.28,4-8.16,6.89t-14.84,2.87q-12.17,0-18.45-5.41t-6.29-16.65q0-12.57,7.56-17.66T320.39,82h17.92V80.16a21.25,21.25,0,0,0-.61-5.48A6.87,6.87,0,0,0,335.37,71a11.63,11.63,0,0,0-4.69-2.07,35.89,35.89,0,0,0-7.75-.67c-2.59,0-5.17.11-7.76.33s-5.13.56-7.62,1V53.15c2.76-.36,5.75-.62,9-.8S322.62,52.08,325.2,52.08ZM320.39,112a25.2,25.2,0,0,0,11.36-2.34,13.94,13.94,0,0,0,6.56-6.09V95.14h-15q-7.21,0-10.36,1.74c-2.1,1.16-3.15,3.56-3.15,7.22q0,4.28,2.48,6.08C314,111.39,316.64,112,320.39,112Z"/><path d="M368,53.28h20.6L400,105.43h.81l12.7-52.15h21.93l12.7,52.15h.81l11.36-52.15h20.33L460.8,125.49H436.46l-11.9-49.34h-.8l-11.9,49.34H387.52Z"/><path d="M534.48,52a36.28,36.28,0,0,1,11.3,1.53,17.23,17.23,0,0,1,7.42,4.62,17.88,17.88,0,0,1,4,7.55,40.88,40.88,0,0,1,1.2,10.5v49.34H539V81.23a31.91,31.91,0,0,0-.53-6.22,9.88,9.88,0,0,0-1.81-4.21,7.14,7.14,0,0,0-3.54-2.34,19.55,19.55,0,0,0-5.88-.74,20.42,20.42,0,0,0-9.9,2.14q-3.87,2.15-5.48,7.76v47.87H492.49V53.28h19.39V62a17.83,17.83,0,0,1,8.82-7.55A35.39,35.39,0,0,1,534.48,52Z"/><path d="M586.9,43.25a36,36,0,0,1-5.35-.33,6.45,6.45,0,0,1-3.35-1.4,5.75,5.75,0,0,1-1.67-3.08,25.33,25.33,0,0,1-.47-5.48,24.58,24.58,0,0,1,.47-5.35,5.75,5.75,0,0,1,1.67-3.08,6.1,6.1,0,0,1,3.35-1.33,53.73,53.73,0,0,1,10.76,0,6,6,0,0,1,3.28,1.33,5.75,5.75,0,0,1,1.67,3.08,24.58,24.58,0,0,1,.47,5.35,25.33,25.33,0,0,1-.47,5.48,5.75,5.75,0,0,1-1.67,3.08,6.35,6.35,0,0,1-3.28,1.4A35.75,35.75,0,0,1,586.9,43.25Zm-9.77,10h19.39v72.21H577.13Z"/><path d="M632.23,88.59,608.69,53.28h22.73l14.05,23.54h.8l14-23.54h22.46l-23.4,35.17,24.74,37h-23l-15-24.87h-.8l-15.24,24.87H607.22Z"/></g></svg></div></div>
+        <p class="note">朱膘从同一条轴扫过，字标与标记反白成宣纸。<strong>这一下就是叙事本身</strong>——也是从自由标切到图标形态的转场。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">03</span>
+      <h2>六秒序列</h2>
+      <p class="plate-sub">社媒用的完整片子。四拍连起来：纸 → 落笔 → 字标 → 浴火。没有配乐也读得懂。</p>
+    </div>
+    <div class="body stack">
+      <div class="card pad stack">
+        <div class="track">
+          <div style="flex:0.25;background:var(--grid);color:var(--ink)">纸</div>
+          <div style="flex:1.2;background:#D8452F">落笔 1.2s</div>
+          <div style="flex:0.5;background:#B4553F">字标</div>
+          <div style="flex:1.35;background:var(--grid);color:var(--ink)">定格 · 封面帧</div>
+          <div style="flex:0.85;background:#D8452F">浴火</div>
+          <div style="flex:1.85;background:var(--stage)">尾帧</div>
+        </div>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>时间</th><th>动作</th><th>用途</th></tr></thead>
+            <tbody>
+              <tr><td class="n">0.00–0.25</td><td>纸</td><td>让第一帧就是干净的宣纸，缩略图不会截到半截动画</td></tr>
+              <tr><td class="n">0.25–1.45</td><td>落笔</td><td>主动作</td></tr>
+              <tr><td class="n">1.30–1.95</td><td>字标升起淡入</td><td>与落笔重叠 0.15s，避免两段动作之间出现空档</td></tr>
+              <tr><td class="n">1.95–3.30</td><td>定格</td><td><strong>这一帧导出即封面图</strong></td></tr>
+              <tr><td class="n">3.30–4.15</td><td>浴火</td><td>转场</td></tr>
+              <tr><td class="n">4.15–6.00</td><td>尾帧</td><td><strong>这一帧导出即结束卡</strong>，也可直接当 OG 图</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">04</span>
+      <h2>社媒画幅与安全区</h2>
+      <p class="plate-sub">三种画幅同一套时间线，只有构图的缩放比不同。红色带是平台 UI 会盖住的区域。</p>
+    </div>
+    <div class="body stack">
+      <div class="card pad">
+        <div class="frames">
+          <div class="fr"><div class="fr-box" style="width:150px;height:150px">
+            <div style="transform:scale(.42)"><svg width="200" height="45" viewBox="-5.57 -5.57 718.6 161.5"><g transform="translate(-6.046,-6.939) scale(2.31305)"><path fill="var(--zhu)" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g><g transform="translate(23.400,-3.916)" fill="var(--ink)"><path d="M183.86,32.69a87.53,87.53,0,0,1,18.52,1.81,32,32,0,0,1,14.31,6.88q5.94,5.09,9.16,14.18t3.21,23.53q0,13.51-3.21,22.4a34.43,34.43,0,0,1-9.16,14.24,34,34,0,0,1-14.31,7.56,72.64,72.64,0,0,1-18.52,2.2H152V32.69Zm-1.07,75.42A41.41,41.41,0,0,0,194,106.77a16.78,16.78,0,0,0,7.89-4.68,20.74,20.74,0,0,0,4.68-9,53.88,53.88,0,0,0,1.54-14,55.23,55.23,0,0,0-1.6-14.64,20.92,20.92,0,0,0-4.75-9A16.24,16.24,0,0,0,193.82,51a45.3,45.3,0,0,0-11-1.2H172.36v58.3Z"/><path d="M288.7,52l-.54,17.25h-1.87a30.11,30.11,0,0,0-6.62.73,18,18,0,0,0-5.95,2.48A16.42,16.42,0,0,0,269,77.09a18.79,18.79,0,0,0-2.81,7.35v41.05H246.84V53.28h19.39v13A24.12,24.12,0,0,1,270.17,59a19.88,19.88,0,0,1,5-4.41,16.66,16.66,0,0,1,5.75-2.14,37.22,37.22,0,0,1,6.28-.53Z"/><path d="M325.2,52.08a64.58,64.58,0,0,1,15.31,1.54,26.69,26.69,0,0,1,10,4.48A16.68,16.68,0,0,1,356,65.38a28.17,28.17,0,0,1,1.67,10.1v50H340.31l-1.87-8.42q-2.28,4-8.16,6.89t-14.84,2.87q-12.17,0-18.45-5.41t-6.29-16.65q0-12.57,7.56-17.66T320.39,82h17.92V80.16a21.25,21.25,0,0,0-.61-5.48A6.87,6.87,0,0,0,335.37,71a11.63,11.63,0,0,0-4.69-2.07,35.89,35.89,0,0,0-7.75-.67c-2.59,0-5.17.11-7.76.33s-5.13.56-7.62,1V53.15c2.76-.36,5.75-.62,9-.8S322.62,52.08,325.2,52.08ZM320.39,112a25.2,25.2,0,0,0,11.36-2.34,13.94,13.94,0,0,0,6.56-6.09V95.14h-15q-7.21,0-10.36,1.74c-2.1,1.16-3.15,3.56-3.15,7.22q0,4.28,2.48,6.08C314,111.39,316.64,112,320.39,112Z"/><path d="M368,53.28h20.6L400,105.43h.81l12.7-52.15h21.93l12.7,52.15h.81l11.36-52.15h20.33L460.8,125.49H436.46l-11.9-49.34h-.8l-11.9,49.34H387.52Z"/><path d="M534.48,52a36.28,36.28,0,0,1,11.3,1.53,17.23,17.23,0,0,1,7.42,4.62,17.88,17.88,0,0,1,4,7.55,40.88,40.88,0,0,1,1.2,10.5v49.34H539V81.23a31.91,31.91,0,0,0-.53-6.22,9.88,9.88,0,0,0-1.81-4.21,7.14,7.14,0,0,0-3.54-2.34,19.55,19.55,0,0,0-5.88-.74,20.42,20.42,0,0,0-9.9,2.14q-3.87,2.15-5.48,7.76v47.87H492.49V53.28h19.39V62a17.83,17.83,0,0,1,8.82-7.55A35.39,35.39,0,0,1,534.48,52Z"/><path d="M586.9,43.25a36,36,0,0,1-5.35-.33,6.45,6.45,0,0,1-3.35-1.4,5.75,5.75,0,0,1-1.67-3.08,25.33,25.33,0,0,1-.47-5.48,24.58,24.58,0,0,1,.47-5.35,5.75,5.75,0,0,1,1.67-3.08,6.1,6.1,0,0,1,3.35-1.33,53.73,53.73,0,0,1,10.76,0,6,6,0,0,1,3.28,1.33,5.75,5.75,0,0,1,1.67,3.08,24.58,24.58,0,0,1,.47,5.35,25.33,25.33,0,0,1-.47,5.48,5.75,5.75,0,0,1-1.67,3.08,6.35,6.35,0,0,1-3.28,1.4A35.75,35.75,0,0,1,586.9,43.25Zm-9.77,10h19.39v72.21H577.13Z"/><path d="M632.23,88.59,608.69,53.28h22.73l14.05,23.54h.8l14-23.54h22.46l-23.4,35.17,24.74,37h-23l-15-24.87h-.8l-15.24,24.87H607.22Z"/></g></svg></div></div>
+            <span class="cap">1:1　1080×1080</span></div>
+          <div class="fr"><div class="fr-box" style="width:112px;height:199px">
+            <div class="safe t" style="height:15%"><span>15%</span></div>
+            <div class="safe b" style="height:15%"><span>15%</span></div>
+            <div style="transform:scale(.30)"><svg width="200" height="45" viewBox="-5.57 -5.57 718.6 161.5"><g transform="translate(-6.046,-6.939) scale(2.31305)"><path fill="var(--zhu)" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g><g transform="translate(23.400,-3.916)" fill="var(--ink)"><path d="M183.86,32.69a87.53,87.53,0,0,1,18.52,1.81,32,32,0,0,1,14.31,6.88q5.94,5.09,9.16,14.18t3.21,23.53q0,13.51-3.21,22.4a34.43,34.43,0,0,1-9.16,14.24,34,34,0,0,1-14.31,7.56,72.64,72.64,0,0,1-18.52,2.2H152V32.69Zm-1.07,75.42A41.41,41.41,0,0,0,194,106.77a16.78,16.78,0,0,0,7.89-4.68,20.74,20.74,0,0,0,4.68-9,53.88,53.88,0,0,0,1.54-14,55.23,55.23,0,0,0-1.6-14.64,20.92,20.92,0,0,0-4.75-9A16.24,16.24,0,0,0,193.82,51a45.3,45.3,0,0,0-11-1.2H172.36v58.3Z"/><path d="M288.7,52l-.54,17.25h-1.87a30.11,30.11,0,0,0-6.62.73,18,18,0,0,0-5.95,2.48A16.42,16.42,0,0,0,269,77.09a18.79,18.79,0,0,0-2.81,7.35v41.05H246.84V53.28h19.39v13A24.12,24.12,0,0,1,270.17,59a19.88,19.88,0,0,1,5-4.41,16.66,16.66,0,0,1,5.75-2.14,37.22,37.22,0,0,1,6.28-.53Z"/><path d="M325.2,52.08a64.58,64.58,0,0,1,15.31,1.54,26.69,26.69,0,0,1,10,4.48A16.68,16.68,0,0,1,356,65.38a28.17,28.17,0,0,1,1.67,10.1v50H340.31l-1.87-8.42q-2.28,4-8.16,6.89t-14.84,2.87q-12.17,0-18.45-5.41t-6.29-16.65q0-12.57,7.56-17.66T320.39,82h17.92V80.16a21.25,21.25,0,0,0-.61-5.48A6.87,6.87,0,0,0,335.37,71a11.63,11.63,0,0,0-4.69-2.07,35.89,35.89,0,0,0-7.75-.67c-2.59,0-5.17.11-7.76.33s-5.13.56-7.62,1V53.15c2.76-.36,5.75-.62,9-.8S322.62,52.08,325.2,52.08ZM320.39,112a25.2,25.2,0,0,0,11.36-2.34,13.94,13.94,0,0,0,6.56-6.09V95.14h-15q-7.21,0-10.36,1.74c-2.1,1.16-3.15,3.56-3.15,7.22q0,4.28,2.48,6.08C314,111.39,316.64,112,320.39,112Z"/><path d="M368,53.28h20.6L400,105.43h.81l12.7-52.15h21.93l12.7,52.15h.81l11.36-52.15h20.33L460.8,125.49H436.46l-11.9-49.34h-.8l-11.9,49.34H387.52Z"/><path d="M534.48,52a36.28,36.28,0,0,1,11.3,1.53,17.23,17.23,0,0,1,7.42,4.62,17.88,17.88,0,0,1,4,7.55,40.88,40.88,0,0,1,1.2,10.5v49.34H539V81.23a31.91,31.91,0,0,0-.53-6.22,9.88,9.88,0,0,0-1.81-4.21,7.14,7.14,0,0,0-3.54-2.34,19.55,19.55,0,0,0-5.88-.74,20.42,20.42,0,0,0-9.9,2.14q-3.87,2.15-5.48,7.76v47.87H492.49V53.28h19.39V62a17.83,17.83,0,0,1,8.82-7.55A35.39,35.39,0,0,1,534.48,52Z"/><path d="M586.9,43.25a36,36,0,0,1-5.35-.33,6.45,6.45,0,0,1-3.35-1.4,5.75,5.75,0,0,1-1.67-3.08,25.33,25.33,0,0,1-.47-5.48,24.58,24.58,0,0,1,.47-5.35,5.75,5.75,0,0,1,1.67-3.08,6.1,6.1,0,0,1,3.35-1.33,53.73,53.73,0,0,1,10.76,0,6,6,0,0,1,3.28,1.33,5.75,5.75,0,0,1,1.67,3.08,24.58,24.58,0,0,1,.47,5.35,25.33,25.33,0,0,1-.47,5.48,5.75,5.75,0,0,1-1.67,3.08,6.35,6.35,0,0,1-3.28,1.4A35.75,35.75,0,0,1,586.9,43.25Zm-9.77,10h19.39v72.21H577.13Z"/><path d="M632.23,88.59,608.69,53.28h22.73l14.05,23.54h.8l14-23.54h22.46l-23.4,35.17,24.74,37h-23l-15-24.87h-.8l-15.24,24.87H607.22Z"/></g></svg></div></div>
+            <span class="cap">9:16　1080×1920</span></div>
+          <div class="fr"><div class="fr-box" style="width:220px;height:124px">
+            <div style="transform:scale(.55)"><svg width="200" height="45" viewBox="-5.57 -5.57 718.6 161.5"><g transform="translate(-6.046,-6.939) scale(2.31305)"><path fill="var(--zhu)" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g><g transform="translate(23.400,-3.916)" fill="var(--ink)"><path d="M183.86,32.69a87.53,87.53,0,0,1,18.52,1.81,32,32,0,0,1,14.31,6.88q5.94,5.09,9.16,14.18t3.21,23.53q0,13.51-3.21,22.4a34.43,34.43,0,0,1-9.16,14.24,34,34,0,0,1-14.31,7.56,72.64,72.64,0,0,1-18.52,2.2H152V32.69Zm-1.07,75.42A41.41,41.41,0,0,0,194,106.77a16.78,16.78,0,0,0,7.89-4.68,20.74,20.74,0,0,0,4.68-9,53.88,53.88,0,0,0,1.54-14,55.23,55.23,0,0,0-1.6-14.64,20.92,20.92,0,0,0-4.75-9A16.24,16.24,0,0,0,193.82,51a45.3,45.3,0,0,0-11-1.2H172.36v58.3Z"/><path d="M288.7,52l-.54,17.25h-1.87a30.11,30.11,0,0,0-6.62.73,18,18,0,0,0-5.95,2.48A16.42,16.42,0,0,0,269,77.09a18.79,18.79,0,0,0-2.81,7.35v41.05H246.84V53.28h19.39v13A24.12,24.12,0,0,1,270.17,59a19.88,19.88,0,0,1,5-4.41,16.66,16.66,0,0,1,5.75-2.14,37.22,37.22,0,0,1,6.28-.53Z"/><path d="M325.2,52.08a64.58,64.58,0,0,1,15.31,1.54,26.69,26.69,0,0,1,10,4.48A16.68,16.68,0,0,1,356,65.38a28.17,28.17,0,0,1,1.67,10.1v50H340.31l-1.87-8.42q-2.28,4-8.16,6.89t-14.84,2.87q-12.17,0-18.45-5.41t-6.29-16.65q0-12.57,7.56-17.66T320.39,82h17.92V80.16a21.25,21.25,0,0,0-.61-5.48A6.87,6.87,0,0,0,335.37,71a11.63,11.63,0,0,0-4.69-2.07,35.89,35.89,0,0,0-7.75-.67c-2.59,0-5.17.11-7.76.33s-5.13.56-7.62,1V53.15c2.76-.36,5.75-.62,9-.8S322.62,52.08,325.2,52.08ZM320.39,112a25.2,25.2,0,0,0,11.36-2.34,13.94,13.94,0,0,0,6.56-6.09V95.14h-15q-7.21,0-10.36,1.74c-2.1,1.16-3.15,3.56-3.15,7.22q0,4.28,2.48,6.08C314,111.39,316.64,112,320.39,112Z"/><path d="M368,53.28h20.6L400,105.43h.81l12.7-52.15h21.93l12.7,52.15h.81l11.36-52.15h20.33L460.8,125.49H436.46l-11.9-49.34h-.8l-11.9,49.34H387.52Z"/><path d="M534.48,52a36.28,36.28,0,0,1,11.3,1.53,17.23,17.23,0,0,1,7.42,4.62,17.88,17.88,0,0,1,4,7.55,40.88,40.88,0,0,1,1.2,10.5v49.34H539V81.23a31.91,31.91,0,0,0-.53-6.22,9.88,9.88,0,0,0-1.81-4.21,7.14,7.14,0,0,0-3.54-2.34,19.55,19.55,0,0,0-5.88-.74,20.42,20.42,0,0,0-9.9,2.14q-3.87,2.15-5.48,7.76v47.87H492.49V53.28h19.39V62a17.83,17.83,0,0,1,8.82-7.55A35.39,35.39,0,0,1,534.48,52Z"/><path d="M586.9,43.25a36,36,0,0,1-5.35-.33,6.45,6.45,0,0,1-3.35-1.4,5.75,5.75,0,0,1-1.67-3.08,25.33,25.33,0,0,1-.47-5.48,24.58,24.58,0,0,1,.47-5.35,5.75,5.75,0,0,1,1.67-3.08,6.1,6.1,0,0,1,3.35-1.33,53.73,53.73,0,0,1,10.76,0,6,6,0,0,1,3.28,1.33,5.75,5.75,0,0,1,1.67,3.08,24.58,24.58,0,0,1,.47,5.35,25.33,25.33,0,0,1-.47,5.48,5.75,5.75,0,0,1-1.67,3.08,6.35,6.35,0,0,1-3.28,1.4A35.75,35.75,0,0,1,586.9,43.25Zm-9.77,10h19.39v72.21H577.13Z"/><path d="M632.23,88.59,608.69,53.28h22.73l14.05,23.54h.8l14-23.54h22.46l-23.4,35.17,24.74,37h-23l-15-24.87h-.8l-15.24,24.87H607.22Z"/></g></svg></div></div>
+            <span class="cap">16:9　1920×1080</span></div>
+        </div>
+      </div>
+      <div class="card pad stack">
+        <span class="cap">规格</span>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>项</th><th>取值</th><th>为什么</th></tr></thead>
+            <tbody>
+              <tr><td>帧率</td><td class="n">30fps</td><td>擦除是匀速直线运动，30 帧足够顺，文件小一半</td></tr>
+              <tr><td>时长</td><td class="n">6.0s</td><td>可裁成 3s（到定格为止）作短版</td></tr>
+              <tr><td>9:16 安全区</td><td class="n">上下各 15%</td><td>Reels / Shorts / 视频号的 UI 高度</td></tr>
+              <tr><td>构图占比</td><td class="n">1:1 占 62%　9:16 与 16:9 占 58%</td><td>竖版和横版要给安全区让位</td></tr>
+              <tr><td>格式</td><td class="f">mp4 (H.264) · webm (VP9 alpha) · gif</td><td>mp4 通投；webm 带透明通道，用于叠在网页或 slide 上</td></tr>
+              <tr><td>声音</td><td>无</td><td>社媒默认静音自动播放，配乐等于没有</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">05</span>
+      <h2>不要做的四件事</h2>
+    </div>
+    <div class="body grid2">
+      <div class="card pad"><div class="dont"><span class="x">✕</span><div>
+        <b>不要循环播放落笔</b><div><span>品牌位不是加载态。首屏播一次，之后保持定格。循环留给 0.85s 的蓄力版。</span></div></div></div></div>
+      <div class="card pad"><div class="dont"><span class="x">✕</span><div>
+        <b>不要弹跳</b><div><span>回弹（overshoot）是塑料感的来源。这一笔的缓动只有一次减速，没有回弹。落款那 0.985 的回落是压印，不是弹。</span></div></div></div></div>
+      <div class="card pad"><div class="dont"><span class="x">✕</span><div>
+        <b>不要让字标先于标记出现</b><div><span>笔在前，名在后。字标的淡入必须压在落笔的最后 0.15s 上，不能提前。</span></div></div></div></div>
+      <div class="card pad"><div class="dont"><span class="x">✕</span><div>
+        <b>不要忘了 <code>prefers-reduced-motion</code></b><div><span>所有动效都要有静帧降级，直接呈现完成态。本页每一个演示都做了。</span></div></div></div></div>
+    </div>
+  </section>
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">06</span>
+      <h2>资产与出片</h2>
+      <p class="plate-sub">矢量动画可以直接用；视频需要一步编码。</p>
+    </div>
+    <div class="body stack">
+      <div class="card scroll">
+        <table>
+          <thead><tr><th>文件</th><th>用途</th><th>大小</th></tr></thead>
+          <tbody>
+            <tr><td class="f">motion/write-on.svg</td><td>落笔，循环，纯标记</td><td class="n">958 B</td></tr>
+            <tr><td class="f">motion/lockup-write-on.svg</td><td>落笔 + 字标，首屏用</td><td class="n">3.8 KB</td></tr>
+            <tr><td class="f">motion/loading.svg</td><td>蓄力循环，加载态</td><td class="n">926 B</td></tr>
+            <tr><td class="f">motion/stamp.svg</td><td>落款，形态 B 压印</td><td class="n">810 B</td></tr>
+            <tr><td class="f">seq/1x1 · 9x16 · 16x9</td><td>序列帧 PNG，各 180 张 @30fps</td><td class="n">11 MB</td></tr>
+            <tr><td class="f">stills/cover*.png</td><td>封面帧（2.60s）</td><td class="n">—</td></tr>
+            <tr><td class="f">stills/endcard*.png</td><td>结束卡（5.00s）</td><td class="n">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card pad stack">
+        <span class="cap">编码</span>
+        <p class="note">序列帧已经出好，编码这一步需要 ffmpeg（<code>brew install ffmpeg</code>），仓库里附了 <code>seq/render-video.sh</code>：</p>
+        <div style="background:var(--grid);border-radius:4px;padding:14px 16px;font-family:var(--mono);
+                    font-size:12px;line-height:1.8;overflow-x:auto;white-space:pre">ffmpeg -framerate 30 -i 1x1/f%04d.png \
+  -c:v libx264 -pix_fmt yuv420p -crf 17 \
+  -movflags +faststart drawnix-1x1.mp4</div>
+        <p class="note">动效 SVG 是纯矢量、无依赖、自带 <code>prefers-reduced-motion</code> 降级，网页里直接 <code>&lt;img&gt;</code> 引用即可。</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

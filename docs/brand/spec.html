@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>朱膘印张 · Drawnix</title>
+<meta name="description" content="Drawnix 品牌落地规范">
+<meta name="theme-color" content="#D8452F">
+<link rel="icon" type="image/svg+xml" href="../../apps/web/public/brand/favicon.svg">
+</head>
+<body>
+<style>
+  :root {
+    --paper: #F7F3EC;
+    --sheet: #FFFDF8;
+    --ink: #1A1512;
+    --ink-2: #4A423B;
+    --faint: #93867A;
+    --line: #E4DACA;
+    --hair: #D2C5B2;
+    --zhu: #D8452F;
+    --grid: #E9E0D2;
+    --chrome: #F1F3F4;
+    --chrome-ink: #5F6368;
+    --dock: #1C1E26;
+    --shot: #FFFFFF;
+    --shot-line: #E6E0D6;
+    /* the lockup has exactly two ratios; everything else is derived from them */
+    --cap: clamp(40px, 6.6vw, 68px);
+    --mark-h: calc(var(--cap) * 1.62);
+    --lock-gap: calc(var(--cap) * 0.36);
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #131010;
+      --sheet: #1C1816;
+      --ink: #F2EBE2;
+      --ink-2: #C5B9AC;
+      --faint: #8E8175;
+      --line: #2C2521;
+      --hair: #3C332C;
+      --grid: #241E1A;
+      --chrome: #2B2F31;
+      --chrome-ink: #B6BCC0;
+      --dock: #08090C;
+      --shot: #17130F;
+      --shot-line: #2C2521;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #131010;
+    --sheet: #1C1816;
+    --ink: #F2EBE2;
+    --ink-2: #C5B9AC;
+    --faint: #8E8175;
+    --line: #2C2521;
+    --hair: #3C332C;
+    --grid: #241E1A;
+    --chrome: #2B2F31;
+    --chrome-ink: #B6BCC0;
+    --dock: #08090C;
+    --shot: #17130F;
+    --shot-line: #2C2521;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- hero: the mark knocked into a full-bleed field ---------- */
+  .hero {
+    background: var(--zhu);
+    padding: clamp(46px, 8vw, 92px) clamp(22px, 5vw, 60px) clamp(38px, 6vw, 70px);
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+  .hero-top { display: flex; align-items: flex-start; gap: var(--lock-gap); flex-wrap: wrap; }
+  /* height drives both: the mark is 1.62 cap, the wordmark box is 1.1194 cap
+     (its bbox is taller than the cap by the i-dot and the descender room) */
+  .hero-mark { flex: 0 0 auto; height: var(--mark-h); width: calc(var(--mark-h) * 0.94440);
+               /* -0.2048 is the lockup rule: the mark centres on the cap middle, the
+                  same figure the generator writes as H/2 − CAP_MID. +0.12 is an
+                  optical correction for the tagline hanging below — that second line
+                  pulls the block's visual mass down 0.184 cap, and compensating two
+                  thirds of it re-balances the pair without detaching the mark from
+                  the wordmark's own line. */
+               margin-top: calc(var(--cap) * -0.2048 + var(--cap) * 0.12); }
+  .hero-word { display: flex; flex-direction: column; gap: calc(var(--cap) * 0.19); min-width: 0; }
+  .hero-wordmark { height: calc(var(--cap) * 1.11928);
+                   width: calc(var(--cap) * 1.11928 * 5.12148); max-width: 100%; }
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: #F7F3EC;
+    opacity: .78;
+  }
+  .hero-rule { border: 0; border-top: 1px solid #F7F3EC44; margin: 0; }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 8px 34px;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .04em;
+    color: #F7F3EC; opacity: .82;
+  }
+  .hero-meta b { font-weight: 400; opacity: .6; }
+
+  /* ---------- sheet ---------- */
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 clamp(18px, 4vw, 34px) 120px;
+  }
+
+  .plate { padding: 58px 0 6px; border-top: 1px solid var(--hair); }
+  .plate:first-of-type { border-top: 0; }
+  .plate-head {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 0 18px;
+    align-items: baseline;
+    margin-bottom: 26px;
+  }
+  .plate-no {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: var(--zhu);
+    padding-top: 6px;
+  }
+  h2 {
+    margin: 0;
+    font-size: clamp(21px, 3vw, 27px);
+    letter-spacing: -.028em;
+    font-weight: 800;
+    line-height: 1.18;
+    text-wrap: balance;
+  }
+  .plate-sub {
+    grid-column: 2;
+    margin: 7px 0 0;
+    font-size: 14.5px;
+    color: var(--ink-2);
+    max-width: 64ch;
+  }
+  .body { grid-column: 2; }
+
+  p { margin: 0; max-width: 66ch; }
+  .note { font-size: 13.5px; color: var(--faint); line-height: 1.6; }
+  strong { font-weight: 680; color: var(--ink); }
+  code {
+    font-family: var(--mono);
+    font-size: .86em;
+    background: var(--grid);
+    border-radius: 3px;
+    padding: 1px 5px;
+  }
+  .cap {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  .card {
+    background: var(--sheet);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+  }
+  .pad { padding: 24px; }
+  .stack { display: flex; flex-direction: column; gap: 16px; }
+  .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
+
+  .swatchbox { display: flex; flex-wrap: wrap; gap: 14px; }
+  .swatch { flex: 1 1 190px; border-radius: 5px; overflow: hidden; border: 1px solid var(--line); }
+  .swatch-fill { height: 106px; }
+  .swatch-foot { padding: 11px 13px; background: var(--sheet); display: flex; flex-direction: column; gap: 2px; }
+  .swatch-name { font-size: 13.5px; font-weight: 680; }
+  .swatch-val { font-family: var(--mono); font-size: 11px; color: var(--faint); }
+
+  /* icon baseline */
+  .baseline {
+    display: flex; align-items: flex-end; gap: clamp(14px, 3vw, 30px);
+    flex-wrap: wrap; padding: 26px 24px 0;
+    border-bottom: 1px solid var(--hair);
+  }
+  .ic { display: flex; flex-direction: column; align-items: center; gap: 9px; padding-bottom: 12px; }
+  .ic span { font-family: var(--mono); font-size: 9.5px; color: var(--faint); }
+
+  /* scenes */
+  .tabs { display: flex; gap: 3px; align-items: flex-end; background: var(--chrome); border-radius: 7px 7px 0 0; padding: 7px 6px 0; }
+  .tab { display: flex; align-items: center; gap: 7px; padding: 7px 9px; border-radius: 7px 7px 0 0;
+         font-size: 11.5px; color: var(--chrome-ink); flex: 1 1 0; min-width: 0; }
+  .tab.on { background: var(--shot); color: var(--ink); }
+  .tab i { flex: 0 0 16px; height: 16px; border-radius: 3px; background: var(--hair); }
+  .tab b { font-weight: 400; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .dock { display: flex; gap: 12px; align-items: center; padding: 10px 14px; border-radius: 16px; background: var(--dock); }
+  .dock i { width: 42px; height: 42px; border-radius: 10px; background: #ffffff1c; flex: 0 0 42px; }
+  .dock .slot { width: 42px; height: 42px; display: grid; place-items: center; flex: 0 0 42px; }
+
+  .home { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 10px; padding: 15px;
+          border-radius: 14px; background: linear-gradient(158deg, #6E5F55, #342C27); }
+  .home-app { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .home-app em { font-style: normal; font-size: 8.5px; color: #ffffffcc; }
+  .home-app i { width: 40px; height: 40px; border-radius: 10px; background: #ffffff26; }
+
+  .banner { background: var(--shot); border: 1px solid var(--shot-line); border-radius: 6px;
+            padding: 22px 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .banner p { font-size: 11.5px; color: var(--faint); text-align: center; }
+  .badges { display: flex; gap: 5px; }
+  .badges i { width: 44px; height: 14px; border-radius: 3px; background: var(--line); }
+
+  .canvas { height: 132px; border-radius: 6px; border: 1px solid var(--shot-line);
+            background-color: var(--shot);
+            background-image: radial-gradient(var(--hair) 1px, transparent 1px);
+            background-size: 15px 15px; padding: 10px; }
+  .island { display: inline-flex; align-items: center; gap: 8px; padding: 6px 9px;
+            background: var(--shot); border: 1px solid var(--shot-line); border-radius: 7px;
+            box-shadow: 0 1px 4px #0000001a; }
+  .island i { width: 15px; height: 15px; border-radius: 3px; background: var(--hair); }
+  .island .sep { width: 1px; height: 16px; background: var(--line); border-radius: 0; }
+
+  /* the OG card is a fixed asset — literals, not tokens */
+  .og { aspect-ratio: 1.91; border-radius: 6px; border: 1px solid #E0D8CB;
+        background-color: #F7F3EC;
+        background-image: radial-gradient(#E0D8CB 1px, transparent 1px);
+        background-size: 16px 16px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+  .og p { font-size: 10.5px; color: #6B6058; }
+
+  .fileicon { display: flex; flex-direction: column; align-items: center; gap: 9px; }
+  .doc { width: 76px; height: 94px; border-radius: 7px; background: var(--sheet);
+         border: 1px solid var(--hair); position: relative; display: grid; place-items: center;
+         box-shadow: 0 1px 4px #00000012; }
+  .doc .corner { position: absolute; top: 0; right: 0; width: 20px; height: 20px;
+                 background: var(--paper); border-left: 1px solid var(--hair); border-bottom: 1px solid var(--hair);
+                 border-radius: 0 7px 0 4px; }
+
+  /* clear space + min size */
+  .clear { position: relative; display: inline-flex; padding: 14px;   /* = 1/4 of the 55px mark */ background:
+      repeating-linear-gradient(45deg, var(--grid) 0 5px, transparent 5px 10px);
+      border: 1px dashed var(--hair); border-radius: 4px; }
+  .clear-inner { background: var(--sheet); padding: 0; display: flex; }
+
+  .ruler { display: flex; align-items: flex-end; gap: 20px; }
+  .ruler-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .ruler-item span { font-family: var(--mono); font-size: 9.5px; color: var(--faint); }
+  .no { color: var(--zhu); }
+
+  /* don'ts */
+  .dont { display: flex; gap: 13px; align-items: flex-start; }
+  .dont-vis { flex: 0 0 56px; height: 56px; display: grid; place-items: center;
+              background: var(--grid); border-radius: 5px; }
+  .dont-txt { display: flex; flex-direction: column; gap: 2px; font-size: 13px; line-height: 1.5; }
+  .dont-txt b { font-weight: 680; }
+  .dont-txt span { color: var(--faint); }
+
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 540px; font-size: 13.5px; }
+  th, td { text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--line); }
+  thead th { font-family: var(--mono); font-size: 10px; letter-spacing: .09em; text-transform: uppercase;
+             color: var(--faint); font-weight: 500; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.f { font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+  td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .good { color: #1F7A4D; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .good { color: #4EC98A; } }
+  :root[data-theme="dark"] .good { color: #4EC98A; }
+
+  @media (max-width: 620px) {
+    .plate-head { grid-template-columns: 1fr; gap: 4px; }
+    .plate-sub, .body { grid-column: 1; }
+  }
+
+  :focus-visible { outline: 2px solid var(--zhu); outline-offset: 3px; border-radius: 3px; }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- tight crops: the artboard padding is stripped so a CSS gap equals the
+         ink gap, and every hero measurement can be stated in cap units -->
+    <symbol id="markTight" viewBox="2.614 3 61.386 65">
+      <path d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z" />
+    </symbol>
+
+    <symbol id="mark" viewBox="0.614 1 65.386 69">
+      <path d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z" />
+    </symbol>
+
+    <symbol id="tile" viewBox="0 0 64 64">
+      <path d="M14 0 H50 A14 14 0 0 1 64 14 V50 A14 14 0 0 1 50 64 H14 A14 14 0 0 1 0 50 V14 A14 14 0 0 1 14 0 Z" />
+      <path style="fill: var(--knock, #F7F3EC)" transform="translate(7.353,5.730) scale(0.74)" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z" />
+    </symbol>
+
+    <symbol id="tileSquare" viewBox="0 0 64 64">
+      <rect width="64" height="64" />
+      <path style="fill: var(--knock, #F7F3EC)" transform="translate(9.351,7.860) scale(0.68)" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z" />
+    </symbol>
+
+    <symbol id="tileMask" viewBox="0 0 64 64">
+      <rect width="64" height="64" />
+      <path style="fill: var(--knock, #F7F3EC)" transform="translate(11.516,10.168) scale(0.615)" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z" />
+    </symbol>
+
+    <symbol id="tileMaskSafe" viewBox="0 0 64 64">
+      <rect width="64" height="64" />
+      <path style="fill: var(--knock, #F7F3EC)" transform="translate(11.516,10.168) scale(0.615)" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z" />
+      <circle cx="32" cy="32" r="25.6" fill="none" stroke="#F7F3EC" stroke-width="0.9" stroke-dasharray="3 2.4" opacity=".85" />
+    </symbol>
+
+    <symbol id="fav" viewBox="0 0 64 64">
+      <path transform="translate(-0.139,-2.255) scale(0.9649)" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z" />
+    </symbol>
+
+    <linearGradient id="nope-grad" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#2f6bff" /><stop offset="1" stop-color="#ff5e3a" />
+    </linearGradient>
+
+    <symbol id="wordTight" viewBox="152 22.93 532.07 103.89">
+      <path d="M183.86,32.69a87.53,87.53,0,0,1,18.52,1.81,32,32,0,0,1,14.31,6.88q5.94,5.09,9.16,14.18t3.21,23.53q0,13.51-3.21,22.4a34.43,34.43,0,0,1-9.16,14.24,34,34,0,0,1-14.31,7.56,72.64,72.64,0,0,1-18.52,2.2H152V32.69Zm-1.07,75.42A41.41,41.41,0,0,0,194,106.77a16.78,16.78,0,0,0,7.89-4.68,20.74,20.74,0,0,0,4.68-9,53.88,53.88,0,0,0,1.54-14,55.23,55.23,0,0,0-1.6-14.64,20.92,20.92,0,0,0-4.75-9A16.24,16.24,0,0,0,193.82,51a45.3,45.3,0,0,0-11-1.2H172.36v58.3Z" />
+      <path d="M288.7,52l-.54,17.25h-1.87a30.11,30.11,0,0,0-6.62.73,18,18,0,0,0-5.95,2.48A16.42,16.42,0,0,0,269,77.09a18.79,18.79,0,0,0-2.81,7.35v41.05H246.84V53.28h19.39v13A24.12,24.12,0,0,1,270.17,59a19.88,19.88,0,0,1,5-4.41,16.66,16.66,0,0,1,5.75-2.14,37.22,37.22,0,0,1,6.28-.53Z" />
+      <path d="M325.2,52.08a64.58,64.58,0,0,1,15.31,1.54,26.69,26.69,0,0,1,10,4.48A16.68,16.68,0,0,1,356,65.38a28.17,28.17,0,0,1,1.67,10.1v50H340.31l-1.87-8.42q-2.28,4-8.16,6.89t-14.84,2.87q-12.17,0-18.45-5.41t-6.29-16.65q0-12.57,7.56-17.66T320.39,82h17.92V80.16a21.25,21.25,0,0,0-.61-5.48A6.87,6.87,0,0,0,335.37,71a11.63,11.63,0,0,0-4.69-2.07,35.89,35.89,0,0,0-7.75-.67c-2.59,0-5.17.11-7.76.33s-5.13.56-7.62,1V53.15c2.76-.36,5.75-.62,9-.8S322.62,52.08,325.2,52.08ZM320.39,112a25.2,25.2,0,0,0,11.36-2.34,13.94,13.94,0,0,0,6.56-6.09V95.14h-15q-7.21,0-10.36,1.74c-2.1,1.16-3.15,3.56-3.15,7.22q0,4.28,2.48,6.08C314,111.39,316.64,112,320.39,112Z" />
+      <path d="M368,53.28h20.6L400,105.43h.81l12.7-52.15h21.93l12.7,52.15h.81l11.36-52.15h20.33L460.8,125.49H436.46l-11.9-49.34h-.8l-11.9,49.34H387.52Z" />
+      <path d="M534.48,52a36.28,36.28,0,0,1,11.3,1.53,17.23,17.23,0,0,1,7.42,4.62,17.88,17.88,0,0,1,4,7.55,40.88,40.88,0,0,1,1.2,10.5v49.34H539V81.23a31.91,31.91,0,0,0-.53-6.22,9.88,9.88,0,0,0-1.81-4.21,7.14,7.14,0,0,0-3.54-2.34,19.55,19.55,0,0,0-5.88-.74,20.42,20.42,0,0,0-9.9,2.14q-3.87,2.15-5.48,7.76v47.87H492.49V53.28h19.39V62a17.83,17.83,0,0,1,8.82-7.55A35.39,35.39,0,0,1,534.48,52Z" />
+      <path d="M586.9,43.25a36,36,0,0,1-5.35-.33,6.45,6.45,0,0,1-3.35-1.4,5.75,5.75,0,0,1-1.67-3.08,25.33,25.33,0,0,1-.47-5.48,24.58,24.58,0,0,1,.47-5.35,5.75,5.75,0,0,1,1.67-3.08,6.1,6.1,0,0,1,3.35-1.33,53.73,53.73,0,0,1,10.76,0,6,6,0,0,1,3.28,1.33,5.75,5.75,0,0,1,1.67,3.08,24.58,24.58,0,0,1,.47,5.35,25.33,25.33,0,0,1-.47,5.48,5.75,5.75,0,0,1-1.67,3.08,6.35,6.35,0,0,1-3.28,1.4A35.75,35.75,0,0,1,586.9,43.25Zm-9.77,10h19.39v72.21H577.13Z" />
+      <path d="M632.23,88.59,608.69,53.28h22.73l14.05,23.54h.8l14-23.54h22.46l-23.4,35.17,24.74,37h-23l-15-24.87h-.8l-15.24,24.87H607.22Z" />
+    </symbol>
+
+    <symbol id="word" viewBox="150 21 536 107">
+      <path d="M183.86,32.69a87.53,87.53,0,0,1,18.52,1.81,32,32,0,0,1,14.31,6.88q5.94,5.09,9.16,14.18t3.21,23.53q0,13.51-3.21,22.4a34.43,34.43,0,0,1-9.16,14.24,34,34,0,0,1-14.31,7.56,72.64,72.64,0,0,1-18.52,2.2H152V32.69Zm-1.07,75.42A41.41,41.41,0,0,0,194,106.77a16.78,16.78,0,0,0,7.89-4.68,20.74,20.74,0,0,0,4.68-9,53.88,53.88,0,0,0,1.54-14,55.23,55.23,0,0,0-1.6-14.64,20.92,20.92,0,0,0-4.75-9A16.24,16.24,0,0,0,193.82,51a45.3,45.3,0,0,0-11-1.2H172.36v58.3Z" />
+      <path d="M288.7,52l-.54,17.25h-1.87a30.11,30.11,0,0,0-6.62.73,18,18,0,0,0-5.95,2.48A16.42,16.42,0,0,0,269,77.09a18.79,18.79,0,0,0-2.81,7.35v41.05H246.84V53.28h19.39v13A24.12,24.12,0,0,1,270.17,59a19.88,19.88,0,0,1,5-4.41,16.66,16.66,0,0,1,5.75-2.14,37.22,37.22,0,0,1,6.28-.53Z" />
+      <path d="M325.2,52.08a64.58,64.58,0,0,1,15.31,1.54,26.69,26.69,0,0,1,10,4.48A16.68,16.68,0,0,1,356,65.38a28.17,28.17,0,0,1,1.67,10.1v50H340.31l-1.87-8.42q-2.28,4-8.16,6.89t-14.84,2.87q-12.17,0-18.45-5.41t-6.29-16.65q0-12.57,7.56-17.66T320.39,82h17.92V80.16a21.25,21.25,0,0,0-.61-5.48A6.87,6.87,0,0,0,335.37,71a11.63,11.63,0,0,0-4.69-2.07,35.89,35.89,0,0,0-7.75-.67c-2.59,0-5.17.11-7.76.33s-5.13.56-7.62,1V53.15c2.76-.36,5.75-.62,9-.8S322.62,52.08,325.2,52.08ZM320.39,112a25.2,25.2,0,0,0,11.36-2.34,13.94,13.94,0,0,0,6.56-6.09V95.14h-15q-7.21,0-10.36,1.74c-2.1,1.16-3.15,3.56-3.15,7.22q0,4.28,2.48,6.08C314,111.39,316.64,112,320.39,112Z" />
+      <path d="M368,53.28h20.6L400,105.43h.81l12.7-52.15h21.93l12.7,52.15h.81l11.36-52.15h20.33L460.8,125.49H436.46l-11.9-49.34h-.8l-11.9,49.34H387.52Z" />
+      <path d="M534.48,52a36.28,36.28,0,0,1,11.3,1.53,17.23,17.23,0,0,1,7.42,4.62,17.88,17.88,0,0,1,4,7.55,40.88,40.88,0,0,1,1.2,10.5v49.34H539V81.23a31.91,31.91,0,0,0-.53-6.22,9.88,9.88,0,0,0-1.81-4.21,7.14,7.14,0,0,0-3.54-2.34,19.55,19.55,0,0,0-5.88-.74,20.42,20.42,0,0,0-9.9,2.14q-3.87,2.15-5.48,7.76v47.87H492.49V53.28h19.39V62a17.83,17.83,0,0,1,8.82-7.55A35.39,35.39,0,0,1,534.48,52Z" />
+      <path d="M586.9,43.25a36,36,0,0,1-5.35-.33,6.45,6.45,0,0,1-3.35-1.4,5.75,5.75,0,0,1-1.67-3.08,25.33,25.33,0,0,1-.47-5.48,24.58,24.58,0,0,1,.47-5.35,5.75,5.75,0,0,1,1.67-3.08,6.1,6.1,0,0,1,3.35-1.33,53.73,53.73,0,0,1,10.76,0,6,6,0,0,1,3.28,1.33,5.75,5.75,0,0,1,1.67,3.08,24.58,24.58,0,0,1,.47,5.35,25.33,25.33,0,0,1-.47,5.48,5.75,5.75,0,0,1-1.67,3.08,6.35,6.35,0,0,1-3.28,1.4A35.75,35.75,0,0,1,586.9,43.25Zm-9.77,10h19.39v72.21H577.13Z" />
+      <path d="M632.23,88.59,608.69,53.28h22.73l14.05,23.54h.8l14-23.54h22.46l-23.4,35.17,24.74,37h-23l-15-24.87h-.8l-15.24,24.87H607.22Z" />
+    </symbol>
+  </defs>
+</svg>
+
+<header class="hero">
+  <div class="hero-top">
+    <svg class="hero-mark" viewBox="0 0 61.386 65" fill="#F7F3EC" aria-label="Drawnix mark"><use href="#markTight" /></svg>
+    <div class="hero-word">
+      <svg class="hero-wordmark" viewBox="0 0 532.07 103.89" fill="#F7F3EC" aria-label="Drawnix"><use href="#wordTight" /></svg>
+      <span class="hero-tag">Draw Beyond, Rise Above.</span>
+    </div>
+  </div>
+  <hr class="hero-rule" />
+  <div class="hero-meta">
+    <span><b>朱膘</b>　#D8452F</span>
+    <span><b>暖墨</b>　#1A1512</span>
+    <span><b>宣纸</b>　#F7F3EC</span>
+    <span><b>形</b>　ND-1r</span>
+    <span><b>物料</b>　24 个文件，一条命令重出</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">01</span>
+      <h2>一个红，一支笔，一张纸</h2>
+      <p class="plate-sub">
+        三个色值就是全部：<strong>朱膘</strong>做唯一的红，不按底色切换；<strong>暖墨</strong>是字标与墨底图标；
+        <strong>宣纸</strong>用于反刻笔画和分享卡的底。没有渐变——渐变会把一枚标记钉死在它被画出来的那个年代。
+      </p>
+    </div>
+    <div class="body stack">
+      <div class="swatchbox">
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#D8452F"></div>
+          <div class="swatch-foot"><span class="swatch-name">朱膘</span><span class="swatch-val">#D8452F　RGB 216 69 47</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#1A1512"></div>
+          <div class="swatch-foot"><span class="swatch-name">暖墨</span><span class="swatch-val">#1A1512　RGB 26 21 18</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-fill" style="background:#F7F3EC"></div>
+          <div class="swatch-foot"><span class="swatch-name">宣纸</span><span class="swatch-val">#F7F3EC　RGB 247 243 236</span></div>
+        </div>
+      </div>
+
+      <div class="card scroll">
+        <table>
+          <thead><tr><th>16px 图标的面积均色对底色</th><th>浅标签栏</th><th>深标签栏</th><th>深 dock</th><th>最低</th></tr></thead>
+          <tbody>
+            <tr><td><strong>朱膘 #D8452F</strong>（采用）</td><td class="n">3.31</td><td class="n">3.31</td><td class="n">4.05</td><td class="n good">3.10</td></tr>
+            <tr><td>银朱 #C0362C（更沉，未采用）</td><td class="n">4.02</td><td class="n">2.71</td><td class="n">3.29</td><td class="n">2.45</td></tr>
+            <tr><td>旧版蓝紫橙渐变</td><td class="n">3.26</td><td class="n">—</td><td class="n">4.58</td><td class="n">16px 均色落成一枚紫</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        取单值的理由就在这张表里：朱膘三种底几乎一样平，最低 3.10；银朱把余量堆在浅底，深色标签栏只剩 2.45，
+        要用就得额外维护一条「什么时候换哪个红」的规则。<strong>拿浅底上的一档余量，换掉规范里的一整条判定。</strong>
+      </p>
+    </div>
+  </section>
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">02</span>
+      <h2>两个形态，一句判定</h2>
+      <p class="plate-sub">
+        <strong>旁边有字标用 A，没有用 B。</strong>不用记场景清单，记这一句就够。
+        两者不是两个 logo——B 就是 A 反刻进色场，轮廓、比例、角度完全一致。
+      </p>
+    </div>
+    <div class="body grid2">
+      <div class="card pad stack">
+        <span class="cap">形态 A · 自由标</span>
+        <div class="row" style="justify-content:center;min-height:132px">
+          <svg width="96" height="101" viewBox="0 0 65.386 69" fill="var(--zhu)"><use href="#mark" /></svg>
+        </div>
+        <p class="note">无容器，可以缩进句子、缩进工具栏。用在 README 顶部、官网 hero、应用内品牌位、正文内联，以及浏览器标签栏。</p>
+      </div>
+      <div class="card pad stack">
+        <span class="cap">形态 B · 图标形态</span>
+        <div class="row" style="justify-content:center;min-height:132px">
+          <svg width="112" height="112" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#tile" /></svg>
+        </div>
+        <p class="note">同一条路径反刻进色场，笔画用宣纸白而不是纯白。用在 Dock、PWA、桌面端、<code>.drawnix</code> 文件图标——必须单独出现的地方。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">03</span>
+      <h2>图标全套，按真实尺寸排在一条线上</h2>
+      <p class="plate-sub">下面这排不是等比缩略图，是各自的实际渲染尺寸。16 到 64 是屏幕上真正会出现的那几档。</p>
+    </div>
+    <div class="body stack">
+      <div class="card">
+        <div class="baseline">
+          <div class="ic"><svg width="16" height="16" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#fav" /></svg><span>16 · A</span></div>
+          <div class="ic"><svg width="32" height="32" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#fav" /></svg><span>32 · A</span></div>
+          <div class="ic"><svg width="16" height="16" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#tile" /></svg><span>16 · B</span></div>
+          <div class="ic"><svg width="32" height="32" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#tile" /></svg><span>32 · B</span></div>
+          <div class="ic"><svg width="48" height="48" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#tile" /></svg><span>48</span></div>
+          <div class="ic"><svg width="64" height="64" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#tile" /></svg><span>64</span></div>
+          <div class="ic"><svg width="90" height="90" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#tileSquare" /></svg><span>apple-touch 180</span></div>
+          <div class="ic"><svg width="90" height="90" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#tileMaskSafe" /></svg><span>maskable 512</span></div>
+          <div class="ic"><svg width="64" height="64" viewBox="0 0 64 64" fill="#1A1512"><use href="#tile" /></svg><span>墨底备用</span></div>
+        </div>
+        <div class="pad">
+          <p class="note">
+            <strong>三档占比是算出来的，不是调出来的。</strong>
+            通用图标 0.74；满幅方版 0.68，留满边不带透明角，供 apple-touch 派生；
+            maskable 0.615——虚线圆是安全区（中心 80% 直径），刃尖到中心的最远点决定了这个上限，
+            启动器无论切圆还是切超椭圆都伤不到笔画。
+          </p>
+        </div>
+      </div>
+
+      <div class="card pad stack">
+        <span class="cap">标签栏这一格用形态 A</span>
+        <p class="note" style="max-width:70ch">
+          它是唯一没有平台掩码、也不用跟一排方图标对齐的图标位，所以标记可以卸掉色场、按最长边铺满
+          <code>0.98</code>——比形态 B 里那个反刻出来的形还大一圈。代价是墨覆盖率只有 16%，
+          余光定位不如一块实色，但盯着看时形反而更清楚。
+        </p>
+        <div class="tabs">
+          <div class="tab on"><svg width="16" height="16" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#fav" /></svg><b>Drawnix</b></div>
+          <div class="tab"><i></i><b>GitHub</b></div>
+          <div class="tab"><i></i><b>MDN</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">04</span>
+      <h2>落到真实场景里</h2>
+      <p class="plate-sub">六个位置，每一个都用它该用的那个形态。</p>
+    </div>
+    <div class="body grid2">
+
+      <div class="card pad stack">
+        <span class="cap">Dock · 42px · 形态 B</span>
+        <div class="row" style="justify-content:center">
+          <div class="dock">
+            <i></i><i></i>
+            <span class="slot"><svg width="42" height="42" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#tile" /></svg></span>
+            <i></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="card pad stack">
+        <span class="cap">手机主屏 · 40px · 形态 B</span>
+        <div class="row" style="justify-content:center">
+          <div class="home">
+            <div class="home-app"><i></i><em>备忘录</em></div>
+            <div class="home-app"><svg width="40" height="40" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#tile" /></svg><em>Drawnix</em></div>
+            <div class="home-app"><i></i><em>日历</em></div>
+            <div class="home-app"><i></i><em>相机</em></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card pad stack">
+        <span class="cap">README 顶部 · 形态 A + 字标</span>
+        <div class="banner">
+          <svg width="172" height="39" viewBox="-5.57 -5.57 718.6 161.5"><g transform="translate(-6.046,-6.939) scale(2.31305)"><path fill="var(--zhu)" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g><g transform="translate(23.400,-3.916)" fill="currentColor"><path d="M183.86,32.69a87.53,87.53,0,0,1,18.52,1.81,32,32,0,0,1,14.31,6.88q5.94,5.09,9.16,14.18t3.21,23.53q0,13.51-3.21,22.4a34.43,34.43,0,0,1-9.16,14.24,34,34,0,0,1-14.31,7.56,72.64,72.64,0,0,1-18.52,2.2H152V32.69Zm-1.07,75.42A41.41,41.41,0,0,0,194,106.77a16.78,16.78,0,0,0,7.89-4.68,20.74,20.74,0,0,0,4.68-9,53.88,53.88,0,0,0,1.54-14,55.23,55.23,0,0,0-1.6-14.64,20.92,20.92,0,0,0-4.75-9A16.24,16.24,0,0,0,193.82,51a45.3,45.3,0,0,0-11-1.2H172.36v58.3Z"/><path d="M288.7,52l-.54,17.25h-1.87a30.11,30.11,0,0,0-6.62.73,18,18,0,0,0-5.95,2.48A16.42,16.42,0,0,0,269,77.09a18.79,18.79,0,0,0-2.81,7.35v41.05H246.84V53.28h19.39v13A24.12,24.12,0,0,1,270.17,59a19.88,19.88,0,0,1,5-4.41,16.66,16.66,0,0,1,5.75-2.14,37.22,37.22,0,0,1,6.28-.53Z"/><path d="M325.2,52.08a64.58,64.58,0,0,1,15.31,1.54,26.69,26.69,0,0,1,10,4.48A16.68,16.68,0,0,1,356,65.38a28.17,28.17,0,0,1,1.67,10.1v50H340.31l-1.87-8.42q-2.28,4-8.16,6.89t-14.84,2.87q-12.17,0-18.45-5.41t-6.29-16.65q0-12.57,7.56-17.66T320.39,82h17.92V80.16a21.25,21.25,0,0,0-.61-5.48A6.87,6.87,0,0,0,335.37,71a11.63,11.63,0,0,0-4.69-2.07,35.89,35.89,0,0,0-7.75-.67c-2.59,0-5.17.11-7.76.33s-5.13.56-7.62,1V53.15c2.76-.36,5.75-.62,9-.8S322.62,52.08,325.2,52.08ZM320.39,112a25.2,25.2,0,0,0,11.36-2.34,13.94,13.94,0,0,0,6.56-6.09V95.14h-15q-7.21,0-10.36,1.74c-2.1,1.16-3.15,3.56-3.15,7.22q0,4.28,2.48,6.08C314,111.39,316.64,112,320.39,112Z"/><path d="M368,53.28h20.6L400,105.43h.81l12.7-52.15h21.93l12.7,52.15h.81l11.36-52.15h20.33L460.8,125.49H436.46l-11.9-49.34h-.8l-11.9,49.34H387.52Z"/><path d="M534.48,52a36.28,36.28,0,0,1,11.3,1.53,17.23,17.23,0,0,1,7.42,4.62,17.88,17.88,0,0,1,4,7.55,40.88,40.88,0,0,1,1.2,10.5v49.34H539V81.23a31.91,31.91,0,0,0-.53-6.22,9.88,9.88,0,0,0-1.81-4.21,7.14,7.14,0,0,0-3.54-2.34,19.55,19.55,0,0,0-5.88-.74,20.42,20.42,0,0,0-9.9,2.14q-3.87,2.15-5.48,7.76v47.87H492.49V53.28h19.39V62a17.83,17.83,0,0,1,8.82-7.55A35.39,35.39,0,0,1,534.48,52Z"/><path d="M586.9,43.25a36,36,0,0,1-5.35-.33,6.45,6.45,0,0,1-3.35-1.4,5.75,5.75,0,0,1-1.67-3.08,25.33,25.33,0,0,1-.47-5.48,24.58,24.58,0,0,1,.47-5.35,5.75,5.75,0,0,1,1.67-3.08,6.1,6.1,0,0,1,3.35-1.33,53.73,53.73,0,0,1,10.76,0,6,6,0,0,1,3.28,1.33,5.75,5.75,0,0,1,1.67,3.08,24.58,24.58,0,0,1,.47,5.35,25.33,25.33,0,0,1-.47,5.48,5.75,5.75,0,0,1-1.67,3.08,6.35,6.35,0,0,1-3.28,1.4A35.75,35.75,0,0,1,586.9,43.25Zm-9.77,10h19.39v72.21H577.13Z"/><path d="M632.23,88.59,608.69,53.28h22.73l14.05,23.54h.8l14-23.54h22.46l-23.4,35.17,24.74,37h-23l-15-24.87h-.8l-15.24,24.87H607.22Z"/></g></svg>
+          <p>开源白板工具，一体化白板<br />包含思维导图、流程图、自由画等</p>
+          <div class="badges"><i></i><i></i><i></i></div>
+        </div>
+      </div>
+
+      <div class="card pad stack">
+        <span class="cap">应用内左上角 island · 形态 A</span>
+        <div class="canvas">
+          <span class="island">
+            <svg width="17" height="18" viewBox="0 0 65.386 69" fill="var(--zhu)"><use href="#mark" /></svg>
+            <span class="sep"></span><i></i><i></i><i></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="card pad stack">
+        <span class="cap">分享卡 1200×630 · 宣纸底</span>
+        <div class="og">
+          <svg width="190" height="43" viewBox="-5.57 -5.57 718.6 161.5"><g transform="translate(-6.046,-6.939) scale(2.31305)"><path fill="#D8452F" d="M5 19 C-1 31 5 44 15 48 C23 51 29 50 34 44 C39 34 46 20 57 3 L51 45 C56 46 60 48 64 51 C55 52 48 51 43 49 C45 56 44 62 43 68 C40 60 37 56 32 54 C22 52 10 46 6 37 C2 30 2 23 5 19 Z"/></g><g transform="translate(23.400,-3.916)" fill="#1A1512"><path d="M183.86,32.69a87.53,87.53,0,0,1,18.52,1.81,32,32,0,0,1,14.31,6.88q5.94,5.09,9.16,14.18t3.21,23.53q0,13.51-3.21,22.4a34.43,34.43,0,0,1-9.16,14.24,34,34,0,0,1-14.31,7.56,72.64,72.64,0,0,1-18.52,2.2H152V32.69Zm-1.07,75.42A41.41,41.41,0,0,0,194,106.77a16.78,16.78,0,0,0,7.89-4.68,20.74,20.74,0,0,0,4.68-9,53.88,53.88,0,0,0,1.54-14,55.23,55.23,0,0,0-1.6-14.64,20.92,20.92,0,0,0-4.75-9A16.24,16.24,0,0,0,193.82,51a45.3,45.3,0,0,0-11-1.2H172.36v58.3Z"/><path d="M288.7,52l-.54,17.25h-1.87a30.11,30.11,0,0,0-6.62.73,18,18,0,0,0-5.95,2.48A16.42,16.42,0,0,0,269,77.09a18.79,18.79,0,0,0-2.81,7.35v41.05H246.84V53.28h19.39v13A24.12,24.12,0,0,1,270.17,59a19.88,19.88,0,0,1,5-4.41,16.66,16.66,0,0,1,5.75-2.14,37.22,37.22,0,0,1,6.28-.53Z"/><path d="M325.2,52.08a64.58,64.58,0,0,1,15.31,1.54,26.69,26.69,0,0,1,10,4.48A16.68,16.68,0,0,1,356,65.38a28.17,28.17,0,0,1,1.67,10.1v50H340.31l-1.87-8.42q-2.28,4-8.16,6.89t-14.84,2.87q-12.17,0-18.45-5.41t-6.29-16.65q0-12.57,7.56-17.66T320.39,82h17.92V80.16a21.25,21.25,0,0,0-.61-5.48A6.87,6.87,0,0,0,335.37,71a11.63,11.63,0,0,0-4.69-2.07,35.89,35.89,0,0,0-7.75-.67c-2.59,0-5.17.11-7.76.33s-5.13.56-7.62,1V53.15c2.76-.36,5.75-.62,9-.8S322.62,52.08,325.2,52.08ZM320.39,112a25.2,25.2,0,0,0,11.36-2.34,13.94,13.94,0,0,0,6.56-6.09V95.14h-15q-7.21,0-10.36,1.74c-2.1,1.16-3.15,3.56-3.15,7.22q0,4.28,2.48,6.08C314,111.39,316.64,112,320.39,112Z"/><path d="M368,53.28h20.6L400,105.43h.81l12.7-52.15h21.93l12.7,52.15h.81l11.36-52.15h20.33L460.8,125.49H436.46l-11.9-49.34h-.8l-11.9,49.34H387.52Z"/><path d="M534.48,52a36.28,36.28,0,0,1,11.3,1.53,17.23,17.23,0,0,1,7.42,4.62,17.88,17.88,0,0,1,4,7.55,40.88,40.88,0,0,1,1.2,10.5v49.34H539V81.23a31.91,31.91,0,0,0-.53-6.22,9.88,9.88,0,0,0-1.81-4.21,7.14,7.14,0,0,0-3.54-2.34,19.55,19.55,0,0,0-5.88-.74,20.42,20.42,0,0,0-9.9,2.14q-3.87,2.15-5.48,7.76v47.87H492.49V53.28h19.39V62a17.83,17.83,0,0,1,8.82-7.55A35.39,35.39,0,0,1,534.48,52Z"/><path d="M586.9,43.25a36,36,0,0,1-5.35-.33,6.45,6.45,0,0,1-3.35-1.4,5.75,5.75,0,0,1-1.67-3.08,25.33,25.33,0,0,1-.47-5.48,24.58,24.58,0,0,1,.47-5.35,5.75,5.75,0,0,1,1.67-3.08,6.1,6.1,0,0,1,3.35-1.33,53.73,53.73,0,0,1,10.76,0,6,6,0,0,1,3.28,1.33,5.75,5.75,0,0,1,1.67,3.08,24.58,24.58,0,0,1,.47,5.35,25.33,25.33,0,0,1-.47,5.48,5.75,5.75,0,0,1-1.67,3.08,6.35,6.35,0,0,1-3.28,1.4A35.75,35.75,0,0,1,586.9,43.25Zm-9.77,10h19.39v72.21H577.13Z"/><path d="M632.23,88.59,608.69,53.28h22.73l14.05,23.54h.8l14-23.54h22.46l-23.4,35.17,24.74,37h-23l-15-24.87h-.8l-15.24,24.87H607.22Z"/></g></svg>
+          <p>开源白板 · 思维导图 · 流程图 · 自由画</p>
+        </div>
+      </div>
+
+      <div class="card pad stack">
+        <span class="cap">.drawnix 文件图标 · 形态 B</span>
+        <div class="row" style="justify-content:center;min-height:120px">
+          <div class="fileicon">
+            <div class="doc">
+              <div class="corner"></div>
+              <svg width="34" height="34" viewBox="0 0 64 64" fill="var(--zhu)" style="margin-top:8px"><use href="#tile" /></svg>
+            </div>
+            <span class="cap">未命名.drawnix</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">05</span>
+      <h2>留白、最小尺寸、盲区</h2>
+      <p class="plate-sub">三条硬规矩，其中第三条是这套配色特有的。</p>
+    </div>
+    <div class="body grid3">
+      <div class="card pad stack">
+        <span class="cap">留白</span>
+        <div class="row" style="justify-content:center">
+          <span class="clear"><span class="clear-inner">
+            <svg width="52" height="55" viewBox="0 0 65.386 69" fill="var(--zhu)"><use href="#mark" /></svg>
+          </span></span>
+        </div>
+        <p class="note">四周不小于<strong>标记高度的 1/4</strong>。斜纹区内不放任何东西——文字、边框、其它标都不行。</p>
+      </div>
+
+      <div class="card pad stack">
+        <span class="cap">最小尺寸</span>
+        <div class="row" style="justify-content:center;min-height:76px">
+          <span class="ruler">
+            <span class="ruler-item"><svg width="19" height="20" viewBox="0 0 65.386 69" fill="var(--zhu)"><use href="#mark" /></svg><span>20px ✓</span></span>
+            <span class="ruler-item"><svg width="13" height="14" viewBox="0 0 65.386 69" fill="var(--zhu)" opacity=".45"><use href="#mark" /></svg><span class="no">14px ✕</span></span>
+            <span class="ruler-item"><svg width="16" height="16" viewBox="0 0 64 64" fill="var(--zhu)"><use href="#tile" /></svg><span>改用 B</span></span>
+          </span>
+        </div>
+        <p class="note">形态 A 不小于 <strong>20px 高</strong>；再小改用形态 B。唯一的例外是浏览器标签栏，那一格 16px 也用 A。</p>
+      </div>
+
+      <div class="card pad stack">
+        <span class="cap">中灰盲区</span>
+        <div class="row" style="justify-content:center;gap:0">
+          <span style="background:#606060;padding:14px 12px;display:grid;place-items:center">
+            <svg width="30" height="32" viewBox="0 0 65.386 69" fill="var(--zhu)"><use href="#mark" /></svg></span>
+          <span style="background:#787878;padding:14px 12px;display:grid;place-items:center">
+            <svg width="30" height="32" viewBox="0 0 65.386 69" fill="var(--zhu)"><use href="#mark" /></svg></span>
+          <span style="background:#909090;padding:14px 12px;display:grid;place-items:center">
+            <svg width="30" height="32" viewBox="0 0 65.386 69" fill="var(--zhu)"><use href="#mark" /></svg></span>
+        </div>
+        <p class="note">
+          底色落在 <code>#606060</code>–<code>#909090</code> 之间时，对比会跌到 <strong>1.1</strong> 上下——
+          朱膘和银朱都救不了。截图、视频封面、毛玻璃背景要么给标记加一圈宣纸白描边，要么直接用墨。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">06</span>
+      <h2>不要做的五件事</h2>
+    </div>
+    <div class="body grid2">
+      <div class="card pad"><div class="dont">
+        <span class="dont-vis"><svg width="30" height="32" viewBox="0 0 65.386 69" fill="url(#nope-grad)"><use href="#mark" /></svg></span>
+        <span class="dont-txt"><b>不要加渐变</b><span>平涂是这套色的前提。任何过渡都会让它退回上一个版本。</span></span>
+      </div></div>
+
+      <div class="card pad"><div class="dont">
+        <span class="dont-vis" style="background:#1A1512"><svg width="30" height="32" viewBox="0 0 65.386 69" fill="#FFFFFF"><use href="#mark" /></svg></span>
+        <span class="dont-txt"><b>深底不要把标记刷成纯白</b><span>标记颜色始终是朱膘，深底上换的是字标（宣纸白），不是标记。</span></span>
+      </div></div>
+
+      <div class="card pad"><div class="dont">
+        <span class="dont-vis"><svg width="30" height="32" viewBox="0 0 65.386 69" fill="none" stroke="var(--zhu)" stroke-width="2.4"><use href="#mark" /></svg></span>
+        <span class="dont-txt"><b>不要描边化</b><span>它是一笔实心的笔势，不是线性图标。描边版在 24px 以下会并线糊掉。</span></span>
+      </div></div>
+
+      <div class="card pad"><div class="dont">
+        <span class="dont-vis"><svg width="30" height="32" viewBox="0 0 65.386 69" fill="var(--zhu)" style="transform:scale(1.35,.72)"><use href="#mark" /></svg></span>
+        <span class="dont-txt"><b>不要拉伸</b><span>等比缩放。非等比会破坏刃与尾的粗细节奏，那是这个形唯一的记忆点。</span></span>
+      </div></div>
+
+      <div class="card pad"><div class="dont">
+        <span class="dont-vis"><svg width="30" height="32" viewBox="0 0 65.386 69" fill="var(--zhu)" style="transform:rotate(-24deg)"><use href="#mark" /></svg></span>
+        <span class="dont-txt"><b>不要旋转</b><span>上扬的角度就是「Rise Above」本身，转过去就只是一个斜块。</span></span>
+      </div></div>
+
+      <div class="card pad"><div class="dont">
+        <span class="dont-vis" style="background:#F7F3EC">
+          <svg width="30" height="30" viewBox="0 0 64 64" fill="#F7F3EC" style="--knock:#D8452F"><use href="#tile" /></svg></span>
+        <span class="dont-txt"><b>形态 B 不要浅底正形</b><span>火在外、笔在内。反过来在 16px 上等于没有色场，直接消失。</span></span>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="plate">
+    <div class="plate-head">
+      <span class="plate-no">07</span>
+      <h2>文件清单</h2>
+      <p class="plate-sub">
+        全部由 <code>scripts/build-brand.py</code> 生成。改了标记路径或色值就重跑一次，尺寸与锚点是联动的，不要手改导出物。
+      </p>
+    </div>
+    <div class="body card scroll">
+      <table>
+        <thead><tr><th>文件</th><th>用途</th><th>标记占比</th></tr></thead>
+        <tbody>
+          <tr><td class="f">mark.svg</td><td>形态 A，朱膘</td><td class="n">—</td></tr>
+          <tr><td class="f">mark-mono.svg</td><td>形态 A，单色，随文字颜色走</td><td class="n">—</td></tr>
+          <tr><td class="f">logo-h.svg / logo-h-dark.svg</td><td>横版组合，浅底 / 深底</td><td class="n">—</td></tr>
+          <tr><td class="f">logo-h-mono.svg</td><td>横版组合，全单色</td><td class="n">—</td></tr>
+          <tr><td class="f">logo-v.svg / logo-v-dark.svg</td><td>竖版组合</td><td class="n">—</td></tr>
+          <tr><td class="f">favicon.svg</td><td>浏览器标签栏，形态 A 无色场</td><td class="n">0.98</td></tr>
+          <tr><td class="f">favicon.ico</td><td>旧浏览器兜底，16/32/48 三合一</td><td class="n">0.98</td></tr>
+          <tr><td class="f">icon.svg</td><td>通用图标，PWA / Dock / 桌面端</td><td class="n">0.74</td></tr>
+          <tr><td class="f">icon-square.svg</td><td>满幅方版，供 apple-touch 派生</td><td class="n">0.68</td></tr>
+          <tr><td class="f">icon-maskable.svg</td><td>PWA maskable，安全区上限</td><td class="n">0.615</td></tr>
+          <tr><td class="f">icon-solid.svg</td><td>墨底版，单色印刷与深色场备用</td><td class="n">0.74</td></tr>
+          <tr><td class="f">og.svg / og.png</td><td>分享卡 1200×630，宣纸底</td><td class="n">—</td></tr>
+          <tr><td class="f">favicon-16/32/48/64.png</td><td>位图 favicon</td><td class="n">0.98</td></tr>
+          <tr><td class="f">apple-touch-icon.png</td><td>180×180</td><td class="n">0.68</td></tr>
+          <tr><td class="f">icon-192.png / icon-512.png</td><td>PWA 通用图标</td><td class="n">0.74</td></tr>
+          <tr><td class="f">icon-maskable-512.png</td><td>PWA maskable</td><td class="n">0.615</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
