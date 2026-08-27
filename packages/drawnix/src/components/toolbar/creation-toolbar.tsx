@@ -28,7 +28,7 @@ import { ShapePicker, SHAPES } from '../shape-picker';
 import { ArrowPicker, ARROWS } from '../arrow-picker';
 import { useEffect, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover/popover';
-import { FreehandShape } from '../../plugins/freehand/type';
+import { FreehandShape } from '@plait-board/freehand';
 import {
   DrawnixFreehandPointer,
   DrawnixPointerType,

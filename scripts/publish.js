@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
-const libraries = ['react-board', 'react-text', 'drawnix'];
+const libraries = ['react-board', 'react-text', 'freehand', 'drawnix'];
 
 libraries.forEach((lib) => {
   const libPath = path.resolve(__dirname, '../dist', lib);

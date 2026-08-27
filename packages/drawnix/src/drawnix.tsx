@@ -26,7 +26,7 @@ import classNames from 'classnames';
 import './styles/index.scss';
 import { buildDrawnixHotkeyPlugin } from './plugins/with-hotkey';
 import { buildToolStateSyncPlugin } from './plugins/with-tool-state-sync';
-import { withFreehand } from './plugins/freehand/with-freehand';
+import { withDrawnixFreehand } from './plugins/with-freehand';
 import { ThemeToolbar } from './components/toolbar/theme-toolbar';
 import { buildPencilPlugin } from './plugins/with-pencil';
 import {
@@ -204,7 +204,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     withMindExtend,
     withCommonPlugin,
     buildDrawnixHotkeyPlugin(updateAppState),
-    withFreehand,
+    withDrawnixFreehand,
     buildPencilPlugin(updateAppState),
     buildTextLinkPlugin(updateAppState),
     buildToolStateSyncPlugin(syncBoardPointerToToolState),

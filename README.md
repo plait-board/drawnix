@@ -88,6 +88,7 @@ drawnix/
 ├── dist/                     # 构建产物
 ├── packages/
 │   └── drawnix/              # 白板应用
+│   └── freehand/             # 自由画笔插件
 │   └── react-board/          # 白板 React 视图层
 │   └── react-text/           # 文本渲染模块
 ├── package.json

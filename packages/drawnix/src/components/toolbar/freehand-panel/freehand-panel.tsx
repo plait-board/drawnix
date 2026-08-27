@@ -8,14 +8,15 @@ import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { useBoard } from '@plait-board/react-board';
 import { DrawnixPointerType } from '../../../hooks/use-drawnix';
 import { useI18n } from '../../../i18n';
-import { FreehandShape } from '../../../plugins/freehand/type';
-import { FREEHANDS, FREEHAND_PRESET_IDS, type FreehandPresetId } from '../../../constants/freehand';
-import { FreehandStylePresetItem, type FreehandStylePreset } from './freehand-style-preset-item';
-import './freehand-style-preset-item.scss';
+import { FreehandShape, type FreehandDrawOptions } from '@plait-board/freehand';
 import {
   DEFAULT_FREEHAND_PRESETS,
-  type FreehandDrawOptions,
-} from '../../../plugins/freehand/presets';
+  FREEHANDS,
+  FREEHAND_PRESET_IDS,
+  type FreehandPresetId,
+} from '../../../constants/freehand';
+import { FreehandStylePresetItem, type FreehandStylePreset } from './freehand-style-preset-item';
+import './freehand-style-preset-item.scss';
 
 const FreehandStyleDivider = () => <span className="freehand-style-divider" aria-hidden="true" />;
 

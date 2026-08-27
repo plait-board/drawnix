@@ -1,7 +1,7 @@
 import { PlaitPointerType } from '@plait/core';
 import { ArrowLineShape, BasicShapes } from '@plait/draw';
 import { describe, expect, it, vi } from 'vitest';
-import { FreehandShape } from '../plugins/freehand/type';
+import { FreehandShape } from '@plait-board/freehand';
 import { createDefaultToolState, mergeToolState } from './use-drawnix';
 
 vi.mock('@plait/core', () => ({

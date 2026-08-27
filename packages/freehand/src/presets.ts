@@ -1,5 +1,3 @@
-import { CLASSIC_COLORS } from '../../constants/color';
-
 export const DEFAULT_FREEHAND_STROKE_WIDTH = 2;
 
 export const MIN_FREEHAND_STROKE_WIDTH = 1;
@@ -15,23 +13,9 @@ export type FreehandDrawOptions = {
   strokeWidth: number;
 };
 
-const getClassicColorValue = (name: string) => {
-  return CLASSIC_COLORS.find((item) => item.name === name)?.value;
+export const DEFAULT_FREEHAND_DRAW_OPTIONS: FreehandDrawOptions = {
+  strokeWidth: DEFAULT_FREEHAND_STROKE_WIDTH,
 };
-
-export const DEFAULT_FREEHAND_PRESETS: FreehandDrawOptions[] = [
-  {
-    strokeWidth: DEFAULT_FREEHAND_STROKE_WIDTH,
-  },
-  {
-    strokeColor: getClassicColorValue('color.red') || CLASSIC_COLORS[5].value,
-    strokeWidth: 6,
-  },
-  {
-    strokeColor: getClassicColorValue('color.green') || CLASSIC_COLORS[6].value,
-    strokeWidth: 10,
-  },
-];
 
 export const resolveFreehandDrawOptions = (drawOptions: Partial<FreehandDrawOptions> = {}) => {
   const normalizedDrawOptions = {} as Partial<FreehandDrawOptions>;

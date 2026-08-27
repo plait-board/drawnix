@@ -8,12 +8,12 @@ import { SizeSlider } from '../../size-slider';
 import { useI18n } from '../../../i18n';
 import { ColorPicker } from '../../color-picker';
 import { useBoard } from '@plait-board/react-board';
-import { getFreehandDefaultStrokeColor } from '../../../plugins/freehand/utils';
+import { getFreehandDefaultStrokeColor } from '@plait-board/freehand';
 import {
   FREEHAND_STROKE_WIDTH_STEP,
   MAX_FREEHAND_STROKE_WIDTH,
   MIN_FREEHAND_STROKE_WIDTH,
-} from '../../../plugins/freehand/type';
+} from '@plait-board/freehand';
 import { isNoColor, isWhite } from '../../../utils/color';
 
 const formatSize = (value: number) => {

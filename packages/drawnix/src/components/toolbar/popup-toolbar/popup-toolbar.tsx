@@ -38,7 +38,7 @@ import { PopupStrokeButton } from './stroke-button';
 import { PopupFillButton } from './fill-button';
 import { isWhite, removeHexAlpha } from '../../../utils/color';
 import { NO_COLOR } from '../../../constants/color';
-import { Freehand } from '../../../plugins/freehand/type';
+import { Freehand } from '@plait-board/freehand';
 import { PopupLinkButton } from './link-button';
 import { ArrowMarkButton } from './arrow-mark-button';
 import { MoreOptionsButton } from './more-options-button';

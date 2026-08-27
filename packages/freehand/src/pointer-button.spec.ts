@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
   insertNode: vi.fn(),
@@ -9,15 +9,12 @@ vi.mock('@plait/common', () => ({
   isDrawingMode: () => true,
 }));
 
-vi.mock('@plait-board/react-board', () => ({
-  isTwoFingerMode: () => false,
-}));
-
 vi.mock('@plait/core', () => ({
   CoreTransforms: {
     removeElements: mocks.removeElements,
   },
   DEFAULT_COLOR: '#000000',
+  idCreator: () => 'freehand-id',
   PlaitBoard: {
     getElementTopHost: () => ({}),
     getPointer: (board: { pointer: string }) => board.pointer,
@@ -62,16 +59,10 @@ vi.mock('./smoother', () => ({
   },
 }));
 
-vi.mock('../../utils/laser-pointer', () => ({
-  LaserPointer: class {
-    destroy = vi.fn();
-    init = vi.fn();
-  },
-}));
-
 import { withFreehandCreate } from './with-freehand-create';
 import { withFreehandErase } from './with-freehand-erase';
 import { FreehandShape } from './type';
+import { setFreehandPluginOptions } from './plugin-options';
 
 const createPointerEvent = (button: number) =>
   ({
@@ -94,6 +85,10 @@ const createBoard = (pointer: string) => ({
 });
 
 describe('freehand pointer buttons', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('does not start freehand drawing from the middle mouse button', () => {
     const board = createBoard(FreehandShape.feltTipPen);
     const originalPointerDown = board.pointerDown;
@@ -120,5 +115,61 @@ describe('freehand pointer buttons', () => {
 
     expect(originalPointerDown).toHaveBeenCalledOnce();
     expect(mocks.removeElements).not.toHaveBeenCalled();
+  });
+
+  it('uses application-provided draw options without reading application state', () => {
+    const board = createBoard(FreehandShape.feltTipPen);
+    setFreehandPluginOptions(board as any, {
+      getDrawOptions: () => ({
+        strokeColor: '#FF4500',
+        strokeWidth: 6,
+      }),
+    });
+
+    withFreehandCreate(board as any);
+    board.pointerDown(createPointerEvent(0));
+    board.pointerUp(createPointerEvent(0));
+
+    expect(mocks.insertNode).toHaveBeenCalledWith(
+      board,
+      expect.objectContaining({
+        id: 'freehand-id',
+        strokeColor: '#FF4500',
+        strokeWidth: 6,
+      }),
+      [0]
+    );
+  });
+
+  it('uses an application-provided eraser trail lifecycle', () => {
+    const board = createBoard(FreehandShape.eraser);
+    const eraseTrail = {
+      init: vi.fn(),
+      destroy: vi.fn(),
+    };
+    setFreehandPluginOptions(board as any, {
+      createEraseTrail: () => eraseTrail,
+    });
+
+    withFreehandErase(board as any);
+    board.pointerDown(createPointerEvent(0));
+    board.pointerUp(createPointerEvent(0));
+
+    expect(eraseTrail.init).toHaveBeenCalledWith(board);
+    expect(eraseTrail.destroy).toHaveBeenCalledOnce();
+  });
+
+  it('cancels an active stroke when application interaction policy blocks it', () => {
+    const board = createBoard(FreehandShape.feltTipPen);
+    setFreehandPluginOptions(board as any, {
+      isInteractionBlocked: () => true,
+    });
+
+    withFreehandCreate(board as any);
+    board.pointerDown(createPointerEvent(0));
+    board.pointerMove(createPointerEvent(0));
+    board.pointerUp(createPointerEvent(0));
+
+    expect(mocks.insertNode).not.toHaveBeenCalled();
   });
 });

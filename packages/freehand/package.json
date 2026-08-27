@@ -1,0 +1,24 @@
+{
+  "name": "@plait-board/freehand",
+  "version": "0.4.0",
+  "private": false,
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "types": "./index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@plait/common": "^0.93.4",
+    "@plait/core": "^0.93.4",
+    "@plait/draw": "^0.93.4",
+    "@plait/text-plugins": "^0.93.4",
+    "roughjs": "^4.6.6"
+  },
+  "peerDependencies": {
+    "slate": "^0.116.0"
+  }
+}

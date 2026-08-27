@@ -6,10 +6,10 @@ import { PlaitBoard, PlaitPointerType } from '@plait/core';
 import { createContext, useContext, type Dispatch, type SetStateAction } from 'react';
 import { MindPointerType } from '@plait/mind';
 import { ArrowLineShape, BasicShapes, DrawPointerType } from '@plait/draw';
-import { FreehandShape } from '../plugins/freehand/type';
+import { FreehandShape, type FreehandDrawOptions } from '@plait-board/freehand';
 import { Editor } from 'slate';
 import { LinkElement } from '@plait/common';
-import { DEFAULT_FREEHAND_PRESETS, FreehandDrawOptions } from '../plugins/freehand/presets';
+import { DEFAULT_FREEHAND_PRESETS } from '../constants/freehand';
 import { DrawnixFileHandle } from '../data/json';
 import type { DrawnixToastOptions } from '../components/toast/toast';
 

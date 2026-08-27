@@ -21,11 +21,8 @@ vi.mock('@plait-board/react-board', () => ({
   }),
 }));
 
-vi.mock('../../../plugins/freehand/utils', () => ({
+vi.mock('@plait-board/freehand', () => ({
   getFreehandDefaultStrokeColor: () => '#000000',
-}));
-
-vi.mock('../../../plugins/freehand/type', () => ({
   FREEHAND_STROKE_WIDTH_STEP: 0.25,
   MAX_FREEHAND_STROKE_WIDTH: 24,
   MIN_FREEHAND_STROKE_WIDTH: 1,

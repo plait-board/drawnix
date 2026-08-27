@@ -86,6 +86,7 @@ drawnix/
 ├── dist/                     # Build artifacts
 ├── packages/
 │   └── drawnix/              # Whiteboard application core
+│   └── freehand/             # Reusable freehand plugin
 │   └── react-board/          # Whiteboard react view layer
 │   └── react-text/           # Text rendering module
 ├── package.json

@@ -11,11 +11,8 @@ import {
   ThemeColorMode,
 } from '@plait/core';
 import { Freehand, FreehandShape, FreehandThemeColors } from './type';
-import {
-  DEFAULT_FREEHAND_PRESETS,
-  type FreehandDrawOptions,
-  resolveFreehandDrawOptions,
-} from './presets';
+import { type FreehandDrawOptions, resolveFreehandDrawOptions } from './presets';
+import { getFreehandPluginOptions } from './plugin-options';
 import {
   DefaultDrawStyle,
   isClosedCustomGeometry,
@@ -24,26 +21,12 @@ import {
   isRectangleHitRotatedPoints,
 } from '@plait/draw';
 
-type FreehandAppState = {
-  toolState?: {
-    activeFreehandPresetIndex?: number;
-    freehandPresets?: FreehandDrawOptions[];
-  };
-};
-
 export function getFreehandPointers() {
   return [FreehandShape.feltTipPen, FreehandShape.eraser];
 }
 
 export const getFreehandDrawOptions = (board: PlaitBoard) => {
-  const appState = (board as PlaitBoard & { appState?: FreehandAppState }).appState;
-  const activePresetIndex = appState?.toolState?.activeFreehandPresetIndex || 0;
-  const activePreset =
-    appState?.toolState?.freehandPresets?.[activePresetIndex] ||
-    DEFAULT_FREEHAND_PRESETS[activePresetIndex] ||
-    DEFAULT_FREEHAND_PRESETS[0];
-
-  return resolveFreehandDrawOptions(activePreset);
+  return resolveFreehandDrawOptions(getFreehandPluginOptions(board).getDrawOptions(board));
 };
 
 export const createFreehandElement = (
@@ -94,7 +77,8 @@ export const getFreehandDefaultFill = (theme: ThemeColorMode) => {
 };
 
 export const getStrokeColorByElement = (board: PlaitBoard, element: PlaitElement) => {
-  const defaultColor = getFreehandDefaultStrokeColor(board.theme.themeColorMode);
+  const defaultColor =
+    getFreehandPluginOptions(board).themeColors[board.theme.themeColorMode].strokeColor;
   const strokeColor = element.strokeColor || defaultColor;
   return strokeColor;
 };
@@ -102,7 +86,7 @@ export const getStrokeColorByElement = (board: PlaitBoard, element: PlaitElement
 export const getFillByElement = (board: PlaitBoard, element: PlaitElement) => {
   const defaultFill =
     Freehand.isFreehand(element) && isClosedCustomGeometry(board, element)
-      ? getFreehandDefaultFill(board.theme.themeColorMode)
+      ? getFreehandPluginOptions(board).themeColors[board.theme.themeColorMode].fill
       : DefaultDrawStyle.fill;
   const fill = element.fill || defaultFill;
   return fill;

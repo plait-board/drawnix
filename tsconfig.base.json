@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@drawnix/drawnix": ["packages/drawnix/src/index.ts"],
+      "@plait-board/freehand": ["packages/freehand/src/index.ts"],
       "@plait-board/react-board": ["packages/react-board/src/index.ts"],
       "@plait-board/react-text": ["packages/react-text/src/index.ts"]
     }

@@ -26,7 +26,7 @@ vi.mock('@plait/mind', () => ({
   },
 }));
 
-vi.mock('../plugins/freehand/type', () => ({
+vi.mock('@plait-board/freehand', () => ({
   FreehandShape: {
     feltTipPen: 'feltTipPen',
     eraser: 'eraser',

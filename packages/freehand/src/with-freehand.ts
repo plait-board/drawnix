@@ -5,6 +5,7 @@ import {
   PlaitPluginElementContext,
   RectangleClient,
   Selection,
+  type PlaitPlugin,
 } from '@plait/core';
 import { Freehand, FREEHAND_TYPE } from './type';
 import { FreehandComponent } from './freehand.component';
@@ -13,8 +14,10 @@ import { isHitFreehand, isRectangleHitFreehand } from './utils';
 import { withFreehandFragment } from './with-freehand-fragment';
 import { getHitDrawElement, WithDrawOptions, WithDrawPluginKey } from '@plait/draw';
 import { withFreehandErase } from './with-freehand-erase';
+import { setFreehandPluginOptions, type FreehandPluginOptions } from './plugin-options';
 
-export const withFreehand = (board: PlaitBoard) => {
+const applyFreehandPlugin = (board: PlaitBoard, options: FreehandPluginOptions = {}) => {
+  setFreehandPluginOptions(board, options);
   const { getRectangle, drawElement, isHit, isRectangleHit, getOneHitElement, isMovable, isAlign } =
     board;
 
@@ -74,3 +77,9 @@ export const withFreehand = (board: PlaitBoard) => {
 
   return withFreehandErase(withFreehandFragment(withFreehandCreate(board)));
 };
+
+export const createFreehandPlugin = (options: FreehandPluginOptions = {}): PlaitPlugin => {
+  return (board) => applyFreehandPlugin(board, options);
+};
+
+export const withFreehand: PlaitPlugin = createFreehandPlugin();

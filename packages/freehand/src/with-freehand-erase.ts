@@ -11,13 +11,12 @@ import {
 import { isDrawingMode } from '@plait/common';
 import { isHitFreehand } from './utils';
 import { Freehand, FreehandShape } from './type';
-import { LaserPointer } from '../../utils/laser-pointer';
-import { isTwoFingerMode } from '@plait-board/react-board';
+import { getFreehandPluginOptions } from './plugin-options';
 
 export const withFreehandErase = (board: PlaitBoard) => {
   const { pointerDown, pointerMove, pointerUp, globalPointerUp, touchStart } = board;
 
-  const laserPointer = new LaserPointer();
+  const eraseTrail = getFreehandPluginOptions(board).createEraseTrail();
 
   let isErasing = false;
   const elementsToDelete = new Set<string>();
@@ -52,7 +51,7 @@ export const withFreehandErase = (board: PlaitBoard) => {
       deleteMarkedElements();
       isErasing = false;
       elementsToDelete.clear();
-      laserPointer.destroy();
+      eraseTrail.destroy();
     }
   };
 
@@ -72,7 +71,7 @@ export const withFreehandErase = (board: PlaitBoard) => {
       elementsToDelete.clear();
       const currentPoint: Point = [event.x, event.y];
       checkAndMarkFreehandElementsForDeletion(currentPoint);
-      laserPointer.init(board);
+      eraseTrail.init(board);
       return;
     }
 
@@ -80,14 +79,15 @@ export const withFreehandErase = (board: PlaitBoard) => {
   };
 
   board.pointerMove = (event: PointerEvent) => {
-    if (isErasing && !isTwoFingerMode(board)) {
+    const isInteractionBlocked = getFreehandPluginOptions(board).isInteractionBlocked(board);
+    if (isErasing && !isInteractionBlocked) {
       throttleRAF(board, 'with-freehand-erase', () => {
         const currentPoint: Point = [event.x, event.y];
         checkAndMarkFreehandElementsForDeletion(currentPoint);
       });
       return;
     }
-    if (isErasing && isTwoFingerMode(board)) {
+    if (isErasing && isInteractionBlocked) {
       complete();
       return;
     }

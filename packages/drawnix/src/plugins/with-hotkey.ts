@@ -11,7 +11,7 @@ import {
 } from '../hooks/use-drawnix';
 import { BoardCreationMode, setCreationMode } from '@plait/common';
 import { MindPointerType } from '@plait/mind';
-import { FreehandShape } from './freehand/type';
+import { FreehandShape } from '@plait-board/freehand';
 import { ArrowLineShape, BasicShapes } from '@plait/draw';
 
 export const buildDrawnixHotkeyPlugin = (

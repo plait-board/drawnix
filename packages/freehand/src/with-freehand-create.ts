@@ -12,7 +12,7 @@ import { createFreehandElement, getFreehandDrawOptions, getFreehandPointers } fr
 import { Freehand, FreehandShape } from './type';
 import { FreehandGenerator } from './freehand.generator';
 import { FreehandSmoother } from './smoother';
-import { isTwoFingerMode } from '@plait-board/react-board';
+import { getFreehandPluginOptions } from './plugin-options';
 
 export const withFreehandCreate = (board: PlaitBoard) => {
   const { pointerDown, pointerMove, pointerUp, globalPointerUp, touchStart } = board;
@@ -76,7 +76,8 @@ export const withFreehandCreate = (board: PlaitBoard) => {
   };
 
   board.pointerMove = (event: PointerEvent) => {
-    if (isDrawing && !isTwoFingerMode(board)) {
+    const isInteractionBlocked = getFreehandPluginOptions(board).isInteractionBlocked(board);
+    if (isDrawing && !isInteractionBlocked) {
       const currentScreenPoint: Point = [event.x, event.y];
       if (
         originScreenPoint &&
@@ -105,7 +106,7 @@ export const withFreehandCreate = (board: PlaitBoard) => {
       }
       return;
     }
-    if (isTwoFingerMode(board) && isDrawing) {
+    if (isInteractionBlocked && isDrawing) {
       complete(true);
       return;
     }
