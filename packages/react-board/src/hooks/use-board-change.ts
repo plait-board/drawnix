@@ -33,8 +33,24 @@ export const useBoardChange = (
       }
       const isSetViewport =
         board.operations.length && board.operations.some((op) => op.type === 'set_viewport');
-      if (isSetViewport && isFromScrolling(board)) {
+      const isOnlySetViewport =
+        isSetViewport && board.operations.every((op) => op.type === 'set_viewport');
+      const fromScrolling = isFromScrolling(board);
+      if (fromScrolling) {
         setIsFromScrolling(board, false);
+      }
+      if (isOnlySetViewport) {
+        // Element layout is unchanged. Finalize the viewport before components
+        // draw their active sections, so no corrective second render is needed.
+        const hasZoomChanged = board.operations.some(
+          (op) => op.type === 'set_viewport' && op.properties.zoom !== op.newProperties.zoom
+        );
+        if (!fromScrolling || hasZoomChanged) {
+          initializeViewBox(board);
+        }
+        // Usually a no-op for native scrolling, but a later transform in the
+        // same batch may have changed the origin again.
+        updateViewportOffset(board);
         listRender.update(board.children, {
           board: board,
           parent: board,
@@ -42,6 +58,8 @@ export const useBoardChange = (
         });
         return;
       }
+      // Element changes can recompute geometry (for example, a mind layout)
+      // during rendering. Preserve the post-layout refresh for these batches.
       listRender.update(board.children, {
         board: board,
         parent: board,

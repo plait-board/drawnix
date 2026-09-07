@@ -8,6 +8,7 @@ import {
   RESIZE_HANDLE_CLASS_NAME,
   SELECTION_RECTANGLE_CLASS_NAME,
   Transforms,
+  isFromScrolling,
   updateViewportByScrolling,
   withBoard,
   withOptions,
@@ -142,6 +143,7 @@ describe('freehand active drawing on viewport changes', () => {
     expect([state.viewport.scrollLeft, state.viewport.scrollTop]).not.toEqual(oldScroll);
     expect(state.afterChange).toHaveBeenCalledOnce();
     expect(state.board.operations).toEqual([]);
+    expect(state.rectangle).toHaveBeenCalledOnce();
     expectOutline(state, bounds);
   });
 
@@ -155,6 +157,7 @@ describe('freehand active drawing on viewport changes', () => {
 
     expect(state.afterChange).toHaveBeenCalledOnce();
     expect(state.board.operations).toEqual([]);
+    expect(state.rectangle).toHaveBeenCalledOnce();
     expectOutline(state, [90, 75, 180, 90]);
   });
 
@@ -171,6 +174,77 @@ describe('freehand active drawing on viewport changes', () => {
     expect(state.host.getAttribute('viewBox')).toBe(oldViewBox);
     expect(state.board.viewport.origination).toEqual([40, 30]);
     expect(state.afterChange).toHaveBeenCalledOnce();
+    expect(state.rectangle).toHaveBeenCalledOnce();
+    expect(isFromScrolling(state.board)).toBe(false);
     expectOutline(state, [260, 210, 120, 60]);
+  });
+
+  it('finalizes a zoom batched after native scrolling', async () => {
+    const state = await setup();
+    await act(async () => {
+      state.viewport.scrollLeft += 40;
+      state.viewport.scrollTop += 30;
+      updateViewportByScrolling(state.board, state.viewport.scrollLeft, state.viewport.scrollTop);
+      BoardTransforms.updateZoom(state.board, 2);
+    });
+    expect(state.afterChange).toHaveBeenCalledOnce();
+    expect(state.rectangle).toHaveBeenCalledOnce();
+    expect(isFromScrolling(state.board)).toBe(false);
+    expectOutline(state, [120, 120, 240, 120]);
+  });
+
+  it('applies an origin change batched after native scrolling', async () => {
+    const state = await setup();
+    await act(async () => {
+      state.viewport.scrollLeft += 40;
+      state.viewport.scrollTop += 30;
+      updateViewportByScrolling(state.board, state.viewport.scrollLeft, state.viewport.scrollTop);
+      Transforms.setViewport(state.board, { zoom: 1, origination: [80, 60] });
+    });
+    expect(state.rectangle).toHaveBeenCalledOnce();
+    expectOutline(state, [220, 180, 120, 60]);
+  });
+
+  it('refreshes after rendering when an element change is batched with zoom', async () => {
+    const state = await setup();
+    await act(async () => {
+      Transforms.setNode(
+        state.board,
+        {
+          points: [
+            [1000, 800],
+            [1120, 860],
+          ],
+        },
+        [0]
+      );
+      BoardTransforms.updateZoom(state.board, 2);
+    });
+    expect(state.afterChange).toHaveBeenCalledOnce();
+    expectOutline(state, [1600, 1300, 240, 120]);
+  });
+
+  it('does not skip element layout in a batch that includes native scrolling', async () => {
+    const state = await setup();
+    const oldViewBox = state.host.getAttribute('viewBox');
+    await act(async () => {
+      state.viewport.scrollLeft += 40;
+      state.viewport.scrollTop += 30;
+      updateViewportByScrolling(state.board, state.viewport.scrollLeft, state.viewport.scrollTop);
+      Transforms.setNode(
+        state.board,
+        {
+          points: [
+            [1000, 800],
+            [1120, 860],
+          ],
+        },
+        [0]
+      );
+    });
+    expect(state.host.getAttribute('viewBox')).not.toBe(oldViewBox);
+    expect(state.afterChange).toHaveBeenCalledOnce();
+    expect(isFromScrolling(state.board)).toBe(false);
+    expectOutline(state, [960, 770, 120, 60]);
   });
 });
