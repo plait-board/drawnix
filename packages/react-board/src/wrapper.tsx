@@ -1,5 +1,4 @@
 import {
-  BOARD_TO_ON_CHANGE,
   ListRender,
   PlaitElement,
   Viewport,
@@ -17,26 +16,20 @@ import {
   type PlaitBoardOptions,
   type Selection,
   ThemeColorMode,
-  BOARD_TO_AFTER_CHANGE,
   PlaitOperation,
   PlaitTheme,
-  isFromScrolling,
-  setIsFromScrolling,
-  getSelectedElements,
-  updateViewportOffset,
-  initializeViewBox,
   withI18n,
-  updateViewBox,
   FLUSHING,
   BoardTransforms,
 } from '@plait/core';
 import { BoardChangeData } from './plugins/board';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { withReact } from './plugins/with-react';
-import { PlaitCommonElementRef, withImage, withText } from '@plait/common';
+import { withImage, withText } from '@plait/common';
 import { BoardContext, BoardContextValue } from './hooks/use-board';
 import React from 'react';
 import { withPinchZoom } from './plugins/with-pinch-zoom-plugin';
+import { useBoardChange } from './hooks/use-board-change';
 
 export type WrapperProps = {
   value: PlaitElement[];
@@ -136,56 +129,7 @@ export const Wrapper: React.FC<WrapperProps> = ({
     onViewportChange,
   ]);
 
-  useEffect(() => {
-    BOARD_TO_ON_CHANGE.set(board, () => {
-      const isOnlySetSelection =
-        board.operations.length && board.operations.every((op) => op.type === 'set_selection');
-      if (isOnlySetSelection) {
-        listRender.update(board.children, {
-          board: board,
-          parent: board,
-          parentG: PlaitBoard.getElementHost(board),
-        });
-        return;
-      }
-      const isSetViewport =
-        board.operations.length && board.operations.some((op) => op.type === 'set_viewport');
-      if (isSetViewport && isFromScrolling(board)) {
-        setIsFromScrolling(board, false);
-        listRender.update(board.children, {
-          board: board,
-          parent: board,
-          parentG: PlaitBoard.getElementHost(board),
-        });
-        return;
-      }
-      listRender.update(board.children, {
-        board: board,
-        parent: board,
-        parentG: PlaitBoard.getElementHost(board),
-      });
-      if (isSetViewport) {
-        initializeViewBox(board);
-      } else {
-        updateViewBox(board);
-      }
-      updateViewportOffset(board);
-      const selectedElements = getSelectedElements(board);
-      selectedElements.forEach((element) => {
-        const elementRef = PlaitElement.getElementRef<PlaitCommonElementRef>(element);
-        elementRef.updateActiveSection();
-      });
-    });
-
-    BOARD_TO_AFTER_CHANGE.set(board, () => {
-      onContextChange();
-    });
-
-    return () => {
-      BOARD_TO_ON_CHANGE.delete(board);
-      BOARD_TO_AFTER_CHANGE.delete(board);
-    };
-  }, [board, listRender, onContextChange]);
+  useBoardChange(board, listRender, onContextChange);
 
   const isFirstRender = useRef(true);
 
