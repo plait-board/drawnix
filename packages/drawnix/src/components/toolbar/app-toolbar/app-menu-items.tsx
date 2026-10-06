@@ -192,6 +192,31 @@ export const CleanBoard = () => {
 };
 CleanBoard.displayName = 'CleanBoard';
 
+export const KeyboardHintToggle = () => {
+  const { appState, setAppState } = useDrawnix();
+  const { t } = useI18n();
+  return (
+    <MenuItem
+      data-testid="keyboard-hint-button"
+      onSelect={() => {
+        setAppState((currentAppState) => ({
+          ...currentAppState,
+          keyboardHintVisible: !currentAppState.keyboardHintVisible,
+        }));
+      }}
+      className="menu-item--setting"
+      role="menuitemcheckbox"
+      aria-checked={appState.keyboardHintVisible}
+      aria-label={t('general.keyboardHint')}
+    >
+      <MenuItemContentSwitch checked={appState.keyboardHintVisible}>
+        {t('general.keyboardHint')}
+      </MenuItemContentSwitch>
+    </MenuItem>
+  );
+};
+KeyboardHintToggle.displayName = 'KeyboardHintToggle';
+
 export const Socials = () => {
   return (
     <MenuItemLink

@@ -17,6 +17,7 @@ import { withDraw } from '@plait/draw';
 import { MindThemeColors, withMind } from '@plait/mind';
 import MobileDetect from 'mobile-detect';
 import { withMindExtend } from './plugins/with-mind-extend';
+import { withMindKeyboard } from './plugins/with-mind-keyboard';
 import { withCommonPlugin } from './plugins/with-common';
 import { CreationToolbar } from './components/toolbar/creation-toolbar';
 import { ZoomToolbar } from './components/toolbar/zoom-toolbar';
@@ -44,6 +45,7 @@ import { LinkPopup } from './components/popup/link-popup/link-popup';
 import { I18nProvider, setBoardLanguage } from './i18n';
 import type { Language } from './i18n/types';
 import { Tutorial } from './components/tutorial';
+import { KeyboardHint } from './components/toolbar/keyboard-hint';
 import { LASER_POINTER_CLASS_NAME } from './utils/laser-pointer';
 import { Toast, useToast } from './components/toast/toast';
 
@@ -55,6 +57,7 @@ export type DrawnixProps = {
   initialPreference?: {
     copyTransparent?: boolean;
     exportTransparent?: boolean;
+    keyboardHint?: boolean;
   };
   initialLanguage?: Language;
   onChange?: (value: BoardChangeData) => void;
@@ -66,6 +69,7 @@ export type DrawnixProps = {
   onPreferenceChange?: (preference: {
     copyTransparent: boolean;
     exportTransparent: boolean;
+    keyboardHint: boolean;
   }) => void;
   onLanguageChange?: (language: Language) => void;
   afterInit?: (board: PlaitBoard) => void;
@@ -120,6 +124,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
       openCleanConfirm: false,
       copyTransparent: initialPreference?.copyTransparent ?? false,
       exportTransparent: initialPreference?.exportTransparent ?? false,
+      keyboardHintVisible: initialPreference?.keyboardHint ?? true,
     };
   });
 
@@ -166,8 +171,9 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     onPreferenceChangeRef.current?.({
       copyTransparent: appState.copyTransparent,
       exportTransparent: appState.exportTransparent,
+      keyboardHint: appState.keyboardHintVisible,
     });
-  }, [appState.copyTransparent, appState.exportTransparent]);
+  }, [appState.copyTransparent, appState.exportTransparent, appState.keyboardHintVisible]);
 
   useEffect(() => {
     if (theme?.themeColorMode) {
@@ -202,6 +208,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
     withGroup,
     withMind,
     withMindExtend,
+    withMindKeyboard,
     withCommonPlugin,
     buildDrawnixHotkeyPlugin(updateAppState),
     withFreehand,
@@ -261,6 +268,7 @@ export const Drawnix: React.FC<DrawnixProps> = ({
             <AppToolbar></AppToolbar>
             <CreationToolbar></CreationToolbar>
             <ZoomToolbar></ZoomToolbar>
+            <KeyboardHint></KeyboardHint>
             <ThemeToolbar></ThemeToolbar>
             <PopupToolbar></PopupToolbar>
             <LinkPopup></LinkPopup>

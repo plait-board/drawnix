@@ -80,6 +80,11 @@ export type DrawnixState = {
   openCleanConfirm: boolean;
   copyTransparent: boolean;
   exportTransparent: boolean;
+  /**
+   * Whether the shortcut hints of the selected element are shown. Toggled from the
+   * app menu and turned off in place by the hint itself.
+   */
+  keyboardHintVisible: boolean;
   linkState?: LinkState | null;
 };
 

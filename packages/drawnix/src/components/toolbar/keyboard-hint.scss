@@ -1,0 +1,120 @@
+@use '../../styles/variables.scss' as *;
+
+.drawnix {
+  .keyboard-hint {
+    cursor: default;
+    position: absolute;
+    z-index: 2023;
+    bottom: 36px;
+    left: 50%;
+    max-width: calc(100% - 72px);
+    padding: 6px;
+    /* Keeps the parked transform identical to the animation's last keyframe. */
+    transform: translate(-50%, 0);
+    animation: keyboard-hint-in 160ms ease-out;
+
+    @include isMobile {
+      bottom: 92px;
+      max-width: calc(100% - 32px);
+    }
+
+    &__content {
+      align-items: flex-end;
+      gap: 16px;
+    }
+
+    &__group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      /* The groups are separated by a hairline, like the menu separators. */
+      & + & {
+        padding-inline-start: 16px;
+        border-inline-start: 1px solid var(--island-border-color);
+      }
+    }
+
+    &__group-title {
+      padding-inline-start: 2px;
+      color: var(--color-gray-60);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    &__items {
+      /* Three key/description pairs per column, filled top to bottom. */
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(3, auto);
+      grid-auto-columns: max-content;
+      gap: 6px 16px;
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    &__key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 18px;
+      height: 18px;
+      box-sizing: border-box;
+      padding: 0 5px;
+      border: 1px solid var(--color-gray-30);
+      border-radius: var(--border-radius-sm);
+      background-color: var(--color-surface-mid);
+      color: var(--color-on-surface);
+      font-family: var(--ui-font);
+      font-size: 0.6875rem;
+      line-height: 1;
+      user-select: none;
+    }
+
+    &__label {
+      color: var(--text-primary-color);
+      font-size: 0.75rem;
+      line-height: 1.4;
+      user-select: none;
+    }
+
+    &__close {
+      margin-inline-start: 4px;
+
+      .tool-icon__icon {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      .tool-icon__label {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1;
+        opacity: 0.6;
+      }
+
+      &:hover .tool-icon__label {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@keyframes keyboard-hint-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

@@ -15,6 +15,7 @@ type MainBoardPreference = {
   language: Language;
   copyTransparent: boolean;
   exportTransparent: boolean;
+  keyboardHint: boolean;
 };
 
 const MAIN_BOARD_CONTENT_KEY = 'main_board_content';
@@ -34,6 +35,7 @@ export function App() {
     language: 'zh',
     copyTransparent: false,
     exportTransparent: false,
+    keyboardHint: true,
   });
   const [loaded, setLoaded] = useState(false);
 
@@ -86,12 +88,13 @@ export function App() {
       initialPreference={{
         copyTransparent: preference.copyTransparent,
         exportTransparent: preference.exportTransparent,
+        keyboardHint: preference.keyboardHint,
       }}
       onLanguageChange={(language) => {
         updatePreference({ language });
       }}
-      onPreferenceChange={({ copyTransparent, exportTransparent }) => {
-        updatePreference({ copyTransparent, exportTransparent });
+      onPreferenceChange={({ copyTransparent, exportTransparent, keyboardHint }) => {
+        updatePreference({ copyTransparent, exportTransparent, keyboardHint });
       }}
       onChange={(value) => {
         const newValue = value as AppValue;

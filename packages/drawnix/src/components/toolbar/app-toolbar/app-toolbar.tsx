@@ -15,6 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../../popover/popover';
 import { useState } from 'react';
 import {
   CleanBoard,
+  KeyboardHintToggle,
   OpenFile,
   SaveAsFile,
   SaveAsImage,
@@ -71,6 +72,7 @@ export const AppToolbar = () => {
               <SaveAsImage></SaveAsImage>
               <CleanBoard></CleanBoard>
               <MenuSeparator />
+              <KeyboardHintToggle />
               <LanguageSwitcherMenu />
               <Socials />
             </Menu>

@@ -66,6 +66,27 @@ const arTranslations: Translations = {
   'general.moreOptions': 'خيارات إضافية',
   'general.duplicate': 'تكرار',
   'general.delete': 'حذف',
+  'general.keyboardHint': 'تلميحات المفاتيح',
+
+  // Keyboard hints
+  'keyboardHint.close': 'إخفاء تلميحات المفاتيح',
+  'keyboardHint.mindGroup': 'خريطة ذهنية',
+  'keyboardHint.canvasGroup': 'التطبيق واللوحة',
+  'keyboardHint.tab': 'موضوع فرعي جديد',
+  'keyboardHint.enter': 'موضوع جديد بنفس المستوى',
+  'keyboardHint.arrows': 'التنقل بين المواضيع',
+  'keyboardHint.space': 'توسيع أو طي',
+  'keyboardHint.backspace': 'حذف الموضوع',
+  'keyboardHint.typing': 'تحرير نص الموضوع',
+  'keyboardHint.undo': 'تراجع',
+  'keyboardHint.duplicate': 'تكرار المحدد',
+  'keyboardHint.save': 'حفظ في الملف الحالي',
+  'keyboardHint.saveAs': 'حفظ باسم',
+  'keyboardHint.exportSvg': 'تصدير SVG',
+  'keyboardHint.insertImage': 'إدراج صورة',
+  'keyboardHint.zoomIn': 'تكبير',
+  'keyboardHint.zoomOut': 'تصغير',
+  'keyboardHint.zoomReset': 'تكبير إلى 100%',
 
   // Language
   'language.switcher': 'اللغة',

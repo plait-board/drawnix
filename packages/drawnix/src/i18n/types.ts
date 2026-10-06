@@ -71,6 +71,28 @@ export interface Translations {
   'general.moreOptions': string;
   'general.duplicate': string;
   'general.delete': string;
+  'general.keyboardHint': string;
+
+  // Keyboard hints
+  'keyboardHint.close': string;
+  'keyboardHint.mindGroup': string;
+  'keyboardHint.canvasGroup': string;
+  'keyboardHint.tab': string;
+  'keyboardHint.enter': string;
+  'keyboardHint.arrows': string;
+  'keyboardHint.space': string;
+  'keyboardHint.backspace': string;
+  'keyboardHint.typing': string;
+  'keyboardHint.undo': string;
+  'keyboardHint.duplicate': string;
+  'keyboardHint.save': string;
+  'keyboardHint.saveAs': string;
+  'keyboardHint.exportSvg': string;
+  'keyboardHint.insertImage': string;
+  'keyboardHint.zoomIn': string;
+  'keyboardHint.zoomOut': string;
+  'keyboardHint.zoomReset': string;
+
   'general.copyToClipboard': string;
   'general.copyToClipboard.svg': string;
   'general.copyToClipboard.png': string;
