@@ -89,6 +89,7 @@ const enTranslations: Translations = {
   'menu.exportImage.svg': 'SVG',
   'menu.exportImage.png': 'PNG',
   'menu.exportImage.jpg': 'JPG',
+  'menu.exportImage.pdf': 'PDF',
   'menu.cleanBoard': 'Clear Board',
   'menu.github': 'GitHub',
 

@@ -91,6 +91,7 @@ const viTranslations: Translations = {
   'menu.exportImage.svg': 'SVG',
   'menu.exportImage.png': 'PNG',
   'menu.exportImage.jpg': 'JPG',
+  'menu.exportImage.pdf': 'PDF',
   'menu.cleanBoard': 'Xóa bảng',
   'menu.github': 'GitHub',
 

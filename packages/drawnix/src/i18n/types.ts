@@ -95,6 +95,7 @@ export interface Translations {
   'menu.exportImage.svg': string;
   'menu.exportImage.png': string;
   'menu.exportImage.jpg': string;
+  'menu.exportImage.pdf': string;
   'menu.cleanBoard': string;
   'menu.github': string;
 

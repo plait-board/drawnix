@@ -5,6 +5,7 @@ import { loadFromJSON, saveAsJSON, saveJSON } from '../../../data/json';
 import MenuItem from '../../menu/menu-item';
 import MenuItemLink from '../../menu/menu-item-link';
 import { saveAsPng, saveAsSvg } from '../../../utils/image';
+import { saveAsPdf } from '../../../utils/pdf';
 import { useDrawnix } from '../../../hooks/use-drawnix';
 import { useI18n } from '../../../i18n';
 import Menu from '../../menu/menu';
@@ -142,6 +143,14 @@ export const SaveAsImage = () => {
             aria-label={t('menu.exportImage.png')}
           >
             {t('menu.exportImage.png')}
+          </MenuItem>
+          <MenuItem
+            onSelect={() => {
+              saveAsPdf(board);
+            }}
+            aria-label={t('menu.exportImage.pdf')}
+          >
+            {t('menu.exportImage.pdf')}
           </MenuItem>
           <MenuItem
             onSelect={(event) => {

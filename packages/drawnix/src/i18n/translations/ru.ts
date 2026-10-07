@@ -91,6 +91,7 @@ const ruTranslations: Translations = {
   'menu.exportImage.svg': 'SVG',
   'menu.exportImage.png': 'PNG',
   'menu.exportImage.jpg': 'JPG',
+  'menu.exportImage.pdf': 'PDF',
   'menu.cleanBoard': 'Очистить доску',
   'menu.github': 'GitHub',
 

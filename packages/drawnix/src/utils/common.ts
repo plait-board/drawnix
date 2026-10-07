@@ -1,4 +1,13 @@
-import { IS_APPLE, IS_MAC, PlaitBoard, toImage, ToImageOptions } from '@plait/core';
+import {
+  getIsRecursionFunc,
+  getSelectedElements,
+  IS_APPLE,
+  IS_MAC,
+  PlaitBoard,
+  PlaitElement,
+  toImage,
+  ToImageOptions,
+} from '@plait/core';
 import type { ResolutionType } from './utility-types';
 
 export const isPromiseLike = (value: any): value is Promise<ResolutionType<typeof value>> => {
@@ -50,6 +59,39 @@ export const boardToImage = (board: PlaitBoard, options: ToImageOptions = {}) =>
     ratio: 4,
     ...options,
   });
+};
+
+/**
+ * Resolves the element list that image/PDF exports should render.
+ *
+ * `toSvgData`/`toImage` clone each element's own rendering `<g>` only. Mind map
+ * descendants are rendered as sibling `<g>`s inside the root's container, so
+ * passing a mind map root (or any ancestor node) alone silently drops its
+ * subtree. Selected elements are therefore expanded with their visible
+ * descendants (collapsed mind nodes stop the recursion). When nothing is
+ * selected, `undefined` lets the core collect every board element recursively,
+ * which is what keeps whole-board exports complete.
+ */
+export const getExportElements = (board: PlaitBoard): PlaitElement[] | undefined => {
+  const selectedElements = getSelectedElements(board);
+  if (selectedElements.length === 0) {
+    return undefined;
+  }
+  const isRecursion = getIsRecursionFunc(board);
+  const elements: PlaitElement[] = [];
+  const visited = new Set<PlaitElement>();
+  const collect = (element: PlaitElement) => {
+    if (visited.has(element)) {
+      return;
+    }
+    visited.add(element);
+    elements.push(element);
+    if (isRecursion(element)) {
+      element.children?.forEach(collect);
+    }
+  };
+  selectedElements.forEach(collect);
+  return elements;
 };
 
 export function download(blob: Blob | MediaSource, filename: string) {

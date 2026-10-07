@@ -65,6 +65,7 @@ export default defineConfig({
         'slate-dom',
         'slate-history',
         'laser-pen',
+        'jspdf',
       ],
     },
   },

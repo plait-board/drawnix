@@ -90,6 +90,7 @@ const arTranslations: Translations = {
   'menu.exportImage.svg': 'SVG',
   'menu.exportImage.png': 'PNG',
   'menu.exportImage.jpg': 'JPG',
+  'menu.exportImage.pdf': 'PDF',
   'menu.cleanBoard': 'مسح اللوحة',
   'menu.github': 'غيت هب',
 
