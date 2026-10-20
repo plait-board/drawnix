@@ -1,0 +1,41 @@
+schema = 1
+name = "Drawnix"
+
+[runtime]
+kind = "node"
+version = "20.20.2"
+package_manager = "npm"
+
+[[setup.steps]]
+kind = "dependencies"
+locked = true
+
+[[setup.steps]]
+run = ["npm", "run", "build"]
+
+[launch]
+command = [
+  "npm",
+  "exec",
+  "--",
+  "vite",
+  "preview",
+  "--config",
+  "apps/web/vite.config.ts",
+  "--host",
+  "{host}",
+  "--port",
+  "{port}",
+  "--strictPort",
+]
+host = "127.0.0.1"
+port = 4173
+
+[health]
+type = "http"
+path = "/"
+timeout_seconds = 90
+
+[persistence]
+# User data lives in browser storage, not repository-relative files.
+paths = []
